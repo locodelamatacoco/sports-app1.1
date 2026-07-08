@@ -7,13 +7,16 @@ whole fetch recipe collapses to one script. Model rules are unchanged and
 FROZEN at v3.1.4 — see `RUNBOOK.md` for the gates, the two-tier divergence
 policy, the bet-time price recheck, and the cohort-watch escalation trigger.
 
-## One-time setup: allow statsapi.mlb.com
+## One-time setup: network allowlist
 
-Outbound traffic goes through the environment's egress policy. If
-`statsapi.mlb.com` is not on the allowlist every fetch fails with a proxy 403.
-Fix: claude.ai/code → **Environments** → this environment → **Network access**
-→ add `statsapi.mlb.com` to the allowed domains (or select the unrestricted
-policy). Docs: https://code.claude.com/docs/en/claude-code-on-the-web
+Outbound traffic goes through the environment's egress policy; blocked hosts
+fail with a proxy 403. Fix: claude.ai/code → **Environments** → this
+environment → **Network access** → add the domains below (or select the
+unrestricted policy). Docs: https://code.claude.com/docs/en/claude-code-on-the-web
+
+- `statsapi.mlb.com` — stats/schedule/grading (required)
+- `www.oddstrader.com` / `oddstrader.com` — F5 lines (Jonathan's source)
+- `app.hardrock.bet` / `api.hardrock.bet` — bet-time price cross-check
 
 ## Each day (automated by the scheduled Routine)
 
@@ -30,14 +33,17 @@ policy). Docs: https://code.claude.com/docs/en/claude-code-on-the-web
    veto-shadow since 6/24, W-L-P + flat P/L) and checks the escalation
    trigger (both cohorts ≥40 graded rows AND two-proportion p<0.05).
 
-## Odds are still manual
+## Odds: agent-fetched from OddsTrader, manual fallback
 
-Books/odds sites are not fetched. Drop `data/odds_YYYY-MM-DD.csv`
+Once the odds domains are allowed, the daily agent pulls F5 lines from
+`https://www.oddstrader.com/mlb/` (cross-checking Hard Rock where useful) —
+rendering with the pre-installed Chromium/Playwright when plain fetch doesn't
+return the lines — and writes `data/odds_YYYY-MM-DD.csv`
 (`away,home,bet_team,bet_ml,opp_ml`, date-keyed — a generic `odds.csv` is
-ignored by design) before the run, or paste odds into chat and the agent will
-write the file and re-run. Without it the run is lean-only (λ/F5%/L10, no
-edges/tiers). The v3.1.3 bet-time price recheck still applies at the counter:
-worse than **PLAYABLE TO** = PASS.
+ignored by design). Fallback stays manual: drop the CSV in `data/` or paste
+odds into chat and the agent re-runs with edges. Without odds the run is
+lean-only (λ/F5%/L10, no edges/tiers). The v3.1.3 bet-time price recheck
+still applies at the counter: worse than **PLAYABLE TO** = PASS.
 
 ## Grading
 
