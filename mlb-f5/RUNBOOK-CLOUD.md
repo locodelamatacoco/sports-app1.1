@@ -35,13 +35,16 @@ unrestricted policy). Docs: https://code.claude.com/docs/en/claude-code-on-the-w
 
 ## Odds: agent-fetched from OddsTrader, manual fallback
 
-Once the odds domains are allowed, the daily agent pulls F5 lines from
-`https://www.oddstrader.com/mlb/` (cross-checking Hard Rock where useful) —
-rendering with the pre-installed Chromium/Playwright when plain fetch doesn't
-return the lines — and writes `data/odds_YYYY-MM-DD.csv`
-(`away,home,bet_team,bet_ml,opp_ml`, date-keyed — a generic `odds.csv` is
-ignored by design). Fallback stays manual: drop the CSV in `data/` or paste
-odds into chat and the agent re-runs with edges. Without odds the run is
+`odds_fetch.py` pulls F5 moneylines (mtid 91) from OddsTrader's odds
+microservice — the same lines as `oddstrader.com/mlb/?g=first-half&m=money` —
+takes the median-consensus price across books, sets `bet_team` to the model's
+lean (F5 conditional > 0.5 from a lean-first engine pass), and writes
+`data/odds_YYYY-MM-DD.csv` (`away,home,bet_team,bet_ml,opp_ml`, date-keyed —
+a generic `odds.csv` is ignored by design). Note: consensus is mostly
+offshore books (BetOnline/Bovada/etc.), so the v3.1.3 PLAYABLE TO recheck
+against the actual Hard Rock price at the counter matters even more.
+Fallback stays manual: drop the CSV in `data/` or paste odds into chat and
+the agent re-runs with edges. Without odds the run is
 lean-only (λ/F5%/L10, no edges/tiers). The v3.1.3 bet-time price recheck
 still applies at the counter: worse than **PLAYABLE TO** = PASS.
 
