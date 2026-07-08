@@ -20,3 +20,6 @@ dist/
 # OS files
 .DS_Store
 Thumbs.db
+# MLB F5 daily inputs (fetched fresh each run)
+mlb-f5/data/
+__pycache__/

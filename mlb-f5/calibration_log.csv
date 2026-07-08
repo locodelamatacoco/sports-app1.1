@@ -1,0 +1,123 @@
+date,game,market,model_prob,bet_side,odds,result,note
+2026-06-10,BOS@TB,ML,0.706,TB,-156,W,honorable mention
+2026-06-10,BOS@TB,F5,0.796,TB,,W,F5 4-0 home thru 5
+2026-06-10,NYY@CLE,ML,0.635,NYY,-102est,W,dog price estimated
+2026-06-10,NYY@CLE,F5,0.565,NYY,,P,3-3 push
+2026-06-10,WSH@SF,ML,0.582,WSH,+100est,L,lost 11-10 late
+2026-06-10,WSH@SF,F5,0.619,WSH,,W,2-0 thru 5
+2026-06-10,CIN@SD,ML,0.523,CIN,+142est,L,PASSED - conflict w bad-pitcher rule
+2026-06-10,CIN@SD,F5,0.524,SD,,P,2-2 push
+2026-06-10,SEA@BAL,ML,0.661,BAL,,W,no odds pulled
+2026-06-10,SEA@BAL,F5,0.669,BAL,,P,0-0 push
+2026-06-10,LAD@PIT,ML,0.721,LAD,-207,L,below 5% filter no bet; pen blew it
+2026-06-10,LAD@PIT,F5,0.817,LAD,,W,2-1 thru 5
+2026-06-10,ARI@MIA,ML,0.551,ARI,-118,L,PASSED - Gusto unstable; MIA won 8-0
+2026-06-10,ARI@MIA,F5,0.629,ARI,,L,
+2026-06-10,PHI@TOR,ML,0.704,PHI,-136,W,TOP PICK +12.8% edge
+2026-06-10,PHI@TOR,F5,0.771,PHI,,W,6-0 thru 5
+2026-06-10,STL@NYM,ML,0.626,NYM,,L,EXCLUDED - bullpen game
+2026-06-10,STL@NYM,F5,0.725,NYM,,L,EXCLUDED
+2026-06-10,TEX@KC,ML,0.530,KC,,L,no odds pulled
+2026-06-10,TEX@KC,F5,0.548,KC,,P,2-2 push
+2026-06-10,CHC@COL,ML,0.652,COL,+144,W,pick #2 +24.3% edge; F5 side lost
+2026-06-10,CHC@COL,F5,0.624,COL,,L,total 5 runs vs model 15.7 - both SPs fine
+2026-06-10,MIL@ATH,ML,0.712,MIL,-110,L,pick #3; led 3-0 thru 5 pen lost it
+2026-06-10,MIL@ATH,F5,0.678,MIL,,W,3-0 thru 5
+2026-06-10,HOU@LAA,ML,0.520,LAA,,W,no odds pulled
+2026-06-10,HOU@LAA,F5,0.525,HOU,,L,
+2026-06-11,TEX@KC,ML,0.553,TEX,+105est,W,passed - below conviction bar
+2026-06-11,TEX@KC,F5,0.576,TEX,,W,TEX 3-0 thru 5
+2026-06-11,CHC@COL,ML,0.864,COL,+134,L,BET 1u LOST; CHC won 9-3; model prob overextended as flagged
+2026-06-11,CHC@COL,F5,0.908,COL,,L,CHC 6-2 thru 5; Cabrera fine - last3 ERA noisy
+2026-06-11,LAD@PIT,ML,0.751,LAD,-175,W,
+2026-06-11,LAD@PIT,F5,0.842,LAD,,W,BET 1u CASHED; 5-4 thru 5 - close
+2026-06-11,SEA@BAL,ML,0.694,BAL,-102,W,rated MEDIUM not bet
+2026-06-11,SEA@BAL,F5,0.705,BAL,,W,7-5 thru 5
+2026-06-12,PHI@MIL,F5,0.880,MIL,-259,W,STRONG Painter fade; straight cashed
+2026-06-12,PHI@MIL,ML,0.864,MIL,-259,W,full-game also W (informational)
+2026-06-12,ARI@CIN,F5,0.599,ARI,-105est,L,Lodolo FADE; ARI bats cold — leg killed parlay
+2026-06-12,MIA@PIT,F5,0.745,PIT,,P,no odds pulled; F5 tied after 5
+2026-06-17,MIA@PHI,F5,0.683,MIA,+104,W,Painter FADE; market ~pickem (AGREED); MIA 12-4 won easy
+2026-06-17,CLE@MIL,F5,0.649,CLE,+100,L,Sproat FADE but market had MIL -118 FAV (DISAGREED) - should have passed; MIL 9-4
+2026-06-18,SF@ATL,F5,,ATL,,W,ATL fade-of-Houser type; F5 ML cashed
+2026-06-20,BAL@LAD,F5,,LAD,-290,L,LAD F5 at -290 (very juiced); LOSS - heavy price/low value
+2026-06-20,PIT@COL,F5,,PIT,-305,L,Freeland fade at Coors; F5 -305 juiced; LOSS - market priced it, no value
+2026-06-21,CIN@NYY,F5,,CIN,-165,W,CIN F5 cashed
+2026-06-21,NYM@PHI,F5,,PHI,-230,W,PHI F5 cashed
+2026-06-22,AZ@STL,F5,0.708,STL,-145,W,Kelly 5.81 fade (69 IP stable); market AGREED; STL F5 cashed — top play
+2026-06-22,NYY@DET,F5,0.690,NYY,-130,L,Cole elite-arm lean (not a fade); DET won F5 — elite-arm variance as flagged
+2026-06-22,CHC@NYM,F5,0.689,CHC,-112,P,Senga 9.00 trap (24 IP); flagged caution; game POSTPONED — no action/void
+2026-06-24,SEA@PIT,F5,0.59,PIT,-120,W,Ashcraft lean; edge +7.6%; F5 PIT 5-1 thru 5 (all 5 in 4th) WIN
+2026-06-24,HOU@TOR,F5,0.65,TOR,-156,P,F5 1-1 tie thru 5 (each 1 in 1st) PUSH; placed -160; parlay leg voided/reduced to BOS single
+2026-06-24,MIL@CIN,F5,0.61,MIL,-145,W,Lowder fade; edge +6.5%; F5 MIL 3-0 thru 5 WIN (won 6-5)
+2026-06-24,KC@TB,F5,0.46,KC,120,L,Jax fade; edge +6.2%; F5 KC 2-5 thru 5 LOSS (Jax 5IP 0ER)
+2026-06-24,BOS@COL,F5,0.64,BOS,-165,W,BOS 6-3 thru 5 F5 WIN (COL rallied to win full 8-6); placed -185
+2026-06-25,PHI@WSH,F5,0.75,PHI,-176,L,"WSH 5-0 thru 5 (4 in 1st,1 in 3rd); PHI shut out thru 5 then rallied to win full 10-5; F5 LOST; placed -180; 2-leg parlay loser", juiced); straight only
+2026-06-25,KC@TB,F5,0.78,KC,112,L,DIVERGENCE-VETO gap33%; model loves KC(L10 6.8) vs mkt dog; TB opener(Legumina/Seymour); F5 KC 0-7 thru 5 LOSS (Caminero 3HR); veto correct
+2026-06-25,SEA@PIT,F5,0.71,PIT,130,W,DIVERGENCE-VETO gap30%; SEA opener(Miller/Castillo 5.22 bulk modeled); F5 PIT 3-1 thru 5 WIN (Lowe HR 1st, Davis 2R 3rd)
+2026-06-25,HOU@DET,F5,0.85,DET,-118,P,DIVERGENCE-VETO gap34%; Imai 6.15 vs Melton 2.56; model/mkt too wide; F5 0-0 PUSH (Melton perfect into 6th, Imai 6 scoreless)
+2026-06-25,AZ@STL,F5,0.85,STL,-143,PPD,DIVERGENCE-VETO gap30%; Gallen 6.10 fade CONFIRMED tier but vetoed; POSTPONED weather makeup 7/23 VOID/no action
+2026-06-25,NYY@BOS,F5,0.79,NYY,-163,L,DIVERGENCE-VETO gap21%; Schlittler 1.71 elite; edge +7.0% vetoed; F5 LOSS tied thru4 Durbin 2R HR bot5 BOS ahead; BOS 6-3
+2026-06-25,ATH@SF,F5,0.54,SF,-143,L,no edge (-4.7%); pickem; F5 SF 1-2 thru5 LOSS (A's led 2-1 into 6th); A's 9-6
+2026-06-25,TEX@TOR,F5,0.58,TOR,-150,L,no edge (-2.5%); F5 TOR 0-6 thru5 LOSS (Pederson/Langford3R/Burger); TEX 6-5
+2026-06-25,CHC@NYM,F5,0.51,NYM,-110,P,no edge (-1.8%); Boyd 6.00 but NYM bats only lean; F5 0-0 PUSH (Boyd 4.2 scoreless, CHC scored first 6th); CHC 4-3/10
+2026-06-26,ATH@LAA,F5,0.65,LAA,-105,L,RANKED edge +6.5%; LAA offense lean vs Ginn; F5 LAA 3-7 thru 5 LOSS (ATH won 9-3)
+2026-06-26,LAD@SD,F5,0.57,SD,115,W,RANKED edge +5.7%; SD lean Buehler>Sasaki; F5 SD 3-1 thru 5 WIN (SD won 7-1)
+2026-06-26,CIN@PIT,F5,0.77,PIT,-230,L,NO BET edge +3.5% (ace tax); graded for calib: F5 PIT 2-4 thru 5 LOSS (CIN won 6-4)
+2026-06-29,WSH@BOS,F5,0.67,BOS,-156,W,RANKED #1 edge +8.6% [F5 BOS 6-1 thru5 WIN; BOS 6-3] None-tier straight; Suarez 2.83 vs Mikolas
+2026-06-29,NYM@TOR,F5,0.58,TOR,-120,W,RANKED #2 edge +8.1% [F5 TOR 2-0 thru5 WIN; TOR 2-1] None-tier straight; Yesavage vs Manaea
+2026-06-29,CIN@MIL,F5,0.60,MIL,-130,L,RANKED #3 edge +7.6% CONFIRMED parlay-eligible; Lodolo fade [F5 MIL 0-3 thru5 LOSS; MIL rallied 5-3]
+2026-06-29,DET@NYY,F5,0.51,DET,110,W,RANKED edge +8.0% None-tier straight; DET dog value [F5 DET 7-0 thru5 WIN; DET 7-3]
+2026-06-29,CWS@BAL,F5,0.49,CWS,106,P,RANKED edge +6.0% None-tier straight; CWS dog at BAL [F5 CWS 2-2 thru5 PUSH; BAL 8-2]
+2026-06-29,TEX@CLE,F5,0.40,TEX,130,L,RANKED edge +5.8% None-tier straight; low-total thin [F5 TEX 1-2 thru5 LOSS; TEX rallied 6-3]
+2026-06-29,SF@AZ,F5,0.80,AZ,-135,W,DIVERGENCE-VETO gap35% edge +12.0% NO BET; E.Rodriguez 2.27 model loves mkt doesn't [F5 AZ 4-1 thru5 WIN; veto cost winner]
+2026-06-29,LAD@ATH,F5,0.70,ATH,-121,L,DIVERGENCE-VETO gap29% edge +9.9% NO BET; ATH arm 2.04 on 35IP small-sample [F5 ATH 3-5 thru5 LOSS; veto correct]
+2026-06-29,PIT@PHI,F5,0.70,PIT,-122,W,DIVERGENCE-VETO gap26% edge +9.3% NO BET; Nola fade too hard [F5 PIT 8-5 thru5 WIN; veto cost winner]
+2026-06-30,PIT@PHI,F5,0.76,PHI,-225,W,RANKED #1 edge +7.1% STEEP-PRICE None-tier straight; C.Sanchez 2.13 vs Chandler (OddsTrader F5 line); JONATHAN BET IT: PHI F5 cashed W
+2026-06-30,DET@NYY,F5,0.64,NYY,-111,L,RANKED #2 edge +6.2% None-tier straight; Skubal vs Schlittler both elite (OddsTrader F5 line)
+2026-06-30,LAA@SEA,F5,0.73,LAA,157,P,DIVERGENCE-VETO gap35% edge +13.0% WATCHLIST/NO BET; model loves LAA dog vs Woo
+2026-06-30,LAD@ATH,F5,0.86,LAD,-133,W,DIVERGENCE-VETO gap30% edge +11.0% WATCHLIST/NO BET; CONFIRMED tier vetoed; Springs fade
+2026-06-30,MIN@HOU,F5,0.82,MIN,-128,L,DIVERGENCE-VETO gap26% edge +9.4% WATCHLIST; CONFIRMED; Burrows 5.48 fade; JONATHAN BET IT: MIN up 3-0, CASHED OUT for profit before HOU rally — F5 graded L (4-6) for model calibration but REALIZED WIN via live cashout
+2026-06-30,CWS@BAL,F5,0.67,CWS,115,W,DIVERGENCE-VETO gap22% edge +9.2% WATCHLIST/NO BET; CAUTION; Gibson 5.64 fade
+2026-06-30,STL@ATL,F5,0.80,ATL,-130,L,DIVERGENCE-VETO gap24% edge +8.4% WATCHLIST/NO BET; CONFIRMED; Liberatore 5.56 fade
+2026-07-01,NYM@TOR,F5,0.68,TOR,-109,W,RANKED #1 edge +6.7% None-tier straight; back TOR (Fisher) vs NYM Peralta [validated statsapi+OddsTrader]
+2026-07-01,PIT@PHI,F5,0.65,PHI,-127,W,RANKED #2 edge +5.7% None-tier straight; PHI Wheeler 2.03 vs PIT Skenes [validated]
+2026-07-01,CIN@MIL,F5,0.71,MIL,-150,P,RANKED #4 edge +5.6% None-tier straight; back MIL (Drohan) vs CIN Abbott [validated]
+2026-07-01,STL@ATL,F5,0.58,STL,105,L,RANKED #3 edge +5.7% None-tier straight; STL McGreevy vs ATL R.Lopez; dog value [validated]
+2026-07-01,MIA@COL,F5,0.92,MIA,-160,L,DIVERGENCE-VETO gap33% edge +11.3% WATCHLIST/NO BET; COL Freeland 7.50 ERA at Coors vs MIA Meyer [validated]
+2026-07-01,DET@NYY,F5,0.74,DET,110,W,DIVERGENCE-VETO gap28% edge +9.5% WATCHLIST/NO BET; DET Melton 2.39/0.85 vs NYY Warren [validated]
+2026-07-01,MIN@HOU,F5,0.69,MIN,105,W,DIVERGENCE-VETO gap22% edge +8.3% WATCHLIST/NO BET; back MIN (Bradley) vs HOU Imai 5.36 [validated]
+2026-07-02,MIA@COL,F5,0.57,MIA,-125,L,RANKED #1 edge +5.3% CONFIRMED Lorenzen fade; JONATHAN BET IT at -135 (edge gone at counter -> spawned v3.1.3 price recheck); F5 MIA 4-5 thru5 (COL 1st:1 3rd:2 4th:2); COL won 14-4 (7-run 6th)
+2026-07-02,CWS@CLE,F5,0.65,CWS,-108,W,DIVERGENCE-VETO gap27% edge +9.1% WATCHLIST/NO BET; F5 CWS 3-2 thru5 (3 in 5th); CLE walked off 6-5 (Rocchio 2R HR B9) - veto cost a winner
+2026-07-03,MIN@NYY,F5,0.47,MIN,149,L,RANKED #1 edge +7.1% None-tier straight; thin-data flag (Cole post-TJ est IP); F5 MIN 2-3 thru5 LOSS (NYY won 5-2)
+2026-07-03,SD@LAD,F5,0.76,LAD,-225,L,RANKED #2 edge +6.4% STEEP-PRICE None-tier straight; Ohtani vs King; F5 LAD 0-2 thru5 LOSS (LAD rallied to win full 4-3)
+2026-07-03,SF@COL,F5,0.48,COL,135,W,RANKED #3 edge +5.4% None-tier straight; Coors dog vs Webb; F5 COL 14-2 thru5 WIN (COL won 15-3)
+2026-07-03,MIA@ATH,F5,0.60,MIA,115,W,DIVERGENCE-VETO gap38% edge +13.3% WATCHLIST/NO BET; Perkins fade; F5 MIA 7-5 thru5 WIN (MIA won 12-5) - veto cost a winner
+2026-07-03,TOR@SEA,F5,0.65,TOR,-130,W,DIVERGENCE-VETO gap22% edge +8.1% WATCHLIST/NO BET; CONFIRMED tier; Cease vs Castillo; F5 TOR 2-0 thru5 WIN (TOR won 2-0) - veto cost a winner
+2026-07-03,PIT@WSH,F5,0.66,WSH,-140,W,DIVERGENCE-VETO gap21% edge +8.0% WATCHLIST/NO BET; F5 WSH 5-1 thru5 WIN (WSH won 9-5)
+2026-07-03,TB@HOU,F5,0.60,TB,-110,P,DIVERGENCE-VETO gap21% edge +7.8% WATCHLIST/NO BET; F5 0-0 thru5 PUSH (HOU won 3-1)
+2026-07-04,NYM@ATL,F5,0.72,ATL,-195,W,model liked ATL +8.5% None-tier half-stake(gap23%); placed -195; ATL 6-1 thru5 WIN
+2026-07-04,MIA@ATH,F5,0.61,MIA,-125,W,model liked MIA +6.8% None-tier full; placed -125; MIA F5 WIN
+2026-07-04,MIL@AZ,F5,0.70,MIL,-165,L,model LOVED MIL +9.1% CONFIRMED half-stake(gap27%); placed -165; ARI 3 in 1st off MIL SP + MIL 2 in 5th = ARI 3-2 thru5 LOSS; killed 4-leg parlay
+2026-07-04,SD@LAD,F5,0.80,LAD,-250,W,model liked LAD +8.9% CONFIRMED STEEP half-stake(gap29%); placed -250; LAD F5 WIN
+2026-07-04,DET@TEX,F5,0.58,TEX,-102,L,RANKED +7.8% None-tier full straight; F5 TEX 0-3 thru5 LOSS (DET won 3-0; Flaherty outpitched Rocker)
+2026-07-04,SF@COL,F5,0.54,COL,110,L,RANKED +6.0% None-tier full straight; F5 COL 3-6 thru5 LOSS (SF won 6-4); Coors side now 1-6
+2026-07-04,BOS@LAA,F5,0.68,BOS,-175,W,NO BET - PASSED on v3.1.3 price recheck (book -175 vs playable -171); F5 BOS 7-1 thru5 would have WON; pass cost a winner but process correct; graded for calib only
+2026-07-05,NYM@ATL,F5,0.59,ATL,102,L,RANKED #1 edge +9.1% HALF(gap24); F5 NYM 5-3 thru5 LOSS (NYM won 10-9)
+2026-07-05,SF@COL,F5,0.61,COL,105,L,RANKED #2 edge +9.1% HALF(gap22) CAUTION Mahle fade; F5 SF 5-4 thru5 LOSS (COL won 7-6); Coors side now 1-7
+2026-07-05,MIN@NYY,F5,0.54,MIN,106,W,RANKED #3 edge +7.9% full; F5 MIN 4-0 thru5 WIN (MIN won 6-1)
+2026-07-05,STL@CHC,F5,0.64,CHC,-142,W,RANKED #4 edge +7.9% full; F5 CHC 2-0 thru5 WIN (CHC won 6-4)
+2026-07-05,BAL@CIN,F5,0.52,BAL,-104,L,RANKED #5 edge +6.2% full thin buffer; F5 BAL 0-2 thru5 LOSS (CIN won 3-2)
+2026-07-05,MIA@ATH,F5,0.51,ATH,-114,L,RANKED #6 edge +5.7% full thin buffer; F5 MIA 6-0 thru5 LOSS (ATH rallied lost 9-8)
+2026-07-05,DET@TEX,F5,0.53,DET,-125,W,RANKED #7 edge +5.6% full thinnest buffer; F5 DET 6-2 thru5 WIN (DET won 6-3)
+2026-07-05,MIL@AZ,F5,0.72,AZ,-102,W,HARD-VETO gap35 edge +12.2% NO BET; F5 AZ 1-0 thru5 WIN (AZ won 4-3) - veto cost a winner
+2026-07-05,BOS@LAA,F5,0.79,BOS,-150,W,HARD-VETO gap30 edge +10.2% CONFIRMED NO BET; F5 BOS 5-3 thru5 WIN (BOS won 7-5) - veto cost a winner
+2026-07-06,NYM@ATL,F5,0.69,ATL,-125,W,RANKED #1 edge +7.9% HALF(gap29); F5 ATL 3-1 thru5 WIN (ATL won 6-7... ATL won 6-7? final NYM7-ATL6 full-game L but F5 W)
+2026-07-06,PHI@KC,F5,0.78,PHI,-210,L,RANKED #2 edge +6.3% STEEP HALF(gap26); F5 PHI 1-10 thru5 LOSS (KC won 15-1; Cameron dominated Sanchez)
+2026-07-06,MIL@STL,F5,0.55,MIL,-115,L,RANKED #3 edge +5.7% full; F5 MIL 0-2 thru5 LOSS (STL won 4-3)
+2026-07-06,HOU@WSH,F5,0.57,WSH,-125,W,NO BET - dropped at Hard Rock counter (+4.9% below bar); F5 WSH 12-6 thru5 would have WON; graded for calib only
+2026-07-06,COL@LAD,F5,0.68,LAD,-200,W,NO BET - v3.1.3 price recheck PASS (HR -200 vs playable -199); F5 LAD 6-2 thru5 would have WON; graded for calib only
+2026-07-07,COL@LAD,F5,0.75,LAD,-265,W,RANKED #1 edge +7.5% CONFIRMED STEEP HALF(gap24); F5 LAD 2-0 thru5 WIN (COL won full 4-3 - pen blew it)
+2026-07-07,CLE@MIN,F5,0.55,MIN,-118,W,RANKED #2 edge +6.1% None-tier full straight; F5 MIN 2-1 thru5 WIN (MIN won 3-1)
+2026-07-07,HOU@WSH,F5,0.83,WSH,-135,L,HARD-VETO gap36 edge +12.0% CONFIRMED NO BET watchlist; F5 WSH 2-4 thru5 LOSS (HOU won 6-3) - veto correct
+2026-07-07,BOS@CWS,F5,0.54,BOS,-135,W,NO BET edge +3.3% below bar CONFIRMED; F5 BOS 4-0 thru5 WIN (BOS won 8-1); graded for calib only
