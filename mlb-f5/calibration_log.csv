@@ -121,3 +121,8 @@ date,game,market,model_prob,bet_side,odds,result,note
 2026-07-07,CLE@MIN,F5,0.55,MIN,-118,W,RANKED #2 edge +6.1% None-tier full straight; F5 MIN 2-1 thru5 WIN (MIN won 3-1)
 2026-07-07,HOU@WSH,F5,0.83,WSH,-135,L,HARD-VETO gap36 edge +12.0% CONFIRMED NO BET watchlist; F5 WSH 2-4 thru5 LOSS (HOU won 6-3) - veto correct
 2026-07-07,BOS@CWS,F5,0.54,BOS,-135,W,NO BET edge +3.3% below bar CONFIRMED; F5 BOS 4-0 thru5 WIN (BOS won 8-1); graded for calib only
+2026-07-08,SEA@MIA,F5,0.56,MIA,113,W,cohort=ranked RANKED #1 edge +8.8% HALF(gap27); F5 MIA 2-0 thru5 WIN (MIA won 2-0)
+2026-07-08,NYY@TB,F5,0.63,TB,-125,W,cohort=ranked RANKED #2 edge +7.0% full; F5 TB 2-0 thru5 WIN (TB won 3-0)
+2026-07-08,HOU@WSH,F5,0.66,WSH,-146,W,cohort=ranked RANKED #3 edge +6.5% full; F5 WSH 8-1 thru5 WIN (WSH won 8-2)
+2026-07-08,KC@NYM,F5,0.67,NYM,-160,W,cohort=ranked RANKED #4 edge +5.6% full; F5 NYM 1-0 thru5 WIN (NYM won 6-2)
+2026-07-08,ATH@DET,F5,0.71,DET,-140,W,cohort=shadow HARD-VETO gap37 edge +12.5% CONFIRMED NO BET watchlist; F5 DET 6-1 thru5 WIN (DET won 6-1) - veto cost a winner
