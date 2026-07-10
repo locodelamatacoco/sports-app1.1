@@ -127,3 +127,4 @@ date,game,market,model_prob,bet_side,odds,result,note
 2026-07-08,KC@NYM,F5,0.67,NYM,-160,W,cohort=ranked RANKED #4 edge +5.6% full; F5 NYM 1-0 thru5 WIN (NYM won 6-2)
 2026-07-08,ATH@DET,F5,0.71,DET,-140,W,cohort=shadow HARD-VETO gap37 edge +12.5% CONFIRMED NO BET watchlist; F5 DET 6-1 thru5 WIN (DET won 6-1) - veto cost a winner
 2026-07-09,KC@NYM,F5,0.54,KC,114,L,cohort=ranked RANKED #1 edge +7.6% full straight dog; F5 KC 2-6 thru5 LOSS
+2026-07-09,ATH@DET,F5,0.66,DET,-125,W,cohort=shadow HARD-VETO gap33 edge +10.6% CONFIRMED NO BET watchlist; F5 DET 3-1 thru5 WIN (DET won 4-1) - veto cost a winner
