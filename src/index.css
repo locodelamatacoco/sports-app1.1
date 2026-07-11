@@ -1026,3 +1026,277 @@ body,
   background: #ff6b35;
   color: white;
 }
+
+/* === UFC BETTING MODEL PAGE === */
+.ufc-subtitle {
+  text-align: center;
+  color: #aaa;
+  font-size: 15px;
+  max-width: 720px;
+  margin: 0 auto 24px;
+  line-height: 1.5;
+}
+
+.ufc-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 28px;
+}
+
+.ufc-rerun-btn {
+  background: transparent;
+  color: #ff6b35;
+  border: 1px solid #ff6b35;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.ufc-rerun-btn:hover:not(:disabled) {
+  background: #ff6b35;
+  color: white;
+}
+
+.ufc-rerun-btn:disabled {
+  opacity: 0.5;
+  cursor: wait;
+}
+
+.ufc-bet-rules {
+  color: #888;
+  font-size: 13px;
+}
+
+.ufc-loading {
+  text-align: center;
+  color: #aaa;
+  padding: 40px 0;
+}
+
+.ufc-fight-card {
+  background: #1e1e1e;
+  border: 1px solid #333;
+  border-radius: 10px;
+  padding: 20px;
+  margin: 0 auto 24px;
+  max-width: 860px;
+}
+
+.ufc-fight-header {
+  border-bottom: 1px solid #333;
+  padding-bottom: 12px;
+  margin-bottom: 14px;
+}
+
+.ufc-fight-label {
+  color: #ff6b35;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.ufc-fight-title {
+  font-size: 20px;
+  margin: 6px 0 4px;
+  color: #fff;
+}
+
+.ufc-fight-odds {
+  color: #888;
+  font-size: 13px;
+}
+
+.ufc-avoid-banner {
+  background: rgba(255, 107, 53, 0.12);
+  border: 1px solid #ff6b35;
+  color: #ffb08a;
+  border-radius: 6px;
+  padding: 10px 14px;
+  font-size: 14px;
+  margin-bottom: 14px;
+}
+
+.ufc-summary-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 20px;
+  font-size: 14px;
+  color: #ddd;
+  margin-bottom: 16px;
+}
+
+.ufc-summary-grid strong {
+  color: #fff;
+}
+
+.ufc-section {
+  margin-bottom: 16px;
+}
+
+.ufc-section h3,
+.ufc-details h3 {
+  font-size: 14px;
+  color: #ff6b35;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin: 14px 0 8px;
+}
+
+.ufc-prop-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 14px;
+  color: #ccc;
+}
+
+.ufc-prop-list li {
+  padding: 4px 0;
+  border-bottom: 1px dashed #2a2a2a;
+}
+
+.ufc-prop-title {
+  color: #fff;
+  font-weight: 600;
+}
+
+.ufc-edge {
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-size: 13px;
+}
+
+.edge-pos {
+  color: #4caf50;
+  background: rgba(76, 175, 80, 0.12);
+}
+
+.edge-neg {
+  color: #ef5350;
+  background: rgba(239, 83, 80, 0.12);
+}
+
+.edge-flat {
+  color: #aaa;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.ufc-risk {
+  font-weight: 700;
+}
+
+.ufc-risk-low {
+  color: #4caf50;
+}
+
+.ufc-risk-medium {
+  color: #ffb300;
+}
+
+.ufc-risk-high {
+  color: #ef5350;
+}
+
+.ufc-breakdown-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 3px 0;
+  font-size: 13px;
+  color: #ccc;
+}
+
+.ufc-breakdown-label {
+  flex: 0 0 240px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ufc-breakdown-bar-bg {
+  flex: 1;
+  height: 10px;
+  background: #2a2a2a;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.ufc-breakdown-bar {
+  height: 100%;
+  background: #ff6b35;
+  border-radius: 5px;
+  transition: width 0.4s ease;
+}
+
+.ufc-breakdown-pct {
+  flex: 0 0 52px;
+  text-align: right;
+  color: #fff;
+  font-weight: 600;
+}
+
+.ufc-details-toggle {
+  background: transparent;
+  border: none;
+  color: #ff6b35;
+  font-size: 13px;
+  cursor: pointer;
+  padding: 6px 0;
+  text-decoration: underline;
+}
+
+.ufc-table-wrap {
+  overflow-x: auto;
+}
+
+.ufc-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  color: #ccc;
+}
+
+.ufc-table th,
+.ufc-table td {
+  text-align: left;
+  padding: 6px 10px;
+  border-bottom: 1px solid #2a2a2a;
+  white-space: nowrap;
+}
+
+.ufc-table th {
+  color: #888;
+  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: 0.5px;
+}
+
+.ufc-disclaimer {
+  text-align: center;
+  color: #777;
+  font-size: 12px;
+  max-width: 640px;
+  margin: 28px auto 0;
+  line-height: 1.5;
+}
+
+@media (max-width: 640px) {
+  .ufc-summary-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ufc-breakdown-label {
+    flex-basis: 140px;
+    font-size: 12px;
+  }
+}

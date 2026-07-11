@@ -63,6 +63,15 @@ export default function Header() {
           >
             Polls
           </NavLink>
+          <NavLink
+            to="/ufc-model"
+            className={({ isActive }) =>
+              `header-link ${isActive ? 'active' : ''}`
+            }
+            end
+          >
+            UFC Model
+          </NavLink>
           {/* NEW: PRD Link */}
           <a
             href="/Overtime-PRD.md"
@@ -121,6 +130,13 @@ export default function Header() {
             onClick={() => setMobileOpen(false)}
           >
             Polls
+          </NavLink>
+          <NavLink
+            to="/ufc-model"
+            className="mobile-link"
+            onClick={() => setMobileOpen(false)}
+          >
+            UFC Model
           </NavLink>
           <a
             href="/public/OVERTIME-PRD.md"

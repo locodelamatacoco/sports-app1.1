@@ -9,6 +9,7 @@ import ScoresPage from './pages/ScoresPage';
 import SocialPage from './pages/SocialPage';
 import StandingsPage from './pages/StandingsPage';
 import PollsPage from './pages/PollsPage';
+import UFCBettingPage from './pages/UFCBettingPage';
 import './index.css';
 
 export default function App() {
@@ -23,6 +24,7 @@ export default function App() {
             <Route path="/social" element={<SocialPage />} />
             <Route path="/standings" element={<StandingsPage />} />
             <Route path="/polls" element={<PollsPage />} />
+            <Route path="/ufc-model" element={<UFCBettingPage />} />
             <Route path="/:sportId" element={<SportPage />} />
             <Route path="/:sportId/:tab" element={<SportPage />} />
           </Routes>
