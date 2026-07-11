@@ -153,7 +153,12 @@ def run(date=None, seed=42):
         ca, ch = r["f5_cond"]
         rec = dict(game=f"{aab}@{hab}", aab=aab, hab=hab, lam=r["lam_f5"],
                    f5=r["f5"], cond=(ca, ch), total=r["avg_total"],
-                   l10=(l10.get(aid), l10.get(hid)))
+                   l10=(l10.get(aid), l10.get(hid)),
+                   # for the per-play "why" line: SP name/era/ip and bats per side
+                   sp={aab: (a["probablePitcher"].get("fullName", "?"), *pit[asp]),
+                       hab: (h["probablePitcher"].get("fullName", "?"), *pit[hsp])},
+                   bats={aab: hit[aid], hab: hit[hid]},
+                   l10_by={aab: l10.get(aid), hab: l10.get(hid)})
         # market + fade gating if odds present
         o = odds.get((aab, hab))
         if o:
@@ -178,6 +183,22 @@ def pass_price(cp, min_edge=0.05):
     if p >= 0.5:
         return -int(round(100 * p / (1 - p)))
     return int(round(100 * (1 - p) / p))
+
+
+def why_line(rec):
+    """One-line rationale per play: the bet side's bats vs the faded arm."""
+    b = rec["bet"]
+    o = rec["hab"] if b == rec["aab"] else rec["aab"]
+    osp_n, osp_era, osp_whip, osp_ip = rec["sp"][o]
+    bsp_n, bsp_era, _, _ = rec["sp"][b]
+    rpg, ops = rec["bats"][b]
+    l10b = rec["l10_by"][b]
+    l10s = f"{l10b:.1f}" if l10b is not None else "n/a"
+    hot = " (hot)" if l10b is not None and l10b >= rpg + 1 else \
+          " (cold)" if l10b is not None and l10b <= rpg - 1 else ""
+    return (f"  - why: {b} bats {rpg:.1f} R/G season, L10 {l10s}{hot}, OPS {ops:.3f} "
+            f"vs {o} SP {osp_n} ({osp_era:.2f} ERA, {osp_whip:.2f} WHIP, {osp_ip:.0f} IP); "
+            f"{b} sends {bsp_n} ({bsp_era:.2f} ERA)")
 
 
 def fmt(date, rows):
@@ -207,29 +228,31 @@ def fmt(date, rows):
                 line += f" HALF-STAKE(gap {gap:.0%}—divergence band 20-30%, half stake per 7/4 policy)"
             if rec["edge"] >= 0.05 and tier != "REJECT":
                 if veto:
-                    watch.append((rec["edge"], rec["bet"], tier, pok, sig, steep, gap))
+                    watch.append((rec["edge"], rec["bet"], tier, pok, sig, steep, gap, rec))
                 else:
                     # half-stake divergence plays are straights only (never parlay legs)
                     plays.append((rec["edge"], rec["bet"], tier, pok and not half, sig, steep,
-                                  rec["calib"], half, gap))
+                                  rec["calib"], half, gap, rec))
         out.append(line)
     if plays:
         out.append("\n## Ranked plays (edge >=5%, market-gated)")
-        for e, b, tier, pok, sig, steep, cp, half, gap in sorted(plays, reverse=True):
+        for e, b, tier, pok, sig, steep, cp, half, gap, rec in sorted(plays, key=lambda t: t[0], reverse=True):
             warn = " ⚠ STEEP PRICE (laying heavy juice — size down, value thin)" if steep else ""
             hw = f" ◐ HALF STAKE (divergence gap {gap:.0%} in 20-30% band — v3.1.4 two-tier policy)" if half else ""
             pp = pass_price(cp)
             out.append(f"- **{b} F5** {e:+.1%} — {tier}, {'parlay-eligible' if pok else 'straight only'} ({sig} fade){warn}{hw}"
                        f" | PLAYABLE TO {pp:+d} — worse price = PASS (v3.1.3 bet-time price recheck)")
+            out.append(why_line(rec))
     if watch:
         out.append("\n## High-divergence watchlist (gap >30%, hard-vetoed, NOT auto-bet — your call)")
         out.append("> Model disagrees with the de-vigged market by >30 pts — the trap zone (Senga 6/22 "
                    "gap 35, KC 6/25 gap 33). Gaps of 20-30% now play at half stake (v3.1.4, from the "
                    "11-6-3 shadow record through 7/3). Listed per the flag-never-hide philosophy.")
-        for e, b, tier, pok, sig, steep, gap in sorted(watch, reverse=True):
+        for e, b, tier, pok, sig, steep, gap, rec in sorted(watch, key=lambda t: t[0], reverse=True):
             warn = " ⚠ STEEP PRICE" if steep else ""
             out.append(f"- **{b} F5** {e:+.1%} (model-vs-market gap {gap:.0%}) — {tier or 'no-fade'}, "
                        f"divergence trap risk{warn}")
+            out.append(why_line(rec))
     return "\n".join(out)
 
 
