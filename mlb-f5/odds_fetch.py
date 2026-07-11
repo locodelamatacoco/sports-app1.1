@@ -112,8 +112,17 @@ def main():
     prices = f5_lines(list(events), paids)
     leans = model_leans()
 
+    # Doubleheaders: the same matchup twice makes line->game matching ambiguous
+    # (odds.csv and the engine key on away@home), so those games run lean-only.
+    from collections import Counter
+    dh = {k for k, n in Counter((a, h) for a, h, _, _ in games).items() if n > 1}
+
     out, missing = [], []
     for aab, hab, aname, hname in games:
+        if (aab, hab) in dh:
+            if f"{aab}@{hab}" not in [m[0] for m in missing]:
+                missing.append((f"{aab}@{hab}", "doubleheader — ambiguous line matching, lean-only"))
+            continue
         match = None
         for eid, parts in events.items():
             nns = list(parts.values())
