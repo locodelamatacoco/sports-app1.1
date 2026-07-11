@@ -128,3 +128,12 @@ date,game,market,model_prob,bet_side,odds,result,note
 2026-07-08,ATH@DET,F5,0.71,DET,-140,W,cohort=shadow HARD-VETO gap37 edge +12.5% CONFIRMED NO BET watchlist; F5 DET 6-1 thru5 WIN (DET won 6-1) - veto cost a winner
 2026-07-09,KC@NYM,F5,0.54,KC,114,L,cohort=ranked RANKED #1 edge +7.6% full straight dog; F5 KC 2-6 thru5 LOSS
 2026-07-09,ATH@DET,F5,0.66,DET,-125,W,cohort=shadow HARD-VETO gap33 edge +10.6% CONFIRMED NO BET watchlist; F5 DET 3-1 thru5 WIN (DET won 4-1) - veto cost a winner
+2026-07-10,MIL@PIT,F5,0.67,PIT,-135,PPD,cohort=ranked RANKED #1 edge +9.2% HALF(gap30); POSTPONED - no action/void
+2026-07-10,LAA@MIN,F5,0.67,MIN,-138,L,cohort=ranked RANKED #2 edge +9.1% HALF(gap30) CONFIRMED fade; F5 MIN 1-4 thru5 LOSS (LAA won 4-3)
+2026-07-10,SEA@TB,F5,0.64,TB,-125,W,cohort=ranked RANKED #3 edge +8.9% HALF(gap28); F5 TB 4-1 thru5 WIN (TB won 7-2)
+2026-07-10,ATH@CWS,F5,0.70,CWS,-165,W,cohort=ranked RANKED #4 edge +8.2% HALF(gap28) CONFIRMED fade; F5 CWS 4-0 thru5 WIN (CWS won 14-1)
+2026-07-10,COL@SF,F5,0.70,SF,-165,P,cohort=ranked RANKED #5 edge +7.8% HALF(gap21) CONFIRMED fade; F5 1-1 thru5 PUSH (SF won 4-3... COL 4-3)
+2026-07-10,BOS@NYM,F5,0.52,BOS,125,W,cohort=ranked RANKED #6 edge +7.3% full dog; F5 BOS 2-1 thru5 WIN (BOS won 6-2)
+2026-07-10,PHI@DET,F5,0.64,DET,-130,P,cohort=ranked RANKED #7 edge +7.3% CONFIRMED parlay-eligible; F5 2-2 thru5 PUSH (PHI won 10-2)
+2026-07-10,ATL@STL,F5,0.69,ATL,-164,W,cohort=ranked RANKED #8 edge +6.9% full; F5 ATL 1-0 thru5 WIN (STL walked off 2-1 full)
+2026-07-10,KC@BAL,F5,0.64,BAL,-145,W,cohort=ranked RANKED #9 edge +5.2% full; F5 BAL 3-2 thru5 WIN (BAL won 5-3)
