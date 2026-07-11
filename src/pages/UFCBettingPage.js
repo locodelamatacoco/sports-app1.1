@@ -2,6 +2,12 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { analyzeCard, formatAmerican, probToAmerican } from '../models/ufcSimulator';
 import { UFC_CARD } from '../data/ufcFights';
+import { UFC_329_CARD } from '../data/ufc329';
+
+const CARDS = [
+  { key: 'ufc329', title: 'UFC 329 (Jul 11)', card: UFC_329_CARD },
+  { key: 'demo', title: 'Demo Card', card: UFC_CARD },
+];
 
 const NUM_SIMS = 10000;
 
@@ -54,6 +60,8 @@ function FightCard({ analysis }) {
           {sim.numSims.toLocaleString()} simulations
         </span>
       </div>
+
+      {fight.notes && <p className="ufc-fight-notes">{fight.notes}</p>}
 
       {avoidReasons.length > 0 && (
         <div className="ufc-avoid-banner">
@@ -213,19 +221,22 @@ export default function UFCBettingPage() {
   const [results, setResults] = useState(null);
   const [running, setRunning] = useState(true);
   const [seed, setSeed] = useState(42);
+  const [cardKey, setCardKey] = useState(CARDS[0].key);
 
-  const run = useCallback((simSeed) => {
+  const activeCard = CARDS.find((c) => c.key === cardKey).card;
+
+  const run = useCallback((simSeed, card) => {
     setRunning(true);
     // Defer so the "running" state paints before the sims block the thread
     setTimeout(() => {
-      setResults(analyzeCard(UFC_CARD.fights, { numSims: NUM_SIMS, seed: simSeed }));
+      setResults(analyzeCard(card.fights, { numSims: NUM_SIMS, seed: simSeed }));
       setRunning(false);
     }, 30);
   }, []);
 
   useEffect(() => {
-    run(seed);
-  }, [run, seed]);
+    run(seed, activeCard);
+  }, [run, seed, activeCard]);
 
   return (
     <div
@@ -234,12 +245,23 @@ export default function UFCBettingPage() {
     >
       <h1 className="page-title">UFC Betting Model</h1>
       <p className="ufc-subtitle">
-        {UFC_CARD.event} — round-by-round Monte Carlo engine ({NUM_SIMS.toLocaleString()}{' '}
+        {activeCard.event} — round-by-round Monte Carlo engine ({NUM_SIMS.toLocaleString()}{' '}
         simulations per fight) with Poisson strike projections, pace/fatigue scaling, damage
         accumulation, and sportsbook edge detection.
       </p>
 
       <div className="ufc-controls">
+        <div className="ufc-card-tabs">
+          {CARDS.map((c) => (
+            <button
+              key={c.key}
+              className={`ufc-card-tab ${c.key === cardKey ? 'active' : ''}`}
+              onClick={() => setCardKey(c.key)}
+            >
+              {c.title}
+            </button>
+          ))}
+        </div>
         <button
           className="ufc-rerun-btn"
           disabled={running}
@@ -259,8 +281,10 @@ export default function UFCBettingPage() {
       )}
 
       <p className="ufc-disclaimer">
-        Demo mode: fighters, stats, and sportsbook odds are sample data. Model output is for
-        entertainment/analysis only — not betting advice.
+        {cardKey === 'demo'
+          ? 'Demo mode: fighters, stats, and sportsbook odds are sample data.'
+          : 'Stat profiles are hand-built from public career stats and fight-week reporting; prop prices flagged as estimated in each fight’s notes were not directly sourced.'}{' '}
+        Model output is for entertainment/analysis only — not betting advice.
       </p>
     </div>
   );
