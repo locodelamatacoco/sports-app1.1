@@ -137,3 +137,12 @@ date,game,market,model_prob,bet_side,odds,result,note
 2026-07-10,PHI@DET,F5,0.64,DET,-130,P,cohort=ranked RANKED #7 edge +7.3% CONFIRMED parlay-eligible; F5 2-2 thru5 PUSH (PHI won 10-2)
 2026-07-10,ATL@STL,F5,0.69,ATL,-164,W,cohort=ranked RANKED #8 edge +6.9% full; F5 ATL 1-0 thru5 WIN (STL walked off 2-1 full)
 2026-07-10,KC@BAL,F5,0.64,BAL,-145,W,cohort=ranked RANKED #9 edge +5.2% full; F5 BAL 3-2 thru5 WIN (BAL won 5-3)
+2026-07-11,ATL@STL,F5,0.61,ATL,-110,L,cohort=ranked RANKED #1 edge +8.6% HALF(gap27); F5 ATL 0-4 thru5 LOSS (STL won 4-1)
+2026-07-11,NYY@WSH,F5,0.46,WSH,165,W,cohort=ranked RANKED #2 edge +8.1% full dog; F5 WSH 2-0 thru5 WIN (NYY won full 4-2 - F5 cashed)
+2026-07-11,CHC@CIN,F5,0.59,CHC,-102,L,cohort=ranked RANKED #3 edge +8.1% HALF(gap22); F5 CHC 1-2 thru5 LOSS (CHC won full 5-3 - F5 lost)
+2026-07-11,PHI@DET,F5,0.53,DET,120,L,cohort=ranked RANKED #4 edge +7.9% full dog; F5 DET 1-4 thru5 LOSS (PHI won 4-2)
+2026-07-11,TOR@SD,F5,0.60,TOR,-115,L,cohort=ranked RANKED #5 edge +7.0% full; F5 TOR 4-7 thru5 LOSS (SD won 8-7)
+2026-07-11,AZ@LAD,F5,0.79,LAD,-265,L,cohort=ranked RANKED #6 edge +6.3% STEEP full; F5 LAD 0-1 thru5 LOSS (AZ won 9-2)
+2026-07-11,CLE@MIA,F5,0.66,MIA,-156,L,cohort=ranked RANKED #7 edge +5.5% full; F5 MIA 0-2 thru5 LOSS (CLE won 4-1)
+2026-07-11,ATH@CWS,F5,0.61,CWS,100,P,cohort=shadow HARD-VETO gap33 edge +10.8% NO BET watchlist; F5 0-0 thru5 PUSH (CWS lost 1-0)
+2026-07-11,LAA@MIN,F5,0.75,MIN,-185,W,cohort=shadow HARD-VETO gap31 edge +10.2% CONFIRMED NO BET watchlist; F5 MIN 3-2 thru5 WIN (MIN won 5-3) - veto cost a winner
