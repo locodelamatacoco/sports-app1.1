@@ -146,3 +146,7 @@ date,game,market,model_prob,bet_side,odds,result,note
 2026-07-11,CLE@MIA,F5,0.66,MIA,-156,L,cohort=ranked RANKED #7 edge +5.5% full; F5 MIA 0-2 thru5 LOSS (CLE won 4-1)
 2026-07-11,ATH@CWS,F5,0.61,CWS,100,P,cohort=shadow HARD-VETO gap33 edge +10.8% NO BET watchlist; F5 0-0 thru5 PUSH (CWS lost 1-0)
 2026-07-11,LAA@MIN,F5,0.75,MIN,-185,W,cohort=shadow HARD-VETO gap31 edge +10.2% CONFIRMED NO BET watchlist; F5 MIN 3-2 thru5 WIN (MIN won 5-3) - veto cost a winner
+2026-07-12,ATH@CWS,F5,0.58,ATH,102,L,cohort=ranked RANKED #1 edge +8.3% HALF(gap25) CAUTION Schultz fade; ATH bats cold flag was right; F5 ATH 1-9 thru5 LOSS (CWS won 9-1)
+2026-07-12,NYY@WSH,F5,0.63,WSH,-128,L,cohort=ranked RANKED #2 edge +6.6% full; F5 WSH 1-2 thru5 LOSS (NYY won 5-3)
+2026-07-12,CLE@MIA,F5,0.60,MIA,-115,L,cohort=ranked RANKED #3 edge +6.5% full; F5 MIA 1-3 thru5 LOSS (CLE won 5-2)
+2026-07-12,MIL@PIT,F5,0.64,PIT,-140,W,cohort=ranked RANKED #4 edge +5.5% full; F5 PIT 14-2 thru5 WIN (PIT won 14-5)

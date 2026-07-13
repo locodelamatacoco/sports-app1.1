@@ -82,6 +82,8 @@ def slate_games():
     """[(away_abbr, home_abbr, away_name, home_name)] from schedule_today.json."""
     with open(os.path.join(DATA, "schedule_today.json")) as f:
         sched = json.load(f)
+    if not sched.get("dates"):
+        return None, []
     date = sched["dates"][0]["date"]
     games = []
     for g in sched["dates"][0]["games"]:
@@ -108,6 +110,9 @@ def model_leans():
 
 def main():
     date, games = slate_games()
+    if not games:
+        print("no games on today's slate (off day / All-Star break) — no odds to fetch")
+        return
     events, paids = ot_events()
     prices = f5_lines(list(events), paids)
     leans = model_leans()

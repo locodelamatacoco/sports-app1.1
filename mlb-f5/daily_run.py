@@ -116,6 +116,8 @@ def load_odds(date):
 
 def run(date=None, seed=42):
     sched = _load("schedule_today.json")
+    if not sched.get("dates"):   # empty slate (All-Star break, off day)
+        return date or datetime.date.today().isoformat(), []
     hit = parse_hitting(_load("hitting.json"))
     pit = parse_pitchers(_load("pitchers.json"))
     recent_files = [os.path.basename(p) for p in glob.glob(os.path.join(DATA, "recent_*.json"))]
