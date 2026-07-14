@@ -141,6 +141,8 @@ def run(date=None, seed=42):
             rows.append((f"{aab}@{hab}", None, "away/home SP not confirmed — no bet")); continue
         if asp not in pit or hsp not in pit:
             rows.append((f"{aab}@{hab}", None, "pitcher stats missing — no bet")); continue
+        if aid not in hit or hid not in hit:   # exhibition squads (All-Star Game)
+            rows.append((f"{aab}@{hab}", None, "no team stats (exhibition) — no bet")); continue
         # stability gate (both sides)
         unstable = [pid for pid in (asp, hsp) if not stable_ip(pit[pid][2])]
         if unstable:
