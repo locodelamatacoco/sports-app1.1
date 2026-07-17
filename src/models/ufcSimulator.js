@@ -489,6 +489,8 @@ export function confidenceScore(fight, probs) {
       dampen(0.6, `${f.name}: finish-or-fade profile`);
     if (fa.ufcFights < 4) dampen(0.9, `${f.name}: low UFC sample (${fa.ufcFights} fights)`);
     if (fa.recentKOLoss) dampen(0.7, `${f.name}: recent KO loss`);
+    if (fa.age >= 38) dampen(0.6, `${f.name}: age-cliff risk (${fa.age})`);
+    if (fa.activityLevel < 1) dampen(0.6, `${f.name}: long layoff / ring rust`);
     if (fa.inconsistentPace) dampen(0.5, `${f.name}: inconsistent pacing`);
     if (fa.shortNotice) dampen(1.0, `${f.name}: short-notice replacement`);
     if (fa.weightCutConcerns) dampen(0.4, `${f.name}: weight cut concerns`);
