@@ -41,9 +41,161 @@ function BreakdownBar({ label, prob }) {
   );
 }
 
+function ResultBanner({ grading }) {
+  const { actual, actualWinnerName, predictedWinnerCorrect, bets, netUnits } = grading;
+  return (
+    <div className={`ufc-result-banner ${predictedWinnerCorrect ? 'hit' : 'miss'}`}>
+      <div>
+        <strong>RESULT:</strong> {actualWinnerName} by {actual.method}
+        {actual.method !== 'Decision' && actual.method !== 'Draw' ? `, round ${actual.round}` : ''}{' '}
+        — model pick {predictedWinnerCorrect ? '✓ correct' : '✗ wrong'}
+      </div>
+      {actual.note && <div className="ufc-result-note">{actual.note}</div>}
+      {bets.length > 0 && (
+        <div className="ufc-result-bets">
+          {bets.map((b) => (
+            <span key={b.label} className={`ufc-bet-chip ${b.outcome}`}>
+              {b.outcome === 'win' ? '✓' : b.outcome === 'loss' ? '✗' : '–'} {b.label}{' '}
+              {formatAmerican(b.bookOdds)} ({b.units >= 0 ? '+' : ''}
+              {b.units.toFixed(2)}u)
+            </span>
+          ))}
+          <span className="ufc-bet-chip net">
+            Net {netUnits >= 0 ? '+' : ''}
+            {netUnits.toFixed(2)}u
+          </span>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function CardRecord({ results }) {
+  const graded = results.filter((r) => r.grading);
+  if (graded.length === 0) return null;
+  const winnersRight = graded.filter((r) => r.grading.predictedWinnerCorrect).length;
+  const bets = graded.flatMap((r) => r.grading.bets);
+  const wins = bets.filter((b) => b.outcome === 'win').length;
+  const losses = bets.filter((b) => b.outcome === 'loss').length;
+  const net = bets.reduce((sum, b) => sum + b.units, 0);
+  return (
+    <div className="ufc-card-record">
+      <strong>Card graded:</strong> predicted winners {winnersRight}/{graded.length} · qualified
+      bets {wins}-{losses}
+      {bets.length - wins - losses > 0 ? `-${bets.length - wins - losses}` : ''} ·{' '}
+      <span className={net >= 0 ? 'edge-pos ufc-edge' : 'edge-neg ufc-edge'}>
+        {net >= 0 ? '+' : ''}
+        {net.toFixed(2)}u flat-betting
+      </span>
+    </div>
+  );
+}
+
+const fmtPct = (x) => `${Math.round(x * 100)}%`;
+const TAPE_SECTIONS = [
+  {
+    title: 'Striking',
+    rows: [
+      ['Sig. strikes landed/min', (f) => f.striking.sigStrikesPerMin, 'high'],
+      ['Strike accuracy', (f) => fmtPct(f.striking.strikeAccuracy), 'high'],
+      ['Strike defense', (f) => fmtPct(f.striking.strikeDefense), 'high'],
+      ['Absorbed/min', (f) => f.striking.strikesAbsorbedPerMin, 'low'],
+      ['Knockdowns/15 min', (f) => f.striking.knockdownRate, 'high'],
+      ['Head strike share', (f) => fmtPct(f.striking.headStrikePct), null],
+      ['Power (0-10)', (f) => f.striking.powerRating, 'high'],
+      ['Pace/output (0-10)', (f) => f.striking.pace, 'high'],
+    ],
+  },
+  {
+    title: 'Grappling',
+    rows: [
+      ['Takedowns/15 min', (f) => f.grappling.takedownsPer15, 'high'],
+      ['Takedown accuracy', (f) => fmtPct(f.grappling.takedownAccuracy), 'high'],
+      ['Takedown defense', (f) => fmtPct(f.grappling.takedownDefense), 'high'],
+      ['Sub attempts/15 min', (f) => f.grappling.subAttemptsPer15, 'high'],
+      ['Control (0-10)', (f) => f.grappling.controlRating, 'high'],
+      ['Scrambling (0-10)', (f) => f.grappling.scrambleAbility, 'high'],
+    ],
+  },
+  {
+    title: 'Fighter Factors',
+    rows: [
+      ['Age', (f) => f.factors.age, 'low'],
+      ['Height', (f) => `${f.factors.height}"`, 'high'],
+      ['Reach', (f) => `${f.factors.reach}"`, 'high'],
+      ['Stance', (f) => f.factors.stance, null],
+      ['Cardio (0-10)', (f) => f.factors.cardio, 'high'],
+      ['Durability/chin (0-10)', (f) => f.factors.durability, 'high'],
+      ['Recent form (0-10)', (f) => f.factors.recentForm, 'high'],
+      ['Damage last 3 (0-10)', (f) => f.factors.damageLastThree, 'low'],
+      ['Fights/year', (f) => f.factors.activityLevel, 'high'],
+      ['Five-round fights', (f) => f.factors.fiveRoundExp, 'high'],
+      ['Opposition strength (0-10)', (f) => f.factors.oppStrength, 'high'],
+      ['Career finish rate', (f) => fmtPct(f.factors.finishRate), null],
+      ['Variance (0-10)', (f) => f.factors.varianceRating, 'low'],
+      ['UFC fights', (f) => f.factors.ufcFights, 'high'],
+      [
+        'Red flags',
+        (f) =>
+          [
+            f.factors.shortNotice && 'short notice',
+            f.factors.weightCutConcerns && 'weight cut',
+            f.factors.recentKOLoss && 'recent KO loss',
+            f.factors.inconsistentPace && 'inconsistent pace',
+          ]
+            .filter(Boolean)
+            .join(', ') || '—',
+        null,
+      ],
+    ],
+  },
+];
+
+function TaleOfTheTape({ fighterA, fighterB }) {
+  return (
+    <div className="ufc-table-wrap">
+      <table className="ufc-table ufc-tape-table">
+        <thead>
+          <tr>
+            <th>Tale of the Tape</th>
+            <th>{fighterA.name}</th>
+            <th>{fighterB.name}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {TAPE_SECTIONS.map((section) => (
+            <React.Fragment key={section.title}>
+              <tr className="ufc-tape-section">
+                <td colSpan={3}>{section.title}</td>
+              </tr>
+              {section.rows.map(([label, get, better]) => {
+                const a = get(fighterA);
+                const b = get(fighterB);
+                let aWins = false;
+                let bWins = false;
+                if (better && typeof a === 'number' && typeof b === 'number' && a !== b) {
+                  aWins = better === 'high' ? a > b : a < b;
+                  bWins = !aWins;
+                }
+                return (
+                  <tr key={label}>
+                    <td>{label}</td>
+                    <td className={aWins ? 'ufc-tape-adv' : ''}>{a}</td>
+                    <td className={bWins ? 'ufc-tape-adv' : ''}>{b}</td>
+                  </tr>
+                );
+              })}
+            </React.Fragment>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
 function FightCard({ analysis }) {
   const [showDetails, setShowDetails] = useState(false);
-  const { fight, sim, summary, confidence, avoidReasons, valueBets, bestBet, bestProps, markets, roundProps, projections } = analysis;
+  const { fight, sim, summary, confidence, grading, avoidReasons, valueBets, bestBet, bestProps, markets, roundProps, projections } = analysis;
   const { fighterA, fighterB } = fight;
   const p = sim.probs;
 
@@ -62,6 +214,8 @@ function FightCard({ analysis }) {
       </div>
 
       {fight.notes && <p className="ufc-fight-notes">{fight.notes}</p>}
+
+      {grading && <ResultBanner grading={grading} />}
 
       {avoidReasons.length > 0 && (
         <div className="ufc-avoid-banner">
@@ -136,11 +290,13 @@ function FightCard({ analysis }) {
       )}
 
       <button className="ufc-details-toggle" onClick={() => setShowDetails(!showDetails)}>
-        {showDetails ? 'Hide' : 'Show'} full market board, round props & projections
+        {showDetails ? 'Hide' : 'Show'} tale of the tape, market board, round props & projections
       </button>
 
       {showDetails && (
         <div className="ufc-details">
+          <TaleOfTheTape fighterA={fighterA} fighterB={fighterB} />
+
           <h3>Market Board (model vs book)</h3>
           <div className="ufc-table-wrap">
             <table className="ufc-table">
@@ -277,7 +433,14 @@ export default function UFCBettingPage() {
       {running && !results ? (
         <p className="ufc-loading">Running {NUM_SIMS.toLocaleString()} simulations per fight…</p>
       ) : (
-        results && results.map((analysis) => <FightCard key={analysis.fight.id} analysis={analysis} />)
+        results && (
+          <>
+            <CardRecord results={results} />
+            {results.map((analysis) => (
+              <FightCard key={analysis.fight.id} analysis={analysis} />
+            ))}
+          </>
+        )
       )}
 
       <p className="ufc-disclaimer">

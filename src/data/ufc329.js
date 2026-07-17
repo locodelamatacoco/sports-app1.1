@@ -21,6 +21,13 @@ export const UFC_329_CARD = {
       propsEstimated: ['goesDistance', 'totalRounds', 'decB-ish'],
       notes:
         'McGregor returns from a 5-year layoff at 37; Holloway (27-9) debuts at welterweight after a decision loss to Oliveira in March. Book MLs and McGregor/Holloway KO-dec-sub props sourced; distance and round-total prices estimated.',
+      result: {
+        winner: 'A',
+        method: 'KO/TKO',
+        round: 1,
+        timeMin: 1.15,
+        note: 'Holloway TKO at 1:09 of round 1 — McGregor blew out his knee on an opening jumping kick. McGregor is petitioning for a No Contest.',
+      },
       fighterA: {
         name: 'Max Holloway',
         record: '27-9',
@@ -129,6 +136,12 @@ export const UFC_329_CARD = {
       propsEstimated: ['method props', 'goesDistance'],
       notes:
         'Saint Denis rides a four-fight finish streak (all inside two rounds); Pimblett returns from a 15-month layoff after stopping Chandler. MLs and under 2.5 (-160) sourced; method props estimated.',
+      result: {
+        winner: 'B',
+        method: 'Submission',
+        round: 1,
+        note: "Pimblett put Saint Denis to sleep with a first-round D'arce choke, countering a takedown attempt.",
+      },
       fighterA: {
         name: 'Benoît Saint Denis',
         record: '16-3 (1 NC)',
@@ -239,6 +252,12 @@ export const UFC_329_CARD = {
       propsEstimated: ['all props'],
       notes:
         'Sandhagen returns from his failed title bid against Dvalishvili; Bautista is 9-1 in his last 10 and submitted Vinicius Oliveira in February. MLs sourced (DK); props estimated.',
+      result: {
+        winner: 'B',
+        method: 'Decision',
+        round: 3,
+        note: 'Bautista by unanimous decision, 29-28 on all three cards.',
+      },
       fighterA: {
         name: 'Cory Sandhagen',
         record: '18-6',
@@ -347,6 +366,12 @@ export const UFC_329_CARD = {
       propsEstimated: ['all props'],
       notes:
         'Royval on a two-fight slide (FOTY loss to Van, R1 stoppage vs Kape in December); Kavanagh is an unbeaten rising striker. 80% of handle on Kavanagh. MLs sourced; props estimated.',
+      result: {
+        winner: 'B',
+        method: 'Submission',
+        round: 3,
+        note: 'Royval survived early damage and took Kavanagh\'s back for a third-round rear-naked choke. Fight of the Night.',
+      },
       fighterA: {
         name: "Lone'er Kavanagh",
         record: '10-0',
@@ -455,6 +480,12 @@ export const UFC_329_CARD = {
       propsEstimated: ['all props'],
       notes:
         'Green just turned 40 and has absorbed heavy damage in recent fights; McKinney is an all-or-nothing round-one finisher with notorious cardio. MLs sourced; props estimated.',
+      result: {
+        winner: 'A',
+        method: 'KO/TKO',
+        round: 1,
+        note: 'Green weathered the opening blitz and stopped McKinney with strikes in round 1.',
+      },
       fighterA: {
         name: 'King Green',
         record: '32-16-1 (1 NC)',

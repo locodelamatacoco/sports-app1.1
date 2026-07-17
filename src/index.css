@@ -1330,3 +1330,89 @@ body,
   line-height: 1.5;
   margin: 0 0 14px;
 }
+
+/* === UFC RESULTS GRADING + TALE OF THE TAPE === */
+.ufc-card-record {
+  background: #1e1e1e;
+  border: 1px solid #333;
+  border-radius: 8px;
+  max-width: 860px;
+  margin: 0 auto 20px;
+  padding: 12px 16px;
+  font-size: 14px;
+  color: #ddd;
+  text-align: center;
+}
+
+.ufc-result-banner {
+  border-radius: 6px;
+  padding: 10px 14px;
+  font-size: 14px;
+  margin-bottom: 14px;
+  color: #ddd;
+}
+
+.ufc-result-banner.hit {
+  background: rgba(76, 175, 80, 0.1);
+  border: 1px solid #2e7d32;
+}
+
+.ufc-result-banner.miss {
+  background: rgba(239, 83, 80, 0.08);
+  border: 1px solid #b3403e;
+}
+
+.ufc-result-note {
+  color: #999;
+  font-size: 13px;
+  margin-top: 4px;
+}
+
+.ufc-result-bets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.ufc-bet-chip {
+  font-size: 12px;
+  padding: 2px 8px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.06);
+  color: #ccc;
+}
+
+.ufc-bet-chip.win {
+  color: #4caf50;
+  background: rgba(76, 175, 80, 0.12);
+}
+
+.ufc-bet-chip.loss {
+  color: #ef5350;
+  background: rgba(239, 83, 80, 0.12);
+}
+
+.ufc-bet-chip.net {
+  color: #fff;
+  font-weight: 700;
+  border: 1px solid #555;
+}
+
+.ufc-tape-table {
+  margin-bottom: 18px;
+}
+
+.ufc-tape-section td {
+  color: #ff6b35;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: 0.8px;
+  padding-top: 12px;
+}
+
+.ufc-tape-adv {
+  color: #4caf50;
+  font-weight: 700;
+}

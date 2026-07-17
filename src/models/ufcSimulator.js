@@ -22,6 +22,7 @@ export const MODEL_CONSTANTS = {
   FINISH_ESCALATION_HEALTH: 0.55, // below this health, finish hazard escalates
   FINISH_ESCALATION_MULT: 1.6,
   SUB_BASE_SUCCESS: 0.16, // baseline sub attempt conversion
+  COUNTER_SUB_MULT: 1.5, // conversion multiplier on scramble counter-subs
   JUDGE_NOISE_SD: 7, // gaussian noise on round scorecards
   MIN_STAMINA: 0.42,
   DRAW_ROUND_MARGIN: 0.6, // score margin under which a round can be 10-10
@@ -171,9 +172,15 @@ function buildSimProfile(fighter, opponent, rounds, rand) {
     0.012 * f.varianceRating +
     (f.shortNotice ? 0.03 : 0) +
     (f.activityLevel < 1.5 ? 0.02 : 0);
-  // Stats built against weak opposition regress; strong schedules translate up.
+  // Stats built against weak opposition regress hard, and octagon experience
+  // travels: a big UFC-fights gap favors the veteran in chaotic fights.
+  // (Recalibrated after UFC 329, where an unbeaten prospect's stats vs weak
+  // opposition were trusted far too much against a former title challenger.)
   const meanForm =
-    1 + 0.012 * (f.recentForm - 5) + 0.008 * (f.oppStrength - of.oppStrength);
+    1 +
+    0.012 * (f.recentForm - 5) +
+    0.02 * (f.oppStrength - of.oppStrength) +
+    0.004 * (Math.min(f.ufcFights, 20) - Math.min(of.ufcFights, 20));
   const form = clamp(gaussianSample(rand, meanForm, noiseSd), 0.55, 1.45);
 
   // Physical edges: reach/height help at range, southpaw-vs-orthodox is a
@@ -343,21 +350,52 @@ function simulateRound(A, B, round, rand) {
   if (koA) return { winner: 'A', method: 'KO/TKO' };
   if (koB) return { winner: 'B', method: 'KO/TKO' };
 
-  // --- Submission check: needs grappling success; fatigue/damage raise odds ---
+  // --- Submission checks ---
+  // Top-position subs need grappling success; a badly hurt opponent also
+  // opens front-headlock/back-take finishes without a takedown, and failed
+  // shots concede scramble counter-subs (guillotines, D'arces) to defenders
+  // with real sub skill. Fatigue and damage raise conversion everywhere.
+  const vulnerability = (opp) =>
+    (1.35 - opp.stamina * 0.5) * (1.3 - opp.health * 0.45);
+
   const subCheck = (me, opp, g) => {
-    if (g.landed === 0 && g.controlMin < 0.5) return false;
-    const attempts = poissonSample(
-      me.subAttemptsPerRound * (0.5 + g.controlMin / 2),
-      rand
-    );
-    const vulnerability = (1.35 - opp.stamina * 0.5) * (1.3 - opp.health * 0.45);
+    const hurtOpp = opp.health < C.FINISH_ESCALATION_HEALTH;
+    if (g.landed === 0 && g.controlMin < 0.5 && !hurtOpp) return false;
+    const lambda =
+      me.subAttemptsPerRound * (0.5 + g.controlMin / 2) +
+      (hurtOpp ? me.subAttemptsPerRound * 0.6 : 0);
+    const attempts = poissonSample(lambda, rand);
+    const vuln = vulnerability(opp) * (hurtOpp ? 1.25 : 1);
     for (let i = 0; i < attempts; i++) {
-      if (rand() < me.subFinishProb * vulnerability) return true;
+      if (rand() < me.subFinishProb * vuln) return true;
     }
     return false;
   };
+
+  const counterSubCheck = (defender, shooter, shooterGrapple) => {
+    const failedShots = shooterGrapple.attempts - shooterGrapple.landed;
+    if (failedShots === 0) return false;
+    const dg = defender.fighter.grappling;
+    // chance each stuffed shot turns into a real counter-sub attempt
+    const attemptProb = clamp(
+      0.08 + 0.025 * (dg.scrambleAbility - 5) + 0.06 * dg.subAttemptsPer15,
+      0.02,
+      0.45
+    );
+    for (let i = 0; i < failedShots; i++) {
+      if (
+        rand() < attemptProb &&
+        rand() < defender.subFinishProb * C.COUNTER_SUB_MULT * vulnerability(shooter)
+      )
+        return true;
+    }
+    return false;
+  };
+
   if (subCheck(A, B, gA)) return { winner: 'A', method: 'Submission' };
   if (subCheck(B, A, gB)) return { winner: 'B', method: 'Submission' };
+  if (counterSubCheck(A, B, gB)) return { winner: 'A', method: 'Submission' };
+  if (counterSubCheck(B, A, gA)) return { winner: 'B', method: 'Submission' };
 
   // --- Score the round (strikes, knockdowns, takedowns, control) ---
   const scoreA =
@@ -467,6 +505,51 @@ export function confidenceScore(fight, probs) {
 }
 
 // ---------------------------------------------------------------------------
+// Results grading
+// ---------------------------------------------------------------------------
+
+// Grade a market row against a fight's actual result. Returns 'win' | 'loss'
+// | 'push', or null when the fight has no result or the label is unknown.
+// Fights with a `result` carry: { winner: 'A'|'B'|'draw', method, round,
+// timeMin? } — timeMin is minutes elapsed in the finish round; without it,
+// round-total grading assumes the midpoint of the round.
+export function gradeBet(bet, fight) {
+  const res = fight.result;
+  if (!res) return null;
+  const winnerName =
+    res.winner === 'A' ? fight.fighterA.name : res.winner === 'B' ? fight.fighterB.name : null;
+  const wentDistance = res.method === 'Decision' || res.method === 'Draw';
+  const elapsedRounds = wentDistance
+    ? fight.rounds
+    : res.round - 1 + (res.timeMin != null ? res.timeMin / 5 : 0.5);
+
+  if (bet.label.endsWith(' ML')) {
+    if (res.winner === 'draw') return 'push';
+    return bet.label.slice(0, -3) === winnerName ? 'win' : 'loss';
+  }
+  if (bet.label.startsWith('Fight goes distance')) {
+    return bet.label.includes('Yes') === wentDistance ? 'win' : 'loss';
+  }
+  const ou = bet.label.match(/^(Over|Under) ([\d.]+) rounds$/);
+  if (ou) {
+    if (elapsedRounds === parseFloat(ou[2])) return 'push';
+    return (ou[1] === 'Over') === (elapsedRounds > parseFloat(ou[2])) ? 'win' : 'loss';
+  }
+  const method = bet.label.match(/^(.+) by (KO\/TKO|Submission|Decision)$/);
+  if (method) {
+    return method[1] === winnerName && method[2] === res.method ? 'win' : 'loss';
+  }
+  return null;
+}
+
+// Profit in flat 1-unit stakes for a graded bet.
+export function betUnits(bet, outcome) {
+  if (outcome === 'win') return bet.bookOdds > 0 ? bet.bookOdds / 100 : 100 / -bet.bookOdds;
+  if (outcome === 'loss') return -1;
+  return 0;
+}
+
+// ---------------------------------------------------------------------------
 // Edge detection + bet selection
 // ---------------------------------------------------------------------------
 
@@ -568,11 +651,34 @@ export function analyzeFight(fight, { numSims = 10000, seed = 42 } = {}) {
     }))
     .sort((x, y) => y.modelProb - x.modelProb);
 
+  // Grade recommendations against the actual result when one is recorded
+  let grading = null;
+  if (fight.result) {
+    const gradedBets = valueBets.map((bet) => {
+      const outcome = gradeBet(bet, fight);
+      return { ...bet, outcome, units: betUnits(bet, outcome) };
+    });
+    const actualWinnerName =
+      fight.result.winner === 'A'
+        ? fight.fighterA.name
+        : fight.result.winner === 'B'
+        ? fight.fighterB.name
+        : 'Draw';
+    grading = {
+      actual: fight.result,
+      actualWinnerName,
+      predictedWinnerCorrect: winner.name === actualWinnerName,
+      bets: gradedBets,
+      netUnits: gradedBets.reduce((sum, b) => sum + b.units, 0),
+    };
+  }
+
   return {
     fight,
     sim,
     projections,
     confidence,
+    grading,
     markets,
     marketNoVig: { a: mktA, b: mktB },
     avoidReasons,

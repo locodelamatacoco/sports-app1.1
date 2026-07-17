@@ -7,9 +7,12 @@ import {
   simulateFight,
   analyzeFight,
   analyzeCard,
+  gradeBet,
+  betUnits,
   BET_RULES,
 } from './ufcSimulator';
 import { UFC_CARD } from '../data/ufcFights';
+import { UFC_329_CARD } from '../data/ufc329';
 
 const mainEvent = UFC_CARD.fights[0];
 
@@ -119,6 +122,48 @@ describe('analyzeFight', () => {
     if (analysis.valueBets.length > 0) {
       expect(analysis.confidence.score).toBeGreaterThanOrEqual(BET_RULES.MIN_CONFIDENCE);
     }
+  });
+});
+
+describe('results grading', () => {
+  // Co-main: Pimblett (fighter B) submitted Saint Denis in round 1
+  const comain = UFC_329_CARD.fights.find((f) => f.id === 'ufc329-comain');
+
+  test('grades moneyline, distance, totals, and method bets', () => {
+    expect(gradeBet({ label: 'Paddy Pimblett ML', bookOdds: 124 }, comain)).toBe('win');
+    expect(gradeBet({ label: 'Benoît Saint Denis ML', bookOdds: -148 }, comain)).toBe('loss');
+    expect(gradeBet({ label: 'Fight goes distance — Yes', bookOdds: 170 }, comain)).toBe('loss');
+    expect(gradeBet({ label: 'Fight goes distance — No', bookOdds: -210 }, comain)).toBe('win');
+    expect(gradeBet({ label: 'Under 2.5 rounds', bookOdds: -160 }, comain)).toBe('win');
+    expect(gradeBet({ label: 'Over 2.5 rounds', bookOdds: 130 }, comain)).toBe('loss');
+    expect(gradeBet({ label: 'Paddy Pimblett by Submission', bookOdds: 450 }, comain)).toBe('win');
+    expect(gradeBet({ label: 'Paddy Pimblett by KO/TKO', bookOdds: 700 }, comain)).toBe('loss');
+  });
+
+  test('returns null for fights without a result', () => {
+    expect(gradeBet({ label: 'Anyone ML', bookOdds: 100 }, UFC_CARD.fights[0])).toBeNull();
+  });
+
+  test('betUnits pays positive odds at odds/100 and negative at 100/odds', () => {
+    expect(betUnits({ bookOdds: 130 }, 'win')).toBeCloseTo(1.3);
+    expect(betUnits({ bookOdds: -220 }, 'win')).toBeCloseTo(0.4545, 3);
+    expect(betUnits({ bookOdds: 130 }, 'loss')).toBe(-1);
+    expect(betUnits({ bookOdds: 130 }, 'push')).toBe(0);
+  });
+
+  test('analyzeFight attaches grading with net units when result exists', () => {
+    const analysis = analyzeFight(comain, { numSims: 3000, seed: 5 });
+    expect(analysis.grading).not.toBeNull();
+    expect(analysis.grading.actualWinnerName).toBe('Paddy Pimblett');
+    expect(typeof analysis.grading.netUnits).toBe('number');
+    analysis.grading.bets.forEach((b) => {
+      expect(['win', 'loss', 'push']).toContain(b.outcome);
+    });
+  });
+
+  test('fights without results have null grading', () => {
+    const analysis = analyzeFight(UFC_CARD.fights[0], { numSims: 1000, seed: 5 });
+    expect(analysis.grading).toBeNull();
   });
 });
 
