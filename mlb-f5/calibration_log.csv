@@ -157,3 +157,7 @@ date,game,market,model_prob,bet_side,odds,result,note
 2026-07-17,SF@SEA,F5,0.68,SEA,-155,L,cohort=ranked RANKED #4 edge +7.1% full; F5 SEA 0-2 thru5 LOSS (SF won 7-0; Roupp outdueled Miller)
 2026-07-17,PIT@CLE,F5,0.56,PIT,105,PPD,cohort=ranked RANKED #5 edge +6.8% full dog; POSTPONED - no action/void
 2026-07-17,CWS@TOR,F5,0.63,TOR,-130,L,cohort=ranked RANKED #6 edge +6.2% full; F5 TOR 3-8 thru5 LOSS (CWS won 12-4)
+2026-07-18,SF@SEA,F5,0.55,SF,112,W,cohort=ranked RANKED #1 edge +7.4% full dog; F5 SF 1-0 thru5 WIN (SEA won full 4-3 - F5 cashed)
+2026-07-18,DET@LAA,F5,0.75,DET,-216,W,cohort=ranked RANKED #2 edge +6.8% CONFIRMED STEEP G-Rodriguez 7.55 fade; F5 DET 7-0 thru5 WIN (DET won 7-0; Skubal dealt)
+2026-07-18,WSH@ATH,F5,0.57,WSH,-102,L,cohort=ranked RANKED #3 edge +6.5% full; F5 WSH 0-6 thru5 LOSS (ATH won 15-1)
+2026-07-18,LAD@NYY,F5,0.58,NYY,-108,PPD,cohort=ranked RANKED #4 edge +6.1% full; POSTPONED - no action/void
