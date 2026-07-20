@@ -161,3 +161,10 @@ date,game,market,model_prob,bet_side,odds,result,note
 2026-07-18,DET@LAA,F5,0.75,DET,-216,W,cohort=ranked RANKED #2 edge +6.8% CONFIRMED STEEP G-Rodriguez 7.55 fade; F5 DET 7-0 thru5 WIN (DET won 7-0; Skubal dealt)
 2026-07-18,WSH@ATH,F5,0.57,WSH,-102,L,cohort=ranked RANKED #3 edge +6.5% full; F5 WSH 0-6 thru5 LOSS (ATH won 15-1)
 2026-07-18,LAD@NYY,F5,0.58,NYY,-108,PPD,cohort=ranked RANKED #4 edge +6.1% full; POSTPONED - no action/void
+2026-07-19,DET@LAA,F5,0.69,DET,-150,L,cohort=ranked RANKED #1 edge +9.2% HALF(gap28) CONFIRMED R.Johnson fade; F5 DET 1-2 thru5 LOSS (LAA won 3-2)
+2026-07-19,SF@SEA,F5,0.47,SF,161,P,cohort=ranked RANKED #2 edge +8.4% full dog; F5 3-3 thru5 PUSH (SEA won 6-3)
+2026-07-19,TEX@ATL,F5,0.55,ATL,112,W,cohort=ranked RANKED #3 edge +8.3% HALF(gap21); F5 ATL 4-3 thru5 WIN (ATL won 8-5)
+2026-07-19,PIT@CLE,F5,0.61,PIT,-125,W,cohort=ranked RANKED #4 edge +5.8% full Skenes; F5 PIT 2-1 thru5 WIN (PIT won 7-1)
+2026-07-19,TB@BOS,F5,0.60,BOS,-120,W,cohort=ranked RANKED #5 edge +5.4% full; F5 BOS 6-1 thru5 WIN (BOS won 6-1)
+2026-07-19,WSH@ATH,F5,0.74,WSH,-160,W,cohort=shadow HARD-VETO gap37 edge +12.4% CONFIRMED J.Lopez fade NO BET watchlist; F5 WSH 5-1 thru5 WIN (WSH won 5-2) - veto cost a winner
+2026-07-19,STL@AZ,F5,0.65,AZ,-123,L,cohort=shadow HARD-VETO gap30 edge +9.4% NO BET watchlist; F5 AZ 0-7 thru5 LOSS (AZ rallied 8-7 full) - veto correct
