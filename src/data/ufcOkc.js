@@ -19,6 +19,12 @@ export const UFC_OKC_CARD = {
       propsEstimated: ['all props except the 3.5 round line'],
       notes:
         "du Plessis' first fight since Chimaev took his belt and exposed his takedown defense; Usman is 39, moving up from welterweight after 13 months off, but remains an elite wrestler with a champion's control game. MLs and the 3.5 total sourced; other props estimated.",
+      result: {
+        winner: 'A',
+        method: 'Decision',
+        round: 5,
+        note: 'du Plessis by unanimous decision — the ex-champ returned to the win column; the 39-year-old Usman could not impose his wrestling.',
+      },
       fighterA: {
         name: 'Dricus du Plessis',
         record: '23-3',
@@ -127,6 +133,12 @@ export const UFC_OKC_CARD = {
       propsEstimated: ['all props'],
       notes:
         'Duncan rides a four-fight streak (three 2025 wins incl. back-to-back spinning-attack finishes, then a decision over Dolidze in March); Cannonier is 42, in year 12 on the roster, and has split his last six. MLs sourced; props estimated.',
+      result: {
+        winner: 'A',
+        method: 'Decision',
+        round: 3,
+        note: 'Duncan by unanimous decision, extending his streak to five.',
+      },
       fighterA: {
         name: 'Christian Leroy Duncan',
         record: '12-2',
@@ -235,6 +247,13 @@ export const UFC_OKC_CARD = {
       propsEstimated: ['all props'],
       notes:
         'Hooper, 26, has grown from teenage prospect into a legitimate submission machine on a long win streak; Ramirez is a hittable brawler with three UFC fights. MLs sourced; props estimated.',
+      result: {
+        winner: 'A',
+        method: 'Submission',
+        round: 1,
+        timeMin: 2.25,
+        note: 'Hooper rear-naked choke at 2:15 of round 1 — the exact grappler-underrated-by-the-engine scenario flagged before the fight.',
+      },
       fighterA: {
         name: 'Chase Hooper',
         record: '17-3-1',
@@ -343,6 +362,13 @@ export const UFC_OKC_CARD = {
       propsEstimated: ['all props'],
       notes:
         'Two Contender Series-era prospects with tiny UFC samples — exactly the kind of fight the model is built to pass on. Stat profiles here carry the most uncertainty on the card. MLs sourced; props estimated.',
+      result: {
+        winner: 'A',
+        method: 'KO/TKO',
+        round: 3,
+        timeMin: 3.48,
+        note: 'McMillen TKO at 3:29 of round 3 after landing a UFC three-round-record 252 significant strikes. Performance of the Night.',
+      },
       fighterA: {
         name: 'Tommy McMillen',
         record: '9-1',
