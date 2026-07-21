@@ -168,3 +168,9 @@ date,game,market,model_prob,bet_side,odds,result,note
 2026-07-19,TB@BOS,F5,0.60,BOS,-120,W,cohort=ranked RANKED #5 edge +5.4% full; F5 BOS 6-1 thru5 WIN (BOS won 6-1)
 2026-07-19,WSH@ATH,F5,0.74,WSH,-160,W,cohort=shadow HARD-VETO gap37 edge +12.4% CONFIRMED J.Lopez fade NO BET watchlist; F5 WSH 5-1 thru5 WIN (WSH won 5-2) - veto cost a winner
 2026-07-19,STL@AZ,F5,0.65,AZ,-123,L,cohort=shadow HARD-VETO gap30 edge +9.4% NO BET watchlist; F5 AZ 0-7 thru5 LOSS (AZ rallied 8-7 full) - veto correct
+2026-07-20,PIT@NYY,F5,0.63,PIT,-110,L,cohort=ranked RANKED #1 edge +7.7% HALF(gap21); F5 PIT 5-8 thru5 LOSS (NYY won 8-5; hot streak ended)
+2026-07-20,SF@KC,F5,0.62,KC,-118,W,cohort=ranked RANKED #2 edge +7.7% HALF(gap21) McDonald fade; F5 KC 3-1 thru5 WIN (KC won 4-3)
+2026-07-20,NYM@MIL,F5,0.71,MIL,-240,W,cohort=ranked RANKED #3 edge +7.2% STEEP Misiorowski; F5 MIL 5-1 thru5 WIN (MIL won 8-3)
+2026-07-20,LAD@PHI,F5,0.61,PHI,-149,L,cohort=ranked RANKED #4 edge +6.9% PHI cold-bats flag; F5 PHI 1-4 thru5 LOSS (LAD won 10-7)
+2026-07-20,BAL@BOS,F5,0.60,BOS,-150,W,cohort=ranked RANKED #5 edge +5.3% BOS hot; F5 BOS 3-2 thru5 WIN (BOS won 6-5)
+2026-07-20,WSH@COL,F5,0.72,WSH,-135,P,cohort=shadow HARD-VETO gap35 edge +10.8% CONFIRMED Freeland-Coors fade NO BET; F5 3-3 thru5 PUSH (WSH won 7-3 full)
