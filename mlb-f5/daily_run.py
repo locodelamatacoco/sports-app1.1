@@ -205,6 +205,56 @@ def why_line(rec):
             f"{b} sends {bsp_n} ({bsp_era:.2f} ERA)")
 
 
+def top_by_era(plays):
+    """Rank the ranked plays by starting-pitcher ERA gap (faded arm − our arm).
+    Presentation only — ERAs/IP are the season numbers from pitchers.json
+    (statsapi), the same values the model simulates on. Small-sample faded arms
+    (<40 IP) and a shaky own SP (>=5.40) are flagged so a noisy ERA isn't
+    overweighted. CONFIRMED full-stake plays break ties upward."""
+    ranked = []
+    for e, b, tier, pok, sig, steep, cp, half, gap, rec in plays:
+        o = rec["hab"] if b == rec["aab"] else rec["aab"]
+        our_n, our_era, _, our_ip = rec["sp"][b]
+        fad_n, fad_era, _, fad_ip = rec["sp"][o]
+        era_gap = fad_era - our_era
+        rpg, _ = rec["bats"][b]
+        l10b = rec["l10_by"][b]
+        flags = []
+        if our_era >= 5.40:
+            flags.append(f"own arm {our_n} shaky ({our_era:.2f})—no ERA edge")
+        if fad_ip < 40:
+            flags.append(f"faded arm only {fad_ip:.0f} IP—small sample")
+        if l10b is not None and l10b <= rpg - 1:
+            flags.append("bats cold")
+        if tier == "CAUTION":
+            flags.append("CAUTION pickem")
+        if steep:
+            flags.append("steep price")
+        confirmed_full = (tier == "CONFIRMED" and not half)
+        ranked.append(dict(gap=era_gap, cf=confirmed_full, b=b, o=o, our_n=our_n,
+                           our_era=our_era, fad_n=fad_n, fad_era=fad_era,
+                           fad_ip=fad_ip, half=half, flags=flags))
+    ranked.sort(key=lambda r: (r["gap"], r["cf"]), reverse=True)
+    return ranked
+
+
+def top_plays_block(plays):
+    tb = top_by_era(plays)
+    out = ["\n## Top plays by pitching edge (SP ERA gap — season numbers, statsapi)"]
+    for i, r in enumerate(tb, 1):
+        star = " ★ CONFIRMED full-stake" if r["cf"] else (" ◐ half-stake" if r["half"] else "")
+        fl = f" — {'; '.join(r['flags'])}" if r["flags"] else ""
+        out.append(f"{i}. **{r['b']} F5** — {r['b']} arm {r['our_n']} {r['our_era']:.2f} "
+                   f"vs {r['o']} {r['fad_n']} {r['fad_era']:.2f} ERA ({r['fad_ip']:.0f} IP) "
+                   f"| ERA edge {r['gap']:+.2f}{star}{fl}")
+    clean = [r for r in tb if not r["flags"]]
+    lead = clean[:2] if len(clean) >= 2 else tb[:2]
+    if lead:
+        out.append(f"→ **Lead with: {', '.join(r['b'] for r in lead)}** "
+                   f"(biggest clean arm edge — still obey PLAYABLE TO at the counter)")
+    return out
+
+
 def fmt(date, rows):
     out = [f"# MLB F5 v3.1 daily run — {date} (real-L10 auto)\n"]
     plays = []
@@ -247,6 +297,7 @@ def fmt(date, rows):
             out.append(f"- **{b} F5** {e:+.1%} — {tier}, {'parlay-eligible' if pok else 'straight only'} ({sig} fade){warn}{hw}"
                        f" | PLAYABLE TO {pp:+d} — worse price = PASS (v3.1.3 bet-time price recheck)")
             out.append(why_line(rec))
+        out += top_plays_block(plays)
     if watch:
         out.append("\n## High-divergence watchlist (gap >30%, hard-vetoed, NOT auto-bet — your call)")
         out.append("> Model disagrees with the de-vigged market by >30 pts — the trap zone (Senga 6/22 "
