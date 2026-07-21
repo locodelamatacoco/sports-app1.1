@@ -61,6 +61,24 @@ python -m scripts.train_and_export \
     --out output/nfl_edges.json
 ```
 
+**Live odds from ESPN** — train on history, then price the *actual upcoming
+slate* using moneylines/spreads pulled straight from ESPN (`--slate espn`):
+
+```bash
+# current week, whatever book ESPN lists first
+python -m scripts.train_and_export --slate espn --out ../src/data/nflEdges.sample.json
+
+# a specific week, preferring a named book
+python -m scripts.train_and_export --slate espn \
+    --espn-year 2025 --espn-week 3 --espn-provider "ESPN BET"
+```
+
+This hits `site.api.espn.com/.../nfl/scoreboard` — the same key-free endpoint
+`ScoresPage` already uses, and the data behind
+[espn.com/nfl/odds](https://www.espn.com/nfl/odds). Each team's *latest* rolling
+rating is attached to the upcoming games (they have no historical row yet), then
+the model prices them. ESPN must be reachable from wherever you run this.
+
 Sample console output (synthetic):
 
 ```
@@ -86,6 +104,7 @@ are small and most of the slate offers no value.
 | Stage | File | What it does |
 |-------|------|--------------|
 | Load | `nfl_model/data.py` | Real play-by-play + schedules via `nfl_data_py`; synthetic fallback if offline. |
+| Live odds | `nfl_model/espn.py` | Grab this week's games + moneylines/spreads from ESPN's public API. |
 | Features | `nfl_model/features.py` | Per-team rolling EPA/YPP (offense & defense), **leakage-safe**. |
 | Model | `nfl_model/model.py` | Standardize → Ridge; alpha auto-tuned by time-series CV; measures residual σ. |
 | Probabilities | `nfl_model/distribution.py` | Projected margin → cover prob + win prob via the normal CDF. |
@@ -185,9 +204,19 @@ python -m scripts.train_and_export --predict-week <week> \
     --out ../src/data/nflEdges.sample.json
 ```
 
-For **live, not-yet-played** odds (the moneylines/spreads themselves), pair this
-with a real odds feed — see the earlier discussion re: The Odds API behind a
-Netlify function so the API key never ships to the browser.
+### Where the live odds come from
+
+- **ESPN (`nfl_model/espn.py`, built in).** Key-free, already trusted by the
+  frontend, and it's the data behind [espn.com/nfl/odds](https://www.espn.com/nfl/odds).
+  Run the exporter with `--slate espn` and you're pricing real games. This is the
+  recommended, sanctioned path.
+- **OddsTrader ([oddstrader.com/nfl](https://www.oddstrader.com/nfl/)).** Nice for
+  comparing many books at once, but there is **no public API** — pulling it means
+  scraping HTML / undocumented endpoints, which is brittle and usually against the
+  site's terms. Prefer ESPN unless you specifically need the multi-book board.
+- **The Odds API.** If you want many US books through a sanctioned API, put the
+  key behind a Netlify function so it never ships to the browser (see the earlier
+  discussion). It slots in as another slate source alongside `espn.py`.
 
 ---
 

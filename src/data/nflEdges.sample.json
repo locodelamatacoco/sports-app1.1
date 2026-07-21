@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-07-21T15:22:12.341441+00:00",
-  "dataSource": "synthetic",
+  "generatedAt": "2026-07-21T15:33:38.083823+00:00",
+  "dataSource": "train:synthetic | slate:2024 week 17",
   "disclaimer": "Model output is for analysis/entertainment only, not betting advice. Edges are measured against the book's posted line; the true scorecard of skill is closing-line value, not any single week's results.",
   "model": {
     "type": "ridge",

@@ -23,6 +23,9 @@ import pandas as pd
 # are EPA/YPP *allowed*, so lower is better.
 ROLL_COLUMNS = ["off_epa", "def_epa", "off_ypp", "def_ypp"]
 
+# The rolled (season-to-date, leakage-safe) version of each strength column.
+ROLL_COLS = [f"{c}_roll" for c in ROLL_COLUMNS]
+
 
 def aggregate_team_games(pbp: pd.DataFrame) -> pd.DataFrame:
     """Collapse play-by-play into one row per team per game.
@@ -77,9 +80,7 @@ def build_matchup_frame(games: pd.DataFrame, team_game_roll: pd.DataFrame) -> pd
     one row per game with the engineered feature columns plus the regression
     target ``home_margin`` (NaN for games not yet played).
     """
-    roll_cols = [f"{c}_roll" for c in ROLL_COLUMNS]
-    keep = ["season", "week", "team", *roll_cols]
-    ratings = team_game_roll[keep]
+    ratings = team_game_roll[["season", "week", "team", *ROLL_COLS]]
 
     df = games.copy()
     df = df.merge(
@@ -94,16 +95,55 @@ def build_matchup_frame(games: pd.DataFrame, team_game_roll: pd.DataFrame) -> pd
         right_on=["away_season", "away_week", "away_team"],
         how="left",
     )
+    return _add_derived_features(df, _league_means(team_game_roll))
 
-    # Fill neutral priors for teams with no prior games this season (week 1).
-    league_means = {c: team_game_roll[c].mean() for c in roll_cols}
+
+def latest_team_ratings(team_game_roll: pd.DataFrame) -> pd.DataFrame:
+    """Each team's most recent rolling rating, for pricing an upcoming slate.
+
+    Games not yet played have no ``(season, week)`` row in ``team_game_roll``, so
+    an exact join returns nothing. To price this week's slate we instead grab the
+    last available rating per team -- their current form entering the games.
+    """
+    valid = team_game_roll.dropna(subset=ROLL_COLS, how="all")
+    return (
+        valid.sort_values(["team", "season", "week"])
+        .groupby("team")
+        .tail(1)[["team", *ROLL_COLS]]
+        .reset_index(drop=True)
+    )
+
+
+def build_slate_frame(slate_games: pd.DataFrame, team_game_roll: pd.DataFrame) -> pd.DataFrame:
+    """Attach each team's latest rating to an upcoming slate (e.g. from ESPN).
+
+    Same feature columns as :func:`build_matchup_frame`, but joined on team
+    only (using :func:`latest_team_ratings`) rather than an exact week that does
+    not exist yet. Teams the model has never seen fall back to league priors.
+    """
+    ratings = latest_team_ratings(team_game_roll)
+    df = slate_games.copy()
+    df = df.merge(ratings.add_prefix("home_"), on="home_team", how="left")
+    df = df.merge(ratings.add_prefix("away_"), on="away_team", how="left")
+    return _add_derived_features(df, _league_means(team_game_roll))
+
+
+def _league_means(team_game_roll: pd.DataFrame) -> dict:
+    return {c: team_game_roll[c].mean() for c in ROLL_COLS}
+
+
+def _add_derived_features(df: pd.DataFrame, league_means: dict) -> pd.DataFrame:
+    """Fill priors, build matchup differentials, and (if scored) the target.
+
+    Shared by the training path (exact-week join) and the slate path
+    (latest-rating join) so both produce an identical feature vector.
+    """
+    # Neutral prior for any team with no prior games (season openers / unknowns).
     for side in ("home", "away"):
-        for c in roll_cols:
+        for c in ROLL_COLS:
             df[f"{side}_{c}"] = df[f"{side}_{c}"].fillna(league_means[c])
 
-    # Derived matchup differentials the model finds most useful. Signs are left
-    # for Ridge to learn; we just expose the raw building blocks plus a couple
-    # of convenience nets.
+    # Convenience nets; signs left for Ridge to learn from the raw components.
     df["home_net_epa"] = df["home_off_epa_roll"] - df["home_def_epa_roll"]
     df["away_net_epa"] = df["away_off_epa_roll"] - df["away_def_epa_roll"]
     df["net_epa_diff"] = df["home_net_epa"] - df["away_net_epa"]

@@ -45,6 +45,15 @@ def parse_args() -> argparse.Namespace:
     p.add_argument("--alpha", type=float, default=None, help="Fix Ridge alpha (default: auto-tune via CV).")
     p.add_argument("--seed", type=int, default=7, help="Synthetic-data seed.")
     p.add_argument("--out", type=str, default="output/nfl_edges.json", help="Output JSON path.")
+    p.add_argument("--slate", choices=["auto", "espn"], default="auto",
+                   help="Where the games to PRICE come from. 'auto' uses a week from the "
+                        "training data; 'espn' pulls the live slate + odds from ESPN.")
+    p.add_argument("--espn-year", type=int, default=None, help="ESPN slate season (default: current).")
+    p.add_argument("--espn-week", type=int, default=None, help="ESPN slate week (default: current).")
+    p.add_argument("--espn-seasontype", type=int, default=2,
+                   help="ESPN season type: 1=pre, 2=regular, 3=post (default 2).")
+    p.add_argument("--espn-provider", type=str, default=None,
+                   help="Prefer a named book from ESPN's odds (e.g. 'ESPN BET', 'DraftKings').")
     return p.parse_args()
 
 
@@ -61,24 +70,15 @@ def main() -> int:
     print(f"[2/5] Built matchup frame: {len(matchups)} rows, {len(feat.FEATURE_COLUMNS)} features.")
 
     # 3. Split into training games (played) and the slate to price.
-    pred_season = args.predict_season or max(args.train_seasons)
-    pred_week = args.predict_week
-    if pred_week is None:
-        pred_week = int(matchups.loc[matchups["season"] == pred_season, "week"].max())
-
-    slate_mask = (matchups["season"] == pred_season) & (matchups["week"] == pred_week)
-    slate = matchups[slate_mask].copy()
-    # Train only on games strictly before the slate to avoid leaking the future.
-    train = matchups[
-        ~slate_mask
-        & matchups["home_margin"].notna()
-        & ~((matchups["season"] == pred_season) & (matchups["week"] >= pred_week))
-    ].copy()
-    if slate.empty:
-        print(f"[error] No games found for {pred_season} week {pred_week}.")
-        return 1
-    print(f"[3/5] Training on {len(train)} games; pricing {len(slate)} games "
-          f"({pred_season} week {pred_week}).")
+    if args.slate == "espn":
+        slate, train, slate_source = _espn_slate(args, rolled, matchups)
+        if slate is None:
+            return 1
+    else:
+        slate, train, slate_source = _auto_slate(args, matchups)
+        if slate is None:
+            return 1
+    print(f"[3/5] Training on {len(train)} games; pricing {len(slate)} games ({slate_source}).")
 
     # 4. Fit the Ridge margin model.
     model = train_margin_model(train, alpha=args.alpha)
@@ -86,7 +86,7 @@ def main() -> int:
           f"train RMSE={model.train_rmse:.2f}, CV RMSE={model.cv_rmse:.2f}.")
 
     # 5. Price the slate and export.
-    payload = export_mod.build_payload(model, slate, ds.source)
+    payload = export_mod.build_payload(model, slate, f"train:{ds.source} | slate:{slate_source}")
     os.makedirs(os.path.dirname(os.path.abspath(args.out)), exist_ok=True)
     export_mod.write_json(payload, args.out)
     print(f"[5/5] Wrote {payload['summary']['games']} games "
@@ -94,6 +94,63 @@ def main() -> int:
 
     _print_slate(payload)
     return 0
+
+
+def _auto_slate(args, matchups):
+    """Pick a week from the training data as the slate (offline-friendly)."""
+    pred_season = args.predict_season or max(args.train_seasons)
+    pred_week = args.predict_week
+    if pred_week is None:
+        pred_week = int(matchups.loc[matchups["season"] == pred_season, "week"].max())
+
+    slate_mask = (matchups["season"] == pred_season) & (matchups["week"] == pred_week)
+    slate = matchups[slate_mask].copy()
+    if slate.empty:
+        print(f"[error] No games found for {pred_season} week {pred_week}.")
+        return None, None, None
+    # Train only on games strictly before the slate to avoid leaking the future.
+    train = matchups[
+        ~slate_mask
+        & matchups["home_margin"].notna()
+        & ~((matchups["season"] == pred_season) & (matchups["week"] >= pred_week))
+    ].copy()
+    return slate, train, f"{pred_season} week {pred_week}"
+
+
+def _espn_slate(args, rolled, matchups):
+    """Fetch the live ESPN slate + odds and attach each team's latest rating."""
+    from nfl_model import espn
+    from nfl_model.features import build_slate_frame
+
+    try:
+        raw = espn.fetch_espn_slate(
+            year=args.espn_year, week=args.espn_week,
+            seasontype=args.espn_seasontype, prefer_provider=args.espn_provider,
+        )
+    except Exception as exc:  # network blocked, ESPN down, schema drift
+        print(f"[error] Could not fetch ESPN slate ({type(exc).__name__}: {exc}).")
+        print("        ESPN's API must be reachable from where this runs (it is from a "
+              "browser / normal host; it is blocked inside this sandbox).")
+        return None, None, None
+
+    if raw.empty:
+        print("[error] ESPN returned no games for that slate (off-week?). "
+              "Try --espn-year/--espn-week or --espn-seasontype.")
+        return None, None, None
+
+    priced = raw[raw["home_moneyline"].notna() | raw["spread_line"].notna()].copy()
+    if priced.empty:
+        print("[warn] ESPN returned games but no odds are posted yet for this slate.")
+        return None, None, None
+
+    slate = build_slate_frame(priced, rolled)
+    # Train on every completed game we have ratings for.
+    train = matchups[matchups["home_margin"].notna()].copy()
+    label = "ESPN"
+    provider = priced["provider"].dropna().unique()
+    if len(provider):
+        label += f" ({provider[0]})"
+    return slate, train, label
 
 
 def _print_slate(payload: dict) -> None:
