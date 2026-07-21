@@ -1,0 +1,12 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+
+# nfl_data_py caches downloaded parquet here
+.nfl_data_py_cache/
+
+# Generated model output (the committed sample under src/data/ is the exception)
+output/*.json

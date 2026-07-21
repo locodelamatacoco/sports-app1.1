@@ -1,0 +1,205 @@
+# NFL Spread & Moneyline Value Model
+
+A small, honest Python model that projects NFL point margins with **Ridge
+regression** and reads **both** betting markets off that single projection:
+
+```
+projected home margin  ──►  P(cover the spread)   (normal CDF vs the book line)
+                       ──►  P(win the game)        (normal CDF vs zero) ──► moneyline
+```
+
+Then it compares those probabilities to the sportsbook's prices and flags the
+wagers with a positive expected value (EV > 0). It's the football sibling of the
+UFC Monte Carlo model in `src/models/ufcSimulator.js` — same idea (project an
+outcome distribution once, price every market against it), and it reuses the
+exact same American-odds math so the numbers line up with the frontend.
+
+---
+
+## Why one model, not two
+
+The common advice is to build a regressor for spreads *and* a separate
+classifier (logistic / random forest) for moneylines. Don't. A moneyline is
+just a spread bet at a line of zero. If you model the **expected margin** plus
+its uncertainty (NFL margins are ~normal with a standard deviation around
+13–14 points), you get:
+
+- **Spread edge:** `P(cover) = Φ((projMargin − spreadLine) / σ)`
+- **Moneyline edge:** `P(win)  = Φ(projMargin / σ)`
+
+One regression, both markets, and they can never contradict each other. Running
+two independent models can hand you a moneyline pick that disagrees with your
+own spread pick on the same game.
+
+**Why Ridge and not Random Forest?** The NFL plays only ~272 games a season.
+Tree ensembles overfit that little, noisy data. A standardized, L2-regularized
+linear model degrades gracefully, is interpretable, and out of sample usually
+wins on data this sparse.
+
+---
+
+## Quickstart
+
+```bash
+cd model
+python -m venv .venv && source .venv/bin/activate   # optional but recommended
+pip install -r requirements.txt
+
+# Offline demo — no downloads, uses the synthetic season generator:
+python -m scripts.train_and_export --synthetic --out output/nfl_edges.json
+
+# Run the tests:
+pytest
+```
+
+Real data (needs `nfl_data_py` + network) — train on four seasons, price week 5:
+
+```bash
+python -m scripts.train_and_export \
+    --train-seasons 2021 2022 2023 2024 \
+    --predict-season 2024 --predict-week 5 \
+    --out output/nfl_edges.json
+```
+
+Sample console output (synthetic):
+
+```
+[4/5] Ridge fit: alpha=10, sigma=14.09 pts, train RMSE=14.08, CV RMSE=14.21.
+[5/5] Wrote 16 games (6 value bets) -> output/nfl_edges.json
+
+MATCHUP           PROJ    SPREAD   HOME ML  BEST VALUE BET
+------------------------------------------------------------------------
+JAX @ DET         +0.8      -2.5      +112  DET +2.5 -110 (edge +6.7%, EV +12.9%)
+WAS @ BAL        -13.9     -10.5      +280  WAS -10.5 -110 (edge +7.3%, EV +13.9%)
+BUF @ NYJ         -0.6      -0.5      -113  — pass (no qualifying edge)
+...
+```
+
+Notice the projections track the market closely and most games are a *pass* —
+that's the point. On the efficient synthetic market (and on the real one) edges
+are small and most of the slate offers no value.
+
+---
+
+## How it works
+
+| Stage | File | What it does |
+|-------|------|--------------|
+| Load | `nfl_model/data.py` | Real play-by-play + schedules via `nfl_data_py`; synthetic fallback if offline. |
+| Features | `nfl_model/features.py` | Per-team rolling EPA/YPP (offense & defense), **leakage-safe**. |
+| Model | `nfl_model/model.py` | Standardize → Ridge; alpha auto-tuned by time-series CV; measures residual σ. |
+| Probabilities | `nfl_model/distribution.py` | Projected margin → cover prob + win prob via the normal CDF. |
+| Edges | `nfl_model/edges.py` | Model prob vs book price → edge, EV, value-bet gate. |
+| Export | `nfl_model/export.py` | JSON payload for the React frontend. |
+
+### Leakage safety (the thing that quietly ruins these models)
+
+Every feature is a team's **season-to-date average entering that game** —
+`expanding().mean().shift(1)` within each season. A rating for week N contains
+nothing from week N onward. Training also excludes the slate being priced and
+anything at/after its week. Get this wrong and your backtest looks amazing while
+your real bets lose.
+
+### Sign conventions (read this before trusting a number)
+
+- `spread_line` follows **nflverse**: *positive means the home team is favored by
+  that many points.* `spread_line = 3` ⇒ home is `-3`, away is `+3`.
+- `projectedMargin` is from the **home** team's perspective: `+7` = home by 7.
+- `home_margin` (training target) = `home_score − away_score`.
+
+---
+
+## The honest caveats
+
+1. **You're not beating the game — you're trying to beat the closing line.** The
+   market is brutally efficient. Break-even at −110 juice is **52.38%**. Sharp
+   bettors grind out ~53–55% and call it elite.
+2. **Closing Line Value is the real scorecard**, not a given week's W/L (that's
+   noise over small samples). Did you consistently bet a better number than
+   where the line closed?
+3. **Don't relearn Vegas.** The line is one of the best predictors that exists.
+   Include it as a feature and you can't find value against it; exclude it (as we
+   do) and you're competing head-on with it. That tension is the whole game.
+4. **This is a learning/portfolio tool, not betting advice.** Same disclaimer the
+   UFC page already carries.
+
+---
+
+## Getting real data
+
+[`nfl_data_py`](https://github.com/nflverse/nfl_data_py) (successor:
+[`nflreadpy`](https://github.com/nflverse/nflreadpy)) hands you almost everything
+for free:
+
+```python
+import nfl_data_py as nfl
+pbp   = nfl.import_pbp_data([2021, 2022, 2023, 2024])  # EPA per play, precomputed
+games = nfl.import_schedules([2024])                    # results + spread_line + moneylines
+```
+
+`import_schedules` ships the **historical betting lines** (`spread_line`,
+`home_moneyline`, `away_moneyline`, spread odds) — that's both your training
+target's benchmark and what you measure edges against.
+
+---
+
+## Wiring it into the React app
+
+The Python side writes JSON; the frontend just reads it. A committed sample
+lives at [`src/data/nflEdges.sample.json`](../src/data/nflEdges.sample.json).
+
+An `NFLBettingPage` mirrors `UFCBettingPage` — import the JSON, map over
+`games`, and render each with the odds helpers you already have:
+
+```jsx
+// src/pages/NFLBettingPage.js  (sketch)
+import edges from '../data/nflEdges.sample.json';
+import { formatAmerican } from '../models/ufcSimulator'; // same odds math
+
+export default function NFLBettingPage() {
+  return (
+    <div className="container">
+      <h1 className="page-title">NFL Betting Model</h1>
+      {edges.games.map((g) => (
+        <div key={g.id} className="ufc-fight-card">
+          <h2>{g.away} @ {g.home}</h2>
+          <p>Projected margin: {g.projectedMargin > 0 ? '+' : ''}{g.projectedMargin}
+             {'  '}(fair spread {g.fairSpread})</p>
+          {g.bestBet
+            ? <p>Best value: {g.bestBet.label} {formatAmerican(g.bestBet.book_odds)}
+                {' '}· edge {(g.bestBet.edge * 100).toFixed(1)}%
+                {' '}· EV {(g.bestBet.ev * 100).toFixed(1)}%</p>
+            : <p>— pass (no qualifying edge)</p>}
+        </div>
+      ))}
+    </div>
+  );
+}
+```
+
+To keep it fresh, run the exporter straight into the app on a schedule (e.g. a
+weekly cron / GitHub Action):
+
+```bash
+python -m scripts.train_and_export --predict-week <week> \
+    --out ../src/data/nflEdges.sample.json
+```
+
+For **live, not-yet-played** odds (the moneylines/spreads themselves), pair this
+with a real odds feed — see the earlier discussion re: The Odds API behind a
+Netlify function so the API key never ships to the browser.
+
+---
+
+## Natural next upgrades
+
+- **Opponent-adjusted ratings.** Swap raw rolling EPA for an SRS / ridge power
+  rating so a good number against three bad defenses isn't mistaken for signal.
+- **The features the pros use.** Red-zone & third-down efficiency, turnover
+  margin (regressed toward the mean — it's noisy), pace/pass-rate, QB adjustments
+  for injuries, and weather for totals.
+- **Calibration & backtest.** Check that "60%" bets actually hit ~60% (reliability
+  curve), and backtest by Closing Line Value, not raw record.
+- **Uncertainty per game.** A game-specific σ (bad weather, backup QB) instead of
+  one league-wide number.
+```

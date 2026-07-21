@@ -1,0 +1,1444 @@
+{
+  "generatedAt": "2026-07-21T15:22:12.341441+00:00",
+  "dataSource": "synthetic",
+  "disclaimer": "Model output is for analysis/entertainment only, not betting advice. Edges are measured against the book's posted line; the true scorecard of skill is closing-line value, not any single week's results.",
+  "model": {
+    "type": "ridge",
+    "alpha": 10.0,
+    "sigma": 14.089394,
+    "trainRmse": 14.08282,
+    "cvRmse": 14.206851,
+    "features": [
+      "home_off_epa_roll",
+      "home_def_epa_roll",
+      "away_off_epa_roll",
+      "away_def_epa_roll",
+      "home_off_ypp_roll",
+      "home_def_ypp_roll",
+      "away_off_ypp_roll",
+      "away_def_ypp_roll",
+      "net_epa_diff",
+      "rest_diff"
+    ],
+    "coefficients": {
+      "home_off_epa_roll": 2.014845,
+      "home_def_epa_roll": -0.16834,
+      "away_off_epa_roll": -0.608006,
+      "away_def_epa_roll": -0.153891,
+      "home_off_ypp_roll": 3.306831,
+      "home_def_ypp_roll": -4.646159,
+      "away_off_ypp_roll": -4.619662,
+      "away_def_ypp_roll": 3.605396,
+      "net_epa_diff": 1.342845,
+      "rest_diff": 0.0,
+      "__intercept__": 2.240672
+    },
+    "betRules": {
+      "MIN_FAVORITE_EDGE": 0.03,
+      "MIN_UNDERDOG_EDGE": 0.05,
+      "MIN_EV": 0.0,
+      "COIN_FLIP_BAND": [
+        0.47,
+        0.53
+      ]
+    }
+  },
+  "summary": {
+    "games": 16,
+    "valueBets": 6
+  },
+  "games": [
+    {
+      "id": "2024_17_DAL_NE",
+      "season": 2024,
+      "week": 17,
+      "home": "NE",
+      "away": "DAL",
+      "kickoff": "2024-09-18",
+      "projectedMargin": -4.55,
+      "projectedWinner": "DAL",
+      "fairSpread": -4.5,
+      "coinFlip": false,
+      "market": {
+        "spreadLine": -5.5,
+        "total": 47.5,
+        "homeMoneyline": 158,
+        "awayMoneyline": -237,
+        "homeSpreadOdds": -110,
+        "awaySpreadOdds": -110,
+        "noVigHomeWin": 0.355313,
+        "noVigAwayWin": 0.644687
+      },
+      "moneyline": {
+        "homeWinProb": 0.373501,
+        "awayWinProb": 0.626499
+      },
+      "wagers": [
+        {
+          "market": "moneyline",
+          "side": "home",
+          "label": "NE ML",
+          "model_prob": 0.373501,
+          "book_odds": 158.0,
+          "implied_prob": 0.387597,
+          "fair_odds": 168,
+          "edge": -0.014095,
+          "ev": -0.036366,
+          "qualifies": false
+        },
+        {
+          "market": "moneyline",
+          "side": "away",
+          "label": "DAL ML",
+          "model_prob": 0.626499,
+          "book_odds": -237.0,
+          "implied_prob": 0.703264,
+          "fair_odds": -168,
+          "edge": -0.076766,
+          "ev": -0.109156,
+          "qualifies": false
+        },
+        {
+          "market": "spread",
+          "side": "home",
+          "label": "NE +5.5",
+          "model_prob": 0.527016,
+          "book_odds": -110.0,
+          "implied_prob": 0.52381,
+          "fair_odds": -111,
+          "edge": 0.003206,
+          "ev": 0.006121,
+          "qualifies": false
+        },
+        {
+          "market": "spread",
+          "side": "away",
+          "label": "DAL -5.5",
+          "model_prob": 0.472984,
+          "book_odds": -110.0,
+          "implied_prob": 0.52381,
+          "fair_odds": 111,
+          "edge": -0.050826,
+          "ev": -0.097031,
+          "qualifies": false
+        }
+      ],
+      "valueBets": [],
+      "bestBet": null
+    },
+    {
+      "id": "2024_17_PHI_MIN",
+      "season": 2024,
+      "week": 17,
+      "home": "MIN",
+      "away": "PHI",
+      "kickoff": "2024-09-18",
+      "projectedMargin": 11.95,
+      "projectedWinner": "MIN",
+      "fairSpread": 12.0,
+      "coinFlip": false,
+      "market": {
+        "spreadLine": 11.0,
+        "total": 46.0,
+        "homeMoneyline": -515,
+        "awayMoneyline": 296,
+        "homeSpreadOdds": -110,
+        "awaySpreadOdds": -110,
+        "noVigHomeWin": 0.768309,
+        "noVigAwayWin": 0.231691
+      },
+      "moneyline": {
+        "homeWinProb": 0.80184,
+        "awayWinProb": 0.19816
+      },
+      "wagers": [
+        {
+          "market": "moneyline",
+          "side": "home",
+          "label": "MIN ML",
+          "model_prob": 0.80184,
+          "book_odds": -515.0,
+          "implied_prob": 0.837398,
+          "fair_odds": -405,
+          "edge": -0.035559,
+          "ev": -0.042463,
+          "qualifies": false
+        },
+        {
+          "market": "moneyline",
+          "side": "away",
+          "label": "PHI ML",
+          "model_prob": 0.19816,
+          "book_odds": 296.0,
+          "implied_prob": 0.252525,
+          "fair_odds": 405,
+          "edge": -0.054365,
+          "ev": -0.215286,
+          "qualifies": false
+        },
+        {
+          "market": "spread",
+          "side": "home",
+          "label": "MIN -11",
+          "model_prob": 0.526901,
+          "book_odds": -110.0,
+          "implied_prob": 0.52381,
+          "fair_odds": -111,
+          "edge": 0.003091,
+          "ev": 0.005902,
+          "qualifies": false
+        },
+        {
+          "market": "spread",
+          "side": "away",
+          "label": "PHI +11",
+          "model_prob": 0.473099,
+          "book_odds": -110.0,
+          "implied_prob": 0.52381,
+          "fair_odds": 111,
+          "edge": -0.05071,
+          "ev": -0.096811,
+          "qualifies": false
+        }
+      ],
+      "valueBets": [],
+      "bestBet": null
+    },
+    {
+      "id": "2024_17_SEA_IND",
+      "season": 2024,
+      "week": 17,
+      "home": "IND",
+      "away": "SEA",
+      "kickoff": "2024-09-18",
+      "projectedMargin": -13.86,
+      "projectedWinner": "SEA",
+      "fairSpread": -14.0,
+      "coinFlip": false,
+      "market": {
+        "spreadLine": -16.0,
+        "total": 47.5,
+        "homeMoneyline": 514,
+        "awayMoneyline": -1270,
+        "homeSpreadOdds": -110,
+        "awaySpreadOdds": -110,
+        "noVigHomeWin": 0.149436,
+        "noVigAwayWin": 0.850564
+      },
+      "moneyline": {
+        "homeWinProb": 0.16271,
+        "awayWinProb": 0.83729
+      },
+      "wagers": [
+        {
+          "market": "moneyline",
+          "side": "home",
+          "label": "IND ML",
+          "model_prob": 0.16271,
+          "book_odds": 514.0,
+          "implied_prob": 0.162866,
+          "fair_odds": 515,
+          "edge": -0.000156,
+          "ev": -0.000959,
+          "qualifies": false
+        },
+        {
+          "market": "moneyline",
+          "side": "away",
+          "label": "SEA ML",
+          "model_prob": 0.83729,
+          "book_odds": -1270.0,
+          "implied_prob": 0.927007,
+          "fair_odds": -515,
+          "edge": -0.089718,
+          "ev": -0.096782,
+          "qualifies": false
+        },
+        {
+          "market": "spread",
+          "side": "home",
+          "label": "IND +16",
+          "model_prob": 0.560496,
+          "book_odds": -110.0,
+          "implied_prob": 0.52381,
+          "fair_odds": -128,
+          "edge": 0.036686,
+          "ev": 0.070037,
+          "qualifies": true
+        },
+        {
+          "market": "spread",
+          "side": "away",
+          "label": "SEA -16",
+          "model_prob": 0.439504,
+          "book_odds": -110.0,
+          "implied_prob": 0.52381,
+          "fair_odds": 128,
+          "edge": -0.084305,
+          "ev": -0.160946,
+          "qualifies": false
+        }
+      ],
+      "valueBets": [
+        {
+          "market": "spread",
+          "side": "home",
+          "label": "IND +16",
+          "model_prob": 0.560496,
+          "book_odds": -110.0,
+          "implied_prob": 0.52381,
+          "fair_odds": -128,
+          "edge": 0.036686,
+          "ev": 0.070037,
+          "qualifies": true
+        }
+      ],
+      "bestBet": {
+        "market": "spread",
+        "side": "home",
+        "label": "IND +16",
+        "model_prob": 0.560496,
+        "book_odds": -110.0,
+        "implied_prob": 0.52381,
+        "fair_odds": -128,
+        "edge": 0.036686,
+        "ev": 0.070037,
+        "qualifies": true
+      }
+    },
+    {
+      "id": "2024_17_JAX_DET",
+      "season": 2024,
+      "week": 17,
+      "home": "DET",
+      "away": "JAX",
+      "kickoff": "2024-09-18",
+      "projectedMargin": 0.75,
+      "projectedWinner": "DET",
+      "fairSpread": 1.0,
+      "coinFlip": true,
+      "market": {
+        "spreadLine": -2.5,
+        "total": 40.0,
+        "homeMoneyline": 112,
+        "awayMoneyline": -162,
+        "homeSpreadOdds": -110,
+        "awaySpreadOdds": -110,
+        "noVigHomeWin": 0.432743,
+        "noVigAwayWin": 0.567257
+      },
+      "moneyline": {
+        "homeWinProb": 0.521311,
+        "awayWinProb": 0.478689
+      },
+      "wagers": [
+        {
+          "market": "moneyline",
+          "side": "home",
+          "label": "DET ML",
+          "model_prob": 0.521311,
+          "book_odds": 112.0,
+          "implied_prob": 0.471698,
+          "fair_odds": -109,
+          "edge": 0.049613,
+          "ev": 0.105179,
+          "qualifies": false
+        },
+        {
+          "market": "moneyline",
+          "side": "away",
+          "label": "JAX ML",
+          "model_prob": 0.478689,
+          "book_odds": -162.0,
+          "implied_prob": 0.618321,
+          "fair_odds": 109,
+          "edge": -0.139632,
+          "ev": -0.225824,
+          "qualifies": false
+        },
+        {
+          "market": "spread",
+          "side": "home",
+          "label": "DET +2.5",
+          "model_prob": 0.591297,
+          "book_odds": -110.0,
+          "implied_prob": 0.52381,
+          "fair_odds": -145,
+          "edge": 0.067487,
+          "ev": 0.12884,
+          "qualifies": true
+        },
+        {
+          "market": "spread",
+          "side": "away",
+          "label": "JAX -2.5",
+          "model_prob": 0.408703,
+          "book_odds": -110.0,
+          "implied_prob": 0.52381,
+          "fair_odds": 145,
+          "edge": -0.115106,
+          "ev": -0.219749,
+          "qualifies": false
+        }
+      ],
+      "valueBets": [
+        {
+          "market": "spread",
+          "side": "home",
+          "label": "DET +2.5",
+          "model_prob": 0.591297,
+          "book_odds": -110.0,
+          "implied_prob": 0.52381,
+          "fair_odds": -145,
+          "edge": 0.067487,
+          "ev": 0.12884,
+          "qualifies": true
+        }
+      ],
+      "bestBet": {
+        "market": "spread",
+        "side": "home",
+        "label": "DET +2.5",
+        "model_prob": 0.591297,
+        "book_odds": -110.0,
+        "implied_prob": 0.52381,
+        "fair_odds": -145,
+        "edge": 0.067487,
+        "ev": 0.12884,
+        "qualifies": true
+      }
+    },
+    {
+      "id": "2024_17_WAS_BAL",
+      "season": 2024,
+      "week": 17,
+      "home": "BAL",
+      "away": "WAS",
+      "kickoff": "2024-09-18",
+      "projectedMargin": -13.95,
+      "projectedWinner": "WAS",
+      "fairSpread": -14.0,
+      "coinFlip": false,
+      "market": {
+        "spreadLine": -10.5,
+        "total": 47.5,
+        "homeMoneyline": 280,
+        "awayMoneyline": -477,
+        "homeSpreadOdds": -110,
+        "awaySpreadOdds": -110,
+        "noVigHomeWin": 0.241463,
+        "noVigAwayWin": 0.758537
+      },
+      "moneyline": {
+        "homeWinProb": 0.16113,
+        "awayWinProb": 0.83887
+      },
+      "wagers": [
+        {
+          "market": "moneyline",
+          "side": "home",
+          "label": "BAL ML",
+          "model_prob": 0.16113,
+          "book_odds": 280.0,
+          "implied_prob": 0.263158,
+          "fair_odds": 521,
+          "edge": -0.102028,
+          "ev": -0.387706,
+          "qualifies": false
+        },
+        {
+          "market": "moneyline",
+          "side": "away",
+          "label": "WAS ML",
+          "model_prob": 0.83887,
+          "book_odds": -477.0,
+          "implied_prob": 0.82669,
+          "fair_odds": -521,
+          "edge": 0.01218,
+          "ev": 0.014734,
+          "qualifies": false
+        },
+        {
+          "market": "spread",
+          "side": "home",
+          "label": "BAL +10.5",
+          "model_prob": 0.40339,
+          "book_odds": -110.0,
+          "implied_prob": 0.52381,
+          "fair_odds": 148,
+          "edge": -0.12042,
+          "ev": -0.229893,
+          "qualifies": false
+        },
+        {
+          "market": "spread",
+          "side": "away",
+          "label": "WAS -10.5",
+          "model_prob": 0.59661,
+          "book_odds": -110.0,
+          "implied_prob": 0.52381,
+          "fair_odds": -148,
+          "edge": 0.072801,
+          "ev": 0.138983,
+          "qualifies": true
+        }
+      ],
+      "valueBets": [
+        {
+          "market": "spread",
+          "side": "away",
+          "label": "WAS -10.5",
+          "model_prob": 0.59661,
+          "book_odds": -110.0,
+          "implied_prob": 0.52381,
+          "fair_odds": -148,
+          "edge": 0.072801,
+          "ev": 0.138983,
+          "qualifies": true
+        }
+      ],
+      "bestBet": {
+        "market": "spread",
+        "side": "away",
+        "label": "WAS -10.5",
+        "model_prob": 0.59661,
+        "book_odds": -110.0,
+        "implied_prob": 0.52381,
+        "fair_odds": -148,
+        "edge": 0.072801,
+        "ev": 0.138983,
+        "qualifies": true
+      }
+    },
+    {
+      "id": "2024_17_CIN_ARI",
+      "season": 2024,
+      "week": 17,
+      "home": "ARI",
+      "away": "CIN",
+      "kickoff": "2024-09-18",
+      "projectedMargin": -17.7,
+      "projectedWinner": "CIN",
+      "fairSpread": -17.5,
+      "coinFlip": false,
+      "market": {
+        "spreadLine": -21.5,
+        "total": 43.0,
+        "homeMoneyline": 894,
+        "awayMoneyline": -6567,
+        "homeSpreadOdds": -110,
+        "awaySpreadOdds": -110,
+        "noVigHomeWin": 0.092671,
+        "noVigAwayWin": 0.907329
+      },
+      "moneyline": {
+        "homeWinProb": 0.104498,
+        "awayWinProb": 0.895502
+      },
+      "wagers": [
+        {
+          "market": "moneyline",
+          "side": "home",
+          "label": "ARI ML",
+          "model_prob": 0.104498,
+          "book_odds": 894.0,
+          "implied_prob": 0.100604,
+          "fair_odds": 857,
+          "edge": 0.003895,
+          "ev": 0.038712,
+          "qualifies": false
+        },
+        {
+          "market": "moneyline",
+          "side": "away",
+          "label": "CIN ML",
+          "model_prob": 0.895502,
+          "book_odds": -6567.0,
+          "implied_prob": 0.985001,
+          "fair_odds": -857,
+          "edge": -0.089499,
+          "ev": -0.090862,
+          "qualifies": false
+        },
+        {
+          "market": "spread",
+          "side": "home",
+          "label": "ARI +21.5",
+          "model_prob": 0.606282,
+          "book_odds": -110.0,
+          "implied_prob": 0.52381,
+          "fair_odds": -154,
+          "edge": 0.082472,
+          "ev": 0.157447,
+          "qualifies": true
+        },
+        {
+          "market": "spread",
+          "side": "away",
+          "label": "CIN -21.5",
+          "model_prob": 0.393718,
+          "book_odds": -110.0,
+          "implied_prob": 0.52381,
+          "fair_odds": 154,
+          "edge": -0.130091,
+          "ev": -0.248356,
+          "qualifies": false
+        }
+      ],
+      "valueBets": [
+        {
+          "market": "spread",
+          "side": "home",
+          "label": "ARI +21.5",
+          "model_prob": 0.606282,
+          "book_odds": -110.0,
+          "implied_prob": 0.52381,
+          "fair_odds": -154,
+          "edge": 0.082472,
+          "ev": 0.157447,
+          "qualifies": true
+        }
+      ],
+      "bestBet": {
+        "market": "spread",
+        "side": "home",
+        "label": "ARI +21.5",
+        "model_prob": 0.606282,
+        "book_odds": -110.0,
+        "implied_prob": 0.52381,
+        "fair_odds": -154,
+        "edge": 0.082472,
+        "ev": 0.157447,
+        "qualifies": true
+      }
+    },
+    {
+      "id": "2024_17_DEN_TB",
+      "season": 2024,
+      "week": 17,
+      "home": "TB",
+      "away": "DEN",
+      "kickoff": "2024-09-18",
+      "projectedMargin": -23.85,
+      "projectedWinner": "DEN",
+      "fairSpread": -24.0,
+      "coinFlip": false,
+      "market": {
+        "spreadLine": -24.5,
+        "total": 43.0,
+        "homeMoneyline": 1154,
+        "awayMoneyline": -6567,
+        "homeSpreadOdds": -110,
+        "awaySpreadOdds": -110,
+        "noVigHomeWin": 0.074896,
+        "noVigAwayWin": 0.925104
+      },
+      "moneyline": {
+        "homeWinProb": 0.045262,
+        "awayWinProb": 0.954738
+      },
+      "wagers": [
+        {
+          "market": "moneyline",
+          "side": "home",
+          "label": "TB ML",
+          "model_prob": 0.045262,
+          "book_odds": 1154.0,
+          "implied_prob": 0.079745,
+          "fair_odds": 2109,
+          "edge": -0.034482,
+          "ev": -0.432409,
+          "qualifies": false
+        },
+        {
+          "market": "moneyline",
+          "side": "away",
+          "label": "DEN ML",
+          "model_prob": 0.954738,
+          "book_odds": -6567.0,
+          "implied_prob": 0.985001,
+          "fair_odds": -2109,
+          "edge": -0.030263,
+          "ev": -0.030724,
+          "qualifies": false
+        },
+        {
+          "market": "spread",
+          "side": "home",
+          "label": "TB +24.5",
+          "model_prob": 0.518449,
+          "book_odds": -110.0,
+          "implied_prob": 0.52381,
+          "fair_odds": -108,
+          "edge": -0.005361,
+          "ev": -0.010234,
+          "qualifies": false
+        },
+        {
+          "market": "spread",
+          "side": "away",
+          "label": "DEN -24.5",
+          "model_prob": 0.481551,
+          "book_odds": -110.0,
+          "implied_prob": 0.52381,
+          "fair_odds": 108,
+          "edge": -0.042258,
+          "ev": -0.080675,
+          "qualifies": false
+        }
+      ],
+      "valueBets": [],
+      "bestBet": null
+    },
+    {
+      "id": "2024_17_KC_CHI",
+      "season": 2024,
+      "week": 17,
+      "home": "CHI",
+      "away": "KC",
+      "kickoff": "2024-09-18",
+      "projectedMargin": 2.38,
+      "projectedWinner": "CHI",
+      "fairSpread": 2.5,
+      "coinFlip": false,
+      "market": {
+        "spreadLine": 2.0,
+        "total": 48.5,
+        "homeMoneyline": -152,
+        "awayMoneyline": 106,
+        "homeSpreadOdds": -110,
+        "awaySpreadOdds": -110,
+        "noVigHomeWin": 0.554077,
+        "noVigAwayWin": 0.445923
+      },
+      "moneyline": {
+        "homeWinProb": 0.56706,
+        "awayWinProb": 0.43294
+      },
+      "wagers": [
+        {
+          "market": "moneyline",
+          "side": "home",
+          "label": "CHI ML",
+          "model_prob": 0.56706,
+          "book_odds": -152.0,
+          "implied_prob": 0.603175,
+          "fair_odds": -131,
+          "edge": -0.036115,
+          "ev": -0.059875,
+          "qualifies": false
+        },
+        {
+          "market": "moneyline",
+          "side": "away",
+          "label": "KC ML",
+          "model_prob": 0.43294,
+          "book_odds": 106.0,
+          "implied_prob": 0.485437,
+          "fair_odds": 131,
+          "edge": -0.052497,
+          "ev": -0.108143,
+          "qualifies": false
+        },
+        {
+          "market": "spread",
+          "side": "home",
+          "label": "CHI -2",
+          "model_prob": 0.510747,
+          "book_odds": -110.0,
+          "implied_prob": 0.52381,
+          "fair_odds": -104,
+          "edge": -0.013062,
+          "ev": -0.024937,
+          "qualifies": false
+        },
+        {
+          "market": "spread",
+          "side": "away",
+          "label": "KC +2",
+          "model_prob": 0.489253,
+          "book_odds": -110.0,
+          "implied_prob": 0.52381,
+          "fair_odds": 104,
+          "edge": -0.034557,
+          "ev": -0.065972,
+          "qualifies": false
+        }
+      ],
+      "valueBets": [],
+      "bestBet": null
+    },
+    {
+      "id": "2024_17_LAC_GB",
+      "season": 2024,
+      "week": 17,
+      "home": "GB",
+      "away": "LAC",
+      "kickoff": "2024-09-18",
+      "projectedMargin": -8.84,
+      "projectedWinner": "LAC",
+      "fairSpread": -9.0,
+      "coinFlip": false,
+      "market": {
+        "spreadLine": -10.0,
+        "total": 44.0,
+        "homeMoneyline": 264,
+        "awayMoneyline": -442,
+        "homeSpreadOdds": -110,
+        "awaySpreadOdds": -110,
+        "noVigHomeWin": 0.25199,
+        "noVigAwayWin": 0.74801
+      },
+      "moneyline": {
+        "homeWinProb": 0.26514,
+        "awayWinProb": 0.73486
+      },
+      "wagers": [
+        {
+          "market": "moneyline",
+          "side": "home",
+          "label": "GB ML",
+          "model_prob": 0.26514,
+          "book_odds": 264.0,
+          "implied_prob": 0.274725,
+          "fair_odds": 277,
+          "edge": -0.009585,
+          "ev": -0.03489,
+          "qualifies": false
+        },
+        {
+          "market": "moneyline",
+          "side": "away",
+          "label": "LAC ML",
+          "model_prob": 0.73486,
+          "book_odds": -442.0,
+          "implied_prob": 0.815498,
+          "fair_odds": -277,
+          "edge": -0.080638,
+          "ev": -0.098882,
+          "qualifies": false
+        },
+        {
+          "market": "spread",
+          "side": "home",
+          "label": "GB +10",
+          "model_prob": 0.532746,
+          "book_odds": -110.0,
+          "implied_prob": 0.52381,
+          "fair_odds": -114,
+          "edge": 0.008937,
+          "ev": 0.017061,
+          "qualifies": false
+        },
+        {
+          "market": "spread",
+          "side": "away",
+          "label": "LAC -10",
+          "model_prob": 0.467254,
+          "book_odds": -110.0,
+          "implied_prob": 0.52381,
+          "fair_odds": 114,
+          "edge": -0.056556,
+          "ev": -0.10797,
+          "qualifies": false
+        }
+      ],
+      "valueBets": [],
+      "bestBet": null
+    },
+    {
+      "id": "2024_17_BUF_NYJ",
+      "season": 2024,
+      "week": 17,
+      "home": "NYJ",
+      "away": "BUF",
+      "kickoff": "2024-09-18",
+      "projectedMargin": -0.57,
+      "projectedWinner": "BUF",
+      "fairSpread": -0.5,
+      "coinFlip": true,
+      "market": {
+        "spreadLine": -0.5,
+        "total": 43.5,
+        "homeMoneyline": -113,
+        "awayMoneyline": -127,
+        "homeSpreadOdds": -110,
+        "awaySpreadOdds": -110,
+        "noVigHomeWin": 0.486718,
+        "noVigAwayWin": 0.513282
+      },
+      "moneyline": {
+        "homeWinProb": 0.483969,
+        "awayWinProb": 0.516031
+      },
+      "wagers": [
+        {
+          "market": "moneyline",
+          "side": "home",
+          "label": "NYJ ML",
+          "model_prob": 0.483969,
+          "book_odds": -113.0,
+          "implied_prob": 0.530516,
+          "fair_odds": 107,
+          "edge": -0.046548,
+          "ev": -0.08774,
+          "qualifies": false
+        },
+        {
+          "market": "moneyline",
+          "side": "away",
+          "label": "BUF ML",
+          "model_prob": 0.516031,
+          "book_odds": -127.0,
+          "implied_prob": 0.559471,
+          "fair_odds": -107,
+          "edge": -0.04344,
+          "ev": -0.077645,
+          "qualifies": false
+        },
+        {
+          "market": "spread",
+          "side": "home",
+          "label": "NYJ +0.5",
+          "model_prob": 0.498122,
+          "book_odds": -110.0,
+          "implied_prob": 0.52381,
+          "fair_odds": 101,
+          "edge": -0.025688,
+          "ev": -0.04904,
+          "qualifies": false
+        },
+        {
+          "market": "spread",
+          "side": "away",
+          "label": "BUF -0.5",
+          "model_prob": 0.501878,
+          "book_odds": -110.0,
+          "implied_prob": 0.52381,
+          "fair_odds": -101,
+          "edge": -0.021931,
+          "ev": -0.041869,
+          "qualifies": false
+        }
+      ],
+      "valueBets": [],
+      "bestBet": null
+    },
+    {
+      "id": "2024_17_NYG_MIA",
+      "season": 2024,
+      "week": 17,
+      "home": "MIA",
+      "away": "NYG",
+      "kickoff": "2024-09-18",
+      "projectedMargin": 17.31,
+      "projectedWinner": "MIA",
+      "fairSpread": 17.5,
+      "coinFlip": false,
+      "market": {
+        "spreadLine": 17.5,
+        "total": 40.5,
+        "homeMoneyline": -1807,
+        "awayMoneyline": 602,
+        "homeSpreadOdds": -110,
+        "awaySpreadOdds": -110,
+        "noVigHomeWin": 0.869313,
+        "noVigAwayWin": 0.130687
+      },
+      "moneyline": {
+        "homeWinProb": 0.89045,
+        "awayWinProb": 0.10955
+      },
+      "wagers": [
+        {
+          "market": "moneyline",
+          "side": "home",
+          "label": "MIA ML",
+          "model_prob": 0.89045,
+          "book_odds": -1807.0,
+          "implied_prob": 0.947562,
+          "fair_odds": -813,
+          "edge": -0.057111,
+          "ev": -0.060272,
+          "qualifies": false
+        },
+        {
+          "market": "moneyline",
+          "side": "away",
+          "label": "NYG ML",
+          "model_prob": 0.10955,
+          "book_odds": 602.0,
+          "implied_prob": 0.14245,
+          "fair_odds": 813,
+          "edge": -0.0329,
+          "ev": -0.23096,
+          "qualifies": false
+        },
+        {
+          "market": "spread",
+          "side": "home",
+          "label": "MIA -17.5",
+          "model_prob": 0.494757,
+          "book_odds": -110.0,
+          "implied_prob": 0.52381,
+          "fair_odds": 102,
+          "edge": -0.029053,
+          "ev": -0.055465,
+          "qualifies": false
+        },
+        {
+          "market": "spread",
+          "side": "away",
+          "label": "NYG +17.5",
+          "model_prob": 0.505243,
+          "book_odds": -110.0,
+          "implied_prob": 0.52381,
+          "fair_odds": -102,
+          "edge": -0.018566,
+          "ev": -0.035444,
+          "qualifies": false
+        }
+      ],
+      "valueBets": [],
+      "bestBet": null
+    },
+    {
+      "id": "2024_17_HOU_LAR",
+      "season": 2024,
+      "week": 17,
+      "home": "LAR",
+      "away": "HOU",
+      "kickoff": "2024-09-18",
+      "projectedMargin": 22.35,
+      "projectedWinner": "LAR",
+      "fairSpread": 22.5,
+      "coinFlip": false,
+      "market": {
+        "spreadLine": 24.5,
+        "total": 48.0,
+        "homeMoneyline": -6567,
+        "awayMoneyline": 1154,
+        "homeSpreadOdds": -110,
+        "awaySpreadOdds": -110,
+        "noVigHomeWin": 0.925104,
+        "noVigAwayWin": 0.074896
+      },
+      "moneyline": {
+        "homeWinProb": 0.943691,
+        "awayWinProb": 0.056309
+      },
+      "wagers": [
+        {
+          "market": "moneyline",
+          "side": "home",
+          "label": "LAR ML",
+          "model_prob": 0.943691,
+          "book_odds": -6567.0,
+          "implied_prob": 0.985001,
+          "fair_odds": -1676,
+          "edge": -0.04131,
+          "ev": -0.041939,
+          "qualifies": false
+        },
+        {
+          "market": "moneyline",
+          "side": "away",
+          "label": "HOU ML",
+          "model_prob": 0.056309,
+          "book_odds": 1154.0,
+          "implied_prob": 0.079745,
+          "fair_odds": 1676,
+          "edge": -0.023435,
+          "ev": -0.293879,
+          "qualifies": false
+        },
+        {
+          "market": "spread",
+          "side": "home",
+          "label": "LAR -24.5",
+          "model_prob": 0.439449,
+          "book_odds": -110.0,
+          "implied_prob": 0.52381,
+          "fair_odds": 128,
+          "edge": -0.08436,
+          "ev": -0.161051,
+          "qualifies": false
+        },
+        {
+          "market": "spread",
+          "side": "away",
+          "label": "HOU +24.5",
+          "model_prob": 0.560551,
+          "book_odds": -110.0,
+          "implied_prob": 0.52381,
+          "fair_odds": -128,
+          "edge": 0.036741,
+          "ev": 0.070142,
+          "qualifies": true
+        }
+      ],
+      "valueBets": [
+        {
+          "market": "spread",
+          "side": "away",
+          "label": "HOU +24.5",
+          "model_prob": 0.560551,
+          "book_odds": -110.0,
+          "implied_prob": 0.52381,
+          "fair_odds": -128,
+          "edge": 0.036741,
+          "ev": 0.070142,
+          "qualifies": true
+        }
+      ],
+      "bestBet": {
+        "market": "spread",
+        "side": "away",
+        "label": "HOU +24.5",
+        "model_prob": 0.560551,
+        "book_odds": -110.0,
+        "implied_prob": 0.52381,
+        "fair_odds": -128,
+        "edge": 0.036741,
+        "ev": 0.070142,
+        "qualifies": true
+      }
+    },
+    {
+      "id": "2024_17_LV_SF",
+      "season": 2024,
+      "week": 17,
+      "home": "SF",
+      "away": "LV",
+      "kickoff": "2024-09-18",
+      "projectedMargin": -2.32,
+      "projectedWinner": "LV",
+      "fairSpread": -2.5,
+      "coinFlip": false,
+      "market": {
+        "spreadLine": -2.0,
+        "total": 44.5,
+        "homeMoneyline": 106,
+        "awayMoneyline": -152,
+        "homeSpreadOdds": -110,
+        "awaySpreadOdds": -110,
+        "noVigHomeWin": 0.445923,
+        "noVigAwayWin": 0.554077
+      },
+      "moneyline": {
+        "homeWinProb": 0.434591,
+        "awayWinProb": 0.565409
+      },
+      "wagers": [
+        {
+          "market": "moneyline",
+          "side": "home",
+          "label": "SF ML",
+          "model_prob": 0.434591,
+          "book_odds": 106.0,
+          "implied_prob": 0.485437,
+          "fair_odds": 130,
+          "edge": -0.050846,
+          "ev": -0.104742,
+          "qualifies": false
+        },
+        {
+          "market": "moneyline",
+          "side": "away",
+          "label": "LV ML",
+          "model_prob": 0.565409,
+          "book_odds": -152.0,
+          "implied_prob": 0.603175,
+          "fair_odds": -130,
+          "edge": -0.037766,
+          "ev": -0.062612,
+          "qualifies": false
+        },
+        {
+          "market": "spread",
+          "side": "home",
+          "label": "SF +2",
+          "model_prob": 0.490926,
+          "book_odds": -110.0,
+          "implied_prob": 0.52381,
+          "fair_odds": 104,
+          "edge": -0.032883,
+          "ev": -0.062777,
+          "qualifies": false
+        },
+        {
+          "market": "spread",
+          "side": "away",
+          "label": "LV -2",
+          "model_prob": 0.509074,
+          "book_odds": -110.0,
+          "implied_prob": 0.52381,
+          "fair_odds": -104,
+          "edge": -0.014736,
+          "ev": -0.028132,
+          "qualifies": false
+        }
+      ],
+      "valueBets": [],
+      "bestBet": null
+    },
+    {
+      "id": "2024_17_CAR_CLE",
+      "season": 2024,
+      "week": 17,
+      "home": "CLE",
+      "away": "CAR",
+      "kickoff": "2024-09-18",
+      "projectedMargin": -0.38,
+      "projectedWinner": "CAR",
+      "fairSpread": -0.5,
+      "coinFlip": true,
+      "market": {
+        "spreadLine": -1.5,
+        "total": 44.0,
+        "homeMoneyline": -100,
+        "awayMoneyline": -143,
+        "homeSpreadOdds": -110,
+        "awaySpreadOdds": -110,
+        "noVigHomeWin": 0.459357,
+        "noVigAwayWin": 0.540643
+      },
+      "moneyline": {
+        "homeWinProb": 0.489237,
+        "awayWinProb": 0.510763
+      },
+      "wagers": [
+        {
+          "market": "moneyline",
+          "side": "home",
+          "label": "CLE ML",
+          "model_prob": 0.489237,
+          "book_odds": -100.0,
+          "implied_prob": 0.5,
+          "fair_odds": 104,
+          "edge": -0.010763,
+          "ev": -0.021525,
+          "qualifies": false
+        },
+        {
+          "market": "moneyline",
+          "side": "away",
+          "label": "CAR ML",
+          "model_prob": 0.510763,
+          "book_odds": -143.0,
+          "implied_prob": 0.588477,
+          "fair_odds": -104,
+          "edge": -0.077715,
+          "ev": -0.132061,
+          "qualifies": false
+        },
+        {
+          "market": "spread",
+          "side": "home",
+          "label": "CLE +1.5",
+          "model_prob": 0.531675,
+          "book_odds": -110.0,
+          "implied_prob": 0.52381,
+          "fair_odds": -114,
+          "edge": 0.007866,
+          "ev": 0.015016,
+          "qualifies": false
+        },
+        {
+          "market": "spread",
+          "side": "away",
+          "label": "CAR -1.5",
+          "model_prob": 0.468325,
+          "book_odds": -110.0,
+          "implied_prob": 0.52381,
+          "fair_odds": 114,
+          "edge": -0.055485,
+          "ev": -0.105925,
+          "qualifies": false
+        }
+      ],
+      "valueBets": [],
+      "bestBet": null
+    },
+    {
+      "id": "2024_17_NO_TEN",
+      "season": 2024,
+      "week": 17,
+      "home": "TEN",
+      "away": "NO",
+      "kickoff": "2024-09-18",
+      "projectedMargin": -2.89,
+      "projectedWinner": "NO",
+      "fairSpread": -3.0,
+      "coinFlip": false,
+      "market": {
+        "spreadLine": -3.0,
+        "total": 46.0,
+        "homeMoneyline": 119,
+        "awayMoneyline": -172,
+        "homeSpreadOdds": -110,
+        "awaySpreadOdds": -110,
+        "noVigHomeWin": 0.419313,
+        "noVigAwayWin": 0.580687
+      },
+      "moneyline": {
+        "homeWinProb": 0.41868,
+        "awayWinProb": 0.58132
+      },
+      "wagers": [
+        {
+          "market": "moneyline",
+          "side": "home",
+          "label": "TEN ML",
+          "model_prob": 0.41868,
+          "book_odds": 119.0,
+          "implied_prob": 0.456621,
+          "fair_odds": 139,
+          "edge": -0.037941,
+          "ev": -0.083092,
+          "qualifies": false
+        },
+        {
+          "market": "moneyline",
+          "side": "away",
+          "label": "NO ML",
+          "model_prob": 0.58132,
+          "book_odds": -172.0,
+          "implied_prob": 0.632353,
+          "fair_odds": -139,
+          "edge": -0.051032,
+          "ev": -0.080702,
+          "qualifies": false
+        },
+        {
+          "market": "spread",
+          "side": "home",
+          "label": "TEN +3",
+          "model_prob": 0.503053,
+          "book_odds": -110.0,
+          "implied_prob": 0.52381,
+          "fair_odds": -101,
+          "edge": -0.020756,
+          "ev": -0.039626,
+          "qualifies": false
+        },
+        {
+          "market": "spread",
+          "side": "away",
+          "label": "NO -3",
+          "model_prob": 0.496947,
+          "book_odds": -110.0,
+          "implied_prob": 0.52381,
+          "fair_odds": 101,
+          "edge": -0.026863,
+          "ev": -0.051283,
+          "qualifies": false
+        }
+      ],
+      "valueBets": [],
+      "bestBet": null
+    },
+    {
+      "id": "2024_17_PIT_ATL",
+      "season": 2024,
+      "week": 17,
+      "home": "ATL",
+      "away": "PIT",
+      "kickoff": "2024-09-18",
+      "projectedMargin": 18.16,
+      "projectedWinner": "ATL",
+      "fairSpread": 18.0,
+      "coinFlip": false,
+      "market": {
+        "spreadLine": 21.0,
+        "total": 41.0,
+        "homeMoneyline": -6567,
+        "awayMoneyline": 853,
+        "homeSpreadOdds": -110,
+        "awaySpreadOdds": -110,
+        "noVigHomeWin": 0.903726,
+        "noVigAwayWin": 0.096274
+      },
+      "moneyline": {
+        "homeWinProb": 0.901252,
+        "awayWinProb": 0.098748
+      },
+      "wagers": [
+        {
+          "market": "moneyline",
+          "side": "home",
+          "label": "ATL ML",
+          "model_prob": 0.901252,
+          "book_odds": -6567.0,
+          "implied_prob": 0.985001,
+          "fair_odds": -913,
+          "edge": -0.083749,
+          "ev": -0.085024,
+          "qualifies": false
+        },
+        {
+          "market": "moneyline",
+          "side": "away",
+          "label": "PIT ML",
+          "model_prob": 0.098748,
+          "book_odds": 853.0,
+          "implied_prob": 0.104932,
+          "fair_odds": 913,
+          "edge": -0.006184,
+          "ev": -0.05893,
+          "qualifies": false
+        },
+        {
+          "market": "spread",
+          "side": "home",
+          "label": "ATL -21",
+          "model_prob": 0.42005,
+          "book_odds": -110.0,
+          "implied_prob": 0.52381,
+          "fair_odds": 138,
+          "edge": -0.103759,
+          "ev": -0.198086,
+          "qualifies": false
+        },
+        {
+          "market": "spread",
+          "side": "away",
+          "label": "PIT +21",
+          "model_prob": 0.57995,
+          "book_odds": -110.0,
+          "implied_prob": 0.52381,
+          "fair_odds": -138,
+          "edge": 0.05614,
+          "ev": 0.107177,
+          "qualifies": true
+        }
+      ],
+      "valueBets": [
+        {
+          "market": "spread",
+          "side": "away",
+          "label": "PIT +21",
+          "model_prob": 0.57995,
+          "book_odds": -110.0,
+          "implied_prob": 0.52381,
+          "fair_odds": -138,
+          "edge": 0.05614,
+          "ev": 0.107177,
+          "qualifies": true
+        }
+      ],
+      "bestBet": {
+        "market": "spread",
+        "side": "away",
+        "label": "PIT +21",
+        "model_prob": 0.57995,
+        "book_odds": -110.0,
+        "implied_prob": 0.52381,
+        "fair_odds": -138,
+        "edge": 0.05614,
+        "ev": 0.107177,
+        "qualifies": true
+      }
+    }
+  ]
+}
