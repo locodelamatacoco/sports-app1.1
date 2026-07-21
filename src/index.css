@@ -1416,3 +1416,10 @@ body,
   color: #4caf50;
   font-weight: 700;
 }
+
+.ufc-est-tag {
+  color: #ffb300;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+}

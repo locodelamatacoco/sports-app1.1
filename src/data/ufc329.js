@@ -4,7 +4,7 @@
 // Main-card matchups with stat profiles built from public career stats and
 // recent form as of fight week. Moneylines and main-event method props are
 // sourced from sportsbooks (DraftKings/consensus via covers.com, CBS Sports,
-// Yahoo); prop prices marked `propsEstimated` were not directly sourced and
+// Yahoo); prices listed in `estimatedMarkets` were not directly sourced and
 // are fight-week estimates — treat those edges as indicative only.
 
 export const UFC_329_CARD = {
@@ -18,7 +18,7 @@ export const UFC_329_CARD = {
       // 91% of handle is on McGregor and the line has crashed from -480s
       // to about -235 on Holloway — classic public steam on the name brand.
       publicTrap: false,
-      propsEstimated: ['goesDistance', 'totalRounds', 'decB-ish'],
+      estimatedMarkets: ['goesDistance', 'totalRounds', 'subA', 'decA'],
       notes:
         'McGregor returns from a 5-year layoff at 37; Holloway (27-9) debuts at welterweight after a decision loss to Oliveira in March. Book MLs and McGregor/Holloway KO-dec-sub props sourced; distance and round-total prices estimated.',
       result: {
@@ -133,7 +133,7 @@ export const UFC_329_CARD = {
       division: 'Lightweight',
       rounds: 3,
       publicTrap: false,
-      propsEstimated: ['method props', 'goesDistance'],
+      estimatedMarkets: ['goesDistance', 'koA', 'koB', 'subA', 'subB', 'decA', 'decB'],
       notes:
         'Saint Denis rides a four-fight finish streak (all inside two rounds); Pimblett returns from a 15-month layoff after stopping Chandler. MLs and under 2.5 (-160) sourced; method props estimated.',
       result: {
@@ -249,7 +249,7 @@ export const UFC_329_CARD = {
       // 60% of bets / 81% of handle on the underdog Bautista — the dog is
       // the public side here, not the favorite, so no trap flag.
       publicTrap: false,
-      propsEstimated: ['all props'],
+      estimatedMarkets: ['goesDistance', 'totalRounds', 'koA', 'koB', 'subA', 'subB', 'decA', 'decB'],
       notes:
         'Sandhagen returns from his failed title bid against Dvalishvili; Bautista is 9-1 in his last 10 and submitted Vinicius Oliveira in February. MLs sourced (DK); props estimated.',
       result: {
@@ -363,7 +363,7 @@ export const UFC_329_CARD = {
       division: 'Flyweight',
       rounds: 3,
       publicTrap: false,
-      propsEstimated: ['all props'],
+      estimatedMarkets: ['goesDistance', 'totalRounds', 'koA', 'koB', 'subA', 'subB', 'decA', 'decB'],
       notes:
         'Royval on a two-fight slide (FOTY loss to Van, R1 stoppage vs Kape in December); Kavanagh is an unbeaten rising striker. 80% of handle on Kavanagh. MLs sourced; props estimated.',
       result: {
@@ -477,7 +477,7 @@ export const UFC_329_CARD = {
       division: 'Lightweight',
       rounds: 3,
       publicTrap: false,
-      propsEstimated: ['all props'],
+      estimatedMarkets: ['goesDistance', 'totalRounds', 'koA', 'koB', 'subA', 'subB', 'decA', 'decB'],
       notes:
         'Green just turned 40 and has absorbed heavy damage in recent fights; McKinney is an all-or-nothing round-one finisher with notorious cardio. MLs sourced; props estimated.',
       result: {

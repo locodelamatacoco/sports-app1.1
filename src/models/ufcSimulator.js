@@ -36,6 +36,15 @@ export const BET_RULES = {
   COIN_FLIP_BAND: [0.47, 0.53], // model win prob band treated as a coin flip
   HUGE_FAVORITE_IMPLIED: 0.8, // implied prob above which value must be present
   LOW_VOLUME_SLPM: 2.2, // combined striking+grappling output floor
+  // Market-blend shrinkage: the closing line is the prior, the simulation is
+  // an adjustment to it. Motivated by UFC 329 + OKC, where every large
+  // model-vs-market divergence resolved in the market's favor (4-14 on bets
+  // despite 5/9 predicted winners): raw simulation edges are mostly input
+  // error, not market error.
+  MARKET_BLEND_BASE: 0.6, // weight on the market's probability
+  LOW_SAMPLE_BLEND_BONUS: 0.1, // extra market weight when a fighter is <5 UFC fights
+  ESTIMATED_PRICE_BLEND_BONUS: 0.1, // extra market weight on unsourced prices
+  MAX_BETS_PER_FIGHT: 2, // stop stacking correlated bets on one opinion
 };
 
 // ---------------------------------------------------------------------------
@@ -555,15 +564,26 @@ export function betUnits(bet, outcome) {
 // Edge detection + bet selection
 // ---------------------------------------------------------------------------
 
-function edgeRow(label, modelProb, bookOdds) {
+// A market row. The betting edge is computed from the BLENDED probability —
+// market prior shrunk toward the simulation — not the raw model number. For
+// moneylines the prior is the vig-free market probability; for one-sided
+// props it's the raw implied probability (conservative: overstates the
+// market's true number, shrinking edges further).
+function edgeRow(label, modelProb, bookOdds, opts = {}) {
+  const { marketProb = null, marketWeight = 0, estimated = false } = opts;
   const implied = americanToProb(bookOdds);
+  const prior = marketProb ?? implied;
+  const blendProb = marketWeight * prior + (1 - marketWeight) * modelProb;
   return {
     label,
     modelProb,
+    blendProb,
     bookOdds,
     implied,
-    edge: modelProb - implied,
-    fairOdds: probToAmerican(modelProb),
+    estimated,
+    edge: blendProb - implied,
+    modelEdge: modelProb - implied,
+    fairOdds: probToAmerican(blendProb),
   };
 }
 
@@ -580,19 +600,36 @@ export function analyzeFight(fight, { numSims = 10000, seed = 42 } = {}) {
     americanToProb(odds.moneylineB),
   ]);
 
+  // Market weight per row: base blend, plus extra shrinkage when either
+  // fighter has a tiny UFC sample (worst input quality) or the price itself
+  // is a fight-week estimate rather than a sourced number.
+  const estimatedSet = new Set(fight.estimatedMarkets || []);
+  const lowSample =
+    Math.min(fight.fighterA.factors.ufcFights, fight.fighterB.factors.ufcFights) < 5;
+  const baseWeight =
+    BET_RULES.MARKET_BLEND_BASE + (lowSample ? BET_RULES.LOW_SAMPLE_BLEND_BONUS : 0);
+  const opts = (key, marketProb = null) => ({
+    marketProb,
+    marketWeight: Math.min(
+      baseWeight + (estimatedSet.has(key) ? BET_RULES.ESTIMATED_PRICE_BLEND_BONUS : 0),
+      0.9
+    ),
+    estimated: estimatedSet.has(key),
+  });
+
   const markets = [
-    edgeRow(`${fight.fighterA.name} ML`, probs.aWin, odds.moneylineA),
-    edgeRow(`${fight.fighterB.name} ML`, probs.bWin, odds.moneylineB),
-    edgeRow('Fight goes distance — Yes', probs.goesDistance, odds.goesDistance.yes),
-    edgeRow('Fight goes distance — No', 1 - probs.goesDistance, odds.goesDistance.no),
-    edgeRow(`Over ${odds.totalRounds.line} rounds`, probs.overRounds, odds.totalRounds.over),
-    edgeRow(`Under ${odds.totalRounds.line} rounds`, probs.underRounds, odds.totalRounds.under),
-    edgeRow(`${fight.fighterA.name} by KO/TKO`, probs.aKO, odds.props.koA),
-    edgeRow(`${fight.fighterB.name} by KO/TKO`, probs.bKO, odds.props.koB),
-    edgeRow(`${fight.fighterA.name} by Submission`, probs.aSub, odds.props.subA),
-    edgeRow(`${fight.fighterB.name} by Submission`, probs.bSub, odds.props.subB),
-    edgeRow(`${fight.fighterA.name} by Decision`, probs.aDec, odds.props.decA),
-    edgeRow(`${fight.fighterB.name} by Decision`, probs.bDec, odds.props.decB),
+    edgeRow(`${fight.fighterA.name} ML`, probs.aWin, odds.moneylineA, opts('moneylineA', mktA)),
+    edgeRow(`${fight.fighterB.name} ML`, probs.bWin, odds.moneylineB, opts('moneylineB', mktB)),
+    edgeRow('Fight goes distance — Yes', probs.goesDistance, odds.goesDistance.yes, opts('goesDistance')),
+    edgeRow('Fight goes distance — No', 1 - probs.goesDistance, odds.goesDistance.no, opts('goesDistance')),
+    edgeRow(`Over ${odds.totalRounds.line} rounds`, probs.overRounds, odds.totalRounds.over, opts('totalRounds')),
+    edgeRow(`Under ${odds.totalRounds.line} rounds`, probs.underRounds, odds.totalRounds.under, opts('totalRounds')),
+    edgeRow(`${fight.fighterA.name} by KO/TKO`, probs.aKO, odds.props.koA, opts('koA')),
+    edgeRow(`${fight.fighterB.name} by KO/TKO`, probs.bKO, odds.props.koB, opts('koB')),
+    edgeRow(`${fight.fighterA.name} by Submission`, probs.aSub, odds.props.subA, opts('subA')),
+    edgeRow(`${fight.fighterB.name} by Submission`, probs.bSub, odds.props.subB, opts('subB')),
+    edgeRow(`${fight.fighterA.name} by Decision`, probs.aDec, odds.props.decA, opts('decA')),
+    edgeRow(`${fight.fighterB.name} by Decision`, probs.bDec, odds.props.decB, opts('decB')),
   ];
 
   // --- Filters: avoid coin flips, public traps, huge no-value favorites ---
@@ -608,16 +645,20 @@ export function analyzeFight(fight, { numSims = 10000, seed = 42 } = {}) {
       avoidReasons.push('Huge favorite with no value at the posted price');
   }
 
-  // --- Qualify bets: favorites need >=5% edge, dogs >=7%, confidence >=6.5 ---
+  // --- Qualify bets: favorites need >=5% blended edge, dogs >=7%,
+  // confidence >=6.5, sourced prices only, max 2 bets per fight ---
   const qualifies = (row) => {
+    if (row.estimated) return false; // never bet a price we invented ourselves
     if (confidence.score < BET_RULES.MIN_CONFIDENCE) return false;
     const isUnderdogPrice = row.bookOdds > 0;
     const minEdge = isUnderdogPrice ? BET_RULES.MIN_UNDERDOG_EDGE : BET_RULES.MIN_FAVORITE_EDGE;
     return row.edge >= minEdge;
   };
-  const valueBets = avoidReasons.some((r) => r.startsWith('Coin-flip'))
-    ? markets.filter((row) => qualifies(row) && !row.label.includes(' ML')).sort((x, y) => y.edge - x.edge)
-    : markets.filter(qualifies).sort((x, y) => y.edge - x.edge);
+  const isCoinFlip = avoidReasons.some((r) => r.startsWith('Coin-flip'));
+  const valueBets = markets
+    .filter((row) => qualifies(row) && !(isCoinFlip && row.label.includes(' ML')))
+    .sort((x, y) => y.edge - x.edge)
+    .slice(0, BET_RULES.MAX_BETS_PER_FIGHT);
 
   // --- Headline summary fields ---
   const winner = probs.aWin >= probs.bWin ? fight.fighterA : fight.fighterB;

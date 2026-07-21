@@ -16,7 +16,7 @@ export const UFC_OKC_CARD = {
       division: 'Middleweight',
       rounds: 5,
       publicTrap: false,
-      propsEstimated: ['all props except the 3.5 round line'],
+      estimatedMarkets: ['goesDistance', 'totalRounds', 'koA', 'koB', 'subA', 'subB', 'decA', 'decB'],
       notes:
         "du Plessis' first fight since Chimaev took his belt and exposed his takedown defense; Usman is 39, moving up from welterweight after 13 months off, but remains an elite wrestler with a champion's control game. MLs and the 3.5 total sourced; other props estimated.",
       result: {
@@ -130,7 +130,7 @@ export const UFC_OKC_CARD = {
       division: 'Middleweight',
       rounds: 3,
       publicTrap: false,
-      propsEstimated: ['all props'],
+      estimatedMarkets: ['goesDistance', 'totalRounds', 'koA', 'koB', 'subA', 'subB', 'decA', 'decB'],
       notes:
         'Duncan rides a four-fight streak (three 2025 wins incl. back-to-back spinning-attack finishes, then a decision over Dolidze in March); Cannonier is 42, in year 12 on the roster, and has split his last six. MLs sourced; props estimated.',
       result: {
@@ -244,7 +244,7 @@ export const UFC_OKC_CARD = {
       division: 'Lightweight',
       rounds: 3,
       publicTrap: false,
-      propsEstimated: ['all props'],
+      estimatedMarkets: ['goesDistance', 'totalRounds', 'koA', 'koB', 'subA', 'subB', 'decA', 'decB'],
       notes:
         'Hooper, 26, has grown from teenage prospect into a legitimate submission machine on a long win streak; Ramirez is a hittable brawler with three UFC fights. MLs sourced; props estimated.',
       result: {
@@ -359,7 +359,7 @@ export const UFC_OKC_CARD = {
       division: 'Featherweight',
       rounds: 3,
       publicTrap: false,
-      propsEstimated: ['all props'],
+      estimatedMarkets: ['goesDistance', 'totalRounds', 'koA', 'koB', 'subA', 'subB', 'decA', 'decB'],
       notes:
         'Two Contender Series-era prospects with tiny UFC samples — exactly the kind of fight the model is built to pass on. Stat profiles here carry the most uncertainty on the card. MLs sourced; props estimated.',
       result: {

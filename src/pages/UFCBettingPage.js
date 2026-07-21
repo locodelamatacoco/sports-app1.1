@@ -25,8 +25,10 @@ function PropLine({ title, row }) {
   return (
     <li>
       <span className="ufc-prop-title">{title}:</span> {row.label} — model{' '}
-      {pct(row.modelProb)} vs book {formatAmerican(row.bookOdds)} (implied{' '}
-      {pct(row.implied)}) <EdgeTag edge={row.edge} />
+      {pct(row.modelProb)}, blended {pct(row.blendProb)} vs book{' '}
+      {formatAmerican(row.bookOdds)}
+      {row.estimated ? ' (est. price)' : ''} (implied {pct(row.implied)}){' '}
+      <EdgeTag edge={row.edge} />
     </li>
   );
 }
@@ -231,6 +233,7 @@ function FightCard({ analysis }) {
         <div><strong>Implied Odds:</strong> {formatAmerican(summary.impliedOdds)} (fair price)</div>
         <div>
           <strong>Betting Edge:</strong> <EdgeTag edge={summary.bettingEdge} /> vs moneyline
+          (blended)
         </div>
         <div>
           <strong>Confidence Score:</strong> {summary.confidenceScore.toFixed(1)}/10
@@ -283,8 +286,8 @@ function FightCard({ analysis }) {
           <ul className="ufc-prop-list">
             {valueBets.map((v) => (
               <li key={v.label}>
-                {v.label} {formatAmerican(v.bookOdds)} — model {pct(v.modelProb)} vs implied{' '}
-                {pct(v.implied)} <EdgeTag edge={v.edge} />
+                {v.label} {formatAmerican(v.bookOdds)} — model {pct(v.modelProb)}, blended{' '}
+                {pct(v.blendProb)} vs implied {pct(v.implied)} <EdgeTag edge={v.edge} />
               </li>
             ))}
           </ul>
@@ -306,6 +309,7 @@ function FightCard({ analysis }) {
                 <tr>
                   <th>Market</th>
                   <th>Model %</th>
+                  <th>Blend %</th>
                   <th>Fair Odds</th>
                   <th>Book</th>
                   <th>Implied %</th>
@@ -317,8 +321,12 @@ function FightCard({ analysis }) {
                   <tr key={m.label}>
                     <td>{m.label}</td>
                     <td>{pct(m.modelProb)}</td>
+                    <td>{pct(m.blendProb)}</td>
                     <td>{formatAmerican(m.fairOdds)}</td>
-                    <td>{formatAmerican(m.bookOdds)}</td>
+                    <td>
+                      {formatAmerican(m.bookOdds)}
+                      {m.estimated ? <span className="ufc-est-tag"> est.</span> : ''}
+                    </td>
                     <td>{pct(m.implied)}</td>
                     <td><EdgeTag edge={m.edge} /></td>
                   </tr>
@@ -428,7 +436,8 @@ export default function UFCBettingPage() {
           {running ? 'Simulating…' : '↻ Re-run simulations'}
         </button>
         <span className="ufc-bet-rules">
-          Bet rules: favorites ≥5% edge · underdogs ≥7% edge · confidence ≥6.5/10
+          Bet rules: market-blended edges (closing line is the prior) · favorites ≥5% ·
+          underdogs ≥7% · confidence ≥6.5/10 · sourced prices only · max 2 bets/fight
         </span>
       </div>
 

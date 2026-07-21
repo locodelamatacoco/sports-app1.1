@@ -123,6 +123,44 @@ describe('analyzeFight', () => {
       expect(analysis.confidence.score).toBeGreaterThanOrEqual(BET_RULES.MIN_CONFIDENCE);
     }
   });
+
+  test('blending shrinks edges toward the market', () => {
+    analysis.markets.forEach((row) => {
+      expect(Math.abs(row.edge)).toBeLessThanOrEqual(Math.abs(row.modelEdge) + 1e-9);
+      const lo = Math.min(row.modelProb, row.blendProb);
+      const hi = Math.max(row.modelProb, row.blendProb);
+      // blended prob sits between the model and the market prior
+      expect(row.blendProb).toBeGreaterThanOrEqual(Math.min(lo, row.implied) - 1e-9);
+      expect(row.blendProb).toBeLessThanOrEqual(Math.max(hi, row.implied) + 1e-9);
+    });
+  });
+});
+
+describe('market-blend bet discipline', () => {
+  const cards = [
+    ...analyzeCard(UFC_CARD.fights, { numSims: 4000, seed: 42 }),
+    ...analyzeCard(UFC_329_CARD.fights, { numSims: 4000, seed: 42 }),
+  ];
+
+  test('estimated prices are never bet', () => {
+    cards.forEach((r) => r.valueBets.forEach((bet) => expect(bet.estimated).toBe(false)));
+  });
+
+  test('estimated markets are flagged on the board', () => {
+    const main329 = cards.find((r) => r.fight.id === 'ufc329-main');
+    const flagged = main329.markets.filter((m) => m.estimated).map((m) => m.label);
+    expect(flagged.join(' | ')).toMatch(/distance/);
+    expect(flagged.join(' | ')).toMatch(/rounds/);
+    // sourced main-event method props stay biddable
+    const holKO = main329.markets.find((m) => m.label === 'Max Holloway by KO/TKO');
+    expect(holKO.estimated).toBe(false);
+  });
+
+  test('no fight carries more than the per-fight bet cap', () => {
+    cards.forEach((r) =>
+      expect(r.valueBets.length).toBeLessThanOrEqual(BET_RULES.MAX_BETS_PER_FIGHT)
+    );
+  });
 });
 
 describe('results grading', () => {

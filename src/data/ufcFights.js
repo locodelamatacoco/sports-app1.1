@@ -98,8 +98,8 @@ export const UFC_CARD = {
         },
       },
       odds: {
-        moneylineA: 120, // book has the champ Volkov favored; model likes the dog's cardio
-        moneylineB: -140,
+        moneylineA: 165, // book has the champ Volkov favored; model likes the dog's cardio
+        moneylineB: -195,
         goesDistance: { yes: 130, no: -160 },
         totalRounds: { line: 3.5, over: -115, under: -105 },
         props: {
@@ -203,7 +203,7 @@ export const UFC_CARD = {
         },
       },
       odds: {
-        moneylineA: -125,
+        moneylineA: -115,
         moneylineB: 105,
         goesDistance: { yes: -140, no: 115 },
         totalRounds: { line: 2.5, over: -150, under: 125 },
@@ -308,8 +308,8 @@ export const UFC_CARD = {
         },
       },
       odds: {
-        moneylineA: -230,
-        moneylineB: 190,
+        moneylineA: -170,
+        moneylineB: 145,
         goesDistance: { yes: -190, no: 155 },
         totalRounds: { line: 2.5, over: -220, under: 175 },
         props: {
@@ -521,7 +521,7 @@ export const UFC_CARD = {
         moneylineA: -110, // dead-even matchup — the model should pass
         moneylineB: -110,
         goesDistance: { yes: -175, no: 145 },
-        totalRounds: { line: 2.5, over: -190, under: 155 },
+        totalRounds: { line: 2.5, over: -150, under: 125 },
         props: {
           koA: 500,
           koB: 500,
