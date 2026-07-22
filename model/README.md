@@ -12,7 +12,7 @@ Then it compares those probabilities to the sportsbook's prices and flags the
 wagers with a positive expected value (EV > 0). It's the football sibling of the
 UFC Monte Carlo model in `src/models/ufcSimulator.js` — same idea (project an
 outcome distribution once, price every market against it), and it reuses the
-exact same American-odds math so the numbers line up with the frontend.
+exact same American-odds math so the two models agree to the cent.
 
 ---
 
@@ -66,7 +66,7 @@ slate* using moneylines/spreads pulled straight from ESPN (`--slate espn`):
 
 ```bash
 # current week, whatever book ESPN lists first
-python -m scripts.train_and_export --slate espn --out ../src/data/nflEdges.sample.json
+python -m scripts.train_and_export --slate espn --out output/nfl_edges.json
 
 # a specific week, preferring a named book
 python -m scripts.train_and_export --slate espn \
@@ -109,7 +109,7 @@ are small and most of the slate offers no value.
 | Model | `nfl_model/model.py` | Standardize → Ridge; alpha auto-tuned by time-series CV; measures residual σ. |
 | Probabilities | `nfl_model/distribution.py` | Projected margin → cover prob + win prob via the normal CDF. |
 | Edges | `nfl_model/edges.py` | Model prob vs book price → edge, EV, value-bet gate. |
-| Export | `nfl_model/export.py` | JSON payload for the React frontend. |
+| Export | `nfl_model/export.py` | JSON payload written alongside the CLI table. |
 
 ### Leakage safety (the thing that quietly ruins these models)
 
@@ -162,54 +162,39 @@ target's benchmark and what you measure edges against.
 
 ---
 
-## Wiring it into the React app
+## Reading the output
 
-The Python side writes JSON; the frontend just reads it. A committed sample
-lives at [`src/data/nflEdges.sample.json`](../src/data/nflEdges.sample.json).
+This is a standalone command-line tool — no app required. Each run does two
+things:
 
-An `NFLBettingPage` mirrors `UFCBettingPage` — import the JSON, map over
-`games`, and render each with the odds helpers you already have:
+1. **Prints the slate as a table** in your terminal (the main deliverable):
 
-```jsx
-// src/pages/NFLBettingPage.js  (sketch)
-import edges from '../data/nflEdges.sample.json';
-import { formatAmerican } from '../models/ufcSimulator'; // same odds math
+   ```
+   MATCHUP           PROJ    SPREAD   HOME ML  BEST VALUE BET
+   ------------------------------------------------------------------------
+   JAX @ DET         +0.8      -2.5      +112  DET +2.5 -110 (edge +6.7%, EV +12.9%)
+   WAS @ BAL        -13.9     -10.5      +280  WAS -10.5 -110 (edge +7.3%, EV +13.9%)
+   BUF @ NYJ         -0.6      -0.5      -113  — pass (no qualifying edge)
+   ```
 
-export default function NFLBettingPage() {
-  return (
-    <div className="container">
-      <h1 className="page-title">NFL Betting Model</h1>
-      {edges.games.map((g) => (
-        <div key={g.id} className="ufc-fight-card">
-          <h2>{g.away} @ {g.home}</h2>
-          <p>Projected margin: {g.projectedMargin > 0 ? '+' : ''}{g.projectedMargin}
-             {'  '}(fair spread {g.fairSpread})</p>
-          {g.bestBet
-            ? <p>Best value: {g.bestBet.label} {formatAmerican(g.bestBet.book_odds)}
-                {' '}· edge {(g.bestBet.edge * 100).toFixed(1)}%
-                {' '}· EV {(g.bestBet.ev * 100).toFixed(1)}%</p>
-            : <p>— pass (no qualifying edge)</p>}
-        </div>
-      ))}
-    </div>
-  );
-}
-```
+2. **Writes the full detail as JSON** to `--out` (default `output/nfl_edges.json`)
+   — every wager, edge, EV, and the model's coefficients. A committed reference
+   sample lives at [`sample_output.json`](sample_output.json) so you can see the
+   shape without running anything.
 
-To keep it fresh, run the exporter straight into the app on a schedule (e.g. a
-weekly cron / GitHub Action):
+To refresh picks on a schedule, run the exporter from cron / a GitHub Action:
 
 ```bash
-python -m scripts.train_and_export --predict-week <week> \
-    --out ../src/data/nflEdges.sample.json
+python -m scripts.train_and_export --slate espn --espn-week <week> \
+    --out output/nfl_edges.json
 ```
 
 ### Where the live odds come from
 
-- **ESPN (`nfl_model/espn.py`, built in).** Key-free, already trusted by the
-  frontend, and it's the data behind [espn.com/nfl/odds](https://www.espn.com/nfl/odds).
-  Run the exporter with `--slate espn` and you're pricing real games. This is the
-  recommended, sanctioned path.
+- **ESPN (`nfl_model/espn.py`, built in).** Key-free public API, and it's the
+  data behind [espn.com/nfl/odds](https://www.espn.com/nfl/odds). Run the exporter
+  with `--slate espn` and you're pricing real games. This is the recommended,
+  sanctioned path.
 - **OddsTrader ([oddstrader.com/nfl](https://www.oddstrader.com/nfl/)).** Nice for
   comparing many books at once, but there is **no public API** — pulling it means
   scraping HTML / undocumented endpoints, which is brittle and usually against the

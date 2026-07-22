@@ -1,9 +1,9 @@
-"""Assemble the frontend-facing JSON payload.
+"""Assemble the JSON output payload.
 
-The shape mirrors what an NFL betting page would want to render -- one entry per
-game with the projection, both markets, and the qualifying value bets -- so a
-React ``NFLBettingPage`` can consume it the same way ``UFCBettingPage`` consumes
-its analysis objects.
+One entry per game with the projection, both markets, and the qualifying value
+bets, wrapped with run metadata. Written to disk alongside the CLI table so the
+full detail (every wager, edge, EV, model coefficients) is available for
+scripting or later inspection.
 """
 from __future__ import annotations
 

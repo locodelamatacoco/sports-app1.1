@@ -1,8 +1,8 @@
 """American-odds math.
 
 Deliberately kept 1:1 with the JavaScript helpers in
-``src/models/ufcSimulator.js`` so the Python model and the React frontend agree
-to the cent on implied probabilities, fair prices, and vig removal.
+``src/models/ufcSimulator.js`` so both models agree to the cent on implied
+probabilities, fair prices, and vig removal.
 """
 from __future__ import annotations
 
@@ -14,7 +14,7 @@ def _js_round(x: float) -> int:
     """Round half toward +Infinity, matching JS ``Math.round``.
 
     Python's built-in ``round`` uses banker's rounding, which would disagree
-    with the frontend on exact ``.5`` boundaries. ``floor(x + 0.5)`` reproduces
+    with the JS helpers on exact ``.5`` boundaries. ``floor(x + 0.5)`` reproduces
     JS semantics (``Math.round(2.5) === 3``, ``Math.round(-2.5) === -2``).
     """
     return math.floor(x + 0.5)

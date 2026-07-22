@@ -8,11 +8,9 @@ Real data (needs ``nfl_data_py`` + network), predict week 5 of 2024 from 2021-24
     python -m scripts.train_and_export --train-seasons 2021 2022 2023 2024 \
         --predict-season 2024 --predict-week 5
 
-Offline demo on synthetic data (no downloads), writing the sample the frontend
-imports::
+Offline demo on synthetic data (no downloads)::
 
-    python -m scripts.train_and_export --synthetic \
-        --out ../src/data/nflEdges.sample.json
+    python -m scripts.train_and_export --synthetic --out output/nfl_edges.json
 
 Run from the ``model/`` directory.
 """
