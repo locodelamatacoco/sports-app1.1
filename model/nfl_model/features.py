@@ -8,49 +8,27 @@ Two hard rules drive everything here:
    N never contains anything from week N onward. Get this wrong and your
    backtest looks brilliant and your real bets lose.
 
-2. **Ratings are opponent-agnostic proxies, not truth.** Raw season EPA is
-   confounded by strength of schedule; rolling team EPA is a cheap, honest
-   starting point. Swapping in a proper opponent-adjusted rating (SRS / a
-   ridge power rating) is the natural next upgrade -- see the README.
+2. **Ratings are opponent-agnostic proxies, not truth.** The rating columns are
+   a team's rolling offensive/defensive output, a cheap, honest starting point.
+   They are populated from real schedule scores (points for / against -- see
+   ``data.load_schedule_data``); the column names keep an ``epa`` prefix so the
+   model code is source-agnostic if a richer per-play feed is added later.
+   Swapping in a proper opponent-adjusted rating (SRS / a ridge power rating) is
+   the natural next upgrade -- see the README.
 """
 from __future__ import annotations
 
 import numpy as np
 import pandas as pd
 
-# Team-strength columns we roll forward. EPA per play is the headline modern
-# efficiency metric; yards per play (YPP) is the classic one. Defensive columns
-# are EPA/YPP *allowed*, so lower is better.
+# Team-strength columns we roll forward: offensive and defensive output, plus a
+# second "yards" proxy. Defensive columns are output *allowed*, so lower is
+# better. (Names keep the ``epa`` prefix for source-agnosticism; in this build
+# they are fed by points scored/allowed from the schedules.)
 ROLL_COLUMNS = ["off_epa", "def_epa", "off_ypp", "def_ypp"]
 
 # The rolled (season-to-date, leakage-safe) version of each strength column.
 ROLL_COLS = [f"{c}_roll" for c in ROLL_COLUMNS]
-
-
-def aggregate_team_games(pbp: pd.DataFrame) -> pd.DataFrame:
-    """Collapse play-by-play into one row per team per game.
-
-    Expects the nflfastR / nfl_data_py schema: ``season``, ``week``,
-    ``game_id``, ``posteam`` (offense), ``defteam`` (defense), ``epa``, and
-    ``yards_gained``. Offensive rows are aggregated by ``posteam``; the same
-    plays become the *defensive* rows of ``defteam`` (EPA/YPP allowed).
-    """
-    plays = pbp.dropna(subset=["posteam", "defteam", "epa"]).copy()
-
-    offense = (
-        plays.groupby(["season", "week", "game_id", "posteam"])
-        .agg(off_epa=("epa", "mean"), off_ypp=("yards_gained", "mean"), off_plays=("epa", "size"))
-        .reset_index()
-        .rename(columns={"posteam": "team"})
-    )
-    defense = (
-        plays.groupby(["season", "week", "game_id", "defteam"])
-        .agg(def_epa=("epa", "mean"), def_ypp=("yards_gained", "mean"))
-        .reset_index()
-        .rename(columns={"defteam": "team"})
-    )
-    team_game = offense.merge(defense, on=["season", "week", "game_id", "team"], how="inner")
-    return team_game.sort_values(["team", "season", "week"]).reset_index(drop=True)
 
 
 def build_rolling_features(team_game: pd.DataFrame, min_games: int = 1) -> pd.DataFrame:
@@ -118,7 +96,7 @@ def latest_team_ratings(team_game_roll: pd.DataFrame) -> pd.DataFrame:
 
 
 def build_slate_frame(slate_games: pd.DataFrame, team_game_roll: pd.DataFrame) -> pd.DataFrame:
-    """Attach each team's latest rating to an upcoming slate (e.g. from ESPN).
+    """Attach each team's latest rating to an upcoming slate (e.g. from OddsTrader).
 
     Same feature columns as :func:`build_matchup_frame`, but joined on team
     only (using :func:`latest_team_ratings`) rather than an exact week that does

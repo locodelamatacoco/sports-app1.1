@@ -9,7 +9,7 @@ uses. Two pieces, both reverse-engineered from oddstrader.com/nfl:
    the same endpoint for ``currentLines`` across all books and take the consensus
    (median) line per game.
 
-Everything is normalized into the same nflverse-style schema as ``espn.py``:
+Everything is normalized into the nflverse-style schema the model prices:
 
     spread_line   -- positive = HOME favored by that many points
     home_moneyline / away_moneyline
@@ -18,7 +18,7 @@ Everything is normalized into the same nflverse-style schema as ``espn.py``:
 Caveat: this is an undocumented private API. Field names, market-type IDs, the
 category id, and the ``__INITIAL_STATE__`` shape can change without notice, and
 scraping may be against the site's terms -- treat it as best-effort and be
-gentle (cache, low request rates). ESPN (``espn.py``) is the sanctioned path.
+gentle (cache, low request rates).
 """
 from __future__ import annotations
 

@@ -1,12 +1,18 @@
 #!/usr/bin/env python3
 """Train the margin model and export value bets for one slate of games.
 
+Data sources are the ones reachable without special access:
+  - training: real nflverse *schedules* (scores + closing lines), or ``--synthetic``
+  - slate to price: a week from the training data (``--slate auto``), or the live
+    ``--slate oddstrader`` board
+
 Examples
 --------
-Real data (needs ``nfl_data_py`` + network), predict week 5 of 2024 from 2021-24::
+Real data, price the live OddsTrader slate (this season's upcoming week)::
 
-    python -m scripts.train_and_export --train-seasons 2021 2022 2023 2024 \
-        --predict-season 2024 --predict-week 5
+    python -m scripts.train_and_export \
+        --train-seasons 2015 2016 2017 2018 2019 2020 2021 2022 2023 2024 2025 \
+        --slate oddstrader --out output/nfl_edges.json
 
 Offline demo on synthetic data (no downloads)::
 
@@ -39,24 +45,15 @@ def parse_args() -> argparse.Namespace:
                    help="Season of the slate to price (default: last train season).")
     p.add_argument("--predict-week", type=int, default=None,
                    help="Week of the slate to price (default: last week present).")
-    p.add_argument("--synthetic", action="store_true", help="Force the offline synthetic dataset.")
-    p.add_argument("--schedules", action="store_true",
-                   help="Train on REAL nflverse schedules (scores + closing lines) with a "
-                        "points-margin proxy instead of EPA. Use when the play-by-play "
-                        "release host is unreachable.")
+    p.add_argument("--synthetic", action="store_true",
+                   help="Force the offline synthetic dataset instead of real schedules.")
     p.add_argument("--alpha", type=float, default=None, help="Fix Ridge alpha (default: auto-tune via CV).")
     p.add_argument("--seed", type=int, default=7, help="Synthetic-data seed.")
     p.add_argument("--out", type=str, default="output/nfl_edges.json", help="Output JSON path.")
-    p.add_argument("--slate", choices=["auto", "espn", "oddstrader"], default="auto",
+    p.add_argument("--slate", choices=["auto", "oddstrader"], default="auto",
                    help="Where the games to PRICE come from. 'auto' uses a week from the "
-                        "training data; 'espn' pulls the live slate + odds from ESPN; "
-                        "'oddstrader' scrapes the consensus slate + odds from OddsTrader.")
-    p.add_argument("--espn-year", type=int, default=None, help="ESPN slate season (default: current).")
-    p.add_argument("--espn-week", type=int, default=None, help="ESPN slate week (default: current).")
-    p.add_argument("--espn-seasontype", type=int, default=2,
-                   help="ESPN season type: 1=pre, 2=regular, 3=post (default 2).")
-    p.add_argument("--espn-provider", type=str, default=None,
-                   help="Prefer a named book from ESPN's odds (e.g. 'ESPN BET', 'DraftKings').")
+                        "training data; 'oddstrader' scrapes the consensus slate + odds "
+                        "from OddsTrader.")
     p.add_argument("--oddstrader-catid", type=int, default=506,
                    help="OddsTrader sportsbook category id (default 506, the public site's).")
     return p.parse_args()
@@ -65,9 +62,8 @@ def parse_args() -> argparse.Namespace:
 def main() -> int:
     args = parse_args()
 
-    # 1. Load data (real, or synthetic fallback/force).
-    ds = data_mod.load_dataset(args.train_seasons, synthetic=args.synthetic,
-                               schedules=args.schedules, seed=args.seed)
+    # 1. Load data (real schedules, or synthetic fallback/force).
+    ds = data_mod.load_dataset(args.train_seasons, synthetic=args.synthetic, seed=args.seed)
     print(f"[1/5] Loaded {len(ds.games)} games / {len(ds.team_game)} team-games from {ds.source}.")
 
     # 2. Engineer leakage-safe rolling features and join onto games.
@@ -76,18 +72,12 @@ def main() -> int:
     print(f"[2/5] Built matchup frame: {len(matchups)} rows, {len(feat.FEATURE_COLUMNS)} features.")
 
     # 3. Split into training games (played) and the slate to price.
-    if args.slate == "espn":
-        slate, train, slate_source = _espn_slate(args, rolled, matchups)
-        if slate is None:
-            return 1
-    elif args.slate == "oddstrader":
+    if args.slate == "oddstrader":
         slate, train, slate_source = _oddstrader_slate(args, rolled, matchups)
-        if slate is None:
-            return 1
     else:
         slate, train, slate_source = _auto_slate(args, matchups)
-        if slate is None:
-            return 1
+    if slate is None:
+        return 1
     print(f"[3/5] Training on {len(train)} games; pricing {len(slate)} games ({slate_source}).")
 
     # 4. Fit the Ridge margin model.
@@ -125,42 +115,6 @@ def _auto_slate(args, matchups):
         & ~((matchups["season"] == pred_season) & (matchups["week"] >= pred_week))
     ].copy()
     return slate, train, f"{pred_season} week {pred_week}"
-
-
-def _espn_slate(args, rolled, matchups):
-    """Fetch the live ESPN slate + odds and attach each team's latest rating."""
-    from nfl_model import espn
-    from nfl_model.features import build_slate_frame
-
-    try:
-        raw = espn.fetch_espn_slate(
-            year=args.espn_year, week=args.espn_week,
-            seasontype=args.espn_seasontype, prefer_provider=args.espn_provider,
-        )
-    except Exception as exc:  # network blocked, ESPN down, schema drift
-        print(f"[error] Could not fetch ESPN slate ({type(exc).__name__}: {exc}).")
-        print("        ESPN's API must be reachable from where this runs (it is from a "
-              "browser / normal host; it is blocked inside this sandbox).")
-        return None, None, None
-
-    if raw.empty:
-        print("[error] ESPN returned no games for that slate (off-week?). "
-              "Try --espn-year/--espn-week or --espn-seasontype.")
-        return None, None, None
-
-    priced = raw[raw["home_moneyline"].notna() | raw["spread_line"].notna()].copy()
-    if priced.empty:
-        print("[warn] ESPN returned games but no odds are posted yet for this slate.")
-        return None, None, None
-
-    slate = build_slate_frame(priced, rolled)
-    # Train on every completed game we have ratings for.
-    train = matchups[matchups["home_margin"].notna()].copy()
-    label = "ESPN"
-    provider = priced["provider"].dropna().unique()
-    if len(provider):
-        label += f" ({provider[0]})"
-    return slate, train, label
 
 
 def _oddstrader_slate(args, rolled, matchups):

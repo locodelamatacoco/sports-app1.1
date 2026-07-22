@@ -98,7 +98,7 @@ def test_median_across_books():
     assert rows["LA"]["home_spread_odds"] == -109
 
 
-def test_schema_matches_espn_rows():
+def test_schema_has_required_columns():
     rows = ot.parse_current_lines(ot.parse_events(STATE), LINES)
     required = {"game_id", "home_team", "away_team", "spread_line", "total_line",
                "home_moneyline", "away_moneyline", "home_spread_odds", "away_spread_odds"}

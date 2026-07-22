@@ -52,56 +52,23 @@ python -m scripts.train_and_export --synthetic --out output/nfl_edges.json
 pytest
 ```
 
-Real data (needs `nfl_data_py` + network) — train on four seasons, price week 5:
+**Real data** — train on real nflverse schedules (scores + closing lines) and
+price the live OddsTrader slate:
 
 ```bash
 python -m scripts.train_and_export \
-    --train-seasons 2021 2022 2023 2024 \
-    --predict-season 2024 --predict-week 5 \
-    --out output/nfl_edges.json
-```
-
-**Real data without EPA (`--schedules`).** The play-by-play/EPA feed is a GitHub
-*release* asset, which some networks block. The nflverse *schedules* (real scores
-+ closing lines) live on a plain-file host that's usually reachable, so
-`--schedules` trains on real games using a **points-margin power rating** in
-place of EPA — cruder, but genuinely real. Pair it with a live slate to price
-the upcoming week:
-
-```bash
-python -m scripts.train_and_export --schedules \
     --train-seasons 2015 2016 2017 2018 2019 2020 2021 2022 2023 2024 2025 \
     --slate oddstrader --out output/nfl_edges.json
 ```
 
-A healthy sign it's working: the residual σ lands near the textbook NFL ~13.5,
-and the projections hug the market instead of wandering.
+Training data is the nflverse *schedules* CSV (real scores + real closing lines),
+turned into a **points-margin power rating** — no API key, no extra package, just
+`pandas.read_csv`. It's the default; `--synthetic` forces the offline generator.
+A healthy sign it's working: the residual σ lands near the textbook NFL ~13.5 and
+the projections hug the market instead of wandering.
 
-**Live odds from ESPN** — train on history, then price the *actual upcoming
-slate* using moneylines/spreads pulled straight from ESPN (`--slate espn`):
-
-```bash
-# current week, whatever book ESPN lists first
-python -m scripts.train_and_export --slate espn --out output/nfl_edges.json
-
-# a specific week, preferring a named book
-python -m scripts.train_and_export --slate espn \
-    --espn-year 2025 --espn-week 3 --espn-provider "ESPN BET"
-```
-
-This hits `site.api.espn.com/.../nfl/scoreboard` — the same key-free endpoint
-`ScoresPage` already uses, and the data behind
-[espn.com/nfl/odds](https://www.espn.com/nfl/odds). Each team's *latest* rolling
-rating is attached to the upcoming games (they have no historical row yet), then
-the model prices them. ESPN must be reachable from wherever you run this.
-
-**Live odds from OddsTrader** — scrape the consensus board from
-[oddstrader.com/nfl](https://www.oddstrader.com/nfl/) instead (`--slate oddstrader`):
-
-```bash
-python -m scripts.train_and_export --slate oddstrader --out output/nfl_edges.json
-```
-
+**Live odds from OddsTrader.** The `--slate oddstrader` above scrapes the
+consensus board from [oddstrader.com/nfl](https://www.oddstrader.com/nfl/).
 OddsTrader has no public API, so this reads the game list from the page's
 `window.__INITIAL_STATE__` and pulls prices from the `odds-v2-service` GraphQL
 backend the site itself calls, taking the **median across books** as the
@@ -131,10 +98,9 @@ are small and most of the slate offers no value.
 
 | Stage | File | What it does |
 |-------|------|--------------|
-| Load | `nfl_model/data.py` | Real play-by-play + schedules via `nfl_data_py`; synthetic fallback if offline. |
-| Live odds (ESPN) | `nfl_model/espn.py` | Grab this week's games + moneylines/spreads from ESPN's public API. |
-| Live odds (OddsTrader) | `nfl_model/oddstrader.py` | Scrape the consensus slate + odds from OddsTrader's backend. |
-| Features | `nfl_model/features.py` | Per-team rolling EPA/YPP (offense & defense), **leakage-safe**. |
+| Load | `nfl_model/data.py` | Real nflverse schedules (scores + closing lines) → points-margin ratings; synthetic fallback if offline. |
+| Live odds | `nfl_model/oddstrader.py` | Scrape the consensus slate + odds from OddsTrader's backend. |
+| Features | `nfl_model/features.py` | Per-team rolling offense/defense ratings, **leakage-safe**. |
 | Model | `nfl_model/model.py` | Standardize → Ridge; alpha auto-tuned by time-series CV; measures residual σ. |
 | Probabilities | `nfl_model/distribution.py` | Projected margin → cover prob + win prob via the normal CDF. |
 | Edges | `nfl_model/edges.py` | Model prob vs book price → edge, EV, value-bet gate. |
@@ -175,19 +141,22 @@ your real bets lose.
 
 ## Getting real data
 
-[`nfl_data_py`](https://github.com/nflverse/nfl_data_py) (successor:
-[`nflreadpy`](https://github.com/nflverse/nflreadpy)) hands you almost everything
-for free:
+Training data comes straight from the nflverse **schedules** CSV — no package,
+no key, just a URL `pandas` reads directly:
 
 ```python
-import nfl_data_py as nfl
-pbp   = nfl.import_pbp_data([2021, 2022, 2023, 2024])  # EPA per play, precomputed
-games = nfl.import_schedules([2024])                    # results + spread_line + moneylines
+import pandas as pd
+games = pd.read_csv("https://raw.githubusercontent.com/nflverse/nfldata/master/data/games.csv")
 ```
 
-`import_schedules` ships the **historical betting lines** (`spread_line`,
-`home_moneyline`, `away_moneyline`, spread odds) — that's both your training
-target's benchmark and what you measure edges against.
+It ships real scores **and** the **historical closing lines** (`spread_line`,
+`home_moneyline`, `away_moneyline`) going back decades — both the training
+target and what you measure edges against. `data.load_schedule_data` turns each
+game's points scored/allowed into the team ratings the model rolls forward.
+
+> A richer per-play / EPA feed (nflverse play-by-play) was intentionally left
+> out: it's published only on a host this project can't reach. Schedules give
+> real scores + real lines, which is enough for a scores-margin model.
 
 ---
 
@@ -214,16 +183,11 @@ things:
 To refresh picks on a schedule, run the exporter from cron / a GitHub Action:
 
 ```bash
-python -m scripts.train_and_export --slate espn --espn-week <week> \
-    --out output/nfl_edges.json
+python -m scripts.train_and_export --slate oddstrader --out output/nfl_edges.json
 ```
 
 ### Where the live odds come from
 
-- **ESPN (`nfl_model/espn.py`, built in).** Key-free public API, and it's the
-  data behind [espn.com/nfl/odds](https://www.espn.com/nfl/odds). Run the exporter
-  with `--slate espn` and you're pricing real games. This is the recommended,
-  sanctioned path.
 - **OddsTrader ([oddstrader.com/nfl](https://www.oddstrader.com/nfl/), `--slate
   oddstrader`, built in).** Consensus of many books. There is **no public API**,
   so `oddstrader.py` reads the page's `window.__INITIAL_STATE__` for the game list
@@ -231,17 +195,18 @@ python -m scripts.train_and_export --slate espn --espn-week <week> \
   market-type ids: money `83`, spread `401`, total `402`; category `506`). Because
   it's an undocumented private API, those ids / the state shape can change without
   notice and scraping may be against the site's terms — treat it as best-effort,
-  cache results, and keep request rates low. Prefer ESPN when you can.
-- **The Odds API.** If you want many US books through a sanctioned API, put the
-  key behind a Netlify function so it never ships to the browser (see the earlier
-  discussion). It slots in as another slate source alongside `espn.py`.
+  cache results, and keep request rates low.
+- **Want more books?** A sanctioned aggregator (e.g. The Odds API) slots in as
+  another slate source next to `oddstrader.py` — build a `fetch_*_slate` that
+  returns the same nflverse-schema columns and add a `--slate` branch.
 
 ---
 
 ## Natural next upgrades
 
-- **Opponent-adjusted ratings.** Swap raw rolling EPA for an SRS / ridge power
-  rating so a good number against three bad defenses isn't mistaken for signal.
+- **Opponent-adjusted ratings.** Swap raw rolling point margins for an SRS /
+  ridge power rating so a good number against three bad defenses isn't mistaken
+  for signal.
 - **The features the pros use.** Red-zone & third-down efficiency, turnover
   margin (regressed toward the mean — it's noisy), pace/pass-rate, QB adjustments
   for injuries, and weather for totals.

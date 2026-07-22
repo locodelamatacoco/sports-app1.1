@@ -1,10 +1,14 @@
-"""Data loading: real nflverse data, with a synthetic fallback.
+"""Data loading: real nflverse schedules, with a synthetic fallback.
 
-``load_dataset`` tries ``nfl_data_py`` first (real play-by-play + schedules,
-including the historical betting lines you train against and benchmark on). If
-the package is missing or the download fails -- e.g. a sandbox with no network
--- it falls back to a synthetic season generator so the full pipeline still
-runs end-to-end and produces correctly-shaped output.
+``load_dataset`` reads real nflverse *schedules* -- game scores plus historical
+closing lines -- from a plain-file host, and builds a points-margin team rating
+from them (see ``load_schedule_data``). If the download fails -- e.g. no network
+-- it falls back to a synthetic season generator so the full pipeline still runs
+end-to-end and produces correctly-shaped output.
+
+(A richer play-by-play / EPA source was dropped: its data lives only on a host
+this project can't reach. Schedules give real scores + real lines, which is
+enough for a scores-margin model.)
 
 The synthetic market is deliberately *efficient*: book lines are set from each
 team's true latent strength plus tiny noise, while the model only ever sees
@@ -29,32 +33,7 @@ class Dataset:
 
     team_game: pd.DataFrame
     games: pd.DataFrame
-    source: str  # "nfl_data_py" | "synthetic"
-
-
-# --------------------------------------------------------------------------- #
-# Real data
-# --------------------------------------------------------------------------- #
-def load_real_data(seasons: List[int]) -> Dataset:
-    """Pull play-by-play and schedules from nfl_data_py for ``seasons``."""
-    import nfl_data_py as nfl  # imported lazily so the sandbox path needs no install
-
-    pbp = nfl.import_pbp_data(seasons, downcast=True)
-    schedules = nfl.import_schedules(seasons)
-
-    from .features import aggregate_team_games
-
-    team_game = aggregate_team_games(pbp)
-
-    line_cols = [
-        "game_id", "season", "week", "gameday", "home_team", "away_team",
-        "home_score", "away_score", "spread_line", "total_line",
-        "home_moneyline", "away_moneyline", "home_spread_odds", "away_spread_odds",
-        "home_rest", "away_rest",
-    ]
-    present = [c for c in line_cols if c in schedules.columns]
-    games = schedules[present].copy()
-    return Dataset(team_game=team_game, games=games, source="nfl_data_py")
+    source: str  # "nflverse-schedules (points proxy)" | "synthetic"
 
 
 # --------------------------------------------------------------------------- #
@@ -115,8 +94,8 @@ def load_schedule_data(seasons: List[int]) -> Dataset:
 # --------------------------------------------------------------------------- #
 # Synthetic data (offline fallback / demo)
 # --------------------------------------------------------------------------- #
-# nflverse abbreviations (matches nfl_data_py and the ESPN/OddsTrader
-# normalizers), so a scraped slate joins cleanly even in the synthetic demo.
+# nflverse abbreviations (match the schedules data and the OddsTrader
+# normalizer), so a scraped slate joins cleanly even in the synthetic demo.
 NFL_TEAMS = [
     "ARI", "ATL", "BAL", "BUF", "CAR", "CHI", "CIN", "CLE", "DAL", "DEN", "DET",
     "GB", "HOU", "IND", "JAX", "KC", "LAC", "LA", "LV", "MIA", "MIN", "NE",
@@ -198,21 +177,12 @@ def make_synthetic(seasons: List[int], seed: int = 7) -> Dataset:
     )
 
 
-def load_dataset(
-    seasons: List[int], synthetic: bool = False, schedules: bool = False, seed: int = 7
-) -> Dataset:
-    """Load training data, falling back to synthetic on any failure (or if forced).
-
-    - ``synthetic``: force the offline generator.
-    - ``schedules``: real nflverse schedules with a points-margin proxy (no EPA);
-      works where the play-by-play release host is blocked.
-    - default: real play-by-play + EPA via ``nfl_data_py``.
-    """
+def load_dataset(seasons: List[int], synthetic: bool = False, seed: int = 7) -> Dataset:
+    """Load real schedule data, falling back to synthetic on failure (or if forced)."""
     if synthetic:
         return make_synthetic(seasons, seed=seed)
-    loader = load_schedule_data if schedules else load_real_data
     try:
-        return loader(seasons)
-    except Exception as exc:  # ImportError, network error, schema drift, ...
+        return load_schedule_data(seasons)
+    except Exception as exc:  # network error, schema drift, ...
         print(f"[data] real load failed ({type(exc).__name__}: {exc}); using synthetic data.")
         return make_synthetic(seasons, seed=seed)

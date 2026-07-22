@@ -3,13 +3,9 @@ numpy>=1.24
 pandas>=2.0
 scikit-learn>=1.3
 
-# NFL data: play-by-play with EPA precomputed, schedules, and historical
-# betting lines (spread_line, moneylines). Optional -- the pipeline falls back
-# to a synthetic dataset if this is missing or offline.
-#
-# nfl_data_py is the widely-used package; its maintained successor is nflreadpy
-# (https://github.com/nflverse/nflreadpy). Either works as the real-data source.
-nfl_data_py>=0.3.2
+# Real NFL data (scores + closing lines) is read straight from the nflverse
+# schedules CSV with pandas -- no extra package needed. Live odds are scraped
+# from OddsTrader using only the standard library.
 
 # Testing
 pytest>=7.0
