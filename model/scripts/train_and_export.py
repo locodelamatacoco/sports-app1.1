@@ -40,6 +40,10 @@ def parse_args() -> argparse.Namespace:
     p.add_argument("--predict-week", type=int, default=None,
                    help="Week of the slate to price (default: last week present).")
     p.add_argument("--synthetic", action="store_true", help="Force the offline synthetic dataset.")
+    p.add_argument("--schedules", action="store_true",
+                   help="Train on REAL nflverse schedules (scores + closing lines) with a "
+                        "points-margin proxy instead of EPA. Use when the play-by-play "
+                        "release host is unreachable.")
     p.add_argument("--alpha", type=float, default=None, help="Fix Ridge alpha (default: auto-tune via CV).")
     p.add_argument("--seed", type=int, default=7, help="Synthetic-data seed.")
     p.add_argument("--out", type=str, default="output/nfl_edges.json", help="Output JSON path.")
@@ -62,7 +66,8 @@ def main() -> int:
     args = parse_args()
 
     # 1. Load data (real, or synthetic fallback/force).
-    ds = data_mod.load_dataset(args.train_seasons, synthetic=args.synthetic, seed=args.seed)
+    ds = data_mod.load_dataset(args.train_seasons, synthetic=args.synthetic,
+                               schedules=args.schedules, seed=args.seed)
     print(f"[1/5] Loaded {len(ds.games)} games / {len(ds.team_game)} team-games from {ds.source}.")
 
     # 2. Engineer leakage-safe rolling features and join onto games.

@@ -61,6 +61,22 @@ python -m scripts.train_and_export \
     --out output/nfl_edges.json
 ```
 
+**Real data without EPA (`--schedules`).** The play-by-play/EPA feed is a GitHub
+*release* asset, which some networks block. The nflverse *schedules* (real scores
++ closing lines) live on a plain-file host that's usually reachable, so
+`--schedules` trains on real games using a **points-margin power rating** in
+place of EPA — cruder, but genuinely real. Pair it with a live slate to price
+the upcoming week:
+
+```bash
+python -m scripts.train_and_export --schedules \
+    --train-seasons 2015 2016 2017 2018 2019 2020 2021 2022 2023 2024 2025 \
+    --slate oddstrader --out output/nfl_edges.json
+```
+
+A healthy sign it's working: the residual σ lands near the textbook NFL ~13.5,
+and the projections hug the market instead of wandering.
+
 **Live odds from ESPN** — train on history, then price the *actual upcoming
 slate* using moneylines/spreads pulled straight from ESPN (`--slate espn`):
 

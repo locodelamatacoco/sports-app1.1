@@ -58,6 +58,61 @@ def load_real_data(seasons: List[int]) -> Dataset:
 
 
 # --------------------------------------------------------------------------- #
+# Schedules-only real data (no play-by-play / EPA)
+# --------------------------------------------------------------------------- #
+# nflverse schedules (scores + historical closing lines) live on a plain-file
+# host, unlike the play-by-play parquet which is a GitHub release asset. When
+# the release host is unreachable (some sandboxes block it) this is the way to
+# still train on REAL data -- at the cost of using points as the efficiency
+# proxy instead of EPA.
+SCHEDULES_URL = "https://raw.githubusercontent.com/nflverse/nfldata/master/data/games.csv"
+
+
+def _schedules_to_team_game(sched: pd.DataFrame) -> pd.DataFrame:
+    """Build the team-game table from completed games, using POINTS as the proxy.
+
+    Without play-by-play there is no EPA, so each team-game's "efficiency"
+    columns are filled with points scored (offense) and points allowed
+    (defense). Rolled forward, these become a legitimate scores-margin power
+    rating -- cruder than EPA, but real. The column names stay ``off_epa`` etc.
+    so the downstream feature/model code is unchanged.
+    """
+    played = sched.dropna(subset=["home_score", "away_score"]).copy()
+    gid = (
+        played["game_id"] if "game_id" in played.columns
+        else played["season"].astype(str) + "_" + played["week"].astype(str)
+        + "_" + played["away_team"] + "_" + played["home_team"]
+    )
+    base = {"season": played["season"], "week": played["week"], "game_id": gid}
+    home = pd.DataFrame({**base, "team": played["home_team"],
+                         "off_epa": played["home_score"], "def_epa": played["away_score"],
+                         "off_ypp": played["home_score"], "def_ypp": played["away_score"]})
+    away = pd.DataFrame({**base, "team": played["away_team"],
+                         "off_epa": played["away_score"], "def_epa": played["home_score"],
+                         "off_ypp": played["away_score"], "def_ypp": played["home_score"]})
+    return pd.concat([home, away], ignore_index=True)
+
+
+def load_schedule_data(seasons: List[int]) -> Dataset:
+    """Load REAL schedules (scores + closing lines) and a points-margin team table."""
+    sched = pd.read_csv(SCHEDULES_URL)
+    sched = sched[sched["season"].isin(seasons)].copy()
+    if sched.empty:
+        raise ValueError(f"No nflverse schedule rows for seasons {seasons}.")
+
+    team_game = _schedules_to_team_game(sched)
+
+    line_cols = [
+        "game_id", "season", "week", "gameday", "home_team", "away_team",
+        "home_score", "away_score", "spread_line", "total_line",
+        "home_moneyline", "away_moneyline", "home_rest", "away_rest",
+    ]
+    present = [c for c in line_cols if c in sched.columns]
+    games = sched[present].copy()
+    return Dataset(team_game=team_game, games=games, source="nflverse-schedules (points proxy)")
+
+
+# --------------------------------------------------------------------------- #
 # Synthetic data (offline fallback / demo)
 # --------------------------------------------------------------------------- #
 # nflverse abbreviations (matches nfl_data_py and the ESPN/OddsTrader
@@ -143,12 +198,21 @@ def make_synthetic(seasons: List[int], seed: int = 7) -> Dataset:
     )
 
 
-def load_dataset(seasons: List[int], synthetic: bool = False, seed: int = 7) -> Dataset:
-    """Load real data, falling back to synthetic on any failure (or if forced)."""
+def load_dataset(
+    seasons: List[int], synthetic: bool = False, schedules: bool = False, seed: int = 7
+) -> Dataset:
+    """Load training data, falling back to synthetic on any failure (or if forced).
+
+    - ``synthetic``: force the offline generator.
+    - ``schedules``: real nflverse schedules with a points-margin proxy (no EPA);
+      works where the play-by-play release host is blocked.
+    - default: real play-by-play + EPA via ``nfl_data_py``.
+    """
     if synthetic:
         return make_synthetic(seasons, seed=seed)
+    loader = load_schedule_data if schedules else load_real_data
     try:
-        return load_real_data(seasons)
+        return loader(seasons)
     except Exception as exc:  # ImportError, network error, schema drift, ...
         print(f"[data] real load failed ({type(exc).__name__}: {exc}); using synthetic data.")
         return make_synthetic(seasons, seed=seed)
