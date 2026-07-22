@@ -79,6 +79,18 @@ This hits `site.api.espn.com/.../nfl/scoreboard` — the same key-free endpoint
 rating is attached to the upcoming games (they have no historical row yet), then
 the model prices them. ESPN must be reachable from wherever you run this.
 
+**Live odds from OddsTrader** — scrape the consensus board from
+[oddstrader.com/nfl](https://www.oddstrader.com/nfl/) instead (`--slate oddstrader`):
+
+```bash
+python -m scripts.train_and_export --slate oddstrader --out output/nfl_edges.json
+```
+
+OddsTrader has no public API, so this reads the game list from the page's
+`window.__INITIAL_STATE__` and pulls prices from the `odds-v2-service` GraphQL
+backend the site itself calls, taking the **median across books** as the
+consensus line. See the caveat below — it's an undocumented private API.
+
 Sample console output (synthetic):
 
 ```
@@ -104,7 +116,8 @@ are small and most of the slate offers no value.
 | Stage | File | What it does |
 |-------|------|--------------|
 | Load | `nfl_model/data.py` | Real play-by-play + schedules via `nfl_data_py`; synthetic fallback if offline. |
-| Live odds | `nfl_model/espn.py` | Grab this week's games + moneylines/spreads from ESPN's public API. |
+| Live odds (ESPN) | `nfl_model/espn.py` | Grab this week's games + moneylines/spreads from ESPN's public API. |
+| Live odds (OddsTrader) | `nfl_model/oddstrader.py` | Scrape the consensus slate + odds from OddsTrader's backend. |
 | Features | `nfl_model/features.py` | Per-team rolling EPA/YPP (offense & defense), **leakage-safe**. |
 | Model | `nfl_model/model.py` | Standardize → Ridge; alpha auto-tuned by time-series CV; measures residual σ. |
 | Probabilities | `nfl_model/distribution.py` | Projected margin → cover prob + win prob via the normal CDF. |
@@ -195,10 +208,14 @@ python -m scripts.train_and_export --slate espn --espn-week <week> \
   data behind [espn.com/nfl/odds](https://www.espn.com/nfl/odds). Run the exporter
   with `--slate espn` and you're pricing real games. This is the recommended,
   sanctioned path.
-- **OddsTrader ([oddstrader.com/nfl](https://www.oddstrader.com/nfl/)).** Nice for
-  comparing many books at once, but there is **no public API** — pulling it means
-  scraping HTML / undocumented endpoints, which is brittle and usually against the
-  site's terms. Prefer ESPN unless you specifically need the multi-book board.
+- **OddsTrader ([oddstrader.com/nfl](https://www.oddstrader.com/nfl/), `--slate
+  oddstrader`, built in).** Consensus of many books. There is **no public API**,
+  so `oddstrader.py` reads the page's `window.__INITIAL_STATE__` for the game list
+  and calls the site's own `odds-v2-service` GraphQL backend for prices (NFL
+  market-type ids: money `83`, spread `401`, total `402`; category `506`). Because
+  it's an undocumented private API, those ids / the state shape can change without
+  notice and scraping may be against the site's terms — treat it as best-effort,
+  cache results, and keep request rates low. Prefer ESPN when you can.
 - **The Odds API.** If you want many US books through a sanctioned API, put the
   key behind a Netlify function so it never ships to the browser (see the earlier
   discussion). It slots in as another slate source alongside `espn.py`.

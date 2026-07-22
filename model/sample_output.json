@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-21T15:33:38.083823+00:00",
+  "generatedAt": "2026-07-22T01:37:18.264760+00:00",
   "dataSource": "train:synthetic | slate:2024 week 17",
   "disclaimer": "Model output is for analysis/entertainment only, not betting advice. Edges are measured against the book's posted line; the true scorecard of skill is closing-line value, not any single week's results.",
   "model": {
@@ -1003,14 +1003,14 @@
       "bestBet": null
     },
     {
-      "id": "2024_17_HOU_LAR",
+      "id": "2024_17_HOU_LA",
       "season": 2024,
       "week": 17,
-      "home": "LAR",
+      "home": "LA",
       "away": "HOU",
       "kickoff": "2024-09-18",
       "projectedMargin": 22.35,
-      "projectedWinner": "LAR",
+      "projectedWinner": "LA",
       "fairSpread": 22.5,
       "coinFlip": false,
       "market": {
@@ -1031,7 +1031,7 @@
         {
           "market": "moneyline",
           "side": "home",
-          "label": "LAR ML",
+          "label": "LA ML",
           "model_prob": 0.943691,
           "book_odds": -6567.0,
           "implied_prob": 0.985001,
@@ -1055,7 +1055,7 @@
         {
           "market": "spread",
           "side": "home",
-          "label": "LAR -24.5",
+          "label": "LA -24.5",
           "model_prob": 0.439449,
           "book_odds": -110.0,
           "implied_prob": 0.52381,

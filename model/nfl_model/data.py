@@ -60,9 +60,11 @@ def load_real_data(seasons: List[int]) -> Dataset:
 # --------------------------------------------------------------------------- #
 # Synthetic data (offline fallback / demo)
 # --------------------------------------------------------------------------- #
+# nflverse abbreviations (matches nfl_data_py and the ESPN/OddsTrader
+# normalizers), so a scraped slate joins cleanly even in the synthetic demo.
 NFL_TEAMS = [
     "ARI", "ATL", "BAL", "BUF", "CAR", "CHI", "CIN", "CLE", "DAL", "DEN", "DET",
-    "GB", "HOU", "IND", "JAX", "KC", "LAC", "LAR", "LV", "MIA", "MIN", "NE",
+    "GB", "HOU", "IND", "JAX", "KC", "LAC", "LA", "LV", "MIA", "MIN", "NE",
     "NO", "NYG", "NYJ", "PHI", "PIT", "SEA", "SF", "TB", "TEN", "WAS",
 ]
 

@@ -43,15 +43,18 @@ def parse_args() -> argparse.Namespace:
     p.add_argument("--alpha", type=float, default=None, help="Fix Ridge alpha (default: auto-tune via CV).")
     p.add_argument("--seed", type=int, default=7, help="Synthetic-data seed.")
     p.add_argument("--out", type=str, default="output/nfl_edges.json", help="Output JSON path.")
-    p.add_argument("--slate", choices=["auto", "espn"], default="auto",
+    p.add_argument("--slate", choices=["auto", "espn", "oddstrader"], default="auto",
                    help="Where the games to PRICE come from. 'auto' uses a week from the "
-                        "training data; 'espn' pulls the live slate + odds from ESPN.")
+                        "training data; 'espn' pulls the live slate + odds from ESPN; "
+                        "'oddstrader' scrapes the consensus slate + odds from OddsTrader.")
     p.add_argument("--espn-year", type=int, default=None, help="ESPN slate season (default: current).")
     p.add_argument("--espn-week", type=int, default=None, help="ESPN slate week (default: current).")
     p.add_argument("--espn-seasontype", type=int, default=2,
                    help="ESPN season type: 1=pre, 2=regular, 3=post (default 2).")
     p.add_argument("--espn-provider", type=str, default=None,
                    help="Prefer a named book from ESPN's odds (e.g. 'ESPN BET', 'DraftKings').")
+    p.add_argument("--oddstrader-catid", type=int, default=506,
+                   help="OddsTrader sportsbook category id (default 506, the public site's).")
     return p.parse_args()
 
 
@@ -70,6 +73,10 @@ def main() -> int:
     # 3. Split into training games (played) and the slate to price.
     if args.slate == "espn":
         slate, train, slate_source = _espn_slate(args, rolled, matchups)
+        if slate is None:
+            return 1
+    elif args.slate == "oddstrader":
+        slate, train, slate_source = _oddstrader_slate(args, rolled, matchups)
         if slate is None:
             return 1
     else:
@@ -149,6 +156,34 @@ def _espn_slate(args, rolled, matchups):
     if len(provider):
         label += f" ({provider[0]})"
     return slate, train, label
+
+
+def _oddstrader_slate(args, rolled, matchups):
+    """Scrape the live OddsTrader NFL slate + consensus odds and attach ratings."""
+    from nfl_model import oddstrader
+    from nfl_model.features import build_slate_frame
+
+    try:
+        raw = oddstrader.fetch_oddstrader_slate(catid=args.oddstrader_catid)
+    except Exception as exc:  # network blocked, HTML/schema drift, GraphQL change
+        print(f"[error] Could not scrape OddsTrader ({type(exc).__name__}: {exc}).")
+        print("        OddsTrader must be reachable from where this runs. This is an "
+              "undocumented private API, so a failure may also mean their page or "
+              "GraphQL schema changed.")
+        return None, None, None
+
+    if raw.empty:
+        print("[error] OddsTrader returned no NFL games (off-week?).")
+        return None, None, None
+
+    priced = raw[raw["home_moneyline"].notna() | raw["spread_line"].notna()].copy()
+    if priced.empty:
+        print("[warn] OddsTrader games found but no odds posted yet for this slate.")
+        return None, None, None
+
+    slate = build_slate_frame(priced, rolled)
+    train = matchups[matchups["home_margin"].notna()].copy()
+    return slate, train, "OddsTrader (consensus)"
 
 
 def _print_slate(payload: dict) -> None:
