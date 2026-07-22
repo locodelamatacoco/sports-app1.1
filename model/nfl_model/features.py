@@ -64,10 +64,13 @@ def build_rolling_features(team_game: pd.DataFrame, min_games: int = 1) -> pd.Da
     tg = team_game.sort_values(["team", "season", "week"]).copy()
 
     for col in ROLL_COLUMNS:
-        grouped = tg.groupby(["team", "season"])[col]
-        rolled = grouped.apply(lambda s: s.expanding(min_periods=min_games).mean().shift(1))
-        # ``apply`` on a groupby returns a multi-indexed series; align back by position.
-        tg[f"{col}_roll"] = rolled.reset_index(level=[0, 1], drop=True)
+        # groupby.transform returns a result aligned to tg's own index, which is
+        # robust across pandas versions (unlike apply, whose index nesting varies
+        # with the data) while staying leakage-safe: the expanding mean covers
+        # only prior games and is shifted one game back.
+        tg[f"{col}_roll"] = tg.groupby(["team", "season"])[col].transform(
+            lambda s: s.expanding(min_periods=min_games).mean().shift(1)
+        )
 
     return tg
 
