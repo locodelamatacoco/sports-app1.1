@@ -180,3 +180,6 @@ date,game,market,model_prob,bet_side,odds,result,note
 2026-07-21,CIN@SEA,F5,0.60,CIN,-120,W,cohort=ranked RANKED #4 edge +8.0% HALF(gap26) ERA-lead pick; F5 CIN 3-0 thru5 WIN (CIN won 4-2)
 2026-07-21,SD@ATL,F5,0.62,ATL,-143,L,cohort=ranked RANKED #5 edge +8.0% HALF(gap22); F5 ATL 2-5 thru5 LOSS (SD won 8-3)
 2026-07-21,DET@CHC,F5,0.57,DET,-104,L,cohort=ranked RANKED #6 edge +6.0% CONFIRMED ERA-lead pick Peterson fade; F5 DET 0-9 thru5 LOSS (CHC won 11-2; Peterson dealt)
+2026-07-22,CWS@TEX,F5,0.60,TEX,-112,L,cohort=ranked RANKED #1 edge +7.6% HALF(gap21) ERA-lead pick TEX-hot-bats; F5 TEX 2-3 thru5 LOSS (TEX won full 4-2)
+2026-07-22,MIA@HOU,F5,0.60,HOU,-120,P,cohort=ranked RANKED #2 edge +7.6% full MIA-cold-bats fade; F5 2-2 thru5 PUSH (HOU won 5-2)
+2026-07-22,CIN@SEA,F5,0.58,SEA,-150,W,cohort=ranked RANKED #3 edge +5.9% full ERA-lead pick Hancock; F5 SEA 3-2 thru5 WIN (SEA won 5-3)
