@@ -185,3 +185,7 @@ date,game,market,model_prob,bet_side,odds,result,note
 2026-07-22,CIN@SEA,F5,0.58,SEA,-150,W,cohort=ranked RANKED #3 edge +5.9% full ERA-lead pick Hancock; F5 SEA 3-2 thru5 WIN (SEA won 5-3)
 2026-07-23,SD@ATL,F5,0.62,ATL,-255,W,cohort=ranked RANKED #1 edge +7.3% HALF(gap21) STEEP CONFIRMED Sale-vs-Hart; F5 ATL 5-3 thru5 WIN (ATL won 6-5)
 2026-07-23,TB@TOR,F5,0.60,TB,-117,L,cohort=ranked RANKED #2 edge +7.2% CONFIRMED Bieber-23IP fade; F5 TB 1-2 thru5 LOSS (TOR won 3-1)
+2026-07-24,LAA@SF,F5,0.68,SF,-175,W,cohort=ranked RANKED #1 edge +8.1% HALF(gap25) CONFIRMED G-Rodriguez 8.23 fade; F5 SF 5-4 thru5 WIN (SF won 7-6)
+2026-07-24,NYY@PHI,F5,0.53,NYY,115,W,cohort=ranked RANKED #2 edge +7.9% full dog cold-bats flag; F5 NYY 1-0 thru5 WIN (NYY won 1-0)
+2026-07-24,SEA@TEX,F5,0.61,SEA,-125,P,cohort=ranked RANKED #3 edge +7.6% HALF(gap23) ERA-lead pick; F5 3-3 thru5 PUSH (TEX won 5-4)
+2026-07-24,HOU@CWS,F5,0.57,CWS,-138,W,cohort=ranked RANKED #4 edge +5.9% full ERA-lead pick full-stake; F5 CWS 5-0 thru5 WIN (HOU won full 9-5)
