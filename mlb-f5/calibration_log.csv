@@ -189,3 +189,8 @@ date,game,market,model_prob,bet_side,odds,result,note
 2026-07-24,NYY@PHI,F5,0.53,NYY,115,W,cohort=ranked RANKED #2 edge +7.9% full dog cold-bats flag; F5 NYY 1-0 thru5 WIN (NYY won 1-0)
 2026-07-24,SEA@TEX,F5,0.61,SEA,-125,P,cohort=ranked RANKED #3 edge +7.6% HALF(gap23) ERA-lead pick; F5 3-3 thru5 PUSH (TEX won 5-4)
 2026-07-24,HOU@CWS,F5,0.57,CWS,-138,W,cohort=ranked RANKED #4 edge +5.9% full ERA-lead pick full-stake; F5 CWS 5-0 thru5 WIN (HOU won full 9-5)
+2026-07-25,TOR@BOS,F5,0.58,BOS,110,L,cohort=ranked RANKED #1 edge +8.8% HALF(gap27) Cease-fade bats-play; F5 BOS 0-5 thru5 LOSS (TOR won 6-0)
+2026-07-25,CLE@TB,F5,0.60,TB,-113,W,cohort=ranked RANKED #2 edge +8.3% HALF(gap25) ERA-lead pick; F5 TB 2-0 thru5 WIN (TB won 3-0)
+2026-07-25,HOU@CWS,F5,0.57,CWS,-135,P,cohort=ranked RANKED #3 edge +6.3% full ERA-lead pick; F5 0-0 thru5 PUSH (HOU won 4-1)
+2026-07-25,SD@MIA,F5,0.55,SD,130,W,cohort=ranked RANKED #4 edge +5.9% full dog SD-hot-bats; F5 SD 2-1 thru5 WIN (SD won 7-2)
+2026-07-25,LAA@SF,F5,0.68,SF,-140,W,cohort=shadow HARD-VETO gap30 edge +8.9% CONFIRMED R.Johnson fade NO BET; F5 SF 9-0 thru5 WIN (SF won 9-2) - veto cost a winner
