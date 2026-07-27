@@ -194,3 +194,6 @@ date,game,market,model_prob,bet_side,odds,result,note
 2026-07-25,HOU@CWS,F5,0.57,CWS,-135,P,cohort=ranked RANKED #3 edge +6.3% full ERA-lead pick; F5 0-0 thru5 PUSH (HOU won 4-1)
 2026-07-25,SD@MIA,F5,0.55,SD,130,W,cohort=ranked RANKED #4 edge +5.9% full dog SD-hot-bats; F5 SD 2-1 thru5 WIN (SD won 7-2)
 2026-07-25,LAA@SF,F5,0.68,SF,-140,W,cohort=shadow HARD-VETO gap30 edge +8.9% CONFIRMED R.Johnson fade NO BET; F5 SF 9-0 thru5 WIN (SF won 9-2) - veto cost a winner
+2026-07-26,TOR@BOS,F5,0.63,BOS,-130,W,cohort=ranked RANKED #1 edge +9.1% HALF(gap28) Gausman-fade hot-bats; F5 BOS 3-0 thru5 WIN (BOS won 6-1)
+2026-07-26,SD@MIA,F5,0.55,SD,115,L,cohort=ranked RANKED #2 edge +8.1% HALF(gap22) dog hot-bats; F5 SD 1-3 thru5 LOSS (SD won full 5-3)
+2026-07-26,COL@MIL,F5,0.71,MIL,-330,W,cohort=ranked RANKED #3 edge +7.2% HALF(gap21) STEEP CONFIRMED Freeland-Coors fade; F5 MIL 3-1 thru5 WIN (MIL won 11-2)
