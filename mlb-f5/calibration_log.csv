@@ -201,3 +201,10 @@ date,game,market,model_prob,bet_side,odds,result,note
 2026-07-27,HOU@LAA,F5,0.61,LAA,-110,W,cohort=ranked RANKED #2 edge +8.2% HALF(gap24) CONFIRMED Imai fade cold-bats flag; F5 LAA 4-1 thru5 WIN (HOU won full 6-4)
 2026-07-27,CLE@CIN,F5,0.66,CIN,-185,PPD,cohort=ranked RANKED #3 edge +7.4% HALF(gap21); POSTPONED - no action/void
 2026-07-27,TOR@WSH,F5,0.79,WSH,-135,L,cohort=shadow HARD-VETO gap42 edge +14.4% CONFIRMED Scherzer-22IP fade NO BET; F5 WSH 2-3 thru5 LOSS (TOR won 3-2) - veto correct
+2026-07-28,BAL@DET,F5,0.62,DET,-148,W,cohort=ranked RANKED #1 edge +8.3% HALF(gap26) Kremer-32IP fade; F5 DET 9-0 thru5 WIN (DET won 14-0)
+2026-07-28,HOU@LAA,F5,0.60,HOU,-109,P,cohort=ranked RANKED #2 edge +7.9% HALF(gap21); F5 2-2 thru5 PUSH (LAA won 3-2)
+2026-07-28,COL@SD,F5,0.69,SD,-190,L,cohort=ranked RANKED #3 edge +7.5% HALF(gap28) CONFIRMED Lorenzen fade ERA-lead pick; F5 SD 3-4 thru5 LOSS (SD won full 8-7)
+2026-07-28,NYY@CWS,F5,0.54,CWS,115,L,cohort=ranked RANKED #4 edge +6.9% full dog Cole-fade; F5 CWS 0-3 thru5 LOSS (NYY won 3-2)
+2026-07-28,BOS@ATH,F5,0.61,BOS,-140,L,cohort=ranked RANKED #5 edge +6.9% full ERA-lead pick; F5 BOS 0-1 thru5 LOSS (ATH won 4-3)
+2026-07-28,PHI@MIA,F5,0.58,MIA,-124,W,cohort=ranked RANKED #6 edge +6.5% full CONFIRMED Nola fade cold-bats flag; F5 MIA 1-0 thru5 WIN (MIA won 1-0)
+2026-07-28,TOR@WSH,F5,0.72,WSH,-150,W,cohort=shadow HARD-VETO gap32 edge +11.0% Bieber-30IP fade NO BET; F5 WSH 8-3 thru5 WIN (WSH won 8-6) - veto cost a winner
