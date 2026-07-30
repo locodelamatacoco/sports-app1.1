@@ -208,3 +208,8 @@ date,game,market,model_prob,bet_side,odds,result,note
 2026-07-28,BOS@ATH,F5,0.61,BOS,-140,L,cohort=ranked RANKED #5 edge +6.9% full ERA-lead pick; F5 BOS 0-1 thru5 LOSS (ATH won 4-3)
 2026-07-28,PHI@MIA,F5,0.58,MIA,-124,W,cohort=ranked RANKED #6 edge +6.5% full CONFIRMED Nola fade cold-bats flag; F5 MIA 1-0 thru5 WIN (MIA won 1-0)
 2026-07-28,TOR@WSH,F5,0.72,WSH,-150,W,cohort=shadow HARD-VETO gap32 edge +11.0% Bieber-30IP fade NO BET; F5 WSH 8-3 thru5 WIN (WSH won 8-6) - veto cost a winner
+2026-07-29,CHC@STL,F5,0.64,CHC,100,P,cohort=ranked RANKED #1 edge +9.6% HALF(gap29) hot-bats; F5 0-0 thru5 PUSH (STL won 3-2)
+2026-07-29,AZ@PIT,F5,0.58,AZ,120,W,cohort=ranked RANKED #2 edge +8.7% HALF(gap25) dog E-Rod hot-bats; F5 AZ 2-0 thru5 WIN (AZ won 3-0)
+2026-07-29,SEA@LAD,F5,0.55,SEA,130,L,cohort=ranked RANKED #3 edge +8.4% full dog ERA-lead pick; F5 SEA 0-3 thru5 LOSS (LAD won 4-2)
+2026-07-29,TOR@WSH,F5,0.59,WSH,-103,W,cohort=ranked RANKED #4 edge +6.6% full bats-play neg-ERA-gap; F5 WSH 1-0 thru5 WIN (WSH won 5-2)
+2026-07-29,BAL@DET,F5,0.66,DET,-190,W,cohort=ranked RANKED #5 edge +5.5% full Skubal ERA-lead pick; F5 DET 5-0 thru5 WIN (DET won 10-9)
