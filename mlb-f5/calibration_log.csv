@@ -213,3 +213,8 @@ date,game,market,model_prob,bet_side,odds,result,note
 2026-07-29,SEA@LAD,F5,0.55,SEA,130,L,cohort=ranked RANKED #3 edge +8.4% full dog ERA-lead pick; F5 SEA 0-3 thru5 LOSS (LAD won 4-2)
 2026-07-29,TOR@WSH,F5,0.59,WSH,-103,W,cohort=ranked RANKED #4 edge +6.6% full bats-play neg-ERA-gap; F5 WSH 1-0 thru5 WIN (WSH won 5-2)
 2026-07-29,BAL@DET,F5,0.66,DET,-190,W,cohort=ranked RANKED #5 edge +5.5% full Skubal ERA-lead pick; F5 DET 5-0 thru5 WIN (DET won 10-9)
+2026-07-30,PIT@CIN,F5,0.66,PIT,-115,L,cohort=ranked RANKED #1 edge +9.1% HALF(gap29) CONFIRMED Lowder fade cold-bats flag; F5 PIT 1-2 thru5 LOSS (CIN won 3-2)
+2026-07-30,TEX@TB,F5,0.68,TB,-165,L,cohort=ranked RANKED #2 edge +8.0% HALF(gap24) CONFIRMED Winn-35IP fade ERA-lead; F5 TB 1-2 thru5 LOSS (TB won full 3-2)
+2026-07-30,NYY@CWS,F5,0.63,CWS,-120,P,cohort=ranked RANKED #3 edge +7.7% HALF(gap21) ERA-lead pick; F5 0-0 thru5 PUSH (CWS won 2-1)
+2026-07-30,CHC@STL,F5,0.62,CHC,102,P,cohort=ranked RANKED #4 edge +7.7% HALF(gap20) hot-bats; F5 1-1 thru5 PUSH (CHC won 4-2)
+2026-07-30,BOS@ATH,F5,0.65,BOS,-156,P,cohort=ranked RANKED #5 edge +6.4% full Barnett-24IP fade; F5 3-3 thru5 PUSH (BOS won 5-4)
