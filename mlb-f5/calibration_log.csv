@@ -218,3 +218,12 @@ date,game,market,model_prob,bet_side,odds,result,note
 2026-07-30,NYY@CWS,F5,0.63,CWS,-120,P,cohort=ranked RANKED #3 edge +7.7% HALF(gap21) ERA-lead pick; F5 0-0 thru5 PUSH (CWS won 2-1)
 2026-07-30,CHC@STL,F5,0.62,CHC,102,P,cohort=ranked RANKED #4 edge +7.7% HALF(gap20) hot-bats; F5 1-1 thru5 PUSH (CHC won 4-2)
 2026-07-30,BOS@ATH,F5,0.65,BOS,-156,P,cohort=ranked RANKED #5 edge +6.4% full Barnett-24IP fade; F5 3-3 thru5 PUSH (BOS won 5-4)
+2026-07-31,MIL@LAA,F5,0.69,MIL,-163,W,cohort=ranked RANKED #1 edge +8.9% HALF(gap28) CONFIRMED R.Johnson fade ERA-lead; F5 MIL 6-2 thru5 WIN (MIL won 6-2)
+2026-07-31,WSH@ATL,F5,0.62,WSH,-120,L,cohort=ranked RANKED #2 edge +7.9% HALF(gap21); F5 WSH 1-2 thru5 LOSS (ATL won 6-2)
+2026-07-31,CWS@TB,F5,0.63,TB,-140,L,cohort=ranked RANKED #3 edge +7.9% HALF(gap20) Fedde fade; F5 TB 1-4 thru5 LOSS (CWS won 6-1)
+2026-07-31,NYY@CHC,F5,0.63,CHC,-145,L,cohort=ranked RANKED #4 edge +7.8% full hot-bats; F5 CHC 0-2 thru5 LOSS (NYY won 2-0)
+2026-07-31,MIN@SEA,F5,0.64,SEA,-163,W,cohort=ranked RANKED #5 edge +7.2% full ERA-lead pick Miller; F5 SEA 3-2 thru5 WIN (SEA won 5-3)
+2026-07-31,TEX@HOU,F5,0.60,HOU,-115,W,cohort=ranked RANKED #6 edge +6.8% full; F5 HOU 6-0 thru5 WIN (HOU won 11-2)
+2026-07-31,BOS@LAD,F5,0.59,LAD,-135,W,cohort=ranked RANKED #7 edge +5.1% full thin ERA gap; F5 LAD 4-3 thru5 WIN (LAD won 9-4)
+2026-07-31,PIT@CIN,F5,0.75,PIT,-125,L,cohort=shadow HARD-VETO gap31 edge +10.2% CONFIRMED Greene-21IP fade NO BET cold-bats; F5 PIT 4-5 thru5 LOSS (CIN won 8-7) - veto correct
+2026-07-31,DET@ATH,F5,0.80,DET,-156,W,cohort=shadow HARD-VETO gap31 edge +9.9% CONFIRMED Springs fade NO BET; F5 DET 2-1 thru5 WIN (DET won 13-1) - veto cost a winner
