@@ -227,3 +227,7 @@ date,game,market,model_prob,bet_side,odds,result,note
 2026-07-31,BOS@LAD,F5,0.59,LAD,-135,W,cohort=ranked RANKED #7 edge +5.1% full thin ERA gap; F5 LAD 4-3 thru5 WIN (LAD won 9-4)
 2026-07-31,PIT@CIN,F5,0.75,PIT,-125,L,cohort=shadow HARD-VETO gap31 edge +10.2% CONFIRMED Greene-21IP fade NO BET cold-bats; F5 PIT 4-5 thru5 LOSS (CIN won 8-7) - veto correct
 2026-07-31,DET@ATH,F5,0.80,DET,-156,W,cohort=shadow HARD-VETO gap31 edge +9.9% CONFIRMED Springs fade NO BET; F5 DET 2-1 thru5 WIN (DET won 13-1) - veto cost a winner
+2026-08-01,DET@ATH,F5,0.65,DET,-135,W,cohort=ranked RANKED #1 edge +8.5% HALF(gap25) CONFIRMED Perkins fade hot-bats; F5 DET 4-2 thru5 WIN (DET won 8-6)
+2026-08-01,MIA@NYM,F5,0.61,NYM,-129,L,cohort=ranked RANKED #2 edge +7.0% full lean-not-fade; F5 NYM 2-4 thru5 LOSS (MIA won 6-2)
+2026-08-01,NYY@CHC,F5,0.55,NYY,-106,P,cohort=ranked RANKED #3 edge +5.4% CONFIRMED Peterson fade cold-bats flag; F5 1-1 thru5 PUSH (CHC won 5-2)
+2026-08-01,WSH@ATL,F5,0.63,ATL,-156,W,cohort=ranked RANKED #4 edge +5.4% CONFIRMED Mikolas fade ERA-lead pick; F5 ATL 4-0 thru5 WIN (ATL won 8-3)
