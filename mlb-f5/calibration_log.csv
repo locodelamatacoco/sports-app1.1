@@ -231,3 +231,10 @@ date,game,market,model_prob,bet_side,odds,result,note
 2026-08-01,MIA@NYM,F5,0.61,NYM,-129,L,cohort=ranked RANKED #2 edge +7.0% full lean-not-fade; F5 NYM 2-4 thru5 LOSS (MIA won 6-2)
 2026-08-01,NYY@CHC,F5,0.55,NYY,-106,P,cohort=ranked RANKED #3 edge +5.4% CONFIRMED Peterson fade cold-bats flag; F5 1-1 thru5 PUSH (CHC won 5-2)
 2026-08-01,WSH@ATL,F5,0.63,ATL,-156,W,cohort=ranked RANKED #4 edge +5.4% CONFIRMED Mikolas fade ERA-lead pick; F5 ATL 4-0 thru5 WIN (ATL won 8-3)
+2026-08-02,DET@ATH,F5,0.62,DET,-105,W,cohort=ranked RANKED #1 edge +8.1% HALF(gap23) hot-bats; F5 DET 6-0 thru5 WIN (DET won 11-0)
+2026-08-02,TEX@HOU,F5,0.63,HOU,-133,W,cohort=ranked RANKED #2 edge +7.9% HALF(gap23) ERA-lead pick; F5 HOU 3-2 thru5 WIN (HOU won 7-3)
+2026-08-02,AZ@CLE,F5,0.51,AZ,153,L,cohort=ranked RANKED #3 edge +7.8% full dog neg-ERA-gap bats-play; F5 AZ 0-5 thru5 LOSS (CLE won 5-0)
+2026-08-02,KC@COL,F5,0.56,KC,110,L,cohort=ranked RANKED #4 edge +7.5% full CAUTION Freeland fade top-ERA-gap; F5 KC 1-2 thru5 LOSS (COL won 8-1)
+2026-08-02,PIT@CIN,F5,0.63,CIN,-167,W,cohort=ranked RANKED #5 edge +6.8% full ERA-lead pick Burns; F5 CIN 9-1 thru5 WIN (CIN won 10-2)
+2026-08-02,MIN@SEA,F5,0.53,MIN,113,L,cohort=ranked RANKED #6 edge +5.6% full dog thin-ERA-gap; F5 MIN 0-2 thru5 LOSS (SEA won 7-6)
+2026-08-02,BOS@LAD,F5,0.70,BOS,149,W,cohort=shadow HARD-VETO gap31 edge +11.2% NO BET watchlist; F5 BOS 5-3 thru5 WIN (BOS won 8-4) - veto cost a winner
