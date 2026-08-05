@@ -238,3 +238,9 @@ date,game,market,model_prob,bet_side,odds,result,note
 2026-08-02,PIT@CIN,F5,0.63,CIN,-167,W,cohort=ranked RANKED #5 edge +6.8% full ERA-lead pick Burns; F5 CIN 9-1 thru5 WIN (CIN won 10-2)
 2026-08-02,MIN@SEA,F5,0.53,MIN,113,L,cohort=ranked RANKED #6 edge +5.6% full dog thin-ERA-gap; F5 MIN 0-2 thru5 LOSS (SEA won 7-6)
 2026-08-02,BOS@LAD,F5,0.70,BOS,149,W,cohort=shadow HARD-VETO gap31 edge +11.2% NO BET watchlist; F5 BOS 5-3 thru5 WIN (BOS won 8-4) - veto cost a winner
+2026-08-04,MIN@KC,F5,0.57,KC,128,W,cohort=ranked RANKED #1 edge +8.8% HALF(gap23) dog Dobnak cold-bats flag; F5 KC 5-1 thru5 WIN (KC won 8-2)
+2026-08-04,SD@AZ,F5,0.64,AZ,-135,L,cohort=ranked RANKED #2 edge +8.4% HALF(gap25) ERA-lead pick E-Rod; F5 AZ 0-6 thru5 LOSS (SD won 9-4)
+2026-08-04,MIA@ATL,F5,0.62,ATL,-145,W,cohort=ranked RANKED #3 edge +6.8% full Gusto-39IP fade; F5 ATL 1-0 thru5 WIN (ATL won 4-2)
+2026-08-04,PIT@MIL,F5,0.60,MIL,-154,W,cohort=ranked RANKED #4 edge +5.7% full ERA-lead pick Henderson; F5 MIL 4-2 thru5 WIN (MIL won 4-2)
+2026-08-04,STL@NYY,F5,0.52,STL,147,L,cohort=ranked RANKED #5 edge +5.5% full dog thin-ERA-gap; F5 STL 0-2 thru5 LOSS (NYY won 2-0)
+2026-08-04,TB@COL,F5,0.71,COL,125,W,cohort=shadow HARD-VETO gap38 edge +13.7% NO BET watchlist; F5 COL 7-5 thru5 WIN (COL won 9-7) - veto cost a winner
