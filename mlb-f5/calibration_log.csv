@@ -244,3 +244,10 @@ date,game,market,model_prob,bet_side,odds,result,note
 2026-08-04,PIT@MIL,F5,0.60,MIL,-154,W,cohort=ranked RANKED #4 edge +5.7% full ERA-lead pick Henderson; F5 MIL 4-2 thru5 WIN (MIL won 4-2)
 2026-08-04,STL@NYY,F5,0.52,STL,147,L,cohort=ranked RANKED #5 edge +5.5% full dog thin-ERA-gap; F5 STL 0-2 thru5 LOSS (NYY won 2-0)
 2026-08-04,TB@COL,F5,0.71,COL,125,W,cohort=shadow HARD-VETO gap38 edge +13.7% NO BET watchlist; F5 COL 7-5 thru5 WIN (COL won 9-7) - veto cost a winner
+2026-08-05,TOR@HOU,F5,0.70,HOU,-195,W,cohort=ranked RANKED #1 edge +8.6% HALF(gap25) CONFIRMED Taillon fade ERA-lead; F5 HOU 3-0 thru5 WIN (HOU won 5-4)
+2026-08-05,SD@AZ,F5,0.64,SD,-132,L,cohort=ranked RANKED #2 edge +8.2% HALF(gap24) Bratt-20IP fade; F5 SD 0-8 thru5 LOSS (AZ won 10-4)
+2026-08-05,LAD@CHC,F5,0.62,CHC,-136,W,cohort=ranked RANKED #3 edge +6.6% full; F5 CHC 6-1 thru5 WIN (CHC won 7-6)
+2026-08-05,PIT@MIL,F5,0.61,MIL,-122,W,cohort=ranked RANKED #4 edge +6.3% full ERA-lead pick Harrison; F5 MIL 3-0 thru5 WIN (MIL won 4-2)
+2026-08-05,NYM@CLE,F5,0.57,NYM,-110,P,cohort=ranked RANKED #5 edge +5.7% full; F5 3-3 thru5 PUSH (NYM won 6-5)
+2026-08-05,MIN@KC,F5,0.60,KC,-140,P,cohort=ranked RANKED #6 edge +5.1% CONFIRMED Kremer-36IP fade; F5 1-1 thru5 PUSH (KC won 2-1)
+2026-08-05,DET@SEA,F5,0.66,DET,129,P,cohort=shadow HARD-VETO gap30 edge +10.6% NO BET watchlist hot-bats; F5 0-0 thru5 PUSH (SEA won 4-2)
