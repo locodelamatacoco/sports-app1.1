@@ -251,3 +251,8 @@ date,game,market,model_prob,bet_side,odds,result,note
 2026-08-05,NYM@CLE,F5,0.57,NYM,-110,P,cohort=ranked RANKED #5 edge +5.7% full; F5 3-3 thru5 PUSH (NYM won 6-5)
 2026-08-05,MIN@KC,F5,0.60,KC,-140,P,cohort=ranked RANKED #6 edge +5.1% CONFIRMED Kremer-36IP fade; F5 1-1 thru5 PUSH (KC won 2-1)
 2026-08-05,DET@SEA,F5,0.66,DET,129,P,cohort=shadow HARD-VETO gap30 edge +10.6% NO BET watchlist hot-bats; F5 0-0 thru5 PUSH (SEA won 4-2)
+2026-08-06,CWS@BOS,F5,0.67,BOS,-180,L,cohort=ranked RANKED #1 edge +7.4% HALF(gap20) Castillo fade hot-bats; F5 BOS 5-7 thru5 LOSS (BOS won full 12-11)
+2026-08-06,MIA@ATL,F5,0.61,ATL,-138,W,cohort=ranked RANKED #2 edge +7.0% full; F5 ATL 2-0 thru5 WIN (ATL won 11-3)
+2026-08-06,TOR@CHC,F5,0.62,TOR,-122,W,cohort=ranked RANKED #3 edge +6.9% CONFIRMED Peterson fade ERA-lead cold-bats flag; F5 TOR 1-0 thru5 WIN (CHC won full 3-2)
+2026-08-06,WSH@PHI,F5,0.79,PHI,-330,W,cohort=ranked RANKED #4 edge +5.2% CONFIRMED STEEP Mikolas fade; F5 PHI 6-2 thru5 WIN (PHI won 7-3)
+2026-08-06,LAA@BAL,F5,0.71,BAL,-180,L,cohort=shadow HARD-VETO gap30 edge +9.6% CONFIRMED R.Johnson fade NO BET; F5 BAL 1-3 thru5 LOSS (LAA won 4-1) - veto correct
