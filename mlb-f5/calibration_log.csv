@@ -275,3 +275,5 @@ date,game,market,model_prob,bet_side,odds,result,note
 2026-08-09,TOR@PHI,F5,0.68,PHI,-203,W,cohort=ranked RANKED #7 edge +6.1% full STEEP Bieber-37IP fade; F5 PHI 4-2 thru5 WIN (PHI won 7-6)
 2026-08-09,MIN@MIL,F5,0.73,MIL,-280,W,cohort=ranked RANKED #8 edge +5.2% full STEEP Misiorowski cold-bats flag; F5 MIL 3-1 thru5 WIN (MIL won 4-3)
 2026-08-09,DET@SF,F5,0.72,DET,-125,P,cohort=shadow HARD-VETO gap32 edge +9.6% NO BET watchlist DET-bats-8.6-L10; F5 0-0 thru5 PUSH (DET won 3-1)
+2026-08-10,BOS@TOR,F5,0.74,BOS,-150,L,cohort=shadow HARD-VETO gap34 edge +11.5% CONFIRMED Taillon fade NO BET hot-bats-7.4; F5 BOS 0-1 thru5 LOSS (TOR won 2-1) - veto correct
+2026-08-10,PHI@STL,F5,0.65,STL,102,L,cohort=shadow HARD-VETO gap31 edge +9.9% CAUTION Painter fade NO BET; F5 STL 0-3 thru5 LOSS (PHI won 6-5) - veto correct
