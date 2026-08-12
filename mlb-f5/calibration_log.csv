@@ -277,3 +277,7 @@ date,game,market,model_prob,bet_side,odds,result,note
 2026-08-09,DET@SF,F5,0.72,DET,-125,P,cohort=shadow HARD-VETO gap32 edge +9.6% NO BET watchlist DET-bats-8.6-L10; F5 0-0 thru5 PUSH (DET won 3-1)
 2026-08-10,BOS@TOR,F5,0.74,BOS,-150,L,cohort=shadow HARD-VETO gap34 edge +11.5% CONFIRMED Taillon fade NO BET hot-bats-7.4; F5 BOS 0-1 thru5 LOSS (TOR won 2-1) - veto correct
 2026-08-10,PHI@STL,F5,0.65,STL,102,L,cohort=shadow HARD-VETO gap31 edge +9.9% CAUTION Painter fade NO BET; F5 STL 0-3 thru5 LOSS (PHI won 6-5) - veto correct
+2026-08-11,TB@ATH,F5,0.68,TB,-160,W,cohort=ranked RANKED #1 edge +8.7% HALF(gap25) CONFIRMED Barnett-34IP fade ERA-lead; F5 TB 6-2 thru5 WIN (TB won 12-4)
+2026-08-11,CIN@CWS,F5,0.64,CWS,-155,W,cohort=ranked RANKED #2 edge +7.5% full ERA-lead pick Burke; F5 CWS 4-1 thru5 WIN (CIN won full 5-4)
+2026-08-11,MIL@SD,F5,0.62,MIL,-145,L,cohort=ranked RANKED #3 edge +6.2% full Buehler fade cold-bats flag; F5 MIL 1-8 thru5 LOSS (SD won 11-2)
+2026-08-11,CLE@DET,F5,0.60,DET,-135,W,cohort=ranked RANKED #4 edge +5.5% full neg-ERA-gap hot-bats-7.5; F5 DET 4-1 thru5 WIN (DET won 6-4)
