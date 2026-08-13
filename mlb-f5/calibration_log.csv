@@ -281,3 +281,7 @@ date,game,market,model_prob,bet_side,odds,result,note
 2026-08-11,CIN@CWS,F5,0.64,CWS,-155,W,cohort=ranked RANKED #2 edge +7.5% full ERA-lead pick Burke; F5 CWS 4-1 thru5 WIN (CIN won full 5-4)
 2026-08-11,MIL@SD,F5,0.62,MIL,-145,L,cohort=ranked RANKED #3 edge +6.2% full Buehler fade cold-bats flag; F5 MIL 1-8 thru5 LOSS (SD won 11-2)
 2026-08-11,CLE@DET,F5,0.60,DET,-135,W,cohort=ranked RANKED #4 edge +5.5% full neg-ERA-gap hot-bats-7.5; F5 DET 4-1 thru5 WIN (DET won 6-4)
+2026-08-12,TB@ATH,F5,0.71,TB,-196,W,cohort=ranked RANKED #1 edge +9.0% HALF(gap29) CONFIRMED Perkins fade ERA-lead +4.29 gap; F5 TB 7-2 thru5 WIN (TB won 8-4)
+2026-08-12,MIL@SD,F5,0.57,SD,110,L,cohort=ranked RANKED #2 edge +8.9% HALF(gap27) dog SD-bats; F5 SD 1-2 thru5 LOSS (SD won full 4-3)
+2026-08-12,KC@LAD,F5,0.60,KC,150,L,cohort=shadow HARD-VETO gap36 edge +12.8% NO BET watchlist Lynch-2.45; F5 KC 2-4 thru5 LOSS (LAD won 4-2) - veto correct
+2026-08-12,NYM@ATL,F5,0.64,NYM,135,L,cohort=shadow HARD-VETO gap36 edge +12.2% NO BET watchlist Thornton-2.52 hot-bats; F5 NYM 0-3 thru5 LOSS (ATL won 6-3) - veto correct
