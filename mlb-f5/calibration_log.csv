@@ -285,3 +285,9 @@ date,game,market,model_prob,bet_side,odds,result,note
 2026-08-12,MIL@SD,F5,0.57,SD,110,L,cohort=ranked RANKED #2 edge +8.9% HALF(gap27) dog SD-bats; F5 SD 1-2 thru5 LOSS (SD won full 4-3)
 2026-08-12,KC@LAD,F5,0.60,KC,150,L,cohort=shadow HARD-VETO gap36 edge +12.8% NO BET watchlist Lynch-2.45; F5 KC 2-4 thru5 LOSS (LAD won 4-2) - veto correct
 2026-08-12,NYM@ATL,F5,0.64,NYM,135,L,cohort=shadow HARD-VETO gap36 edge +12.2% NO BET watchlist Thornton-2.52 hot-bats; F5 NYM 0-3 thru5 LOSS (ATL won 6-3) - veto correct
+2026-08-13,PIT@MIA,F5,0.58,MIA,112,L,cohort=ranked RANKED #1 edge +8.3% HALF(gap23) dog; F5 MIA 0-2 thru5 LOSS (PIT won 13-1)
+2026-08-13,PHI@MIN,F5,0.62,MIN,-118,L,cohort=ranked RANKED #2 edge +8.1% HALF(gap24) CONFIRMED Nola fade ERA-lead; F5 MIN 1-5 thru5 LOSS (PHI won 7-1)
+2026-08-13,TEX@LAA,F5,0.56,LAA,128,W,cohort=ranked RANKED #3 edge +8.0% full dog cold-bats flag deGrom-lean; F5 LAA 6-0 thru5 WIN (LAA won 7-0)
+2026-08-13,CHC@WSH,F5,0.55,WSH,115,W,cohort=ranked RANKED #4 edge +6.6% full dog ERA-lead pick; F5 WSH 6-0 thru5 WIN (WSH won 7-0)
+2026-08-13,SEA@NYY,F5,0.61,NYY,-156,L,cohort=ranked RANKED #5 edge +5.0% full Fried; F5 NYY 0-1 thru5 LOSS (SEA won 1-0)
+2026-08-13,BOS@TOR,F5,0.73,BOS,-174,W,cohort=shadow HARD-VETO gap31 edge +9.7% CONFIRMED Scherzer-36IP fade NO BET; F5 BOS 1-0 thru5 WIN (BOS won 7-0) - veto cost a winner
