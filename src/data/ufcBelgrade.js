@@ -20,6 +20,13 @@ export const UFC_BELGRADE_CARD = {
       estimatedMarkets: ['goesDistance', 'totalRounds', 'koA', 'koB', 'subA', 'subB', 'decA', 'decB'],
       notes:
         "Medić headlines his home country's debut card with a 100% career finish rate and three straight wins (Urbina, Salikhov, then sparking Geoff Neal in February). Rodriguez is 39, also on a three-fight streak, a durable high-volume southpaw boxer. Home-crowd + hometown-hero pricing is a classic public number. MLs sourced; all props estimated.",
+      result: {
+        winner: 'A',
+        method: 'KO/TKO',
+        round: 1,
+        timeMin: 0.5,
+        note: 'Medić TKO at 0:30 of round 1 — hometown demolition, his fourth straight win.',
+      },
       fighterA: {
         name: 'Uroš Medić',
         record: '13-3',
@@ -128,6 +135,12 @@ export const UFC_BELGRADE_CARD = {
       estimatedMarkets: ['goesDistance', 'totalRounds', 'koA', 'koB', 'subA', 'subB', 'decA', 'decB'],
       notes:
         'Błachowicz is 43 and winless in his last four (0-2-2), with one win since the Adesanya title defense in 2021. Stirling is 28, 10-0, and finished both of his 2026 appearances including Cutelaba. Textbook young-finisher-vs-faded-veteran. MLs sourced; props estimated.',
+      result: {
+        winner: 'A',
+        method: 'KO/TKO',
+        round: 1,
+        note: 'Stirling knocked out Błachowicz in round 1; the 43-year-old former champ is now winless in five.',
+      },
       fighterA: {
         name: 'Navajo Stirling',
         record: '10-0',
@@ -236,6 +249,12 @@ export const UFC_BELGRADE_CARD = {
       estimatedMarkets: ['goesDistance', 'totalRounds', 'koA', 'koB', 'subA', 'subB', 'decA', 'decB'],
       notes:
         "Rakić is a -360 favorite despite a four-fight losing streak, moving up to heavyweight for the first time; Tybura is a 40-year-old ranked veteran with a deep grappling base. The market is pricing Rakić's athletic ceiling, not his recent results — the model is built to question exactly this shape of number. MLs sourced; props estimated.",
+      result: {
+        winner: 'A',
+        method: 'Decision',
+        round: 3,
+        note: 'Rakić by unanimous decision in his heavyweight debut. The near-bet on Tybura +285 (5.5% edge, below the 7% gate) would have lost.',
+      },
       fighterA: {
         name: 'Aleksandar Rakić',
         record: '14-6',
@@ -344,6 +363,13 @@ export const UFC_BELGRADE_CARD = {
       estimatedMarkets: ['goesDistance', 'totalRounds', 'koA', 'koB', 'subA', 'subB', 'decA', 'decB'],
       notes:
         'Todorović (13-6, 4-6 UFC) fights at home against Valentin (11-6, 1-3 UFC). Two fighters with losing octagon records — thin, low-quality inputs on both sides. MLs sourced; props estimated.',
+      result: {
+        winner: 'A',
+        method: 'Submission',
+        round: 1,
+        timeMin: 4.23,
+        note: 'Valentin submitted Todorović at 4:14 of round 1.',
+      },
       fighterA: {
         name: 'Robert Valentin',
         record: '11-6 (1 NC)',
@@ -452,6 +478,13 @@ export const UFC_BELGRADE_CARD = {
       estimatedMarkets: ['goesDistance', 'totalRounds', 'koA', 'koB', 'subA', 'subB', 'decA', 'decB'],
       notes:
         'Čepo (14-3) debuts at home with a 100% finish rate — all 14 wins in round one. Urbina (7-4, 1-3 UFC) has been knocked out in round one in each of his last two. Zero UFC tape on Čepo makes this the least reliable profile on the card. MLs sourced; props estimated.',
+      result: {
+        winner: 'B',
+        method: 'KO/TKO',
+        round: 1,
+        timeMin: 1.02,
+        note: 'Urbina stopped Čepo in 61 seconds — the raw model had Čepo at 96.7% on regional tape, and the confidence gate (4.3/10) correctly refused the bet.',
+      },
       fighterA: {
         name: 'Vlasto Čepo',
         record: '14-3',
@@ -560,6 +593,13 @@ export const UFC_BELGRADE_CARD = {
       estimatedMarkets: ['goesDistance', 'totalRounds', 'koA', 'koB', 'subA', 'subB', 'decA', 'decB'],
       notes:
         'Both men are making their UFC debuts — Janičić (19-3) on an eight-fight streak, Gugnon (9-2). No octagon tape on either fighter; these are the weakest inputs on the card and the model should say so. MLs sourced; props estimated.',
+      result: {
+        winner: 'A',
+        method: 'Submission',
+        round: 1,
+        timeMin: 1.35,
+        note: 'Gugnon submitted Janičić with a rear-naked choke at 1:21 of round 1 in a battle of debutants.',
+      },
       fighterA: {
         name: 'Noah Gugnon',
         record: '9-2',
