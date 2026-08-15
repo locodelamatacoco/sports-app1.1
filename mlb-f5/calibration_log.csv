@@ -291,3 +291,10 @@ date,game,market,model_prob,bet_side,odds,result,note
 2026-08-13,CHC@WSH,F5,0.55,WSH,115,W,cohort=ranked RANKED #4 edge +6.6% full dog ERA-lead pick; F5 WSH 6-0 thru5 WIN (WSH won 7-0)
 2026-08-13,SEA@NYY,F5,0.61,NYY,-156,L,cohort=ranked RANKED #5 edge +5.0% full Fried; F5 NYY 0-1 thru5 LOSS (SEA won 1-0)
 2026-08-13,BOS@TOR,F5,0.73,BOS,-174,W,cohort=shadow HARD-VETO gap31 edge +9.7% CONFIRMED Scherzer-36IP fade NO BET; F5 BOS 1-0 thru5 WIN (BOS won 7-0) - veto cost a winner
+2026-08-14,STL@CHC,F5,0.68,CHC,-180,P,cohort=ranked RANKED #1 edge +8.6% HALF(gap25) Liberatore fade hot-bats; F5 0-0 thru5 PUSH (CHC won 3-0)
+2026-08-14,KC@LAA,F5,0.63,KC,-110,P,cohort=ranked RANKED #2 edge +8.2% HALF(gap24) CONFIRMED G-Rodriguez fade ERA-lead; F5 5-5 thru5 PUSH (KC won 7-6)
+2026-08-14,SEA@HOU,F5,0.63,HOU,-125,W,cohort=ranked RANKED #3 edge +7.8% HALF(gap20) Kirby-lean; F5 HOU 5-2 thru5 WIN (HOU won 10-7)
+2026-08-14,BOS@PIT,F5,0.62,BOS,-120,L,cohort=ranked RANKED #4 edge +6.7% full hot-bats-6.4; F5 BOS 2-7 thru5 LOSS (PIT won 8-4)
+2026-08-14,MIL@LAD,F5,0.70,LAD,-190,W,cohort=ranked RANKED #5 edge +5.9% full Yamamoto cold-bats flag; F5 LAD 2-1 thru5 WIN (LAD won 3-1)
+2026-08-14,MIA@CIN,F5,0.59,CIN,-125,P,cohort=ranked RANKED #6 edge +5.4% full Alcantara-lean; F5 0-0 thru5 PUSH (CIN won 1-0)
+2026-08-14,NYY@TOR,F5,0.63,NYY,-150,P,cohort=ranked RANKED #7 edge +5.3% CONFIRMED Bieber-42IP fade cold-bats flag; F5 0-0 thru5 PUSH (TOR won 3-1)
