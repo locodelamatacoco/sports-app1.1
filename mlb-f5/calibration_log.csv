@@ -298,3 +298,7 @@ date,game,market,model_prob,bet_side,odds,result,note
 2026-08-14,MIL@LAD,F5,0.70,LAD,-190,W,cohort=ranked RANKED #5 edge +5.9% full Yamamoto cold-bats flag; F5 LAD 2-1 thru5 WIN (LAD won 3-1)
 2026-08-14,MIA@CIN,F5,0.59,CIN,-125,P,cohort=ranked RANKED #6 edge +5.4% full Alcantara-lean; F5 0-0 thru5 PUSH (CIN won 1-0)
 2026-08-14,NYY@TOR,F5,0.63,NYY,-150,P,cohort=ranked RANKED #7 edge +5.3% CONFIRMED Bieber-42IP fade cold-bats flag; F5 0-0 thru5 PUSH (TOR won 3-1)
+2026-08-15,TEX@ATH,F5,0.57,ATH,113,W,cohort=ranked RANKED #1 edge +9.3% HALF(gap28) dog Gore-lean; F5 ATH 3-1 thru5 WIN (ATH won full... TEX won 5-3 full)
+2026-08-15,BOS@PIT,F5,0.63,BOS,-120,W,cohort=ranked RANKED #2 edge +7.9% HALF(gap24) Jones-59IP fade ERA-lead; F5 BOS 1-0 thru5 WIN (BOS won 4-0)
+2026-08-15,CWS@DET,F5,0.65,DET,-160,P,cohort=ranked RANKED #3 edge +6.8% full Melton-1.46 ERA-lead top pick; F5 3-3 thru5 PUSH (DET won 4-3)
+2026-08-15,KC@LAA,F5,0.68,KC,130,P,cohort=shadow HARD-VETO gap32 edge +11.1% NO BET watchlist Dobnak-2.00; F5 0-0 thru5 PUSH (LAA won 1-0)
