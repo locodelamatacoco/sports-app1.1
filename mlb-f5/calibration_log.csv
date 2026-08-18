@@ -311,3 +311,7 @@ date,game,market,model_prob,bet_side,odds,result,note
 2026-08-16,AZ@ATL,F5,0.60,AZ,-105,L,cohort=ranked RANKED #7 edge +6.3% full Soroka; F5 AZ 1-2 thru5 LOSS (ATL won 5-3)
 2026-08-16,KC@LAA,F5,0.62,KC,-125,W,cohort=ranked RANKED #8 edge +5.7% CONFIRMED R.Johnson fade ERA-lead; F5 KC 2-0 thru5 WIN (KC won 3-0)
 2026-08-16,CWS@DET,F5,0.60,CWS,-113,L,cohort=ranked RANKED #9 edge +5.6% full Burke; F5 CWS 3-4 thru5 LOSS (DET won 7-5)
+2026-08-17,SD@NYM,F5,0.64,NYM,-150,W,cohort=ranked RANKED #1 edge +6.8% full Buehler fade hot-bats-5.4; F5 NYM 2-1 thru5 WIN (NYM won 2-1)
+2026-08-17,ATL@MIN,F5,0.62,ATL,-128,L,cohort=ranked RANKED #2 edge +6.2% full ERA-lead pick M.Perez-2.96; F5 ATL 2-4 thru5 LOSS (MIN won 4-2)
+2026-08-17,DET@PIT,F5,0.58,PIT,-102,L,cohort=ranked RANKED #3 edge +5.9% full thin-ERA-gap bats-play; F5 PIT 1-5 thru5 LOSS (DET won 8-5)
+2026-08-17,ATH@KC,F5,0.70,KC,-190,W,cohort=ranked RANKED #4 edge +5.5% CONFIRMED Barnett-38IP fade ERA-lead; F5 KC 6-4 thru5 WIN (KC won 9-5)
