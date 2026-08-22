@@ -331,3 +331,10 @@ date,game,market,model_prob,bet_side,odds,result,note
 2026-08-20,TOR@TB,F5,0.65,TB,-170,L,cohort=ranked RANKED #5 edge +6.6% full HOT-bats-6.3 Bieber-48IP fade; F5 TB 1-3 thru5 LOSS (TOR won 5-1)
 2026-08-20,NYY@BAL,F5,0.55,BAL,105,L,cohort=ranked RANKED #6 edge +5.8% full dog neg-ERA-gap vs-cold-NYY; F5 BAL 1-3 thru5 LOSS (NYY won 6-1)
 2026-08-20,ATL@CWS,F5,0.59,CWS,-115,L,cohort=ranked RANKED #7 edge +5.0% full neg-ERA-gap vs-cold-ATL; F5 CWS 0-1 thru5 LOSS (ATL won 2-0)
+2026-08-21,LAA@TEX,F5,0.57,LAA,118,P,cohort=ranked RANKED #1 edge +8.7% HALF(gap23) dog Gore-lean; F5 0-0 thru5 PUSH (TEX won 2-1)
+2026-08-21,CIN@AZ,F5,0.65,AZ,-140,W,cohort=ranked RANKED #2 edge +8.5% HALF(gap26) ERA-lead pick E-Rod-2.71; F5 AZ 6-0 thru5 WIN (AZ won 9-0)
+2026-08-21,DET@KC,F5,0.63,DET,-114,L,cohort=ranked RANKED #3 edge +7.8% HALF(gap21) ERA-lead pick Melton-1.49 top-gap; F5 DET 0-2 thru5 LOSS (KC won 5-2)
+2026-08-21,NYM@CWS,F5,0.64,CWS,-145,L,cohort=ranked RANKED #4 edge +6.9% full Manaea fade; F5 CWS 0-4 thru5 LOSS (CWS won full 6-4)
+2026-08-21,SF@BOS,F5,0.66,BOS,-170,W,cohort=ranked RANKED #5 edge +6.8% full Sonny-Gray-2.65 vs Webb; F5 BOS 5-4 thru5 WIN (BOS won 6-4)
+2026-08-21,WSH@MIA,F5,0.55,WSH,130,P,cohort=ranked RANKED #6 edge +6.1% full dog cold-bats flag; F5 0-0 thru5 PUSH (MIA won 3-2)
+2026-08-21,ATH@HOU,F5,0.66,ATH,145,L,cohort=shadow HARD-VETO gap31 edge +10.8% NO BET watchlist Wesneski-22IP small-sample; F5 ATH 0-3 thru5 LOSS (HOU won 4-0) - veto correct
