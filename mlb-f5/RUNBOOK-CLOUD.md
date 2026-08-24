@@ -59,6 +59,37 @@ the note** (`cohort=ranked`, `cohort=shadow`, or `cohort=excluded`) so
 `cohort_report.py` doesn't have to guess from keywords. Historical rows are
 classified heuristically; the keyword rules are documented in the script.
 
+## Shadow analyses (reporting only — never change the live card)
+
+`run_daily.sh` prints these under a SHADOW banner after the normal brief.
+Neither feeds `daily_run.py`; the frozen v3.1.4 rules are untouched.
+
+- **`f5_offense.py`** — each team's ACTUAL first-five runs/game from
+  linescores, vs the full-game R/G the live model proxies with. The F5
+  share of full-game runs spans ~45%–68% across teams, so the proxy
+  systematically overrates late-scoring clubs (PIT, WSH, CWS) and
+  underrates front-loaded ones (DET, CLE, SD).
+- **`tier_gate.py`** — backtest + forward trial of selecting the card on
+  fade-vs-market TIER instead of edge magnitude.
+
+### TIER-GATE FORWARD TRIAL — pre-registered 2026-08-24
+
+Backtest since 6/24: CONFIRMED-only 28-15 (+4.0% ROI) vs live edge-gated
+108-91 (−3.1%). Edge magnitude does not rank winners (5-6% +10%, 6-7%
+−22%, 8-9% +13%, 9%+ −46%) — that cohort was chosen *after* seeing the
+data, so it gets a forward test before anyone acts on it.
+
+- **Window:** 2026-08-25 .. 2026-09-07 (14 days). Live card stays
+  `CARD_MODE = "edge"` for the entire window — no mid-trial changes.
+- **ADOPT** if CONFIRMED ROI > 0 AND CONFIRMED win% > None-tier win%
+  AND n ≥ 8 · **REJECT** if ROI < −5% OR win% < None-tier
+  · **EXTEND** if n < 8.
+- **Power caveat:** ~0.7 CONFIRMED plays/day means n≈10. This can only
+  catch a directional reversal (i.e. show the backtest was a fluke); it
+  cannot prove the edge is real.
+- The verdict line is advisory. **A human flips `CARD_MODE`, never the
+  daily routine.**
+
 ## Scheduled Routine
 
 A daily Routine fires this session every morning (default 14:00 UTC / 10:00
