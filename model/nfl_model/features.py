@@ -30,27 +30,77 @@ ROLL_COLUMNS = ["off_epa", "def_epa", "off_ypp", "def_ypp"]
 # The rolled (season-to-date, leakage-safe) version of each strength column.
 ROLL_COLS = [f"{c}_roll" for c in ROLL_COLUMNS]
 
+# How much of a team's prior-season form survives the offseason. Roster churn,
+# the draft, and coaching turnover mean last year's rating is a weak-to-moderate
+# predictor, so it is shrunk toward the league average before seeding a season.
+PRIOR_SEASON_CARRYOVER = 0.55
 
-def build_rolling_features(team_game: pd.DataFrame, min_games: int = 1) -> pd.DataFrame:
-    """Add ``*_roll`` columns: each team's season-to-date average ENTERING the game.
+# The seeded prior-season rating is worth this many in-season games. At week 1
+# it is the whole rating; by week ~6 the current season dominates.
+PRIOR_GAMES_EQUIV = 6.0
 
-    Uses ``expanding().mean().shift(1)`` within each (team, season), so the value
-    on a given row reflects only prior weeks of that season. Early-season rows
-    with fewer than ``min_games`` of history are left NaN and filled with the
-    league mean by the caller (a neutral prior).
+# Both constants were swept against out-of-sample (time-series CV) RMSE on
+# 2010-2025. The surface is deliberately flat -- anything in carryover 0.45-0.65
+# with K 4-9 scores within ~0.01 points -- so these are round values from the
+# middle of that region rather than a precisely-fitted optimum.
+
+
+def build_rolling_features(
+    team_game: pd.DataFrame, min_games: int = 1, carryover: bool = True
+) -> pd.DataFrame:
+    """Add ``*_roll`` columns: each team's rating ENTERING the game.
+
+    Two ingredients, both strictly pre-kickoff:
+
+    1. **In-season form** -- ``expanding().mean().shift(1)`` within each
+       (team, season), so the value on a row reflects only prior weeks.
+    2. **Prior-season seed** (``carryover``) -- last season's average, shrunk
+       toward the league mean by :data:`PRIOR_SEASON_CARRYOVER`.
+
+    They are blended by how much of the current season has actually happened::
+
+        rating = (n * in_season + K * seed) / (n + K)
+
+    where ``n`` is games played so far and ``K`` is :data:`PRIOR_GAMES_EQUIV`.
+    Without this, week-1 rows have no in-season history at all and collapse to
+    an identical league-mean value for every team -- the model then learns
+    nothing about season openers, yet gets fed real ratings when predicting one.
     """
-    tg = team_game.sort_values(["team", "season", "week"]).copy()
+    tg = team_game.sort_values(["team", "season", "week"]).reset_index(drop=True).copy()
+    league = {c: tg[c].mean() for c in ROLL_COLUMNS}
 
+    grouped = tg.groupby(["team", "season"])
+    n_prior = grouped.cumcount()  # games this team has already played this season
     for col in ROLL_COLUMNS:
-        # groupby.transform returns a result aligned to tg's own index, which is
-        # robust across pandas versions (unlike apply, whose index nesting varies
-        # with the data) while staying leakage-safe: the expanding mean covers
-        # only prior games and is shifted one game back.
-        tg[f"{col}_roll"] = tg.groupby(["team", "season"])[col].transform(
+        # transform aligns to tg's own index, which is robust across pandas
+        # versions (unlike apply, whose index nesting varies with the data).
+        tg[f"{col}_roll"] = grouped[col].transform(
             lambda s: s.expanding(min_periods=min_games).mean().shift(1)
         )
 
-    return tg
+    if not carryover:
+        return tg
+
+    # A season's average seeds the FOLLOWING season, so shift the season key up.
+    seeds = tg.groupby(["team", "season"], as_index=False)[ROLL_COLUMNS].mean()
+    seeds["season"] = seeds["season"] + 1
+    seeds = seeds.rename(columns={c: f"__seed_{c}" for c in ROLL_COLUMNS})
+    tg = tg.merge(seeds, on=["team", "season"], how="left")
+
+    for col in ROLL_COLUMNS:
+        seed = regress_to_mean(tg[f"__seed_{col}"], league[col])
+        seed = seed.fillna(league[col])  # no prior season on record (expansion, first year)
+        in_season = tg[f"{col}_roll"]
+        tg[f"{col}_roll"] = (
+            n_prior * in_season.fillna(0.0) + PRIOR_GAMES_EQUIV * seed
+        ) / (n_prior + PRIOR_GAMES_EQUIV)
+
+    return tg.drop(columns=[f"__seed_{c}" for c in ROLL_COLUMNS])
+
+
+def regress_to_mean(values, league_mean: float):
+    """Shrink a prior-season rating toward the league average for the offseason."""
+    return league_mean + PRIOR_SEASON_CARRYOVER * (values - league_mean)
 
 
 def build_matchup_frame(games: pd.DataFrame, team_game_roll: pd.DataFrame) -> pd.DataFrame:
@@ -79,30 +129,51 @@ def build_matchup_frame(games: pd.DataFrame, team_game_roll: pd.DataFrame) -> pd
     return _add_derived_features(df, _league_means(team_game_roll))
 
 
-def latest_team_ratings(team_game_roll: pd.DataFrame) -> pd.DataFrame:
-    """Each team's most recent rolling rating, for pricing an upcoming slate.
+def latest_team_ratings(team_game_roll: pd.DataFrame, new_season: bool = False) -> pd.DataFrame:
+    """Each team's rating for pricing an upcoming slate.
 
     Games not yet played have no ``(season, week)`` row in ``team_game_roll``, so
-    an exact join returns nothing. To price this week's slate we instead grab the
-    last available rating per team -- their current form entering the games.
+    an exact join returns nothing. Instead:
+
+    - mid-season (``new_season=False``): take the last available rating per team,
+      i.e. their current in-season form entering the games.
+    - a season opener (``new_season=True``): the last in-season value is *last
+      season's* full-strength form, which no longer applies. Rebuild the same
+      regressed seed :func:`build_rolling_features` would use for week 1, so
+      training and prediction see ratings on the same scale.
     """
-    valid = team_game_roll.dropna(subset=ROLL_COLS, how="all")
-    return (
-        valid.sort_values(["team", "season", "week"])
-        .groupby("team")
-        .tail(1)[["team", *ROLL_COLS]]
-        .reset_index(drop=True)
-    )
+    if not new_season:
+        valid = team_game_roll.dropna(subset=ROLL_COLS, how="all")
+        return (
+            valid.sort_values(["team", "season", "week"])
+            .groupby("team")
+            .tail(1)[["team", *ROLL_COLS]]
+            .reset_index(drop=True)
+        )
+
+    league = {c: team_game_roll[c].mean() for c in ROLL_COLUMNS}
+    last_season = team_game_roll.groupby("team")["season"].transform("max")
+    recent = team_game_roll[team_game_roll["season"] == last_season]
+    means = recent.groupby("team", as_index=False)[ROLL_COLUMNS].mean()
+
+    out = pd.DataFrame({"team": means["team"]})
+    for col in ROLL_COLUMNS:
+        out[f"{col}_roll"] = regress_to_mean(means[col], league[col])
+    return out
 
 
-def build_slate_frame(slate_games: pd.DataFrame, team_game_roll: pd.DataFrame) -> pd.DataFrame:
+def build_slate_frame(
+    slate_games: pd.DataFrame, team_game_roll: pd.DataFrame, new_season: bool = False
+) -> pd.DataFrame:
     """Attach each team's latest rating to an upcoming slate (e.g. from OddsTrader).
 
     Same feature columns as :func:`build_matchup_frame`, but joined on team
     only (using :func:`latest_team_ratings`) rather than an exact week that does
     not exist yet. Teams the model has never seen fall back to league priors.
+    Set ``new_season`` when the slate opens a season the training data has not
+    reached, so prior-season form is regressed rather than taken at face value.
     """
-    ratings = latest_team_ratings(team_game_roll)
+    ratings = latest_team_ratings(team_game_roll, new_season=new_season)
     df = slate_games.copy()
     df = df.merge(ratings.add_prefix("home_"), on="home_team", how="left")
     df = df.merge(ratings.add_prefix("away_"), on="away_team", how="left")

@@ -83,16 +83,25 @@ def analyze_game(game: dict, pred_margin: float, sigma: float) -> dict:
     wagers: List[Wager] = []
 
     # --- Moneyline ---
-    if game.get("home_moneyline") is not None and game.get("away_moneyline") is not None:
-        wagers.append(_wager("moneyline", "home", f"{home} ML", home_win, game["home_moneyline"]))
-        wagers.append(_wager("moneyline", "away", f"{away} ML", away_win, game["away_moneyline"]))
+    # An illegal price (strictly between -100 and +100) implies a nonsense
+    # probability and would fabricate an enormous edge, so drop the market
+    # rather than price it. There is no sensible default for a moneyline.
+    ml_home, ml_away = game.get("home_moneyline"), game.get("away_moneyline")
+    if odds_math.is_valid_american(ml_home) and odds_math.is_valid_american(ml_away):
+        wagers.append(_wager("moneyline", "home", f"{home} ML", home_win, ml_home))
+        wagers.append(_wager("moneyline", "away", f"{away} ML", away_win, ml_away))
 
     # --- Spread ---
+    home_odds = away_odds = None
     if spread_line is not None:
         home_cover = dist.home_cover_prob(pred_margin, spread_line, sigma)
         away_cover = 1.0 - home_cover
-        home_odds = game.get("home_spread_odds", -110)
-        away_odds = game.get("away_spread_odds", -110)
+        # Spreads are near-universally -110; fall back to it when a book's juice
+        # is missing or unusable.
+        home_odds = game.get("home_spread_odds")
+        away_odds = game.get("away_spread_odds")
+        home_odds = home_odds if odds_math.is_valid_american(home_odds) else -110
+        away_odds = away_odds if odds_math.is_valid_american(away_odds) else -110
         # nflverse spread_line is the home number; the away team gets +spread_line.
         wagers.append(
             _wager("spread", "home", _spread_label(home, -spread_line), home_cover, home_odds)
@@ -107,11 +116,11 @@ def analyze_game(game: dict, pred_margin: float, sigma: float) -> dict:
 
     # Vig-free market read on the moneyline, for context/coin-flip detection.
     market_home = market_away = None
-    if game.get("home_moneyline") is not None and game.get("away_moneyline") is not None:
+    if odds_math.is_valid_american(ml_home) and odds_math.is_valid_american(ml_away):
         market_home, market_away = odds_math.remove_vig(
             [
-                odds_math.american_to_prob(game["home_moneyline"]),
-                odds_math.american_to_prob(game["away_moneyline"]),
+                odds_math.american_to_prob(ml_home),
+                odds_math.american_to_prob(ml_away),
             ]
         )
 
@@ -134,8 +143,8 @@ def analyze_game(game: dict, pred_margin: float, sigma: float) -> dict:
             "total": game.get("total_line"),
             "homeMoneyline": game.get("home_moneyline"),
             "awayMoneyline": game.get("away_moneyline"),
-            "homeSpreadOdds": game.get("home_spread_odds", -110),
-            "awaySpreadOdds": game.get("away_spread_odds", -110),
+            "homeSpreadOdds": home_odds,
+            "awaySpreadOdds": away_odds,
             "noVigHomeWin": market_home,
             "noVigAwayWin": market_away,
         },

@@ -25,6 +25,24 @@ def american_to_prob(odds: float) -> float:
     return 100.0 / (odds + 100.0) if odds > 0 else -odds / (-odds + 100.0)
 
 
+def is_valid_american(odds) -> bool:
+    """True if ``odds`` is a legal American price.
+
+    The American scale is discontinuous: no price exists strictly between -100
+    and +100. Values in that gap mean something upstream produced garbage (e.g.
+    averaging prices across the discontinuity), and they imply absurd
+    probabilities -- ``american_to_prob(-2)`` is 0.98 -- so they must never
+    reach the edge/EV math.
+    """
+    try:
+        o = float(odds)
+    except (TypeError, ValueError):
+        return False
+    if o != o:  # NaN
+        return False
+    return o <= -100.0 or o >= 100.0
+
+
 def american_to_decimal(odds: float) -> float:
     """Convert American odds to decimal odds (total return per 1 unit staked)."""
     return 1.0 + (odds / 100.0 if odds > 0 else 100.0 / -odds)

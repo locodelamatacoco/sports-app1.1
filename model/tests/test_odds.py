@@ -43,3 +43,17 @@ def test_ev_positive_when_model_beats_price():
     assert odds.ev_per_dollar(0.60, 100) == pytest.approx(0.20, abs=1e-9)
     # Fair coin on -110 juice -> negative EV.
     assert odds.ev_per_dollar(0.50, -110) < 0
+
+
+def test_is_valid_american_rejects_the_impossible_gap():
+    # No American price exists strictly between -100 and +100.
+    for bad in (-99, -50, -8, -2, 0, 1.5, 50, 99):
+        assert not odds.is_valid_american(bad), bad
+    for good in (-100, 100, -110, 150, -1270, 434):
+        assert odds.is_valid_american(good), good
+
+
+def test_is_valid_american_rejects_junk():
+    assert not odds.is_valid_american(None)
+    assert not odds.is_valid_american("abc")
+    assert not odds.is_valid_american(float("nan"))

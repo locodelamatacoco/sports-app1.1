@@ -103,3 +103,25 @@ def test_schema_has_required_columns():
     required = {"game_id", "home_team", "away_team", "spread_line", "total_line",
                "home_moneyline", "away_moneyline", "home_spread_odds", "away_spread_odds"}
     assert required.issubset(rows[0].keys())
+
+
+def test_median_american_aggregates_in_probability_space():
+    # Real failure from the live feed: books straddling pick'em. A naive median
+    # of (-107, +104) is -1.5 -- an illegal price implying ~98% -- so the
+    # consensus must be computed on probabilities instead.
+    out = ot._median_american([-107, 104])
+    assert ot.odds_math.is_valid_american(out)
+    assert 0.48 < ot.odds_math.american_to_prob(out) < 0.52
+
+
+def test_median_american_spread_juice_straddling_even():
+    # Real spread juice spread across the discontinuity: [-118,-118,-115,100,100,100]
+    out = ot._median_american([-118, -118, -115, 100, 100, 100])
+    assert ot.odds_math.is_valid_american(out)
+    assert 0.49 < ot.odds_math.american_to_prob(out) < 0.55
+
+
+def test_median_american_drops_invalid_and_handles_empty():
+    assert ot._median_american([-110, -5, -110]) == -110   # -5 is illegal, ignored
+    assert ot._median_american([]) is None
+    assert ot._median_american([None, 3]) is None

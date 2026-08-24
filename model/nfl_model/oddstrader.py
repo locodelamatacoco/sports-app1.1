@@ -30,6 +30,8 @@ from typing import Dict, List, Optional
 
 import pandas as pd
 
+from . import odds as odds_math
+
 NFL_PAGE_URL = "https://www.oddstrader.com/nfl/"
 ODDS_V2_URL = "https://ms.virginia.us-east-1.oddstrader.com/odds-v2/odds-v2-service"
 
@@ -57,8 +59,32 @@ def normalize_team(abbr: Optional[str]) -> Optional[str]:
 
 
 def _median(values: List[float]) -> Optional[float]:
+    """Plain median -- for continuous quantities (point spreads, totals)."""
     vals = [v for v in values if v is not None]
     return statistics.median(vals) if vals else None
+
+
+def _median_american(prices: List[float]) -> Optional[int]:
+    """Consensus of American prices, computed in PROBABILITY space.
+
+    American odds are discontinuous at +/-100: no price exists strictly between
+    -100 and +100, so a naive median across books that straddle pick'em lands in
+    the invalid gap. Real example from this feed: one book had CHI at -107 and
+    another at +104; ``median`` returns -1.5, which implies a 98% win
+    probability and manufactures a gigantic phantom edge.
+
+    Converting each price to its implied probability makes the scale continuous,
+    so the median is meaningful; converting back yields a legal price. Invalid
+    inputs are dropped rather than propagated.
+    """
+    probs = [
+        odds_math.american_to_prob(float(p))
+        for p in prices
+        if p is not None and odds_math.is_valid_american(p)
+    ]
+    if not probs:
+        return None
+    return odds_math.prob_to_american(statistics.median(probs))
 
 
 # --------------------------------------------------------------------------- #
@@ -159,12 +185,14 @@ def parse_current_lines(events: Dict[int, dict], line_rows: List[dict]) -> List[
     for eid, ev in events.items():
         hp, ap = ev["home"]["partid"], ev["away"]["partid"]
 
-        home_ml = _median(buckets.get((eid, MTID_MONEY, hp), {}).get("ap", []))
-        away_ml = _median(buckets.get((eid, MTID_MONEY, ap), {}).get("ap", []))
+        # Prices aggregate in probability space; the point spread itself is a
+        # continuous quantity and medians directly.
+        home_ml = _median_american(buckets.get((eid, MTID_MONEY, hp), {}).get("ap", []))
+        away_ml = _median_american(buckets.get((eid, MTID_MONEY, ap), {}).get("ap", []))
 
         home_spread_adj = _median(buckets.get((eid, MTID_SPREAD, hp), {}).get("adj", []))
-        home_spread_odds = _median(buckets.get((eid, MTID_SPREAD, hp), {}).get("ap", []))
-        away_spread_odds = _median(buckets.get((eid, MTID_SPREAD, ap), {}).get("ap", []))
+        home_spread_odds = _median_american(buckets.get((eid, MTID_SPREAD, hp), {}).get("ap", []))
+        away_spread_odds = _median_american(buckets.get((eid, MTID_SPREAD, ap), {}).get("ap", []))
         # OddsTrader stores the home team's handicap (e.g. -3.5 when home favored).
         # nflverse convention is the negation: positive = home favored.
         spread_line = None if home_spread_adj is None else _round_half(-home_spread_adj)

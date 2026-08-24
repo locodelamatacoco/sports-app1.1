@@ -140,9 +140,18 @@ def _oddstrader_slate(args, rolled, matchups):
         print("[warn] OddsTrader games found but no odds posted yet for this slate.")
         return None, None, None
 
-    slate = build_slate_frame(priced, rolled)
+    # If the slate belongs to a season the training data hasn't reached, it's a
+    # season opener: prior-season form must be regressed, not taken at face value.
+    trained_through = matchups.loc[matchups["home_margin"].notna(), "season"].max()
+    slate_season = pd.to_numeric(priced.get("season"), errors="coerce").max()
+    new_season = bool(pd.notna(slate_season) and slate_season > trained_through)
+
+    slate = build_slate_frame(priced, rolled, new_season=new_season)
     train = matchups[matchups["home_margin"].notna()].copy()
-    return slate, train, "OddsTrader (consensus)"
+    label = "OddsTrader (consensus)"
+    if new_season:
+        label += f" — {int(slate_season)} opener, prior-season form regressed"
+    return slate, train, label
 
 
 def _print_slate(payload: dict) -> None:
