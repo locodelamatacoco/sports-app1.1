@@ -123,6 +123,38 @@ your real bets lose.
 
 ---
 
+## Does it actually work? (Read this before betting anything)
+
+**No — not yet.** `scripts/backtest.py` replays the model's own edge list against
+real closing lines, walk-forward: for each season it trains only on earlier
+seasons, prices that season, and grades every flagged wager.
+
+```bash
+python -m scripts.backtest
+```
+
+Result over 2012–2025 (3,829 flagged bets):
+
+| claimed edge | bets | win% | ROI/bet |
+|---|---|---|---|
+| 3–6%   | 1150 | 50.4% | −0.32% |
+| 6–10%  | 1371 | 41.5% | −4.53% |
+| 10–20% | 1148 | 37.4% | **−11.83%** |
+| 20%+   | 160  | 37.1% | −7.34% |
+
+**ROI gets *worse* as the claimed edge gets bigger.** That inversion is the
+whole story: a model with real skill shows ROI *rising* with its edge. Here, the
+further the model strays from the market, the more wrong it turns out to be — so
+the "value bets" are measuring the model's own error, not the market's. Overall:
+42.7% win rate, −5.57% ROI, against a 52.38% break-even.
+
+Keep this backtest in the loop for any change you make. A model change that
+"finds more edges" but doesn't move these numbers has made the tool worse, not
+better. What would actually be needed: opponent-adjusted ratings, QB/injury
+information, and calibration — see *Natural next upgrades*.
+
+---
+
 ## The honest caveats
 
 1. **You're not beating the game — you're trying to beat the closing line.** The
