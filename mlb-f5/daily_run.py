@@ -172,7 +172,13 @@ def run(date=None, seed=42):
             rec["bet"] = betteam; rec["ml"] = ml; rec["calib"] = cp
             rec["gap"] = market_gap(cond, ml, oppml)   # v3.1.2 divergence veto
             fsp = asp if betteam == hab else hsp   # we fade the OPPONENT's SP
-            sig, tier, parlay_ok, why = fade_is_bettable(*pit[fsp], ml if betteam != aab else ml)
+            # BUGFIX 2026-08-24: parse_pitchers yields (era, whip, ip), so `*pit[fsp]`
+            # was feeding WHIP into fade_is_bettable's last3_era slot. WHIP never
+            # reaches the 5.40 STRONG threshold, so STRONG was unreachable and a
+            # non-ERA stat was being read as an ERA. We have no last-3 feed yet, so
+            # pass None explicitly (is_bad_pitcher_fade then rates on season ERA only).
+            f_era, _f_whip, f_ip = pit[fsp]
+            sig, tier, parlay_ok, why = fade_is_bettable(f_era, None, f_ip, ml)
             rec["fade"] = (sig, tier, parlay_ok, why)
         rows.append((rec["game"], rec, None))
     return date, rows
