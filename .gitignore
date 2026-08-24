@@ -23,3 +23,6 @@ Thumbs.db
 # MLB F5 daily inputs (fetched fresh each run)
 mlb-f5/data/
 __pycache__/
+
+# shadow stat output (refetched each run)
+mlb-f5/data/f5_offense.json

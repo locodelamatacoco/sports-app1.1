@@ -9,3 +9,8 @@ python3 odds_fetch.py || echo "[warn] odds fetch failed — continuing lean-only
 python3 daily_run.py
 echo
 python3 cohort_report.py
+echo
+echo "########## SHADOW (reporting only — does NOT affect the live card) ##########"
+python3 f5_offense.py 2>&1 || echo "[warn] f5_offense failed"
+echo
+python3 tier_gate.py 2>&1 || echo "[warn] tier_gate failed"
