@@ -347,3 +347,5 @@ date,game,market,model_prob,bet_side,odds,result,note
 2026-08-23,ATL@MIL,F5,0.63,MIL,-124,L,cohort=ranked RANKED #2 edge +7.9% HALF(gap27) best-bats-spot 5.9-L10; F5 MIL 1-2 thru5 LOSS (MIL won full 4-2)
 2026-08-23,TB@BAL,F5,0.57,TB,110,P,cohort=ranked RANKED #3 edge +6.3% full dog ERA-lead pick Martinez; F5 0-0 thru5 PUSH (TB won 3-1)
 2026-08-23,ATH@HOU,F5,0.72,ATH,140,P,cohort=shadow HARD-VETO gap34 edge +12.0% REJECT-tier double-flagged NO BET; F5 6-6 thru5 PUSH (ATH won 7-6)
+2026-08-24,PHI@SEA,F5,0.59,PHI,-112,L,cohort=ranked RANKED #1 edge +5.6% full None-tier hot-bats-6.5 Gilbert-not-a-fade; F5 PHI 2-8 thru5 LOSS (SEA won 9-2)
+2026-08-24,COL@WSH,F5,0.66,WSH,-200,W,cohort=ranked RANKED #2 edge +5.3% CONFIRMED STEEP Feltner-92IP fade cold-bats flag; F5 WSH 5-2 thru5 WIN (WSH won 13-3)

@@ -70,7 +70,17 @@ def f5_lines(eids, paids):
          f'mtid:{F5_MONEY_MTID},paid:[{",".join(map(str, paids))}])}}')
     r = requests.get(SVC, params={"query": q}, headers=HDRS, timeout=60)
     r.raise_for_status()
-    rows = r.json()["data"]["currentLines"]
+    body = r.json()
+    rows = (body.get("data") or {}).get("currentLines")
+    if rows is None:
+        # OddsTrader's service answers 200 with data:null + an errors block
+        # when it is having trouble. Degrade to lean-only rather than
+        # crashing — and never invent prices.
+        err = (body.get("errors") or [{}])
+        raise RuntimeError(
+            "OddsTrader odds service returned no lines "
+            f"(HTTP 200, data.currentLines=null; errors={str(err)[:160]}). "
+            "Running lean-only — no odds were fabricated.")
     prices = {}
     for l in rows:
         if l.get("pri"):
