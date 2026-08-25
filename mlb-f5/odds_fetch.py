@@ -1,14 +1,27 @@
 """
-odds_fetch.py — F5 moneylines from OddsTrader into data/odds_YYYY-MM-DD.csv.
+odds_fetch.py — F5 moneylines into data/odds_YYYY-MM-DD.csv (two sources).
 ============================================================================
-OddsTrader's odds microservice (GraphQL, discovered 2026-07-08) serves the
-same lines as https://www.oddstrader.com/mlb/?g=first-half&m=money:
+PRIMARY — OddsTrader's odds microservice (GraphQL, discovered 2026-07-08),
+the same lines as https://www.oddstrader.com/mlb/?g=first-half&m=money:
 
   1. GET /mlb/ page -> window.__INITIAL_STATE__ -> today's events (eid,
      participants with partid + team nickname) and sportsbook paids.
   2. GET odds-v2-service ?query={currentLines(eid:[...], mtid:91, paid:[...])}
      mtid 91 = MLB first-half (F5) moneyline. Empty without the paid filter.
   3. Consensus price per side = median decimal price across books -> American.
+
+FALLBACK — scoresandodds.com "Inning Lines" (added 2026-08-25, after
+OddsTrader's service spent a full day answering 200/data:null). That page
+(/mlb/more-lines, canonically /mlb/gameprops?date=YYYY-MM-DD) is fully
+server-rendered: `<tbody id="odds-table--first-5-innings-0">` carries one
+`<tr>` per team with `data-event="mlb/<eid>"` and a `data-moneyline` span
+per book. FIRST 5 INNINGS ONLY — the same tbody also holds the F5 run-line
+and F5-total blocks further down, and the page has a separate first-3
+tbody; both are excluded by taking only rows that carry a moneyline span,
+grouped two-per-event. Same median-decimal consensus as the primary.
+
+Both sources are odds-only: a failure degrades the day to lean-only and the
+engine prints no edges. Prices are never estimated, carried over, or filled.
 
 bet_team is the MODEL's lean: daily_run.run() is invoked lean-first and the
 side with F5 conditional win prob > 0.5 becomes bet_team, so the engine then
@@ -32,16 +45,23 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 DATA = os.path.join(HERE, "data")
 PAGE = "https://www.oddstrader.com/mlb/"
 SVC = "https://ms.virginia.us-east-1.oddstrader.com/odds-v2/odds-v2-service"
-HDRS = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
-                      "(KHTML, like Gecko) Chrome/126.0 Safari/537.36",
-        "Referer": PAGE, "Origin": "https://www.oddstrader.com"}
+UA = ("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
+      "(KHTML, like Gecko) Chrome/126.0 Safari/537.36")
+HDRS = {"User-Agent": UA, "Referer": PAGE, "Origin": "https://www.oddstrader.com"}
 F5_MONEY_MTID = 91
+SAO_PAGE = "https://www.scoresandodds.com/mlb/more-lines"
+SAO_TBODY = 'id="odds-table--first-5-innings'
 
 
 def american(dec):
     if dec >= 2.0:
         return int(round((dec - 1) * 100))
     return -int(round(100 / (dec - 1)))
+
+
+def decimal(am):
+    """American -> decimal, so a median across books is taken on one scale."""
+    return 1 + am / 100.0 if am > 0 else 1 + 100.0 / -am
 
 
 def ot_events():
@@ -88,6 +108,51 @@ def f5_lines(eids, paids):
     return {k: american(statistics.median(v)) for k, v in prices.items()}
 
 
+def ot_source():
+    """PRIMARY source -> (events, prices) in the shared contract:
+    events {eid: {side_key: nickname}}, prices {(eid, side_key): american}."""
+    events, paids = ot_events()
+    return events, f5_lines(list(events), paids)
+
+
+def sao_source(date):
+    """FALLBACK source: scoresandodds.com Inning Lines, same contract.
+
+    Side keys are the team nicknames themselves (the page has no participant
+    ids), which the caller already matches against statsapi team names.
+    """
+    r = requests.get(SAO_PAGE, params={"date": date},
+                     headers={"User-Agent": UA}, timeout=60)
+    r.raise_for_status()
+    html = r.text
+    i = html.find(SAO_TBODY)
+    if i < 0:
+        raise RuntimeError("scoresandodds: no first-5-innings table on the page")
+    seg = html[i:html.find("</tbody>", i)]
+
+    events, prices = {}, {}
+    for tr in re.findall(r"<tr>(.*?)</tr>", seg, re.S):
+        ev = re.search(r'data-event="mlb/(\d+)"', tr)
+        nn = re.search(r'aria-label="([^"]+)"', tr)
+        mls = [int(x) for x in
+               re.findall(r'class="data-moneyline">\s*([+\-]?\d+)\s*<', tr)]
+        # Rows without a moneyline span are the F5 run-line / F5 total blocks
+        # that share this tbody; a repeat of a side we already priced would be
+        # the same. Either way: skip, so only the F5 moneyline block is read.
+        if not (ev and nn and mls):
+            continue
+        eid, team = int(ev.group(1)), nn.group(1)
+        if (eid, team) in prices:
+            continue
+        prices[(eid, team)] = american(statistics.median(decimal(m) for m in mls))
+        events.setdefault(eid, {})[team] = team
+    events = {e: p for e, p in events.items() if len(p) == 2}
+    if not events:
+        raise RuntimeError("scoresandodds: first-5 table present but no F5 "
+                           "moneylines posted yet")
+    return events, prices
+
+
 def slate_games():
     """[(away_abbr, home_abbr, away_name, home_name)] from schedule_today.json."""
     with open(os.path.join(DATA, "schedule_today.json")) as f:
@@ -123,8 +188,14 @@ def main():
     if not games:
         print("no games on today's slate (off day / All-Star break) — no odds to fetch")
         return
-    events, paids = ot_events()
-    prices = f5_lines(list(events), paids)
+    try:
+        events, prices = ot_source()
+        source = f"oddstrader mtid {F5_MONEY_MTID}"
+    except Exception as e:
+        print(f"[warn] primary source (OddsTrader) failed: {e}")
+        print("[info] falling back to scoresandodds.com Inning Lines (F5)")
+        events, prices = sao_source(date)
+        source = "scoresandodds first-5-innings"
     leans = model_leans()
 
     # Doubleheaders: the same matchup twice makes line->game matching ambiguous
@@ -160,14 +231,15 @@ def main():
             continue
         opp = hab if lean == aab else aab
         out.append({"away": aab, "home": hab, "bet_team": lean,
-                    "bet_ml": side[lean], "opp_ml": side[opp]})
+                    "bet_ml": side[lean], "opp_ml": side[opp], "source": source})
 
     path = os.path.join(DATA, f"odds_{date}.csv")
     with open(path, "w", newline="") as f:
-        w = csv.DictWriter(f, fieldnames=["away", "home", "bet_team", "bet_ml", "opp_ml"])
+        w = csv.DictWriter(f, fieldnames=["away", "home", "bet_team", "bet_ml",
+                                          "opp_ml", "source"])
         w.writeheader()
         w.writerows(out)
-    print(f"wrote {path}: {len(out)} games priced (consensus median, mtid {F5_MONEY_MTID})")
+    print(f"wrote {path}: {len(out)} games priced (consensus median, {source})")
     for g, why in missing:
         print(f"[skip] {g} — {why}")
 

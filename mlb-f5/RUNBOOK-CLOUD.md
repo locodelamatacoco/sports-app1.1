@@ -15,8 +15,11 @@ environment → **Network access** → add the domains below (or select the
 unrestricted policy). Docs: https://code.claude.com/docs/en/claude-code-on-the-web
 
 - `statsapi.mlb.com` — stats/schedule/grading (required)
-- `www.oddstrader.com` / `oddstrader.com` — F5 lines (Jonathan's source)
+- `www.oddstrader.com` / `oddstrader.com` — F5 lines, primary source
+- `ms.virginia.us-east-1.oddstrader.com` — the odds microservice itself
+- `www.scoresandodds.com` — F5 lines, fallback source (reachable as of 8/25)
 - `app.hardrock.bet` / `api.hardrock.bet` — bet-time price cross-check
+  (**still blocked** — never allowlisted; the counter recheck stays manual)
 
 ## Each day (automated by the scheduled Routine)
 
@@ -33,20 +36,33 @@ unrestricted policy). Docs: https://code.claude.com/docs/en/claude-code-on-the-w
    veto-shadow since 6/24, W-L-P + flat P/L) and checks the escalation
    trigger (both cohorts ≥40 graded rows AND two-proportion p<0.05).
 
-## Odds: agent-fetched from OddsTrader, manual fallback
+## Odds: two automatic sources, then manual
 
-`odds_fetch.py` pulls F5 moneylines (mtid 91) from OddsTrader's odds
-microservice — the same lines as `oddstrader.com/mlb/?g=first-half&m=money` —
-takes the median-consensus price across books, sets `bet_team` to the model's
-lean (F5 conditional > 0.5 from a lean-first engine pass), and writes
-`data/odds_YYYY-MM-DD.csv` (`away,home,bet_team,bet_ml,opp_ml`, date-keyed —
-a generic `odds.csv` is ignored by design). Note: consensus is mostly
-offshore books (BetOnline/Bovada/etc.), so the v3.1.3 PLAYABLE TO recheck
-against the actual Hard Rock price at the counter matters even more.
-Fallback stays manual: drop the CSV in `data/` or paste odds into chat and
-the agent re-runs with edges. Without odds the run is
-lean-only (λ/F5%/L10, no edges/tiers). The v3.1.3 bet-time price recheck
-still applies at the counter: worse than **PLAYABLE TO** = PASS.
+`odds_fetch.py` takes the median-consensus price across books, sets
+`bet_team` to the model's lean (F5 conditional > 0.5 from a lean-first
+engine pass), and writes `data/odds_YYYY-MM-DD.csv`
+(`away,home,bet_team,bet_ml,opp_ml,source`, date-keyed — a generic
+`odds.csv` is ignored by design).
+
+1. **Primary — OddsTrader**, mtid 91, the same lines as
+   `oddstrader.com/mlb/?g=first-half&m=money`. Consensus is mostly offshore
+   books (BetOnline/Bovada/etc.).
+2. **Fallback — scoresandodds.com** `/mlb/more-lines` ("Inning Lines",
+   canonically `/mlb/gameprops?date=YYYY-MM-DD`), added 2026-08-25 after
+   OddsTrader's service spent a full day returning `200 / data:null`.
+   Server-rendered, no JS: `<tbody id="odds-table--first-5-innings-0">`,
+   one `<tr>` per team, `data-moneyline` span per book (US books —
+   Caesars/FanDuel/BetRivers/etc.). Consensus is US-book, so it prices a
+   touch differently than OddsTrader; the `source` column records which
+   fed each day. **F5 moneyline only** — the same tbody also carries the
+   F5 run-line and F5-total blocks, and there is a separate first-3
+   tbody; the parser takes only rows with a moneyline span, two per event.
+3. **Manual** — drop the CSV in `data/` or paste odds into chat.
+
+If every source fails the run is lean-only (λ/F5%/L10, no edges/tiers) and
+**no price is ever estimated, carried over, or filled in**. The v3.1.3
+bet-time recheck still applies at the counter: worse than **PLAYABLE TO**
+= PASS — and it matters more than ever, since neither source is Hard Rock.
 
 ## Grading
 
