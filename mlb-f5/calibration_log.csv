@@ -349,3 +349,7 @@ date,game,market,model_prob,bet_side,odds,result,note
 2026-08-23,ATH@HOU,F5,0.72,ATH,140,P,cohort=shadow HARD-VETO gap34 edge +12.0% REJECT-tier double-flagged NO BET; F5 6-6 thru5 PUSH (ATH won 7-6)
 2026-08-24,PHI@SEA,F5,0.59,PHI,-112,L,cohort=ranked RANKED #1 edge +5.6% full None-tier hot-bats-6.5 Gilbert-not-a-fade; F5 PHI 2-8 thru5 LOSS (SEA won 9-2)
 2026-08-24,COL@WSH,F5,0.66,WSH,-200,W,cohort=ranked RANKED #2 edge +5.3% CONFIRMED STEEP Feltner-92IP fade cold-bats flag; F5 WSH 5-2 thru5 WIN (WSH won 13-3)
+2026-08-25,CLE@LAA,F5,0.63,LAA,120,W,cohort=ranked RANKED #1 edge +7.6% full None-tier Urena-2.80 vs G.Williams-3.72 home dog; F5 LAA 6-5 thru5 WIN (LAA lost full 6-8)
+2026-08-25,CHC@AZ,F5,0.68,CHC,-115,W,cohort=ranked RANKED #2 edge +6.1% full None-tier Holmes-2.49 vs Pfaadt-3.39 bats-5.7-L10; F5 CHC 3-0 thru5 WIN (CHC lost full 4-5)
+2026-08-25,LAD@ATL,F5,0.75,LAD,-166,P,cohort=ranked RANKED #3 edge +5.6% full None-tier Glasnow-2.72 vs Elder-3.92 top-ERA-gap; F5 3-3 thru5 PUSH (LAD lost full 3-4)
+2026-08-25,KC@TOR,F5,0.79,KC,-108,W,cohort=shadow HARD-VETO gap30 edge +8.6% CONFIRMED-tier Scherzer-7.40-fade NO BET; F5 KC 2-1 thru5 WIN (KC won 5-3)
