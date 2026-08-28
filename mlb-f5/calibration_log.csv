@@ -362,3 +362,5 @@ date,game,market,model_prob,bet_side,odds,result,note
 2026-08-26,CIN@SF,F5,0.63,SF,-115,W,cohort=ranked RANKED #7 edge +5.1% full None-tier Roupp-4.34 vs Lodolo-5.04 thin-gap; F5 SF 4-2 thru5 WIN (SF won 10-9)
 2026-08-26,TB@DET,F5,0.86,DET,-133,L,cohort=shadow HARD-VETO gap31 edge +10.3% no-fade Melton-1.70 vs Peralta-5.33 cold-bats-3.5 NO BET; F5 DET 0-2 thru5 LOSS (TB won 3-0)
 2026-08-26,MIN@ATH,F5,0.76,ATH,110,L,cohort=shadow HARD-VETO gap31 edge +10.1% CAUTION-tier Prielipp-5.57 fade NO BET; F5 ATH 2-3 thru5 LOSS (MIN won 7-4)
+2026-08-27,MIL@NYM,F5,0.86,MIL,-206,W,cohort=ranked RANKED #1 edge +7.8% HALF(gap21) STEEP None-tier Misiorowski-1.68 vs Manaea-4.31 hot-bats-6.2 F5-HEAVY; F5 MIL 5-2 thru5 WIN (MIL won 8-2)
+2026-08-27,HOU@NYY,F5,0.73,NYY,-160,L,cohort=ranked RANKED #2 edge +5.5% full None-tier Cole-3.11 vs Wesneski-4.23-27IP; F5-LIGHT shadow flagged NYY 40.1% share (adj edge -2.9%) and advised pass; F5 NYY 0-1 thru5 LOSS (HOU won 5-1)
