@@ -364,3 +364,7 @@ date,game,market,model_prob,bet_side,odds,result,note
 2026-08-26,MIN@ATH,F5,0.76,ATH,110,L,cohort=shadow HARD-VETO gap31 edge +10.1% CAUTION-tier Prielipp-5.57 fade NO BET; F5 ATH 2-3 thru5 LOSS (MIN won 7-4)
 2026-08-27,MIL@NYM,F5,0.86,MIL,-206,W,cohort=ranked RANKED #1 edge +7.8% HALF(gap21) STEEP None-tier Misiorowski-1.68 vs Manaea-4.31 hot-bats-6.2 F5-HEAVY; F5 MIL 5-2 thru5 WIN (MIL won 8-2)
 2026-08-27,HOU@NYY,F5,0.73,NYY,-160,L,cohort=ranked RANKED #2 edge +5.5% full None-tier Cole-3.11 vs Wesneski-4.23-27IP; F5-LIGHT shadow flagged NYY 40.1% share (adj edge -2.9%) and advised pass; F5 NYY 0-1 thru5 LOSS (HOU won 5-1)
+2026-08-28,PHI@LAA,F5,0.71,LAA,-108,W,cohort=ranked RANKED #1 edge +7.9% HALF(gap21) CONFIRMED FADE Painter-6.04-92IP Detmers-3.62; F5 LAA 3-1 thru5 WIN (game still in progress at log time)
+2026-08-28,BOS@NYY,F5,0.82,NYY,-183,W,cohort=ranked RANKED #2 edge +7.7% full None-tier Schlittler-2.16 vs Sandoval-4.54-39IP; F5-share shadow said pass (adj -3.2%) and was WRONG; F5 NYY 1-0 thru5 WIN (NYY won 1-0)
+2026-08-28,KC@CLE,F5,0.61,KC,105,W,cohort=ranked RANKED #3 edge +6.4% full None-tier Wacha-3.49 vs Bibee-3.97-156IP; F5-share shadow said weak (adj +3.2%) and was WRONG; F5 KC 1-0 thru5 WIN (KC won 3-0)
+2026-08-28,TEX@MIL,F5,0.76,MIL,-175,W,cohort=ranked RANKED #4 edge +6.1% full None-tier Henderson-2.60 vs Bradford-3.05-20IP F5-HEAVY; F5 MIL 2-1 thru5 WIN (MIL won 6-1)
