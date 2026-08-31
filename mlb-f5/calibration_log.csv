@@ -375,3 +375,8 @@ date,game,market,model_prob,bet_side,odds,result,note
 2026-08-29,KC@CLE,F5,0.57,KC,121,P,cohort=ranked RANKED #5 edge +6.0% full None-tier Lynch-2.93 vs F.Griffin-3.19 hot-bats-5.9; F5 2-2 thru5 PUSH (KC won 8-3)
 2026-08-29,COL@ATL,F5,0.80,ATL,-205,P,cohort=ranked RANKED #6 edge +5.8% full CONFIRMED PARLAY-LEG STEEP FADE Feltner-6.08 cold-bats-3.0 ATL-F5-LIGHT-43.6; F5 0-0 thru5 PUSH (ATL won 2-1)
 2026-08-29,MIA@WSH,F5,0.65,WSH,-125,W,cohort=ranked RANKED #7 edge +5.1% full None-tier Cavalli-3.21 vs Alcantara-3.38 thin-gap; F5 WSH 4-0 thru5 WIN (WSH won 5-4)
+2026-08-30,SEA@TOR,F5,0.82,SEA,-150,L,cohort=ranked RANKED #1 edge +8.3% HALF(gap24) CONFIRMED FADE Scherzer-7.02-50IP Gilbert-3.36 top-ERA-gap-3.66; F5 SEA 0-3 thru5 LOSS (TOR won 7-0)
+2026-08-30,PHI@LAA,F5,0.82,PHI,-175,P,cohort=ranked RANKED #2 edge +7.8% HALF(gap20) CONFIRMED FADE Kikuchi-6.25-36IP-small-sample Wheeler-3.40; F5 1-1 thru5 PUSH (PHI won 5-2)
+2026-08-30,CWS@MIN,F5,0.65,CWS,102,L,cohort=ranked RANKED #3 edge +7.4% full None-tier Hicks-3.83 vs Z.Matthews-4.86 CWS-F5-HEAVY-60.7 pickem; F5 CWS 0-4 thru5 LOSS (MIN won 5-1)
+2026-08-30,MIA@WSH,F5,0.69,WSH,-115,W,cohort=ranked RANKED #4 edge +7.2% full None-tier Alvarez-3.72 vs Junk-4.21 cold-bats-4.2 F5-LIGHT-42.6; F5 WSH 1-0 thru5 WIN (MIA won full 6-2)
+2026-08-30,LAD@DET,F5,0.73,LAD,-167,P,cohort=ranked RANKED #5 edge +5.4% full None-tier Glasnow-3.02 vs F.Valdez-4.35 cold-bats-3.7; F5 1-1 thru5 PUSH (LAD won 6-1)
