@@ -380,3 +380,7 @@ date,game,market,model_prob,bet_side,odds,result,note
 2026-08-30,CWS@MIN,F5,0.65,CWS,102,L,cohort=ranked RANKED #3 edge +7.4% full None-tier Hicks-3.83 vs Z.Matthews-4.86 CWS-F5-HEAVY-60.7 pickem; F5 CWS 0-4 thru5 LOSS (MIN won 5-1)
 2026-08-30,MIA@WSH,F5,0.69,WSH,-115,W,cohort=ranked RANKED #4 edge +7.2% full None-tier Alvarez-3.72 vs Junk-4.21 cold-bats-4.2 F5-LIGHT-42.6; F5 WSH 1-0 thru5 WIN (MIA won full 6-2)
 2026-08-30,LAD@DET,F5,0.73,LAD,-167,P,cohort=ranked RANKED #5 edge +5.4% full None-tier Glasnow-3.02 vs F.Valdez-4.35 cold-bats-3.7; F5 1-1 thru5 PUSH (LAD won 6-1)
+2026-08-31,MIL@CHC,F5,0.73,CHC,-112,W,cohort=ranked RANKED #1 edge +7.9% HALF(gap22) None-tier Holmes-2.26 vs K.Harrison-2.79 thin-ERA-gap hot-bats-6.9; F5 CHC 9-0 thru5 WIN (CHC won 17-3)
+2026-08-31,NYM@TB,F5,0.83,TB,-175,L,cohort=ranked RANKED #2 edge +7.9% HALF(gap22) CONFIRMED FADE Stock-7.40-20IP-small-sample Seymour-4.21; F5 TB 0-1 thru5 LOSS (TB lost 2-3)
+2026-08-31,MIA@WSH,F5,0.68,WSH,-106,L,cohort=ranked RANKED #3 edge +7.3% full None-tier Dion-3.67 vs Gusto-3.98 thinnest-gap F5-LIGHT-42.7; F5 WSH 2-3 thru5 LOSS (WSH won full 6-3)
+2026-08-31,NYY@LAA,F5,0.68,LAA,-109,W,cohort=ranked RANKED #4 edge +6.7% full None-tier Urena-2.94 vs E.Rodriguez-4.70-23IP-small-sample; F5 LAA 6-1 thru5 WIN (LAA won 10-1)
