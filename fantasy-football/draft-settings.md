@@ -66,9 +66,31 @@ _Added 2026-08-01 after two live mock drafts._
 - Shallow bench means every spot must earn it — prioritize RB insurance over a 7th/8th receiver.
 - Sleeper ADP ≠ ESPN ADP; re-check on-platform rather than reusing ESPN numbers.
 
+---
+
+# Underdog "The Rottweiler" — live draft (2026-09-03)
+
+## Format confirmed
+- Still **best-ball scoring**, 18 rounds, draft-only — user's "not best ball" comment meant "not Best Ball Mania," not a different scoring type.
+- Structure: $25 buy-in, 4-entry max, multi-round advancement bracket — **2/12 → 2/10 → 2/10** (top 2 of 12 advance to round 2, top 2 of 10 advance to round 3). No cash until Round 3. Smaller field per pool than BBM, but same GPP/ceiling logic applies.
+
+## Result — team "Chespetony," pick position 10
+- **QB (2):** Justin Herbert (bye 7, pick 82), Michael Penix (bye 11, pick 207)
+- **RB (6):** Saquon Barkley (bye 10, pick 10), De'Von Achane (bye 6, pick 15), Blake Corum (bye 11, pick 87), Tyjae Spears (bye 9, pick 154), Braelon Allen (bye 13, pick 178), Justice Hill (bye 13, pick 202)
+- **WR (8):** Ladd McConkey (bye 7, pick 34), Garrett Wilson (bye 13, pick 39), Rome Odunze (bye 10, pick 58), Quentin Johnston (bye 7, pick 63), Michael Pittman Jr. (bye 9, pick 111), Jalen Coker (bye 5, pick 130), Keenan Allen (bye 13, pick 159), Malik Washington (bye 6, pick 183)
+- **TE (2):** Kyle Pitts (bye 11, pick 106), Mark Andrews (bye 13, pick 135)
+
+## Grade: best-constructed roster so far
+- **RB-RB start (Barkley/Achane) then WR-WR-WR-WR run (McConkey→Wilson→Odunze→Q. Johnston)** — textbook "lock elite RB before the cliff, load WR while it's deep" sequencing.
+- **No reaches** — every pick within a few slots of ADP (Spears, Coker essentially dead-on). The reaching habit from mocks 1–2 is fixed.
+- **Got Braelon Allen at 178** (~ADP) — the RB we flagged as best standalone-upside handcuff when the user was evaluating Tracy/Davis/Charbonnet/Robinson/Allen live during the draft.
+- QB room efficient (Herbert + Penix dart at 207); TE room is two boom/bust pieces (Pitts, Andrews) instead of paying for floor.
+- **Weak spot:** RB3–6 (Corum, Spears, Allen, Hill) are all committee/handcuff pieces with no locked-in weekly role — real dependency on Barkley/Achane staying healthy.
+- **Minor:** Wilson, Keenan Allen, Andrews, and Hill all share **bye 13** — a thin week across 3 positions at once, though cumulative best-ball scoring absorbs it fine.
+
 ## Next up
 - **Player pressure-testing** — user will initiate. On resume: re-pull live ADP + injury/depth news, then rank/compare the players they name.
-- More mock drafts; then the real ESPN draft and the Underdog best ball.
+- More mock drafts / entries; then the real ESPN draft and any additional Underdog best ball entries.
 
 ## Notes for future sessions
 - Player knowledge cutoff is ~Jan 2026 — always re-pull current 2026 ADP/news via web search before giving specific player calls.
