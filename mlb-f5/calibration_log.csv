@@ -399,3 +399,7 @@ date,game,market,model_prob,bet_side,odds,result,note
 2026-09-02,ATH@TEX,F5,0.75,TEX,-150,L,cohort=ranked RANKED #4 edge +6.8% full None-tier Bradford-3.42-26IP-WHIP-inconsistent-flagged-shaky vs Lopez-4.82; F5 TEX 2-8 thru5 LOSS (ATH won 9-2)
 2026-09-02,SF@PIT,F5,0.57,SF,120,W,cohort=ranked RANKED #5 edge +6.2% full None-tier Roupp-4.25 vs Chandler-4.26 zero-ERA-gap hot-bats-6.0; F5 SF 3-1 thru5 WIN (SF won 5-4)
 2026-09-02,PHI@AZ,F5,0.83,AZ,-103,P,cohort=shadow HARD-VETO gap34 edge +11.2% CONFIRMED-tier T.Clarke-2.60 vs Painter-5.95-cold-bats fade NO BET; F5 0-0 thru5 PUSH (PHI won 1-0)
+2026-09-03,CWS@HOU,F5,0.75,HOU,-160,W,cohort=ranked RANKED #1 edge +6.3% full None-tier H.Brown-3.33 vs L.Castillo-5.31-122IP worst-arm-faced-this-week HOU-F5-LIGHT-47.6-taken-at-face-value; F5 HOU 6-2 thru5 WIN (HOU won 6-2)
+2026-09-03,TB@TEX,F5,0.60,TEX,105,W,cohort=ranked RANKED #2 edge +5.8% full None-tier Quantrill-3.01 vs McClanahan-3.19 thin-gap-0.18 price-play hot-bats-5.6; F5 TEX 4-0 thru5 WIN (TEX won 6-0)
+2026-09-03,BOS@BAL,F5,0.61,BAL,100,W,cohort=ranked RANKED #3 edge +5.8% full None-tier B.Young-3.38 vs Bennett-3.27 NEGATIVE-arm-gap pure-bats-play F5-HEAVY-65.3; F5 BAL 3-1 thru5 WIN (BOS won full 6-5)
+2026-09-03,MIL@CHC,F5,0.64,MIL,-117,L,cohort=ranked RANKED #4 edge +5.1% full None-tier Henderson-2.48 vs Gausman-4.52-155IP best-clean-gap-2.04 lead-rec; F5 MIL 1-2 thru5 LOSS (CHC won 2-1)
