@@ -403,3 +403,7 @@ date,game,market,model_prob,bet_side,odds,result,note
 2026-09-03,TB@TEX,F5,0.60,TEX,105,W,cohort=ranked RANKED #2 edge +5.8% full None-tier Quantrill-3.01 vs McClanahan-3.19 thin-gap-0.18 price-play hot-bats-5.6; F5 TEX 4-0 thru5 WIN (TEX won 6-0)
 2026-09-03,BOS@BAL,F5,0.61,BAL,100,W,cohort=ranked RANKED #3 edge +5.8% full None-tier B.Young-3.38 vs Bennett-3.27 NEGATIVE-arm-gap pure-bats-play F5-HEAVY-65.3; F5 BAL 3-1 thru5 WIN (BOS won full 6-5)
 2026-09-03,MIL@CHC,F5,0.64,MIL,-117,L,cohort=ranked RANKED #4 edge +5.1% full None-tier Henderson-2.48 vs Gausman-4.52-155IP best-clean-gap-2.04 lead-rec; F5 MIL 1-2 thru5 LOSS (CHC won 2-1)
+2026-09-04,STL@COL,F5,0.80,STL,-125,W,cohort=ranked RANKED #1 edge +8.4% HALF(gap27) CONFIRMED FADE Feltner-5.84-101IP-WHIP-1.55-corroborated Pallante-3.57 STL-F5-HEAVY-65.2 vs COL-F5-LIGHT-43.6; F5 STL 4-1 thru5 WIN (STL won 7-6)
+2026-09-04,NYY@SD,F5,0.79,NYY,-120,P,cohort=ranked RANKED #2 edge +8.3% HALF(gap27) None-tier Fried-2.80 vs Buehler-4.66-131IP hot-bats-5.7 F5-share-objection-now-0-3; F5 1-1 thru5 PUSH (SD won 3-2)
+2026-09-04,MIL@CIN,F5,0.73,MIL,-140,W,cohort=ranked RANKED #3 edge +6.9% full None-tier Drohan-3.75 vs Lowder-5.14-112IP; F5 MIL 9-6 thru5 WIN (MIL won 10-7)
+2026-09-04,TOR@KC,F5,0.86,KC,-127,L,cohort=shadow HARD-VETO gap32 edge +10.7% CONFIRMED-tier Taillon-5.68 fade hot-bats-5.7 F5-HEAVY NO BET; F5 KC 1-5 thru5 LOSS (TOR won 9-2)
