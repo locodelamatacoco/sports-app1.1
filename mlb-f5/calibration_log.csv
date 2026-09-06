@@ -407,3 +407,8 @@ date,game,market,model_prob,bet_side,odds,result,note
 2026-09-04,NYY@SD,F5,0.79,NYY,-120,P,cohort=ranked RANKED #2 edge +8.3% HALF(gap27) None-tier Fried-2.80 vs Buehler-4.66-131IP hot-bats-5.7 F5-share-objection-now-0-3; F5 1-1 thru5 PUSH (SD won 3-2)
 2026-09-04,MIL@CIN,F5,0.73,MIL,-140,W,cohort=ranked RANKED #3 edge +6.9% full None-tier Drohan-3.75 vs Lowder-5.14-112IP; F5 MIL 9-6 thru5 WIN (MIL won 10-7)
 2026-09-04,TOR@KC,F5,0.86,KC,-127,L,cohort=shadow HARD-VETO gap32 edge +10.7% CONFIRMED-tier Taillon-5.68 fade hot-bats-5.7 F5-HEAVY NO BET; F5 KC 1-5 thru5 LOSS (TOR won 9-2)
+2026-09-05,DET@CLE,F5,0.82,CLE,-153,L,cohort=ranked RANKED #1 edge +8.5% HALF(gap24) None-tier Messick-2.46 vs F.Valdez-4.36-150IP CLE-F5-HEAVY-72.0-most-front-loaded; F5 CLE 0-2 thru5 LOSS (CLE lost 0-6)
+2026-09-05,ATL@PHI,F5,0.57,ATL,144,L,cohort=ranked RANKED #2 edge +7.6% full None-tier M.Perez-3.05 vs Wheeler-3.31 thin-gap-0.26 price-play ATL-F5-LIGHT-38.1; F5 ATL 1-4 thru5 LOSS (PHI won 4-2)
+2026-09-05,LAA@PIT,F5,0.81,PIT,-185,L,cohort=ranked RANKED #3 edge +7.2% full CONFIRMED PARLAY-LEG FADE Kikuchi-5.65-43IP-WHIP-1.49-corroborated Ashcraft-3.59; F5 PIT 0-3 thru5 LOSS (LAA won 6-1)
+2026-09-05,CHC@MIA,F5,0.69,CHC,-130,W,cohort=ranked RANKED #4 edge +6.3% full None-tier Assad-3.46 vs Gusto-3.86 thin-gap hot-bats-6.8; F5 CHC 5-4 thru5 WIN (CHC won 6-5)
+2026-09-05,TOR@KC,F5,0.65,KC,-112,P,cohort=ranked RANKED #5 edge +6.0% full CONFIRMED PARLAY-LEG FADE Scherzer-6.16-57IP own-arm-Lugo-5.03-no-edge-flagged; F5 3-3 thru5 PUSH (KC lost 3-4)
