@@ -106,6 +106,34 @@ data, so it gets a forward test before anyone acts on it.
 - The verdict line is advisory. **A human flips `CARD_MODE`, never the
   daily routine.**
 
+### VERDICT 2026-09-07: **REJECT** — the backtest did not replicate
+
+Final, against the rule as written on 8/24 (no criteria changed):
+
+| cohort | record | win% | ROI | n | daily sd | green days |
+|---|---|---|---|---|---|---|
+| CONFIRMED  | 5-6   | 45.5% | **−23.1%** | 11 | 0.90 | 3/9 (33%) |
+| None/CAUT  | 25-17 | 59.5% | +10.9% | 42 | 1.23 | 8/13 (62%) |
+
+- n = 11 ≥ 8, so this is a verdict, not an EXTEND.
+- ROI −23.1% < −5% → **REJECT** triggered.
+- win% 45.5% < 59.5% → **REJECT** triggered independently.
+
+The backtest that motivated the trial (CONFIRMED 28-15, +4.0% ROI vs
+live 108-91, −3.1%) reversed almost exactly out of sample. That cohort
+was chosen after seeing the data; the forward test is what caught it.
+
+One part of the hypothesis did survive: CONFIRMED daily sd (0.90) came
+in **below** None/CAUTION (1.23), so tier-gating genuinely is steadier.
+It is steadily *losing*, which is worse than volatile winning. Low
+variance is not the goal; hitting at a fair price is.
+
+**Action: `CARD_MODE` stays `"edge"` permanently.** `tier_gate.py`
+remains as a reporting shadow. Do not re-run this trial on the same
+cohort — re-testing a rejected hypothesis until it passes is how the
+false positive gets back in. A future tier hypothesis needs a fresh
+pre-registration with criteria fixed before the window opens.
+
 ## Scheduled Routine
 
 A daily Routine fires this session every morning (default 14:00 UTC / 10:00
