@@ -42,7 +42,7 @@ import statistics
 import requests
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-DATA = os.path.join(HERE, "data")
+DATA = os.environ.get("MLB_F5_DATA") or os.path.join(HERE, "data")
 PAGE = "https://www.oddstrader.com/mlb/"
 SVC = "https://ms.virginia.us-east-1.oddstrader.com/odds-v2/odds-v2-service"
 UA = ("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "

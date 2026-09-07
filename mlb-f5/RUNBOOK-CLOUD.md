@@ -134,6 +134,60 @@ cohort — re-testing a rejected hypothesis until it passes is how the
 false positive gets back in. A future tier hypothesis needs a fresh
 pre-registration with criteria fixed before the window opens.
 
+### DIVERGENCE-BAND FORWARD TRIAL — pre-registered 2026-09-07
+
+Backtest since 6/24 (254 settled ranked plays): the 20–30% gap band —
+played at half stake since the 7/4 compromise — is 38% of card volume
+and more than all of its losses.
+
+| cohort | record | hit | P/L | ROI | n |
+|---|---|---|---|---|---|
+| LIVE (as played) | 139-115 | 54.7% | −4.69u | −1.8% | 254 |
+| KEPT (gap ≤ 20%) | 88-69 | 56.1% | +2.05u | +1.3% | 157 |
+| BAND (gap 20–30%) | 51-46 | 52.6% | −6.74u | −6.9% | 97 |
+
+Daily: LIVE −0.07u/day, sd 1.73, 45% green · KEPT +0.04u/day, sd 1.55,
+50% green.
+
+This is **not** a fresh cohort the way the tier gate was. The divergence
+mechanism already exists and already says the model is less trustworthy
+the further it sits from the market — that is why `HARD_VETO` exists.
+The narrow question is whether the 7/4 half-stake compromise was set at
+the right number. It gets a forward test regardless.
+
+- **Change under test:** `HARD_VETO` 0.30 → 0.20 (the band becomes a
+  no-bet instead of half stake).
+- **Window:** 2026-09-08 .. 2026-09-21 (14 days). Live card **unchanged**
+  — the band keeps playing at half stake for the whole window.
+- **ADOPT** if BAND ROI < 0 AND KEPT hit% > LIVE hit% AND n_band ≥ 25
+  · **REJECT** if BAND ROI > 0 OR KEPT hit% < LIVE hit%
+  · **EXTEND** if n_band < 25.
+- **Power:** the band runs ~2.5 plays/day, so expect n ≈ 30–35 — much
+  more than the tier trial's n=11, still not significance.
+- If it REJECTS, it does **not** get re-run on this cohort. Re-testing a
+  rejected hypothesis until it passes is how a false positive gets in.
+- Reported by `divergence_trial.py` under the SHADOW banner. **A human
+  edits `HARD_VETO`, never the daily routine.**
+
+## Late pass — recovering timing skips
+
+`late_check.py` re-runs games the morning card dropped because a probable
+had not posted at ~10:20 ET (`SP not confirmed`, `pitcher stats missing`).
+Over 8/17–9/07 that cost ~1.4 games/day, six on 9/06 alone. It is a
+sampling problem, not a modelling one — the frozen v3.1.4 gates are
+untouched.
+
+```
+python3 late_check.py            # today; --date YYYY-MM-DD for another slate
+```
+
+Strictly additive, two guarantees: it fetches into `data/late/` via the
+`MLB_F5_DATA` override so the morning snapshot in `data/` is never
+overwritten, and it writes `model_run_<date>_v3_addendum.md` without ever
+rewriting the posted card. `UNSTABLE SP (<20 IP)` is deliberately **not**
+re-checked — that is a real verdict about sample size, not a timing
+artifact, and it will not change later in the day.
+
 ## Scheduled Routine
 
 A daily Routine fires this session every morning (default 14:00 UTC / 10:00

@@ -35,7 +35,8 @@ from zoneinfo import ZoneInfo
 import requests
 
 BASE = "https://statsapi.mlb.com/api/v1"
-DATA = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data")
+DATA = os.environ.get("MLB_F5_DATA") or os.path.join(
+    os.path.dirname(os.path.abspath(__file__)), "data")
 ET = ZoneInfo("America/New_York")
 
 

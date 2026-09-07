@@ -29,7 +29,8 @@ from mlb_edge_model_v3 import (simulate, offense_score, implied, calibrated_prob
 
 import numpy as np
 
-DATA = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data")
+DATA = os.environ.get("MLB_F5_DATA") or os.path.join(
+    os.path.dirname(os.path.abspath(__file__)), "data")
 PARK = {  # run multiplier by home venue id (100=avg)
  2681:1.04, 3309:1.01, 3:1.06, 3313:1.02, 2602:1.08, 4705:1.01, 32:1.01,
  2889:0.97, 17:1.00, 5325:0.98, 2392:0.99, 15:1.02, 2529:1.04, 680:0.93,

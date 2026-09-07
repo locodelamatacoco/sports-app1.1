@@ -14,3 +14,5 @@ echo "########## SHADOW (reporting only — does NOT affect the live card) #####
 python3 f5_offense.py 2>&1 || echo "[warn] f5_offense failed"
 echo
 python3 tier_gate.py 2>&1 || echo "[warn] tier_gate failed"
+echo
+python3 divergence_trial.py 2>&1 || echo "[warn] divergence_trial failed"
