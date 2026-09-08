@@ -418,3 +418,5 @@ date,game,market,model_prob,bet_side,odds,result,note
 2026-09-06,CHC@MIA,F5,0.79,CHC,-150,L,cohort=ranked RANKED #4 edge +7.7% HALF(gap22) None-tier Holmes-2.09 vs T.Phillips-3.43-110IP best-bats-7.0-L10-F5L10-4.1 called-most-complete-play; F5 CHC 3-8 thru5 LOSS (MIA won 10-3)
 2026-09-06,WSH@LAD,F5,0.52,WSH,158,P,cohort=ranked RANKED #5 edge +7.0% full None-tier Alvarez-3.47 vs Wrobleski-3.65 thin-gap-0.18 price-play; F5 4-4 thru5 PUSH (LAD won 7-5)
 2026-09-06,MIL@CIN,F5,0.70,MIL,-141,L,cohort=ranked RANKED #6 edge +6.1% full None-tier K.Harrison-3.45 vs B.Singer-4.83-141IP; F5 MIL 6-9 thru5 LOSS (CIN won 12-8)
+2026-09-07,TOR@ATH,F5,0.80,TOR,-181,L,cohort=ranked RANKED #1 edge +7.1% full None-tier D.Cease-2.25 vs J.Lopez-4.71-105IP top-ERA-gap-2.46 hot-bats-5.3; F5 TOR 1-5 thru5 LOSS (ATH won 6-5)
+2026-09-07,CHC@MIL,F5,0.61,CHC,-105,P,cohort=ranked RANKED #2 edge +5.3% full None-tier Boyd-4.05 vs Gasser-4.57 thin-gap-0.52 hot-bats-7.3; F5 1-1 thru5 PUSH (MIL won 4-3)
