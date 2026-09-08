@@ -169,6 +169,24 @@ the right number. It gets a forward test regardless.
 - Reported by `divergence_trial.py` under the SHADOW banner. **A human
   edits `HARD_VETO`, never the daily routine.**
 
+## Morning brief — ranked plays table format
+
+Requested 2026-09-08. The pitching matchup is the single thing Jonathan
+asks about most (Cease, Dobnak, Bradford, Scherzer, Holmes…), so it goes
+IN the ranked table, not only in the `why:` lines underneath. Columns:
+
+| # | Play | Edge | Wall | Stake/Tier | **Our SP (ERA)** | **Faded SP (ERA, IP)** | Gap |
+
+- Faded SP carries its **IP** — a 6.50 over 98 innings and a 6.50 over 23
+  are different bets, and the small-sample ones have been the least
+  reliable plays on this card.
+- Flag an **ERA/WHIP mismatch** on either arm inline (a low ERA sitting on
+  a high WHIP is not a real number — Bradford 3.42/1.52 over 26 IP on
+  9/02 was flagged pre-game and lost F5 2-8).
+- `Gap` is the ERA gap (faded − ours), which is presentation only: it does
+  NOT rank the card and has repeatedly failed to predict outcomes. Keep it
+  last so it never reads as the ranking key. Edge is the ranking key.
+
 ## Late pass — recovering timing skips
 
 `late_check.py` re-runs games the morning card dropped because a probable
