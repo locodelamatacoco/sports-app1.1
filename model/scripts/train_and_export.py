@@ -69,11 +69,13 @@ def main() -> int:
     # 2. Engineer leakage-safe rolling features and join onto games.
     rolled = feat.build_rolling_features(ds.team_game)
     matchups = feat.build_matchup_frame(ds.games, rolled)
+    matchups = feat.attach_power_features(matchups, ds.games)
+    matchups = feat.add_context_features(matchups)
     print(f"[2/5] Built matchup frame: {len(matchups)} rows, {len(feat.FEATURE_COLUMNS)} features.")
 
     # 3. Split into training games (played) and the slate to price.
     if args.slate == "oddstrader":
-        slate, train, slate_source = _oddstrader_slate(args, rolled, matchups)
+        slate, train, slate_source = _oddstrader_slate(args, rolled, matchups, ds.games)
     else:
         slate, train, slate_source = _auto_slate(args, matchups)
     if slate is None:
@@ -87,6 +89,14 @@ def main() -> int:
 
     # 5. Price the slate and export.
     payload = export_mod.build_payload(model, slate, f"train:{ds.source} | slate:{slate_source}")
+    starters = {}
+    for side in ("home", "away"):
+        if f"{side}_qb_name" in slate.columns:
+            starters.update({
+                r[f"{side}_team"]: r[f"{side}_qb_name"]
+                for _, r in slate.iterrows() if isinstance(r.get(f"{side}_qb_name"), str)
+            })
+    payload["assumedStarters"] = starters
     os.makedirs(os.path.dirname(os.path.abspath(args.out)), exist_ok=True)
     export_mod.write_json(payload, args.out)
     print(f"[5/5] Wrote {payload['summary']['games']} games "
@@ -117,7 +127,7 @@ def _auto_slate(args, matchups):
     return slate, train, f"{pred_season} week {pred_week}"
 
 
-def _oddstrader_slate(args, rolled, matchups):
+def _oddstrader_slate(args, rolled, matchups, ds_games):
     """Scrape the live OddsTrader NFL slate + consensus odds and attach ratings."""
     from nfl_model import oddstrader
     from nfl_model.features import build_slate_frame
@@ -147,6 +157,8 @@ def _oddstrader_slate(args, rolled, matchups):
     new_season = bool(pd.notna(slate_season) and slate_season > trained_through)
 
     slate = build_slate_frame(priced, rolled, new_season=new_season)
+    slate = feat.attach_slate_power(slate, ds_games, new_season=new_season)
+    slate = feat.add_context_features(slate)
     train = matchups[matchups["home_margin"].notna()].copy()
     label = "OddsTrader (consensus)"
     if new_season:
@@ -156,6 +168,10 @@ def _oddstrader_slate(args, rolled, matchups):
 
 def _print_slate(payload: dict) -> None:
     """Readable console summary of the priced slate."""
+    qbs = payload.get("assumedStarters") or {}
+    if qbs:
+        print("Assumed starting QBs (prior season primary starter — check these):")
+        print("  " + ", ".join(f"{t}:{q}" for t, q in sorted(qbs.items())) + "\n")
     print(f"{'MATCHUP':<15}{'PROJ':>7}  {'SPREAD':>8}  {'HOME ML':>8}  BEST VALUE BET")
     print("-" * 72)
     for g in payload["games"]:

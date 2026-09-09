@@ -100,7 +100,8 @@ are small and most of the slate offers no value.
 |-------|------|--------------|
 | Load | `nfl_model/data.py` | Real nflverse schedules (scores + closing lines) → points-margin ratings; synthetic fallback if offline. |
 | Live odds | `nfl_model/oddstrader.py` | Scrape the consensus slate + odds from OddsTrader's backend. |
-| Features | `nfl_model/features.py` | Per-team rolling offense/defense ratings, **leakage-safe**. |
+| Features | `nfl_model/features.py` | Per-team rolling offense/defense ratings + game context, **leakage-safe**. |
+| Ratings | `nfl_model/power.py` | Opponent-adjusted ridge power ratings for **teams and quarterbacks**, plus home-field advantage. |
 | Model | `nfl_model/model.py` | Standardize → Ridge; alpha auto-tuned by time-series CV; measures residual σ. |
 | Probabilities | `nfl_model/distribution.py` | Projected margin → cover prob + win prob via the normal CDF. |
 | Edges | `nfl_model/edges.py` | Model prob vs book price → edge, EV, value-bet gate. |
@@ -125,33 +126,36 @@ your real bets lose.
 
 ## Does it actually work? (Read this before betting anything)
 
-**No — not yet.** `scripts/backtest.py` replays the model's own edge list against
-real closing lines, walk-forward: for each season it trains only on earlier
-seasons, prices that season, and grades every flagged wager.
+**There is no evidence that it does.** `scripts/backtest.py` replays the model's
+own edge list against real closing lines, walk-forward: each season is priced by
+a model trained only on earlier seasons.
 
 ```bash
 python -m scripts.backtest
 ```
 
-Result over 2012–2025 (3,829 flagged bets):
+Current result, 2012–2025, 3,954 flagged bets:
 
-| claimed edge | bets | win% | ROI/bet |
-|---|---|---|---|
-| 3–6%   | 1150 | 50.4% | −0.32% |
-| 6–10%  | 1371 | 41.5% | −4.53% |
-| 10–20% | 1148 | 37.4% | **−11.83%** |
-| 20%+   | 160  | 37.1% | −7.34% |
+| slice | bets | win% | ROI | 95% CI | verdict |
+|---|---|---|---|---|---|
+| all | 3954 | 45.7% | −2.32% | [−5.91%, +1.27%] | noise |
+| spreads | 2104 | 51.0% | −0.39% | [−4.52%, +3.73%] | noise |
+| moneylines | 1850 | 39.8% | −4.50% | [−10.57%, +1.57%] | noise |
 
-**ROI gets *worse* as the claimed edge gets bigger.** That inversion is the
-whole story: a model with real skill shows ROI *rising* with its edge. Here, the
-further the model strays from the market, the more wrong it turns out to be — so
-the "value bets" are measuring the model's own error, not the market's. Overall:
-42.7% win rate, −5.57% ROI, against a 52.38% break-even.
+**Every slice straddles zero.** Betting results are brutally high-variance —
+even ~4,000 wagers across 14 seasons cannot resolve a couple of points of edge.
+The point estimate is negative; the honest reading is "indistinguishable from
+break-even, with no demonstrated skill."
 
-Keep this backtest in the loop for any change you make. A model change that
-"finds more edges" but doesn't move these numbers has made the tool worse, not
-better. What would actually be needed: opponent-adjusted ratings, QB/injury
-information, and calibration — see *Natural next upgrades*.
+That is why the report prints a confidence interval on every line. **Do not tune
+the bet gate on the edge buckets**: at these sample sizes they are noise, and
+fitting them is exactly how a model gets fooled into looking profitable. Re-run
+this after any change — a change that "finds more edges" without moving these
+numbers has made the tool worse, not better.
+
+For reference, the same backtest before opponent-adjusted ratings and QB
+handling ran 42.6% / −5.57% ROI, so the modelling work below is real progress on
+accuracy even though it does not add up to a demonstrated edge.
 
 ---
 
@@ -231,6 +235,24 @@ python -m scripts.train_and_export --slate oddstrader --out output/nfl_edges.jso
 - **Want more books?** A sanctioned aggregator (e.g. The Odds API) slots in as
   another slate source next to `oddstrader.py` — build a `fetch_*_slate` that
   returns the same nflverse-schema columns and add a `--slate` branch.
+
+---
+
+## What is deliberately NOT built (and why)
+
+- **Player props.** Pricing a prop needs per-player production history (targets,
+  carries, yardage). nflverse publishes that only as GitHub *release* assets,
+  which this project cannot reach — the schedules feed has no player rows at all.
+  Scraping prop *lines* without a projection to compare them against would just
+  be a odds display, not a model. Unblocked the day player game logs are
+  reachable.
+- **First-half moneylines / spreads.** The lines are scrapeable (OddsTrader
+  market ids: 1H money `91`, 1H spread `397`), but `games.csv` carries **no
+  half or quarter scores** — only finals. A 1H model could be assembled by
+  assuming half-margins are some fraction of the full game, but there would be
+  no way to *test* that assumption. After what the backtest taught us here,
+  shipping an unfalsifiable pricer is the one thing worth refusing. Add half
+  scores and it becomes a straightforward extension.
 
 ---
 

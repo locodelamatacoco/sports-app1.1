@@ -25,6 +25,7 @@ import argparse
 import os
 import sys
 
+import numpy as np
 import pandas as pd
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -78,6 +79,8 @@ def run_backtest(args: argparse.Namespace) -> pd.DataFrame:
     ds = data_mod.load_dataset(seasons)
     rolled = feat.build_rolling_features(ds.team_game)
     matchups = feat.build_matchup_frame(ds.games, rolled)
+    matchups = feat.attach_power_features(matchups, ds.games)
+    matchups = feat.add_context_features(matchups)
     matchups = matchups[matchups["home_margin"].notna()]
 
     graded = []
@@ -106,13 +109,26 @@ def run_backtest(args: argparse.Namespace) -> pd.DataFrame:
 
 
 def _line(df: pd.DataFrame, label: str) -> None:
+    """One row of the report, with a 95% CI so noise can't be read as skill.
+
+    Betting results are extremely high-variance: a few hundred wagers simply
+    cannot resolve a couple of percent of edge. Printing the interval next to the
+    point estimate is what stops a lucky bucket from being mistaken for a system.
+    """
     if df.empty:
         print(f"{label:<26} (no bets)")
         return
     decided = df[~df["push"]]
     win_pct = 100.0 * (decided["profit"] > 0).sum() / max(len(decided), 1)
-    roi = 100.0 * df["profit"].mean()
-    print(f"{label:<26} bets {len(df):>5} | win% {win_pct:>5.1f} | ROI/bet {roi:>+6.2f}%")
+
+    profit = df["profit"].to_numpy(dtype=float)
+    roi = 100.0 * profit.mean()
+    n = len(profit)
+    stderr = (profit.std(ddof=1) / np.sqrt(n)) if n > 1 else float("nan")
+    lo, hi = roi - 196.0 * stderr, roi + 196.0 * stderr  # 1.96 * 100
+    verdict = "signif." if (lo > 0 or hi < 0) else "noise"
+    print(f"{label:<26} bets {n:>5} | win% {win_pct:>5.1f} | ROI {roi:>+6.2f}% "
+          f"| 95% CI [{lo:>+6.2f}%,{hi:>+6.2f}%] {verdict}")
 
 
 def report(bt: pd.DataFrame, args: argparse.Namespace) -> None:
@@ -131,12 +147,19 @@ def report(bt: pd.DataFrame, args: argparse.Namespace) -> None:
     for lo, hi in ((0.03, 0.06), (0.06, 0.10), (0.10, 0.20), (0.20, 1.01)):
         _line(bt[(bt["edge"] >= lo) & (bt["edge"] < hi)], f"  edge {lo:.0%}-{hi:.0%}")
 
-    buckets = [bt[(bt["edge"] >= lo) & (bt["edge"] < hi)]["profit"].mean()
-               for lo, hi in ((0.03, 0.06), (0.06, 0.10), (0.10, 0.20), (0.20, 1.01))]
-    buckets = [b for b in buckets if pd.notna(b)]
-    if len(buckets) >= 2 and buckets[-1] < buckets[0]:
-        print("\n  ⚠ ROI FALLS as the claimed edge grows. The flagged 'edges' are the "
-              "model's\n    own error, not the market's — this list is not bettable.")
+    profit = bt["profit"].to_numpy(dtype=float)
+    stderr = profit.std(ddof=1) / np.sqrt(len(profit))
+    lo, hi = profit.mean() - 1.96 * stderr, profit.mean() + 1.96 * stderr
+    print()
+    if lo > 0:
+        print("  Overall ROI is significantly POSITIVE — the rare case worth acting on.")
+    elif hi < 0:
+        print("  ⚠ Overall ROI is significantly NEGATIVE. This list loses money; do not bet it.")
+    else:
+        print("  ⚠ Overall ROI is statistically indistinguishable from break-even.\n"
+              "    There is no evidence this beats the market — and none that it loses to it.\n"
+              "    Do NOT tune the bet gate on the buckets above: at these sample sizes\n"
+              "    they are noise, and fitting them is how a model gets fooled.")
 
     print(f"\nBreak-even at -110 juice is {BREAK_EVEN_PCT}% (ROI 0%). "
           "Sharp bettors live at ~53-55%.")

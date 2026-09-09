@@ -180,6 +180,40 @@ def build_slate_frame(
     return _add_derived_features(df, _league_means(team_game_roll))
 
 
+def attach_slate_power(
+    slate: pd.DataFrame, games: pd.DataFrame, new_season: bool = False
+) -> pd.DataFrame:
+    """Add opponent-adjusted ratings to an upcoming slate.
+
+    Upcoming-game feeds don't name a starting quarterback, so each team is
+    assumed to field its most recent starter. The assumption is recorded in
+    ``home_qb_name``/``away_qb_name`` so it can be eyeballed (and it is printed
+    by the CLI) -- an offseason quarterback move is exactly the kind of thing
+    this will get wrong.
+    """
+    from . import power as power_mod
+
+    ratings, team_strength = power_mod.current_ratings(games, new_season=new_season)
+    starters = power_mod.last_known_starters(games)
+    names = {}
+    if "home_qb_id" in games.columns and "home_qb_name" in games.columns:
+        for side in ("home", "away"):
+            pairs = games[[f"{side}_qb_id", f"{side}_qb_name"]].dropna().values
+            names.update({qid: qname for qid, qname in pairs})
+
+    out = slate.copy()
+    for side in ("home", "away"):
+        teams = out[f"{side}_team"]
+        qb_ids = teams.map(starters)
+        out[f"{side}_power"] = [
+            team_strength.get(t, 0.0) + ratings.qb.get(q, 0.0)
+            for t, q in zip(teams, qb_ids)
+        ]
+        out[f"{side}_qb_name"] = qb_ids.map(names)
+    out["power_diff"] = out["home_power"] - out["away_power"]
+    return out
+
+
 def _league_means(team_game_roll: pd.DataFrame) -> dict:
     return {c: team_game_roll[c].mean() for c in ROLL_COLS}
 
@@ -213,8 +247,8 @@ def _add_derived_features(df: pd.DataFrame, league_means: dict) -> pd.DataFrame:
     return df
 
 
-# The exact feature vector fed to the model, in a fixed order.
-FEATURE_COLUMNS = [
+# Raw form: rolling offensive/defensive output for each side.
+FORM_COLUMNS = [
     "home_off_epa_roll",
     "home_def_epa_roll",
     "away_off_epa_roll",
@@ -226,3 +260,55 @@ FEATURE_COLUMNS = [
     "net_epa_diff",
     "rest_diff",
 ]
+
+# Opponent-adjusted strength (team + starting QB) from ``power.py``.
+POWER_COLUMNS = ["home_power", "away_power", "power_diff"]
+
+# Game context the schedules hand us for free.
+CONTEXT_COLUMNS = ["neutral", "div_game", "qb_change_diff"]
+
+# The exact feature vector fed to the model, in a fixed order.
+FEATURE_COLUMNS = FORM_COLUMNS + POWER_COLUMNS + CONTEXT_COLUMNS
+
+
+def add_context_features(df: pd.DataFrame) -> pd.DataFrame:
+    """Add the schedule-context features, tolerating missing source columns.
+
+    - ``neutral``: no home-field advantage at a neutral site (77 such games since
+      2010 were previously being handed a home edge they never had).
+    - ``div_game``: divisional matchups play tighter than ratings imply.
+    - ``qb_change_diff``: whether each side's starter changed from its last game.
+      Positive favours the home team (the *away* side is the disrupted one).
+    """
+    out = df.copy()
+    out["neutral"] = (
+        out["location"].astype(str).str.lower().eq("neutral").astype(float)
+        if "location" in out.columns else 0.0
+    )
+    out["div_game"] = (
+        pd.to_numeric(out["div_game"], errors="coerce").fillna(0.0).astype(float)
+        if "div_game" in out.columns else 0.0
+    )
+
+    for side in ("home", "away"):
+        col = f"{side}_qb_id"
+        if col in out.columns and "season" in out.columns:
+            qb = out[col]
+            previous = qb.groupby([out[f"{side}_team"], out["season"]]).shift(1)
+            out[f"{side}_qb_change"] = ((previous.notna()) & (qb != previous)).astype(float)
+        else:
+            out[f"{side}_qb_change"] = 0.0
+    out["qb_change_diff"] = out["away_qb_change"] - out["home_qb_change"]
+    return out
+
+
+def attach_power_features(df: pd.DataFrame, games: pd.DataFrame) -> pd.DataFrame:
+    """Merge leakage-safe opponent-adjusted ratings onto a matchup frame."""
+    from . import power as power_mod
+
+    ratings = power_mod.build_power_features(games)
+    out = df.merge(ratings, on=["season", "week", "home_team", "away_team"], how="left")
+    for col in ("home_power", "away_power"):
+        out[col] = out[col].fillna(0.0)
+    out["power_diff"] = out["home_power"] - out["away_power"]
+    return out

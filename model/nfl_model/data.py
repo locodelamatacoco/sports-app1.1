@@ -84,10 +84,16 @@ def load_schedule_data(seasons: List[int]) -> Dataset:
     line_cols = [
         "game_id", "season", "week", "gameday", "home_team", "away_team",
         "home_score", "away_score", "spread_line", "total_line",
-        "home_moneyline", "away_moneyline", "home_rest", "away_rest",
+        "home_moneyline", "away_moneyline", "home_spread_odds", "away_spread_odds",
+        "home_rest", "away_rest",
+        # Context the model uses: neutral sites, divisional games, and the
+        # starting quarterbacks (who get their own ratings in power.py).
+        "location", "div_game", "roof",
+        "home_qb_id", "away_qb_id", "home_qb_name", "away_qb_name",
     ]
     present = [c for c in line_cols if c in sched.columns]
     games = sched[present].copy()
+    games["home_margin"] = games["home_score"] - games["away_score"]
     return Dataset(team_game=team_game, games=games, source="nflverse-schedules (points proxy)")
 
 
