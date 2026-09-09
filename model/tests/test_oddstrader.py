@@ -125,3 +125,42 @@ def test_median_american_drops_invalid_and_handles_empty():
     assert ot._median_american([-110, -5, -110]) == -110   # -5 is illegal, ignored
     assert ot._median_american([]) is None
     assert ot._median_american([None, 3]) is None
+
+
+def _score(eid, partid, pn, val):
+    return {"eid": eid, "partid": partid, "pn": pn, "val": val}
+
+
+import pandas as pd  # noqa: E402
+
+
+def test_half_scores_sum_first_two_quarters():
+    # Real shape from the feed: CIN@PIT went 7/3/10/14 vs 6/0/3/3.
+    rows = pd.DataFrame([
+        _score(1, 10, 1, 7), _score(1, 10, 2, 3), _score(1, 10, 3, 10), _score(1, 10, 4, 14),
+        _score(1, 20, 1, 6), _score(1, 20, 2, 0), _score(1, 20, 3, 3), _score(1, 20, 4, 3),
+    ])
+    out = ot.half_scores(rows).set_index("partid")
+    assert out.loc[10, "first_half"] == 10 and out.loc[10, "final"] == 34
+    assert out.loc[20, "first_half"] == 6 and out.loc[20, "final"] == 12
+
+
+def test_half_scores_includes_overtime_in_final_only():
+    rows = pd.DataFrame([
+        _score(1, 10, 1, 7), _score(1, 10, 2, 7), _score(1, 10, 3, 0),
+        _score(1, 10, 4, 6), _score(1, 10, 5, 3),  # pn5 = overtime
+    ])
+    out = ot.half_scores(rows).set_index("partid")
+    assert out.loc[10, "first_half"] == 14
+    assert out.loc[10, "final"] == 23
+
+
+def test_half_scores_drops_games_missing_a_first_half_quarter():
+    # Only Q2 recorded -> we cannot know the first half, so the row is dropped
+    # rather than silently understated.
+    rows = pd.DataFrame([_score(1, 10, 2, 7), _score(1, 10, 3, 7)])
+    assert ot.half_scores(rows).empty
+
+
+def test_half_scores_handles_empty_input():
+    assert ot.half_scores(pd.DataFrame()).empty

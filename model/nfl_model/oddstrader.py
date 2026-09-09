@@ -278,3 +278,88 @@ def fetch_oddstrader_slate(catid: int = DEFAULT_CATID, timeout: int = 30) -> pd.
     events = parse_events(state)
     line_rows = fetch_current_lines(list(events.keys()), catid=catid, timeout=timeout)
     return pd.DataFrame(parse_current_lines(events, line_rows))
+
+
+# --------------------------------------------------------------------------- #
+# Historical results: per-period scores and player box scores
+# --------------------------------------------------------------------------- #
+# The nflverse schedules give only final scores and no player rows, which is what
+# blocked first-half markets and player props. OddsTrader's own backend carries
+# both for completed games, on the same reachable endpoint as the odds:
+#
+#   scores(eid)            -> one row per (participant, period): pn=quarter, val=points
+#   statisticsByEvent(eids) -> player box scores, keyed by (pid, idty, stat)
+#
+# ``idty`` is the stat category ('passing', 'rushing', 'receiving', 'defense',
+# 'field-goals', ...), so a player's receiving yards is (idty='receiving',
+# stat='yards'). That is enough to both build a projection and grade it.
+MTID_1H_MONEY = 91     # first-half moneyline
+MTID_1H_SPREAD = 397   # first-half spread
+MTID_1H_TOTAL = 398    # first-half total
+
+
+def fetch_completed_events(
+    start_ms: int, hours_range: int = 72, lid: int = NFL_LID, timeout: int = 30
+) -> pd.DataFrame:
+    """Games in a window, with status -- use to walk historical weeks."""
+    query = (
+        f"{{eventsByDateNew(startDate:{int(start_ms)}, hoursRange:{int(hours_range)}, "
+        f"lid:[{lid}]){{events{{eid des es dt}}}}}}"
+    )
+    payload = _graphql(query, timeout)
+    events = (payload.get("eventsByDateNew") or {}).get("events") or []
+    return pd.DataFrame(events)
+
+
+def fetch_period_scores(eids: List[int], timeout: int = 30) -> pd.DataFrame:
+    """Per-quarter scoring for completed games: eid, partid, pn (period), val."""
+    if not eids:
+        return pd.DataFrame(columns=["eid", "partid", "pn", "val"])
+    ids = ",".join(str(int(e)) for e in eids)
+    payload = _graphql(f"{{scores(eid:[{ids}]){{eid partid pn val}}}}", timeout)
+    return pd.DataFrame(payload.get("scores") or [])
+
+
+def half_scores(score_rows: pd.DataFrame) -> pd.DataFrame:
+    """Collapse per-quarter rows into first-half and final totals per side.
+
+    Periods 1 and 2 are the first half; everything else adds to the final. A
+    game missing either opening quarter is dropped rather than guessed at.
+    """
+    if score_rows.empty:
+        return pd.DataFrame(columns=["eid", "partid", "first_half", "final"])
+    df = score_rows.copy()
+    df["pn"] = pd.to_numeric(df["pn"], errors="coerce")
+    df["val"] = pd.to_numeric(df["val"], errors="coerce").fillna(0.0)
+    first = (
+        df[df["pn"].isin([1, 2])].groupby(["eid", "partid"])["val"].sum().rename("first_half")
+    )
+    final = df.groupby(["eid", "partid"])["val"].sum().rename("final")
+    complete = df[df["pn"].isin([1, 2])].groupby(["eid", "partid"])["pn"].nunique().eq(2)
+    out = pd.concat([first, final], axis=1).reset_index()
+    return out[out.set_index(["eid", "partid"]).index.map(complete).fillna(False)]
+
+
+def fetch_player_boxscore(eids: List[int], timeout: int = 60, limit: int = 8000) -> pd.DataFrame:
+    """Player box scores for completed games.
+
+    Returns one row per (player, category, stat): ``pid``, ``player`` (name),
+    ``team_partid``, ``category`` (``idty``: passing / rushing / receiving / ...),
+    ``stat`` and numeric ``value`` -- the raw material for a props projection.
+    """
+    if not eids:
+        return pd.DataFrame(columns=["eid", "pid", "player", "category", "stat", "value"])
+    ids = ",".join(str(int(e)) for e in eids)
+    query = (
+        f"{{statisticsByEvent(eids:[{ids}], limit:{int(limit)})"
+        "{eid pid pfn pln partid idty stat val}}"
+    )
+    rows = _graphql(query, timeout).get("statisticsByEvent") or []
+    df = pd.DataFrame([r for r in rows if r.get("pid")])
+    if df.empty:
+        return pd.DataFrame(columns=["eid", "pid", "player", "category", "stat", "value"])
+    df["player"] = (df["pfn"].fillna("") + " " + df["pln"].fillna("")).str.strip()
+    df["value"] = pd.to_numeric(df["val"], errors="coerce")
+    return df.rename(columns={"idty": "category", "partid": "team_partid"})[
+        ["eid", "pid", "player", "team_partid", "category", "stat", "value"]
+    ]

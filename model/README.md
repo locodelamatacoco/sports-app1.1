@@ -238,21 +238,30 @@ python -m scripts.train_and_export --slate oddstrader --out output/nfl_edges.jso
 
 ---
 
-## What is deliberately NOT built (and why)
+## Half scores and player stats: unblocked
 
-- **Player props.** Pricing a prop needs per-player production history (targets,
-  carries, yardage). nflverse publishes that only as GitHub *release* assets,
-  which this project cannot reach — the schedules feed has no player rows at all.
-  Scraping prop *lines* without a projection to compare them against would just
-  be a odds display, not a model. Unblocked the day player game logs are
-  reachable.
-- **First-half moneylines / spreads.** The lines are scrapeable (OddsTrader
-  market ids: 1H money `91`, 1H spread `397`), but `games.csv` carries **no
-  half or quarter scores** — only finals. A 1H model could be assembled by
-  assuming half-margins are some fraction of the full game, but there would be
-  no way to *test* that assumption. After what the backtest taught us here,
-  shipping an unfalsifiable pricer is the one thing worth refusing. Add half
-  scores and it becomes a straightforward extension.
+Both blockers are solved. The nflverse schedules carry only final scores and no
+player rows — but OddsTrader's backend, already reachable for odds, serves both
+for completed games on the same endpoint:
+
+| need | call | shape |
+|---|---|---|
+| per-quarter scores | `scores(eid)` | one row per (participant, period): `pn`=quarter, `val`=points |
+| player box scores | `statisticsByEvent(eids)` | `pid`, name, `idty`=category, `stat`, `val` |
+
+`idty` is the stat category (`passing` / `rushing` / `receiving` / `defense` / …),
+so a receiver's yards is `(idty='receiving', stat='yards')`. Verified live: a
+single game returns 2,371 player-stat rows across 92 distinct stats.
+
+Helpers are in `oddstrader.py`: `fetch_completed_events`, `fetch_period_scores`,
+`half_scores` (folds quarters 1–2 into a first half, OT into the final only), and
+`fetch_player_boxscore`. First-half market ids are `MTID_1H_MONEY` (91),
+`MTID_1H_SPREAD` (397), `MTID_1H_TOTAL` (398).
+
+This means a first-half model and a props model can now both be **built and
+backtested** rather than assumed. Neither is built yet — and given what the
+backtest showed for the full-game model, neither should be trusted until it has
+been through `scripts/backtest.py` with confidence intervals.
 
 ---
 
