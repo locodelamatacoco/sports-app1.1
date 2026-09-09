@@ -159,6 +159,39 @@ accuracy even though it does not add up to a demonstrated edge.
 
 ---
 
+## Tracking live picks
+
+The backtest says what the model *would have* done. The ledger says what it is
+actually doing, on picks written down before kickoff — the one record that can't
+be tuned after the fact.
+
+```bash
+# after pricing a slate
+python -m scripts.train_and_export --slate oddstrader --out output/nfl_edges.json
+python -m scripts.track record --picks output/nfl_edges.json
+
+# any time after the games finish
+python -m scripts.track grade
+```
+
+`record` freezes each pick's price at the moment it was taken and keys entries by
+(event, market, side), so re-running it on the same slate never duplicates or
+overwrites. `grade` pulls real finals from OddsTrader's per-quarter scores and
+settles whatever is done — spreads on the cushion, moneylines on the winner, a
+dead-on number as a push.
+
+The report shows the running record **with a 95% CI**, the same discipline as the
+backtest, and warns while the sample is under 100 bets. Expect the interval to be
+uselessly wide for most of a season: a 17-week slate produces a couple hundred
+bets, and that is nowhere near enough to separate a real edge from luck. The
+ledger is for honesty, not for confirmation.
+
+Use `--all-wagers` to record every priced wager rather than only the flagged
+ones, which measures the bet gate itself: if flagged picks don't outperform the
+ones it passed on, the gate is not doing anything.
+
+---
+
 ## The honest caveats
 
 1. **You're not beating the game — you're trying to beat the closing line.** The

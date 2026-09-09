@@ -133,6 +133,8 @@ def analyze_game(game: dict, pred_margin: float, sigma: float) -> dict:
         "week": game.get("week"),
         "home": home,
         "away": away,
+        "homePartid": game.get("home_partid"),
+        "awayPartid": game.get("away_partid"),
         "kickoff": game.get("gameday"),
         "projectedMargin": round(pred_margin, 2),
         "projectedWinner": home if pred_margin >= 0 else away,

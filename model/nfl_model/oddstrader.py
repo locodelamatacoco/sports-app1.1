@@ -206,6 +206,9 @@ def parse_current_lines(events: Dict[int, dict], line_rows: List[dict]) -> List[
             "gameday": _kickoff_iso(ev.get("kickoff_ms")),
             "home_team": ev["home"]["abbr"],
             "away_team": ev["away"]["abbr"],
+            # Carried so results can be mapped back to a side when grading.
+            "home_partid": hp,
+            "away_partid": ap,
             "home_score": None,
             "away_score": None,
             "spread_line": spread_line,
