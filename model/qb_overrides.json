@@ -1,0 +1,4 @@
+{
+  "_comment": "Manual starting-QB corrections, applied on top of OddsTrader's live depth chart and overridable by --qb TEAM=NAME. Use ONLY where the feed is demonstrably wrong -- entries here are stale by design and do not react to injuries or benchings, so review them weekly. The CLI prints every override it applies.",
+  "LAC": "Justin Herbert"
+}

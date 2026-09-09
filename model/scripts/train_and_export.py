@@ -167,6 +167,21 @@ def _oddstrader_slate(args, rolled, matchups, ds_games):
         print(f"[warn] depth charts unavailable ({type(exc).__name__}); "
               "falling back to last season's primary starters.")
         depth_qbs = {}
+    # Persisted corrections for feeds that are known wrong (see qb_overrides.json).
+    override_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                                 "qb_overrides.json")
+    if os.path.exists(override_path):
+        try:
+            import json as _json
+            with open(override_path) as fh:
+                for team, name in _json.load(fh).items():
+                    if team.startswith("_") or not isinstance(name, str):
+                        continue
+                    depth_qbs[team.strip().upper()] = name.strip()
+                    print(f"[qb] file override: {team.strip().upper()} -> {name.strip()}")
+        except Exception as exc:
+            print(f"[warn] could not read qb_overrides.json ({type(exc).__name__}); ignoring.")
+
     for override in args.qb:
         if "=" in override:
             team, name = override.split("=", 1)
