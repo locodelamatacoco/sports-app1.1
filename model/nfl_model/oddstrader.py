@@ -363,3 +363,58 @@ def fetch_player_boxscore(eids: List[int], timeout: int = 60, limit: int = 8000)
     return df.rename(columns={"idty": "category", "partid": "team_partid"})[
         ["eid", "pid", "player", "team_partid", "category", "stat", "value"]
     ]
+
+
+def fetch_depth_chart_starters(timeout: int = 45) -> Dict[str, str]:
+    """Current QB1 for every team, from OddsTrader's live depth charts.
+
+    The historical fallback (last season's primary starter) cannot see offseason
+    moves -- a team that released its quarterback still shows the old name. The
+    depth chart is the live answer, so it overrides the assumption wherever the
+    two disagree.
+
+    Returns ``{team_abbr: "First Last"}`` for the quarterback listed at order 1.
+    """
+    state = extract_initial_state(_http_get(NFL_PAGE_URL, timeout))
+    events = (state.get("events", {}) or {}).get("events", {}) or {}
+
+    team_ids: Dict[str, int] = {}
+    season_id = None
+    for ev in events.values():
+        if ev.get("lid") != NFL_LID:
+            continue
+        season_id = ev.get("seid") or season_id
+        for pdata in (ev.get("participants") or {}).values():
+            src = pdata.get("source") or {}
+            abbr, tmid = normalize_team(src.get("abbr")), src.get("tmid")
+            if abbr and tmid:
+                team_ids[abbr] = int(tmid)
+    if not team_ids or season_id is None:
+        return {}
+
+    ids = ",".join(str(t) for t in sorted(set(team_ids.values())))
+    charts = _graphql(
+        f"{{getTeamDepthChart(teamId:[{ids}], seasonId:{int(season_id)})}}", timeout
+    ).get("getTeamDepthChart") or {}
+
+    starters: Dict[str, str] = {}
+    for abbr, tmid in team_ids.items():
+        chart = charts.get(str(tmid)) or {}
+        qbs = ((chart.get("roles") or {}).get("OFFENSE") or {}).get("QUARTERBACK") or []
+        # The QUARTERBACK slot is not always clean -- one team currently lists a
+        # running back at order 1 -- so trust the player's own listed position
+        # over the slot it was filed under.
+        real_qbs = [
+            q for q in qbs
+            if "quarterback" in str((q.get("player") or {}).get("ppnam", "")).lower()
+            or str((q.get("player") or {}).get("ppnam", "")).strip().upper() == "QB"
+        ]
+        qbs = real_qbs or qbs
+        if not qbs:
+            continue
+        top = min(qbs, key=lambda q: (q.get("player") or {}).get("order", 99))
+        player = top.get("player") or {}
+        name = f"{player.get('fn', '')} {player.get('lnam', '')}".strip()
+        if name:
+            starters[abbr] = name
+    return starters

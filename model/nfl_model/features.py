@@ -18,6 +18,8 @@ Two hard rules drive everything here:
 """
 from __future__ import annotations
 
+from typing import Dict, Optional
+
 import numpy as np
 import pandas as pd
 
@@ -180,8 +182,20 @@ def build_slate_frame(
     return _add_derived_features(df, _league_means(team_game_roll))
 
 
+def _normalize_name(name) -> str:
+    """Loose key for matching a depth-chart name to a rated quarterback."""
+    if not isinstance(name, str):
+        return ""
+    cleaned = name.lower().replace(".", "").replace("'", "").replace("-", " ")
+    drop = {"jr", "sr", "ii", "iii", "iv"}
+    return " ".join(w for w in cleaned.split() if w not in drop)
+
+
 def attach_slate_power(
-    slate: pd.DataFrame, games: pd.DataFrame, new_season: bool = False
+    slate: pd.DataFrame,
+    games: pd.DataFrame,
+    new_season: bool = False,
+    starter_names: Optional[Dict[str, str]] = None,
 ) -> pd.DataFrame:
     """Add opponent-adjusted ratings to an upcoming slate.
 
@@ -195,21 +209,37 @@ def attach_slate_power(
 
     ratings, team_strength = power_mod.current_ratings(games, new_season=new_season)
     starters = power_mod.last_known_starters(games)
+
     names = {}
+    by_name = {}
     if "home_qb_id" in games.columns and "home_qb_name" in games.columns:
         for side in ("home", "away"):
             pairs = games[[f"{side}_qb_id", f"{side}_qb_name"]].dropna().values
             names.update({qid: qname for qid, qname in pairs})
+            by_name.update({_normalize_name(qname): qid for qid, qname in pairs})
+
+    # A live depth chart beats last season's starter: it is the only thing that
+    # sees offseason moves. A name with no rated history (a rookie, or a listing
+    # quirk) resolves to no id and the QB term falls back to league average.
+    overrides = {}
+    if starter_names:
+        for team, name in starter_names.items():
+            qid = by_name.get(_normalize_name(name))
+            overrides[team] = qid
+            if qid is not None:
+                names[qid] = name
 
     out = slate.copy()
     for side in ("home", "away"):
         teams = out[f"{side}_team"]
-        qb_ids = teams.map(starters)
+        qb_ids = teams.map(lambda t: overrides[t] if t in overrides else starters.get(t))
         out[f"{side}_power"] = [
             team_strength.get(t, 0.0) + ratings.qb.get(q, 0.0)
             for t, q in zip(teams, qb_ids)
         ]
-        out[f"{side}_qb_name"] = qb_ids.map(names)
+        out[f"{side}_qb_name"] = [
+            names.get(q) or (starter_names or {}).get(t) for t, q in zip(teams, qb_ids)
+        ]
     out["power_diff"] = out["home_power"] - out["away_power"]
     return out
 

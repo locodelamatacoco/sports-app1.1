@@ -54,6 +54,10 @@ def parse_args() -> argparse.Namespace:
                    help="Where the games to PRICE come from. 'auto' uses a week from the "
                         "training data; 'oddstrader' scrapes the consensus slate + odds "
                         "from OddsTrader.")
+    p.add_argument("--qb", action="append", default=[], metavar="TEAM=NAME",
+                   help="Override a starting quarterback, e.g. --qb LAC='Justin Herbert'. "
+                        "Repeatable. Beats the live depth chart, which occasionally "
+                        "mis-files a player.")
     p.add_argument("--oddstrader-catid", type=int, default=506,
                    help="OddsTrader sportsbook category id (default 506, the public site's).")
     return p.parse_args()
@@ -157,7 +161,19 @@ def _oddstrader_slate(args, rolled, matchups, ds_games):
     new_season = bool(pd.notna(slate_season) and slate_season > trained_through)
 
     slate = build_slate_frame(priced, rolled, new_season=new_season)
-    slate = feat.attach_slate_power(slate, ds_games, new_season=new_season)
+    try:
+        depth_qbs = oddstrader.fetch_depth_chart_starters()
+    except Exception as exc:
+        print(f"[warn] depth charts unavailable ({type(exc).__name__}); "
+              "falling back to last season's primary starters.")
+        depth_qbs = {}
+    for override in args.qb:
+        if "=" in override:
+            team, name = override.split("=", 1)
+            depth_qbs[team.strip().upper()] = name.strip()
+            print(f"[qb] override: {team.strip().upper()} -> {name.strip()}")
+    slate = feat.attach_slate_power(slate, ds_games, new_season=new_season,
+                                    starter_names=depth_qbs or None)
     slate = feat.add_context_features(slate)
     train = matchups[matchups["home_margin"].notna()].copy()
     label = "OddsTrader (consensus)"
@@ -170,7 +186,7 @@ def _print_slate(payload: dict) -> None:
     """Readable console summary of the priced slate."""
     qbs = payload.get("assumedStarters") or {}
     if qbs:
-        print("Assumed starting QBs (prior season primary starter — check these):")
+        print("Starting QBs (live depth chart; check any that look wrong):")
         print("  " + ", ".join(f"{t}:{q}" for t, q in sorted(qbs.items())) + "\n")
     print(f"{'MATCHUP':<15}{'PROJ':>7}  {'SPREAD':>8}  {'HOME ML':>8}  BEST VALUE BET")
     print("-" * 72)
