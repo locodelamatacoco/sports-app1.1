@@ -45,3 +45,16 @@ def test_moneyline_tie_is_a_push():
 
 def test_spread_without_a_line_cannot_be_settled():
     assert _grade_one(_pick("spread", "home", line=float("nan")), 7.0) is None
+
+
+def test_settle_writes_a_label_into_a_fresh_ledger():
+    # Regression: a ledger with no settled rows starts with float columns, and
+    # writing the string "push" into one used to raise.
+    from scripts.track import COLUMNS, _settle
+    ledger = pd.DataFrame([{c: None for c in COLUMNS}])
+    ledger["result"] = ledger["result"].astype(object)
+    for profit, expected in ((0.0, "push"), (0.91, "win"), (-1.0, "loss")):
+        _settle(ledger, 0, 24.0, 17.0, profit)
+        assert ledger.loc[0, "result"] == expected
+        assert ledger.loc[0, "home_score"] == 24.0
+        assert ledger.loc[0, "profit"] == profit

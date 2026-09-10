@@ -68,9 +68,13 @@ def parse_args() -> argparse.Namespace:
 
 
 def _load_ledger(path: str) -> pd.DataFrame:
-    if os.path.exists(path):
-        return pd.read_csv(path)
-    return pd.DataFrame(columns=COLUMNS)
+    ledger = pd.read_csv(path) if os.path.exists(path) else pd.DataFrame(columns=COLUMNS)
+    # An all-empty ledger reads these back as float64, and pandas refuses to
+    # write a label like "push" into a float column. Pin them to object up front.
+    for col in ("result", "label", "market", "side"):
+        if col in ledger.columns:
+            ledger[col] = ledger[col].astype(object)
+    return ledger
 
 
 def record(args: argparse.Namespace) -> int:
@@ -150,10 +154,7 @@ def grade(args: argparse.Namespace) -> int:
                 profit = _grade_one(row, float(hs) - float(aws))
                 if profit is None:
                     continue
-                ledger.loc[idx, ["home_score", "away_score", "profit", "result"]] = [
-                    hs, aws, profit,
-                    "push" if profit == 0 else ("win" if profit > 0 else "loss"),
-                ]
+                _settle(ledger, idx, float(hs), float(aws), profit)
                 graded += 1
             if graded:
                 ledger.to_csv(args.ledger, index=False)
@@ -161,6 +162,19 @@ def grade(args: argparse.Namespace) -> int:
 
     _report(ledger)
     return 0
+
+
+def _settle(ledger: pd.DataFrame, idx, home_score: float, away_score: float,
+            profit: float) -> None:
+    """Write a settled result back into the ledger, one column at a time.
+
+    Assigning a whole row at once mixes floats and a label, which pandas will
+    reject against the float columns a freshly-created ledger starts with.
+    """
+    ledger.loc[idx, "home_score"] = home_score
+    ledger.loc[idx, "away_score"] = away_score
+    ledger.loc[idx, "profit"] = profit
+    ledger.loc[idx, "result"] = "push" if profit == 0 else ("win" if profit > 0 else "loss")
 
 
 def _grade_one(row, home_margin: float):
