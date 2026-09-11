@@ -186,6 +186,25 @@ uselessly wide for most of a season: a 17-week slate produces a couple hundred
 bets, and that is nowhere near enough to separate a real edge from luck. The
 ledger is for honesty, not for confirmation.
 
+### The better scoreboard: projection vs the closing line
+
+`record` also logs **every** game's projection — including the ones the gate
+passed on — and `grade` scores them against the closing line:
+
+```
+Projection accuracy — 16 games logged, 2 final
+  model  MAE 13.39 pts
+  market MAE 11.75 pts
+  model - market: +1.64 pts  95% CI [-0.40, +3.68]  -> no separation yet
+```
+
+This converges far faster than a win rate. Bet results give a dozen binary
+outcomes a week, each mostly noise; every game gives a *continuous* score, and
+the comparison is **paired** — per game, how much worse was the projection than
+the line — which cancels the shared game-to-game variance. A negative mean means
+the model beat the closing line, which is the whole ballgame and which almost
+nothing does.
+
 Use `--all-wagers` to record every priced wager rather than only the flagged
 ones, which measures the bet gate itself: if flagged picks don't outperform the
 ones it passed on, the gate is not doing anything.

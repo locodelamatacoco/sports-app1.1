@@ -42,6 +42,15 @@ LEDGER = os.path.join(
 )
 BREAK_EVEN_PCT = 52.38
 
+PROJECTIONS = os.path.join(
+    os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "output", "projections.csv"
+)
+PROJ_COLUMNS = [
+    "recorded_at", "eid", "season", "week", "kickoff", "away", "home",
+    "home_partid", "away_partid", "model_margin", "market_line",
+    "home_score", "away_score", "actual_margin", "model_error", "market_error",
+]
+
 COLUMNS = [
     "recorded_at", "eid", "season", "week", "kickoff", "away", "home",
     "home_partid", "away_partid", "market", "side", "label", "spread_line",
@@ -106,6 +115,8 @@ def record(args: argparse.Namespace) -> int:
                 "home_score": None, "away_score": None, "result": None, "profit": None,
             })
 
+    _record_projections(payload)
+
     if not rows:
         print("Nothing new to record — every pick in this slate is already in the ledger.")
         return 0
@@ -118,6 +129,109 @@ def record(args: argparse.Namespace) -> int:
         print(f"  {r['away']} @ {r['home']:<4} {r['label']:<12} "
               f"{r['book_odds']:+.0f}  edge {r['edge']*100:+.1f}%")
     return 0
+
+
+def _record_projections(payload: dict) -> None:
+    """Log every game's projection, bet or not.
+
+    Bet results are a weak scoreboard: a dozen binary outcomes a week, each
+    mostly noise. Every game, however, yields a continuous score -- how far the
+    projection landed from the actual margin, against how far the closing line
+    landed. That is the comparison that actually matters, and with ~16 games a
+    week it accumulates far faster than a win rate ever could.
+    """
+    existing_proj = _load_projections()
+    seen = set(existing_proj.get("eid", []))
+    now = datetime.now(timezone.utc).isoformat(timespec="seconds")
+
+    rows = []
+    for game in payload.get("games", []):
+        eid = _to_int(str(game.get("id", "")).replace("OT_", ""))
+        if eid is None or eid in seen:
+            continue
+        rows.append({
+            "recorded_at": now, "eid": eid,
+            "season": game.get("season"), "week": game.get("week"),
+            "kickoff": game.get("kickoff"), "away": game["away"], "home": game["home"],
+            "home_partid": game.get("homePartid"), "away_partid": game.get("awayPartid"),
+            "model_margin": game.get("projectedMargin"),
+            "market_line": game["market"].get("spreadLine"),
+            "home_score": None, "away_score": None, "actual_margin": None,
+            "model_error": None, "market_error": None,
+        })
+    if rows:
+        out = pd.concat([existing_proj, pd.DataFrame(rows)], ignore_index=True)[PROJ_COLUMNS]
+        out.to_csv(PROJECTIONS, index=False)
+        print(f"Logged {len(rows)} game projections ({len(out)} total).")
+
+
+def _load_projections() -> pd.DataFrame:
+    if os.path.exists(PROJECTIONS):
+        return pd.read_csv(PROJECTIONS)
+    return pd.DataFrame(columns=PROJ_COLUMNS)
+
+
+def _grade_projections() -> None:
+    """Settle logged projections and score the model against the closing line."""
+    proj = _load_projections()
+    if proj.empty:
+        return
+    pending = proj[proj["actual_margin"].isna()]
+    totals = {}
+    if not pending.empty:
+        try:
+            scores = oddstrader.fetch_period_scores(
+                sorted({int(e) for e in pending["eid"].dropna()})
+            )
+            if not scores.empty:
+                totals = oddstrader.half_scores(scores).set_index(["eid", "partid"])["final"]
+        except Exception as exc:
+            print(f"[warn] could not fetch results for projections "
+                  f"({type(exc).__name__}: {exc}).")
+    graded = 0
+    for idx, row in pending.iterrows():
+        hs = totals.get((row["eid"], row["home_partid"]))
+        aws = totals.get((row["eid"], row["away_partid"]))
+        if hs is None or aws is None or pd.isna(hs) or pd.isna(aws):
+            continue
+        actual = float(hs) - float(aws)
+        proj.loc[idx, "home_score"] = float(hs)
+        proj.loc[idx, "away_score"] = float(aws)
+        proj.loc[idx, "actual_margin"] = actual
+        proj.loc[idx, "model_error"] = abs(float(row["model_margin"]) - actual)
+        if pd.notna(row["market_line"]):
+            proj.loc[idx, "market_error"] = abs(float(row["market_line"]) - actual)
+        graded += 1
+    if graded:
+        proj.to_csv(PROJECTIONS, index=False)
+    _report_projections(proj, graded)
+
+
+def _report_projections(proj: pd.DataFrame, newly: int) -> None:
+    done = proj[proj["actual_margin"].notna() & proj["market_error"].notna()]
+    print(f"\nProjection accuracy — {len(proj)} games logged, {len(done)} final"
+          f"{f' ({newly} new)' if newly else ''}.")
+    if done.empty:
+        return
+
+    model_mae = done["model_error"].mean()
+    market_mae = done["market_error"].mean()
+    # Paired difference: per game, how much worse was the model than the line?
+    # Pairing cancels the shared game-to-game variance, so it resolves a real
+    # gap in a fraction of the sample an unpaired comparison would need.
+    diff = (done["model_error"] - done["market_error"]).to_numpy(dtype=float)
+    n = len(diff)
+    mean = diff.mean()
+    stderr = diff.std(ddof=1) / np.sqrt(n) if n > 1 else float("nan")
+    print(f"  model  MAE {model_mae:>5.2f} pts")
+    print(f"  market MAE {market_mae:>5.2f} pts")
+    if n > 1:
+        lo, hi = mean - 1.96 * stderr, mean + 1.96 * stderr
+        verdict = ("model is BETTER" if hi < 0 else
+                   "market is better" if lo > 0 else "no separation yet")
+        print(f"  model - market: {mean:>+5.2f} pts  95% CI [{lo:+.2f}, {hi:+.2f}]  -> {verdict}")
+        print("  (negative means the model beat the closing line; beating it is the "
+              "whole\n   ballgame, and almost nothing does)")
 
 
 def _to_int(value):
@@ -161,6 +275,9 @@ def grade(args: argparse.Namespace) -> int:
             print(f"Graded {graded} newly-final pick(s).")
 
     _report(ledger)
+    # Projections cover every game, including ones we passed on, so they are
+    # graded independently of whatever the ledger happens to be waiting for.
+    _grade_projections()
     return 0
 
 
