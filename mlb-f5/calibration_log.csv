@@ -432,3 +432,5 @@ date,game,market,model_prob,bet_side,odds,result,note
 2026-09-09,LAA@BOS,F5,0.79,BOS,-195,L,cohort=ranked RANKED #4 edge +6.3% full None-tier Bennett-3.34 vs R.Johnson-5.17-78IP BOS-F5-LIGHT-45pct-2.00-F5RPG-flagged-pregame; F5 BOS 2-6 thru5 LOSS (LAA won 6-4)
 2026-09-09,CIN@LAD,F5,0.87,LAD,-285,W,cohort=ranked RANKED #5 edge +6.1% full CONFIRMED PARLAY-LEG STEEP FADE Lowder-5.43-116IP Yamamoto-2.67-WHIP-0.90-165IP; F5 LAD 9-1 thru5 WIN (LAD won 14-1)
 2026-09-09,AZ@KC,F5,0.86,KC,100,W,cohort=shadow HARD-VETO gap38-widest-of-season edge +13.0% CAUTION-tier Z.Gallen-6.34-98IP fade NO BET; F5 KC 5-2 thru5 WIN (KC won 5-2)
+2026-09-10,HOU@PHI,F5,0.81,PHI,-190,P,cohort=ranked RANKED #1 edge +7.1% full CONFIRMED PARLAY-LEG FADE C.Javier-5.98-49IP-WHIP-1.55-corroborated Wheeler-3.23 PHI-F5L10-1.9-flagged; F5 1-1 thru5 PUSH (PHI won 2-1)
+2026-09-10,COL@NYY,F5,0.90,NYY,-288,W,cohort=ranked RANKED #2 edge +6.7% full CONFIRMED PARLAY-LEG STEEP FADE Feltner-5.91-106IP-WHIP-1.58 Fried-2.73 NYY-F5-LIGHT-45pct-flagged; F5 NYY 4-1 thru5 WIN (NYY won 10-3)
