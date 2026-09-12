@@ -434,3 +434,6 @@ date,game,market,model_prob,bet_side,odds,result,note
 2026-09-09,AZ@KC,F5,0.86,KC,100,W,cohort=shadow HARD-VETO gap38-widest-of-season edge +13.0% CAUTION-tier Z.Gallen-6.34-98IP fade NO BET; F5 KC 5-2 thru5 WIN (KC won 5-2)
 2026-09-10,HOU@PHI,F5,0.81,PHI,-190,P,cohort=ranked RANKED #1 edge +7.1% full CONFIRMED PARLAY-LEG FADE C.Javier-5.98-49IP-WHIP-1.55-corroborated Wheeler-3.23 PHI-F5L10-1.9-flagged; F5 1-1 thru5 PUSH (PHI won 2-1)
 2026-09-10,COL@NYY,F5,0.90,NYY,-288,W,cohort=ranked RANKED #2 edge +6.7% full CONFIRMED PARLAY-LEG STEEP FADE Feltner-5.91-106IP-WHIP-1.58 Fried-2.73 NYY-F5-LIGHT-45pct-flagged; F5 NYY 4-1 thru5 WIN (NYY won 10-3)
+2026-09-11,LAA@WSH,F5,0.80,WSH,-170,P,cohort=ranked RANKED #1 edge +7.5% full None-tier Cavalli-3.12 vs Kikuchi-4.96-49IP-thin-sample WSH-F5-LIGHT-41.3-cold-bats-flagged; F5 1-1 thru5 PUSH (WSH won 4-3)
+2026-09-11,KC@BOS,F5,0.83,BOS,-225,L,cohort=ranked RANKED #2 edge +6.1% full STEEP None-tier S.Gray-2.69 vs Lugo-5.04-159IP-deepest-fade BOS-F5-LIGHT-45.9-flagged picked-as-best-of-three; F5 BOS 2-3 thru5 LOSS (KC won 3-2)
+2026-09-11,PHI@ATL,F5,0.83,ATL,-235,L,cohort=ranked RANKED #3 edge +5.9% full STEEP None-tier Sale-2.10 vs Nola-4.76-155IP ATL-F5-LIGHT-33.3-worst-of-season-1.52-F5RPG advised-PASS-pregame; F5 ATL 1-3 thru5 LOSS (ATL won full 6-5)
