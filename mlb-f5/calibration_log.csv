@@ -437,3 +437,7 @@ date,game,market,model_prob,bet_side,odds,result,note
 2026-09-11,LAA@WSH,F5,0.80,WSH,-170,P,cohort=ranked RANKED #1 edge +7.5% full None-tier Cavalli-3.12 vs Kikuchi-4.96-49IP-thin-sample WSH-F5-LIGHT-41.3-cold-bats-flagged; F5 1-1 thru5 PUSH (WSH won 4-3)
 2026-09-11,KC@BOS,F5,0.83,BOS,-225,L,cohort=ranked RANKED #2 edge +6.1% full STEEP None-tier S.Gray-2.69 vs Lugo-5.04-159IP-deepest-fade BOS-F5-LIGHT-45.9-flagged picked-as-best-of-three; F5 BOS 2-3 thru5 LOSS (KC won 3-2)
 2026-09-11,PHI@ATL,F5,0.83,ATL,-235,L,cohort=ranked RANKED #3 edge +5.9% full STEEP None-tier Sale-2.10 vs Nola-4.76-155IP ATL-F5-LIGHT-33.3-worst-of-season-1.52-F5RPG advised-PASS-pregame; F5 ATL 1-3 thru5 LOSS (ATL won full 6-5)
+2026-09-12,KC@BOS,F5,0.63,KC,178,L,cohort=ranked RANKED #1 edge +10.0% HALF(gap29) None-tier Dobnak-2.54 vs R.Suarez-3.44-130IP thin-gap-0.90 KC-F5-HEAVY-64.0 biggest-edge-of-month; F5 KC 0-1 thru5 LOSS (BOS won 5-1)
+2026-09-12,PIT@CHC,F5,0.74,CHC,-126,W,cohort=ranked RANKED #2 edge +7.7% HALF(gap20) None-tier Holmes-2.83 vs Skenes-3.83-155IP-good-arm-not-a-fade-flagged; F5 CHC 2-0 thru5 WIN (CHC won 4-3)
+2026-09-12,BAL@TOR,F5,0.69,TOR,-115,W,cohort=ranked RANKED #3 edge +7.1% full None-tier Miles-2.77 vs Bradish-3.91-152IP best-arm-gap-1.14 TOR-F5-60.5; F5 TOR 5-1 thru5 WIN (TOR won 7-3)
+2026-09-12,NYM@NYY,F5,0.51,NYM,144,W,cohort=ranked RANKED #4 edge +5.8% full None-tier NEGATIVE-arm-gap-0.12 Thornton-3.53 vs Cole-3.41 pure-bats-play L10-6.9 F5-HEAVY-68.9-vs-NYY-47.7; F5 NYM 5-1 thru5 WIN (NYM won 12-2)
