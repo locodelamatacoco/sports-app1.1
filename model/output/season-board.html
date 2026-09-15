@@ -1,0 +1,580 @@
+<title>Season Model Board</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+  :root {
+    color-scheme: light;
+    --plane:      #f7f7f4;
+    --surface:    #fcfcfb;
+    --sunken:     #f2f2ee;
+    --ink:        #0b0b0b;
+    --ink-2:      #52514e;
+    --ink-muted:  #898781;
+    --hairline:   rgba(11,11,11,0.10);
+    --rule:       rgba(11,11,11,0.06);
+    --axis:       #c3c2b7;
+    --market:     #6da7ec;   /* closing line   — blue, light step */
+    --model:      #184f95;   /* our projection — blue, dark step  */
+    --ahead:      #0f7a4a;   /* model landed closer than the line */
+    --behind:     #b0472f;   /* the line landed closer            */
+    --chip:       rgba(24,79,149,0.08);
+    --chip-ink:   #184f95;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --plane:     #0d0d0d;
+      --surface:   #1a1a19;
+      --sunken:    #141413;
+      --ink:       #ffffff;
+      --ink-2:     #c3c2b7;
+      --ink-muted: #898781;
+      --hairline:  rgba(255,255,255,0.12);
+      --rule:      rgba(255,255,255,0.07);
+      --axis:      #383835;
+      --market:    #3987e5;
+      --model:     #b7d3f6;
+      --ahead:     #3fbd83;
+      --behind:    #e0806a;
+      --chip:      rgba(183,211,246,0.10);
+      --chip-ink:  #b7d3f6;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --plane:     #0d0d0d;
+    --surface:   #1a1a19;
+    --sunken:    #141413;
+    --ink:       #ffffff;
+    --ink-2:     #c3c2b7;
+    --ink-muted: #898781;
+    --hairline:  rgba(255,255,255,0.12);
+    --rule:      rgba(255,255,255,0.07);
+    --axis:      #383835;
+    --market:    #3987e5;
+    --model:     #b7d3f6;
+    --ahead:     #3fbd83;
+    --behind:    #e0806a;
+    --chip:      rgba(183,211,246,0.10);
+    --chip-ink:  #b7d3f6;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--plane);
+    color: var(--ink);
+    font-family: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size: 15px; line-height: 1.55;
+    padding-block: 34px 60px;
+    padding-left: 20px; padding-right: 20px;
+  }
+  .wrap { max-width: 1000px; margin: 0 auto; display: flex; flex-direction: column; gap: 30px; }
+
+  .eyebrow {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 11px; letter-spacing: 0.10em; text-transform: uppercase;
+    color: var(--ink-muted); margin: 0 0 7px;
+  }
+  h1 {
+    font-family: Archivo, system-ui, sans-serif;
+    font-weight: 700; font-size: clamp(27px, 5vw, 32px); letter-spacing: -0.015em;
+    margin: 0; text-wrap: balance;
+  }
+  .lede { margin: 10px 0 0; color: var(--ink-2); max-width: 64ch; }
+
+  /* ---- the verdict ------------------------------------------------------ */
+  .verdict {
+    background: var(--surface); border: 1px solid var(--hairline);
+    border-radius: 12px; padding: 22px 22px 6px;
+    display: flex; flex-direction: column; gap: 18px;
+  }
+  .verdict-line {
+    font-family: Archivo, system-ui, sans-serif;
+    font-size: clamp(18px, 3.2vw, 22px); font-weight: 600; line-height: 1.35;
+    margin: 0; text-wrap: balance; letter-spacing: -0.01em;
+  }
+  .verdict-line em { font-style: normal; color: var(--behind); }
+  .verdict-sub { margin: 6px 0 0; color: var(--ink-2); font-size: 14.5px; max-width: 66ch; }
+
+  .strip {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(178px, 1fr));
+    gap: 1px; background: var(--hairline);
+    border-top: 1px solid var(--hairline); margin: 0 -22px;
+  }
+  .cell { background: var(--surface); padding: 15px 22px 17px; display: flex; flex-direction: column; gap: 2px; }
+  .cell dt { font-size: 12px; color: var(--ink-muted); margin: 0; }
+  .cell dd {
+    margin: 0; font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 21px; font-weight: 600; font-variant-numeric: tabular-nums; letter-spacing: -0.01em;
+  }
+  .cell small { font-size: 12px; color: var(--ink-2); font-family: "IBM Plex Sans", sans-serif; }
+  .cell dd.good { color: var(--ahead); }
+
+  /* ---- panels ----------------------------------------------------------- */
+  .panel {
+    background: var(--surface); border: 1px solid var(--hairline);
+    border-radius: 12px; padding: 20px 20px 18px;
+  }
+  .panel-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 20px; margin-bottom: 3px; }
+  .panel-head h2 {
+    font-family: Archivo, sans-serif; font-size: 16.5px; font-weight: 600; margin: 0;
+    letter-spacing: -0.005em;
+  }
+  .panel-note { margin: 0 0 18px; color: var(--ink-2); font-size: 13.5px; max-width: 70ch; }
+  .panel-note strong { color: var(--ink); font-weight: 600; }
+  .panel-note .pos {
+    font-family: "IBM Plex Mono", ui-monospace, monospace; color: var(--ink); font-weight: 500;
+  }
+  .legend { display: flex; gap: 16px; flex-wrap: wrap; margin-left: auto; }
+  .key { display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; color: var(--ink-2); }
+  .swatch { width: 10px; height: 10px; border-radius: 2px; flex: none; }
+
+  /* ---- diverging "who was closer" chart --------------------------------- */
+  .scroller { overflow-x: auto; }
+  .chart { min-width: 660px; }
+  .drow, .drail {
+    display: grid;
+    grid-template-columns: 104px minmax(220px, 1fr) 62px 152px;
+    gap: 14px; align-items: center;
+  }
+  .drow { padding: 3px 0; }
+  .dteam {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 12.5px; font-weight: 500; white-space: nowrap; color: var(--ink);
+  }
+  .dtrack { position: relative; height: 19px; }
+  .dtrack::before {          /* the zero rail: model error == line error */
+    content: ""; position: absolute; left: 50%; top: -3px; bottom: -3px;
+    width: 1px; background: var(--axis);
+  }
+  .dbar {
+    position: absolute; top: 3px; height: 13px; border-radius: 2px;
+  }
+  .dbar.ahead  { left: 50%; background: var(--ahead); }
+  .dbar.behind { right: 50%; background: var(--behind); }
+  .dval {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 12.5px; font-variant-numeric: tabular-nums; text-align: right;
+    font-weight: 500;
+  }
+  .dval.ahead { color: var(--ahead); }
+  .dval.behind { color: var(--behind); }
+  .dnums {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 11.5px; color: var(--ink-muted); font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+  .dmean {
+    position: absolute; top: 0; bottom: 0; width: 0;
+    border-left: 1px dashed var(--behind);
+  }
+  .meanband { position: relative; height: 18px; margin-top: 2px; }
+  .meanlabel {
+    position: absolute; transform: translateX(-100%); padding-right: 6px;
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 11px; color: var(--behind); white-space: nowrap;
+  }
+  .drail { margin-top: 8px; border-top: 1px solid var(--rule); padding-top: 7px; }
+  .ticks { position: relative; height: 14px; }
+  .tick {
+    position: absolute; transform: translateX(-50%);
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 11px; color: var(--ink-muted); font-variant-numeric: tabular-nums;
+  }
+  .axis-ends {
+    display: flex; justify-content: space-between;
+    font-size: 11.5px; color: var(--ink-muted); margin-top: 2px;
+  }
+
+  /* ---- week tables ------------------------------------------------------ */
+  .weekhead {
+    display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 16px;
+    margin-bottom: 4px;
+  }
+  .weekhead h2 { font-family: Archivo, sans-serif; font-size: 16.5px; font-weight: 600; margin: 0; }
+  .weekstat {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 12.5px; color: var(--ink-2); font-variant-numeric: tabular-nums;
+  }
+  table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  .tscroll { overflow-x: auto; }
+  table { min-width: 560px; }
+  th {
+    text-align: right; font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 10.5px; letter-spacing: 0.07em; text-transform: uppercase;
+    color: var(--ink-muted); font-weight: 500;
+    padding: 0 0 7px; border-bottom: 1px solid var(--hairline);
+  }
+  th:first-child, td:first-child { text-align: left; }
+  th.pickcol, td.pickcol { text-align: left; padding-left: 16px; }
+  td {
+    padding: 7px 0; border-bottom: 1px solid var(--rule);
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-variant-numeric: tabular-nums; text-align: right; color: var(--ink-2);
+  }
+  td.matchup { color: var(--ink); font-weight: 500; white-space: nowrap; }
+  td.model { color: var(--model); font-weight: 500; }
+  td.line  { color: var(--market); font-weight: 500; }
+  td.actual { color: var(--ink); font-weight: 500; }
+  tr:last-child td { border-bottom: none; }
+  .closer { display: inline-block; width: 100%; }
+  .closer.ahead { color: var(--ahead); }
+  .closer.behind { color: var(--behind); }
+
+  .ticket {
+    display: inline-flex; align-items: center; gap: 7px;
+    font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 12px;
+    padding: 2px 8px; border-radius: 4px; background: var(--chip); color: var(--chip-ink);
+    white-space: nowrap;
+  }
+  .ticket b { font-weight: 600; }
+  .mark {
+    font-weight: 600; font-size: 11px; letter-spacing: 0.04em;
+  }
+  .mark.win { color: var(--ahead); }
+  .mark.loss { color: var(--behind); }
+  .mark.push { color: var(--ink-muted); }
+  .mark.open { color: var(--ink-muted); }
+  .dash { color: var(--ink-muted); }
+
+  /* ---- footer ----------------------------------------------------------- */
+  .method {
+    border-top: 1px solid var(--hairline); padding-top: 20px;
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 22px;
+  }
+  .method h3 {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 10.5px; letter-spacing: 0.09em; text-transform: uppercase;
+    color: var(--ink-muted); font-weight: 500; margin: 0 0 6px;
+  }
+  .method p { margin: 0; font-size: 13.5px; color: var(--ink-2); }
+  .method code {
+    font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 12.5px;
+    background: var(--sunken); padding: 1px 5px; border-radius: 3px; color: var(--ink);
+  }
+
+  @media (max-width: 560px) {
+    .strip { margin: 0 -22px; }
+    .verdict { padding: 20px 18px 6px; }
+    .strip, .cell { }
+  }
+</style>
+
+<div class="wrap">
+
+  <header>
+    <p class="eyebrow">2026 NFL · through week 2</p>
+    <h1>Season Model Board</h1>
+    <p class="lede">
+      Every projection this model has written down before kickoff, scored against the
+      number the market closed at. Bet results are the sideshow; the closing line is
+      the scoreboard.
+    </p>
+  </header>
+
+  <section class="verdict">
+    <div>
+      <p class="verdict-line">
+        Through 16 graded games the model lands <em>1.05 points further</em> from the
+        final margin than the closing line does.
+      </p>
+      <p class="verdict-sub">
+        The 95% interval on that gap is [+0.02, +2.08] points — it clears zero, but only
+        just. Read it as: no evidence the model beats the market yet, weak evidence it
+        trails. One week is one week.
+      </p>
+      <p class="verdict-sub">
+        One thing is pointing the other way: every settled pick came in at a number at
+        least as good as the close, four of seven strictly better. That is the metric
+        worth watching — it settles at kickoff instead of after the game.
+      </p>
+    </div>
+    <dl class="strip">
+      <div class="cell">
+        <dt>Model error</dt>
+        <dd>12.39</dd>
+        <small>mean absolute, points</small>
+      </div>
+      <div class="cell">
+        <dt>Closing-line error</dt>
+        <dd>11.34</dd>
+        <small>the number to beat</small>
+      </div>
+      <div class="cell">
+        <dt>Games won outright</dt>
+        <dd>4 <span style="font-size:14px;color:var(--ink-muted)">/ 16</span></dd>
+        <small>model closer than the line</small>
+      </div>
+      <div class="cell">
+        <dt>Flagged picks</dt>
+        <dd>&minus;0.15u</dd>
+        <small>12 settled · 4&ndash;7&ndash;1 · 11 open</small>
+      </div>
+      <div class="cell">
+        <dt>Closing-line value</dt>
+        <dd class="good">+0.36</dd>
+        <small>pts per pick · 4 beat the close, 0 worse</small>
+      </div>
+    </dl>
+  </section>
+
+  <section class="panel">
+    <div class="panel-head">
+      <h2>Who was closer, game by game</h2>
+      <div class="legend">
+        <span class="key"><span class="swatch" style="background:var(--ahead)"></span>model closer</span>
+        <span class="key"><span class="swatch" style="background:var(--behind)"></span>line closer</span>
+      </div>
+    </div>
+    <p class="panel-note">
+      Each bar is one week&#8209;1 game: how many points closer the model&rsquo;s projected
+      margin landed to the final result than the closing line did. Four bars right, twelve
+      left. The dashed marker is the season average.
+    </p>
+    <div class="scroller">
+      <div class="chart" id="chart"></div>
+    </div>
+  </section>
+
+  <section class="panel" id="weeks">
+    <div class="panel-head"><h2>Week ledger</h2></div>
+    <p class="panel-note">
+      Every number is a <strong>home margin</strong>: <span class="pos">+7</span> means the
+      home team by seven, so a line of &minus;3.0 has the home team getting three. Picks
+      are what the gate flagged before kickoff, at the price we recorded.
+    </p>
+  </section>
+
+  <section class="method">
+    <div>
+      <h3>How a game is scored</h3>
+      <p>
+        Absolute distance from the projected home margin to the actual one, against the
+        same distance for the closing spread. Paired per game, so the shared week-to-week
+        variance cancels and a real gap resolves in a fraction of the sample.
+      </p>
+    </div>
+    <div>
+      <h3>Why not just the record</h3>
+      <p>
+        A dozen binary bets a week is almost pure noise — the ROI interval on 12 settled
+        picks spans 168 points. Sixteen continuous projection errors a week accumulate far
+        faster than any win rate can.
+      </p>
+    </div>
+    <div>
+      <h3>What gets flagged</h3>
+      <p>
+        Spreads only. Across 1,900 walk-forward wagers moneylines returned
+        <code>&minus;5.97%</code> [&minus;11.06, &minus;0.88] — the one slice whose
+        interval clears zero, on the losing side. Every pick is then shopped across nine
+        books for the best number on offer, which drops break-even from 52.38% to about
+        51.70%.
+      </p>
+    </div>
+  </section>
+</div>
+
+<script>
+  // Scale for the diverging chart: +/- 5 points of error difference, which
+  // contains every graded game so far (worst: BAL@IND at -4.9).
+  var SCALE = 5;
+
+  var WEEKS = [
+    {
+      week: 1, status: "final",
+      stat: "16 of 16 final · model 12.39 vs line 11.34 · −1.05 pts of ground",
+      games: [
+        {away:"ARI",home:"LAC",line:9.5, model:6.5, actual:-12, hs:26,as:14, d:3.0,
+         picks:[{label:"ARI +9.5",odds:-110,res:"win"},{label:"ARI ML",odds:371,res:"win"}]},
+        {away:"DAL",home:"NYG",line:-3, model:-0.7, actual:8, hs:28,as:20, d:2.3,
+         picks:[{label:"NYG +3",odds:-115,res:"win"},{label:"NYG ML",odds:136,res:"win"}]},
+        {away:"GB", home:"MIN",line:1,   model:2.2,  actual:17, hs:39,as:22, d:1.2, picks:[]},
+        {away:"DEN",home:"KC", line:2.5, model:2.7,  actual:21, hs:31,as:10, d:0.2, picks:[]},
+        {away:"CLE",home:"JAX",line:9,   model:8.7,  actual:24, hs:34,as:10, d:-0.3, picks:[]},
+        {away:"SF", home:"LA", line:3.5, model:4.1,  actual:-20, hs:7,as:27, d:-0.6, picks:[]},
+        {away:"NYJ",home:"TEN",line:1,   model:2.0,  actual:-13, hs:10,as:23, d:-1.0, picks:[]},
+        {away:"ATL",home:"PIT",line:3.5, model:2.4,  actual:7, hs:20,as:13, d:-1.1, picks:[]},
+        {away:"WAS",home:"PHI",line:4.5, model:5.6,  actual:2, hs:24,as:22, d:-1.1, picks:[]},
+        {away:"NO", home:"DET",line:7,   model:8.2,  actual:1, hs:31,as:30, d:-1.2, picks:[]},
+        {away:"BUF",home:"HOU",line:-1,  model:0.5,  actual:-5, hs:31,as:36, d:-1.5, picks:[]},
+        {away:"CHI",home:"CAR",line:-3,  model:-1.2, actual:-22, hs:37,as:59, d:-1.8,
+         picks:[{label:"CAR +3",odds:-105,res:"loss"}]},
+        {away:"NE", home:"SEA",line:3,   model:5.7,  actual:3, hs:13,as:10, d:-2.7,
+         picks:[{label:"SEA −3",odds:-115,res:"push"}]},
+        {away:"TB", home:"CIN",line:4,   model:0.4,  actual:6, hs:33,as:27, d:-3.6,
+         picks:[{label:"TB +4",odds:-110,res:"loss"},{label:"TB ML",odds:170,res:"loss"}]},
+        {away:"MIA",home:"LV", line:3.5, model:-0.2, actual:14, hs:27,as:13, d:-3.7,
+         picks:[{label:"MIA +3.5",odds:-112,res:"loss"},{label:"MIA ML",odds:160,res:"loss"}]},
+        {away:"BAL",home:"IND",line:-3.5,model:1.4,  actual:-18, hs:23,as:41, d:-4.9,
+         picks:[{label:"IND +3.5",odds:-116,res:"loss"},{label:"IND ML",odds:154,res:"loss"}]}
+      ]
+    },
+    {
+      week: 2, status: "open",
+      stat: "16 games priced \u00b7 11 picks open \u00b7 spreads only, shopped for the best price",
+      games: [
+        {away:"CAR",home:"ATL",line:-1, model:4.1, picks:[{label:"ATL +2",odds:-102,res:"open"}]},
+        {away:"MIA",home:"SF",line:13.5, model:8.4, picks:[{label:"MIA +13.5",odds:-110,res:"open"}]},
+        {away:"SEA",home:"ARI",line:-4, model:-8.3, picks:[{label:"SEA \u22124",odds:-108,res:"open"}]},
+        {away:"CIN",home:"HOU",line:3, model:7.2, picks:[{label:"HOU \u22123",odds:109,res:"open"}]},
+        {away:"CLE",home:"TB",line:9, model:4.9, picks:[{label:"CLE +9",odds:-115,res:"open"}]},
+        {away:"MIN",home:"CHI",line:5.5, model:3, picks:[{label:"MIN +5.5",odds:-105,res:"open"}]},
+        {away:"GB",home:"NYJ",line:-3.5, model:-5.6, picks:[{label:"GB \u22123.5",odds:-110,res:"open"}]},
+        {away:"IND",home:"KC",line:6.5, model:4.4, picks:[{label:"IND +6.5",odds:100,res:"open"}]},
+        {away:"JAX",home:"DEN",line:2.5, model:0.6, picks:[{label:"JAX +2.5",odds:-103,res:"open"}]},
+        {away:"LV",home:"LAC",line:7, model:8.2, picks:[{label:"LAC \u22127",odds:-105,res:"open"}]},
+        {away:"DET",home:"BUF",line:4.5, model:4.2, picks:[{label:"DET +4.5",odds:-102,res:"open"}]},
+        {away:"NYG",home:"LA",line:7, model:8.7, picks:[]},
+        {away:"PIT",home:"NE",line:5.5, model:6.2, picks:[]},
+        {away:"NO",home:"BAL",line:8.5, model:8.1, picks:[]},
+        {away:"PHI",home:"TEN",line:-7, model:-7.2, picks:[]},
+        {away:"WAS",home:"DAL",line:3.5, model:3.6, picks:[]}
+      ]
+    }
+  ];
+
+  var SEASON_MEAN = -1.05;
+
+  function sgn(n, places) {
+    var p = places === undefined ? 1 : places;
+    return (n > 0 ? "+" : n < 0 ? "−" : "") + Math.abs(n).toFixed(p);
+  }
+  function odds(n) { return (n > 0 ? "+" : "−") + Math.abs(n); }
+  function el(tag, cls, text) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (text !== undefined) e.textContent = text;
+    return e;
+  }
+
+  /* ---- diverging chart ---------------------------------------------------- */
+  (function buildChart() {
+    var host = document.getElementById("chart");
+    var games = WEEKS[0].games;
+
+    games.forEach(function (g) {
+      var row = el("div", "drow");
+      row.appendChild(el("div", "dteam", g.away + " @ " + g.home));
+
+      var track = el("div", "dtrack");
+      var pct = Math.min(Math.abs(g.d) / SCALE, 1) * 50;
+      var bar = el("div", "dbar " + (g.d > 0 ? "ahead" : "behind"));
+      bar.style.width = pct + "%";
+      track.appendChild(bar);
+      row.appendChild(track);
+
+      row.appendChild(el("div", "dval " + (g.d > 0 ? "ahead" : "behind"), sgn(g.d)));
+      row.appendChild(el("div", "dnums",
+        "line " + sgn(g.line) + "   proj " + sgn(g.model)));
+      host.appendChild(row);
+    });
+
+    // Season average, drawn on the same scale as the bars above it.
+    var band = el("div", "meanband");
+    var mean = el("div", "dmean");
+    var meanPct = 50 - Math.abs(SEASON_MEAN) / SCALE * 50;
+    mean.style.left = meanPct + "%";
+    band.appendChild(mean);
+    var label = el("div", "meanlabel", "season avg " + sgn(SEASON_MEAN, 2) + " pts");
+    label.style.left = meanPct + "%";
+    band.appendChild(label);
+    host.appendChild(band);
+
+    // Axis: ticks land on the same 5-point scale the bars are drawn to.
+    var rail = el("div", "drail");
+    rail.appendChild(el("div"));
+    var ticks = el("div", "ticks");
+    [-5, -2.5, 0, 2.5, 5].forEach(function (t) {
+      var mark = el("div", "tick", t === 0 ? "0" : sgn(t, t % 1 ? 1 : 0));
+      mark.style.left = (50 + t / SCALE * 50) + "%";
+      ticks.appendChild(mark);
+    });
+    rail.appendChild(ticks);
+    rail.appendChild(el("div"));
+    rail.appendChild(el("div"));
+    host.appendChild(rail);
+
+    var ends = el("div", "axis-ends");
+    ends.appendChild(el("span", null, "← closing line was closer"));
+    ends.appendChild(el("span", null, "model was closer →"));
+    var wrapEnds = el("div", "drow");
+    wrapEnds.appendChild(el("div"));
+    wrapEnds.appendChild(ends);
+    wrapEnds.appendChild(el("div"));
+    wrapEnds.appendChild(el("div"));
+    host.appendChild(wrapEnds);
+  })();
+
+  /* ---- week ledger -------------------------------------------------------- */
+  (function buildWeeks() {
+    var host = document.getElementById("weeks");
+
+    WEEKS.forEach(function (w, i) {
+      if (i > 0) {
+        var spacer = el("div");
+        spacer.style.height = "26px";
+        host.appendChild(spacer);
+      }
+
+      var head = el("div", "weekhead");
+      head.appendChild(el("h2", null, "Week " + w.week));
+      head.appendChild(el("span", "weekstat", w.stat));
+      host.appendChild(head);
+
+      var scroll = el("div", "tscroll");
+      var table = el("table");
+      var thead = el("thead");
+      var hr = el("tr");
+      var cols = w.status === "final"
+        ? ["Matchup", "Line", "Proj", "Result", "Closer by", "Picks"]
+        : ["Matchup", "Line", "Proj", "Proj − line", "Picks"];
+      cols.forEach(function (c) {
+        var th = el("th", c === "Picks" ? "pickcol" : null, c);
+        hr.appendChild(th);
+      });
+      thead.appendChild(hr);
+      table.appendChild(thead);
+
+      var tbody = el("tbody");
+      w.games.forEach(function (g) {
+        var tr = el("tr");
+        tr.appendChild(el("td", "matchup", g.away + " @ " + g.home));
+        tr.appendChild(el("td", "line", sgn(g.line)));
+        tr.appendChild(el("td", "model", sgn(g.model)));
+
+        if (w.status === "final") {
+          tr.appendChild(el("td", "actual", sgn(g.actual, 0)));
+          var closer = el("td");
+          var span = el("span", "closer " + (g.d > 0 ? "ahead" : "behind"),
+                        (g.d > 0 ? "model " : "line ") + Math.abs(g.d).toFixed(1));
+          closer.appendChild(span);
+          tr.appendChild(closer);
+        } else {
+          var gap = g.model - g.line;
+          tr.appendChild(el("td", null, sgn(gap)));
+        }
+
+        var td = el("td", "pickcol");
+        if (!g.picks.length) {
+          td.appendChild(el("span", "dash", "—"));
+        } else {
+          g.picks.forEach(function (p, j) {
+            var chip = el("span", "ticket");
+            chip.appendChild(el("b", null, p.label));
+            chip.appendChild(el("span", null, odds(p.odds)));
+            chip.appendChild(el("span", "mark " + p.res,
+              p.res === "win" ? "W" : p.res === "loss" ? "L" : p.res === "push" ? "P" : "OPEN"));
+            td.appendChild(chip);
+            if (j < g.picks.length - 1) td.appendChild(document.createTextNode(" "));
+          });
+        }
+        tr.appendChild(td);
+        tbody.appendChild(tr);
+      });
+      table.appendChild(tbody);
+      scroll.appendChild(table);
+      host.appendChild(scroll);
+    });
+  })();
+</script>
