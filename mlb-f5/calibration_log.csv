@@ -448,3 +448,7 @@ date,game,market,model_prob,bet_side,odds,result,note
 2026-09-13,CIN@MIL,F5,0.52,CIN,149,L,cohort=ranked RANKED #5 edge +6.6% full None-tier C.Burns-2.73 vs Gasser-4.43-91IP vs-MIL-79.8pct-F5-share-6.3-F5L10-flagged-most-front-loaded-measured; F5 CIN 0-2 thru5 LOSS (CIN won full 4-3)
 2026-09-13,COL@DET,F5,0.75,DET,-158,W,cohort=ranked RANKED #6 edge +6.6% full CONFIRMED PARLAY-LEG FADE G.Hughes-5.81-57IP own-arm-Jobe-4.45-no-edge hot-bats-5.9; F5 DET 8-1 thru5 WIN (DET won 8-1)
 2026-09-13,HOU@TB,F5,0.58,HOU,115,L,cohort=ranked RANKED #7 edge +6.0% full None-tier Wesneski-3.35 vs Peralta-4.82-153IP cold-bats-3.4; F5 HOU 0-11 thru5 LOSS (TB won 14-4)
+2026-09-14,DET@TOR,F5,0.68,DET,112,L,cohort=ranked RANKED #1 edge +8.5% HALF(gap23) None-tier Melton-2.42 vs Soriano-3.48-163IP hot-bats-5.6-F5L10-3.8 called-best-spot-pregame; F5 DET 0-2 thru5 LOSS (TOR won 6-5)
+2026-09-14,NYY@MIN,F5,0.72,NYY,-121,W,cohort=ranked RANKED #2 edge +7.4% full CONFIRMED FADE D.Kremer-5.65-71IP own-arm-W.Warren-4.05-no-edge NYY-F5-LIGHT-50.5 flagged-thin-pregame; F5 NYY 1-0 thru5 WIN (NYY won 8-3)
+2026-09-14,CWS@CLE,F5,0.56,CWS,127,P,cohort=ranked RANKED #3 edge +6.2% full None-tier Newcomb-2.77 vs G.Williams-3.78-169IP cold-bats-3.5 CWS-F5-LIGHT-50.5; F5 0-0 thru5 PUSH (CLE won 7-3)
+2026-09-14,LAD@CIN,F5,0.82,LAD,-234,W,cohort=ranked RANKED #4 edge +5.1% full STEEP None-tier Skubal-2.84 vs Lodolo-5.12-89IP top-gap-2.28 wall-235-one-cent-room; F5 LAD 3-0 thru5 WIN (LAD won 4-1)
