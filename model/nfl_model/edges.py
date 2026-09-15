@@ -21,6 +21,16 @@ BET_RULES = {
     "MIN_UNDERDOG_EDGE": 0.05,
     "MIN_EV": 0.0,  # Expected Value must be strictly positive to qualify.
     "COIN_FLIP_BAND": (0.47, 0.53),  # win-prob band we treat as a toss-up
+    # Markets the gate is allowed to flag. Moneylines are excluded on evidence,
+    # not taste: across 1,900 walk-forward wagers (2012-2026) they return -5.97%
+    # with a 95% CI of [-11.06%, -0.88%] -- the one slice whose interval clears
+    # zero, and on the losing side. The same slice was the worst performer in
+    # every earlier version of the model too, so this is a standing result
+    # rather than a bucket picked out of one backtest. Spreads over the same
+    # span sit at +0.46% [-3.46%, +4.38%]: no demonstrated edge, but not a
+    # demonstrated leak either. Both markets are still priced and exported; this
+    # only governs what gets *flagged* as a bet.
+    "MARKETS": ("spread",),
 }
 
 
@@ -46,7 +56,11 @@ def _wager(market: str, side: str, label: str, model_prob: float, book_odds: flo
     ev = odds_math.ev_per_dollar(model_prob, book_odds)
     is_dog = book_odds > 0
     min_edge = BET_RULES["MIN_UNDERDOG_EDGE"] if is_dog else BET_RULES["MIN_FAVORITE_EDGE"]
-    qualifies = edge >= min_edge and ev > BET_RULES["MIN_EV"]
+    qualifies = (
+        market in BET_RULES["MARKETS"]
+        and edge >= min_edge
+        and ev > BET_RULES["MIN_EV"]
+    )
     return Wager(
         market=market,
         side=side,
