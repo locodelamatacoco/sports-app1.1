@@ -8,6 +8,7 @@ import pytest
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "scripts"))
 
+from scripts import track  # noqa: E402
 from scripts.track import _grade_one  # noqa: E402
 
 
@@ -58,3 +59,55 @@ def test_settle_writes_a_label_into_a_fresh_ledger():
         assert ledger.loc[0, "result"] == expected
         assert ledger.loc[0, "home_score"] == 24.0
         assert ledger.loc[0, "profit"] == profit
+
+
+# --------------------------------------------------------------------------- #
+# Closing-line value
+# --------------------------------------------------------------------------- #
+_SCHED_CLV = pd.DataFrame([
+    # played: the line closed
+    {"season": 2026, "home_team": "LAC", "away_team": "ARI",
+     "spread_line": 8.5, "home_score": 26.0, "away_score": 14.0},
+    {"season": 2026, "home_team": "NYG", "away_team": "DAL",
+     "spread_line": -3.0, "home_score": 28.0, "away_score": 20.0},
+    # scheduled: spread_line here is the CURRENT number, not a close
+    {"season": 2026, "home_team": "CHI", "away_team": "MIN",
+     "spread_line": 6.5, "home_score": None, "away_score": None},
+])
+
+_PICKS_CLV = pd.DataFrame([
+    # took ARI +9.5, closed at 8.5 -> a full point better than the close
+    {"season": 2026, "home": "LAC", "away": "ARI", "market": "spread",
+     "side": "away", "spread_line": 9.5},
+    # took NYG +3 (home), closed at -3.0 -> flat
+    {"season": 2026, "home": "NYG", "away": "DAL", "market": "spread",
+     "side": "home", "spread_line": -3.0},
+    # took MIN +5.5 on a game that has not been played
+    {"season": 2026, "home": "CHI", "away": "MIN", "market": "spread",
+     "side": "away", "spread_line": 5.5},
+])
+
+
+def test_clv_only_counts_games_whose_line_actually_closed(monkeypatch, capsys):
+    monkeypatch.setattr(track.pd, "read_csv", lambda *a, **k: _SCHED_CLV.copy())
+    track._clv_report(_PICKS_CLV.copy())
+    out = capsys.readouterr().out
+    # The unplayed CHI/MIN game must not be scored against its live number.
+    assert "2 spread pick(s)" in out
+    assert "+0.50 pts" in out          # (+1.0 and 0.0) / 2
+
+
+def test_clv_reports_nothing_when_no_game_has_closed(monkeypatch, capsys):
+    unplayed = _SCHED_CLV[_SCHED_CLV["home_score"].isna()].copy()
+    monkeypatch.setattr(track.pd, "read_csv", lambda *a, **k: unplayed)
+    track._clv_report(_PICKS_CLV.copy())
+    assert "no picks on a game that has closed yet" in capsys.readouterr().out
+
+
+def test_clv_sign_is_taken_from_the_bettor_side(monkeypatch, capsys):
+    # Home side laying points: the line closing HIGHER than we took it is good.
+    picks = pd.DataFrame([{"season": 2026, "home": "LAC", "away": "ARI",
+                           "market": "spread", "side": "home", "spread_line": 7.5}])
+    monkeypatch.setattr(track.pd, "read_csv", lambda *a, **k: _SCHED_CLV.copy())
+    track._clv_report(picks)
+    assert "+1.00 pts" in capsys.readouterr().out   # took -7.5, closed -8.5
