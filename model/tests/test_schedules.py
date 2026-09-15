@@ -41,3 +41,46 @@ def test_schema_feeds_rolling_features():
     tg = data._schedules_to_team_game(SCHED)
     rolled = build_rolling_features(tg)
     assert set(ROLL_COLS).issubset(rolled.columns)
+
+
+# --------------------------------------------------------------------------- #
+# Slate week stamping
+# --------------------------------------------------------------------------- #
+from nfl_model import features as feat  # noqa: E402
+
+# A full week as a book posts it: a Thursday opener, the Sunday slate, and a
+# Monday-nighter that falls in the NEXT calendar week.
+_WEEK2 = pd.DataFrame([
+    {"season": 2026, "week": 2, "home_team": "BUF", "away_team": "DET"},   # Thu
+    {"season": 2026, "week": 2, "home_team": "CHI", "away_team": "MIN"},   # Sun
+    {"season": 2026, "week": 2, "home_team": "KC", "away_team": "IND"},    # Sun night
+    {"season": 2026, "week": 2, "home_team": "LA", "away_team": "NYG"},    # Mon
+    {"season": 2026, "week": 3, "home_team": "SEA", "away_team": "NO"},
+])
+
+
+def test_schedule_week_keeps_a_week_together_across_calendar_weeks():
+    slate = pd.DataFrame([
+        {"season": 2026, "home_team": "BUF", "away_team": "DET"},
+        {"season": 2026, "home_team": "CHI", "away_team": "MIN"},
+        {"season": 2026, "home_team": "LA", "away_team": "NYG"},
+    ])
+    out = feat.attach_schedule_week(slate, _WEEK2)
+    # The Monday game belongs to week 2, not a phantom week of its own.
+    assert list(out["week"]) == [2, 2, 2]
+
+
+def test_schedule_week_leaves_unmatched_games_alone():
+    slate = pd.DataFrame([
+        {"season": 2026, "home_team": "CHI", "away_team": "MIN"},
+        {"season": 2026, "home_team": "XXX", "away_team": "YYY"},
+    ])
+    out = feat.attach_schedule_week(slate, _WEEK2)
+    assert out.loc[0, "week"] == 2
+    assert pd.isna(out.loc[1, "week"])  # never guess a week we can't verify
+
+
+def test_schedule_week_is_season_aware():
+    slate = pd.DataFrame([{"season": 2025, "home_team": "CHI", "away_team": "MIN"}])
+    out = feat.attach_schedule_week(slate, _WEEK2)
+    assert pd.isna(out.loc[0, "week"])  # same matchup, different season

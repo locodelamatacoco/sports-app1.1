@@ -182,6 +182,46 @@ def build_slate_frame(
     return _add_derived_features(df, _league_means(team_game_roll))
 
 
+def attach_schedule_week(slate: pd.DataFrame, games: pd.DataFrame) -> pd.DataFrame:
+    """Stamp the official NFL week onto a scraped slate.
+
+    A sportsbook board has no week number, and deriving one from the kickoff
+    date silently splits a week in two: Thursday and Monday night games land in
+    different calendar weeks than the Sunday slate they belong to, so a
+    date-bucketed "week 2" drops its own Monday-nighter into a phantom week 3.
+    The nflverse schedule carries the official week for every game of the
+    season, played or not, so join on that instead of guessing.
+
+    Rows with no schedule match keep whatever week they already had (usually
+    none) rather than being assigned a wrong one.
+    """
+    if slate.empty or games is None or games.empty:
+        return slate
+    needed = {"season", "week", "home_team", "away_team"}
+    if not needed.issubset(games.columns) or not {"home_team", "away_team"}.issubset(slate.columns):
+        return slate
+
+    key = ["season", "home_team", "away_team"]
+    lookup = (
+        games[list(needed)]
+        .dropna(subset=key)
+        .drop_duplicates(subset=key)
+        .rename(columns={"week": "_sched_week"})
+    )
+    df = slate.copy()
+    if "season" not in df.columns:
+        return df
+    df["season"] = pd.to_numeric(df["season"], errors="coerce")
+    lookup["season"] = pd.to_numeric(lookup["season"], errors="coerce")
+
+    df = df.merge(lookup, on=key, how="left")
+    if "week" in df.columns:
+        df["week"] = df["_sched_week"].fillna(df["week"])
+    else:
+        df["week"] = df["_sched_week"]
+    return df.drop(columns=["_sched_week"])
+
+
 def _normalize_name(name) -> str:
     """Loose key for matching a depth-chart name to a rated quarterback."""
     if not isinstance(name, str):

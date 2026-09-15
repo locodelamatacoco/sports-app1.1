@@ -190,6 +190,8 @@ def _oddstrader_slate(args, rolled, matchups, ds_games):
     slate = feat.attach_slate_power(slate, ds_games, new_season=new_season,
                                     starter_names=depth_qbs or None)
     slate = feat.add_context_features(slate)
+    # The board has no week number; take the official one from the schedule.
+    slate = feat.attach_schedule_week(slate, ds_games)
     train = matchups[matchups["home_margin"].notna()].copy()
     label = "OddsTrader (consensus)"
     if new_season:
