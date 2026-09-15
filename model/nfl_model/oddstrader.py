@@ -58,6 +58,14 @@ def normalize_team(abbr: Optional[str]) -> Optional[str]:
     return ODDSTRADER_TO_NFLVERSE.get(a, a)
 
 
+def _is_number(value) -> bool:
+    try:
+        float(value)
+        return True
+    except (TypeError, ValueError):
+        return False
+
+
 def _median(values: List[float]) -> Optional[float]:
     """Plain median -- for continuous quantities (point spreads, totals)."""
     vals = [v for v in values if v is not None]
@@ -161,16 +169,46 @@ def _kickoff_iso(ms) -> Optional[str]:
         return None
 
 
+def _quote_age_hours(row: dict, newest: Optional[float]) -> Optional[float]:
+    """How stale one book's quote is, in hours, relative to the freshest row."""
+    if newest is None:
+        return None
+    try:
+        return (newest - float(row["tim"])) / 3_600_000.0
+    except (KeyError, TypeError, ValueError):
+        return None
+
+
+# A book that has not re-quoted a market in this long, while others have moved
+# within minutes, is almost certainly not still offering that number. Taking the
+# best price across *all* books would systematically select exactly those stale
+# quotes -- the one line you cannot actually bet. Measured on a live week-2
+# board, the unfiltered "best" was worth +2.43 pts of EV per bet and the
+# filtered one +1.60: the difference was the part that isn't real.
+STALE_QUOTE_HOURS = 12.0
+
+
 def parse_current_lines(events: Dict[int, dict], line_rows: List[dict]) -> List[dict]:
     """Reduce raw ``currentLines`` rows to one nflverse-style row per game.
 
     Multiple books quote each market; we take the **median** across books as the
     consensus line (robust to any single outlier book), matching how OddsTrader
-    presents a consensus number.
+    presents a consensus number. The consensus is what the model prices against.
+
+    Every individual book's spread quote is also carried through, in
+    ``home_spread_quotes`` / ``away_spread_quotes``, so the bet gate can stake
+    the best number actually on offer rather than the middle of the market. The
+    two jobs want different statistics: the median is the robust estimate of
+    where the market is, the best quote is where the money actually goes.
     """
     # Bucket prices/lines by (eid, mtid, partid).
     buckets: Dict[tuple, Dict[str, List[float]]] = {}
     totals: Dict[int, List[float]] = {}
+    quotes: Dict[tuple, List[tuple]] = {}
+    stamps = [float(r["tim"]) for r in line_rows
+              if r.get("tim") not in (None, "") and _is_number(r.get("tim"))]
+    newest = max(stamps) if stamps else None
+
     for r in line_rows:
         eid, mtid = r.get("eid"), r.get("mtid")
         if mtid == MTID_TOTAL:
@@ -180,6 +218,14 @@ def parse_current_lines(events: Dict[int, dict], line_rows: List[dict]) -> List[
         b = buckets.setdefault(key, {"ap": [], "adj": []})
         b["ap"].append(r.get("ap"))
         b["adj"].append(r.get("adj"))
+
+        if mtid == MTID_SPREAD:
+            adj, ap = r.get("adj"), r.get("ap")
+            age = _quote_age_hours(r, newest)
+            if (adj is not None and ap is not None
+                    and odds_math.is_valid_american(ap)
+                    and (age is None or age <= STALE_QUOTE_HOURS)):
+                quotes.setdefault(key, []).append((float(adj), int(ap)))
 
     rows: List[dict] = []
     for eid, ev in events.items():
@@ -217,6 +263,15 @@ def parse_current_lines(events: Dict[int, dict], line_rows: List[dict]) -> List[
             "away_moneyline": None if away_ml is None else int(round(away_ml)),
             "home_spread_odds": -110 if home_spread_odds is None else int(round(home_spread_odds)),
             "away_spread_odds": -110 if away_spread_odds is None else int(round(away_spread_odds)),
+            # Every fresh book, as (line in nflverse convention, price). The home
+            # handicap negates into nflverse's "+ means home favored"; the away
+            # side's own handicap is already that quantity.
+            "home_spread_quotes": [
+                (_round_half(-adj), price) for adj, price in quotes.get((eid, MTID_SPREAD, hp), [])
+            ],
+            "away_spread_quotes": [
+                (_round_half(adj), price) for adj, price in quotes.get((eid, MTID_SPREAD, ap), [])
+            ],
             "status": "pre",
             "provider": "OddsTrader (consensus)",
         })

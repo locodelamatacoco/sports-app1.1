@@ -109,7 +109,12 @@ def record(args: argparse.Namespace) -> int:
                 "kickoff": game.get("kickoff"), "away": game["away"], "home": game["home"],
                 "home_partid": game.get("homePartid"), "away_partid": game.get("awayPartid"),
                 "market": w["market"], "side": w["side"], "label": w["label"],
-                "spread_line": game["market"].get("spreadLine"),
+                # The number THIS wager was struck at. Best-price shopping means
+                # it can differ from the game's consensus line, and a bet must be
+                # graded against the number it was taken at. Older rows predate
+                # the per-wager line, so fall back to the consensus.
+                "spread_line": (w.get("line") if w.get("line") is not None
+                                else game["market"].get("spreadLine")),
                 "book_odds": w["book_odds"], "model_prob": w["model_prob"],
                 "edge": w["edge"], "ev": w["ev"],
                 "home_score": None, "away_score": None, "result": None, "profit": None,

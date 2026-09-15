@@ -41,6 +41,12 @@ class Wager:
     market: str  # "moneyline" | "spread"
     side: str  # "home" | "away"
     label: str  # human-readable, e.g. "KC -3.5" or "NO ML"
+    # The number this wager is actually struck at, in nflverse convention
+    # (positive = home favored). Best-price shopping means this can differ from
+    # the game's consensus ``spreadLine``, and the bet must be graded against
+    # the number it was taken at, not the middle of the market. None = no line
+    # (moneyline).
+    line: Optional[float]
     model_prob: float
     book_odds: float
     implied_prob: float  # raw implied (vig included)
@@ -50,7 +56,8 @@ class Wager:
     qualifies: bool
 
 
-def _wager(market: str, side: str, label: str, model_prob: float, book_odds: float) -> Wager:
+def _wager(market: str, side: str, label: str, model_prob: float, book_odds: float,
+           line: Optional[float] = None) -> Wager:
     implied = odds_math.american_to_prob(book_odds)
     edge = model_prob - implied
     ev = odds_math.ev_per_dollar(model_prob, book_odds)
@@ -65,6 +72,7 @@ def _wager(market: str, side: str, label: str, model_prob: float, book_odds: flo
         market=market,
         side=side,
         label=label,
+        line=line,
         model_prob=model_prob,
         book_odds=float(book_odds),
         implied_prob=implied,
@@ -79,6 +87,41 @@ def _spread_label(team: str, line_for_team: float) -> str:
     """Render a team's spread, e.g. ('KC', -3.5) -> 'KC -3.5'."""
     sign = "+" if line_for_team > 0 else ""
     return f"{team} {sign}{line_for_team:g}"
+
+
+def _best_spread_quote(quotes, pred_margin: float, sigma: float, side: str,
+                       fallback_line: float, fallback_odds: float):
+    """Pick the (line, price) with the highest EV among the books on offer.
+
+    A better number at worse juice is not automatically better -- CLE +9 at -118
+    against +8.5 at -110 depends on where the margin distribution has its mass --
+    so the two cannot be optimised separately. Evaluate each quote whole and take
+    the best; with no usable quotes, fall back to the consensus.
+
+    ``quotes`` are ``(line, price)`` in nflverse convention (positive = home
+    favored), i.e. the same ``spread_line`` the consensus uses.
+    """
+    best = (fallback_line, fallback_odds)
+    best_prob = _cover_prob(pred_margin, fallback_line, sigma, side)
+    best_ev = odds_math.ev_per_dollar(best_prob, fallback_odds)
+
+    for quote in quotes if quotes is not None else []:
+        try:
+            line, price = float(quote[0]), float(quote[1])
+        except (TypeError, ValueError, IndexError):
+            continue
+        if not odds_math.is_valid_american(price):
+            continue
+        prob = _cover_prob(pred_margin, line, sigma, side)
+        ev = odds_math.ev_per_dollar(prob, price)
+        if ev > best_ev:
+            best, best_prob, best_ev = (line, price), prob, ev
+    return best[0], best[1], best_prob
+
+
+def _cover_prob(pred_margin: float, line: float, sigma: float, side: str) -> float:
+    home = dist.home_cover_prob(pred_margin, line, sigma)
+    return home if side == "home" else 1.0 - home
 
 
 def analyze_game(game: dict, pred_margin: float, sigma: float) -> dict:
@@ -106,22 +149,36 @@ def analyze_game(game: dict, pred_margin: float, sigma: float) -> dict:
         wagers.append(_wager("moneyline", "away", f"{away} ML", away_win, ml_away))
 
     # --- Spread ---
+    # The consensus number is what the model is measured against; the wager is
+    # staked at the best number any book is actually offering. Shopping the nine
+    # books on this feed was worth ~1.6 pts of EV per bet on a live slate --
+    # more than the spread model's entire measured edge, and it costs nothing.
     home_odds = away_odds = None
+    home_best = away_best = None
     if spread_line is not None:
-        home_cover = dist.home_cover_prob(pred_margin, spread_line, sigma)
-        away_cover = 1.0 - home_cover
         # Spreads are near-universally -110; fall back to it when a book's juice
         # is missing or unusable.
         home_odds = game.get("home_spread_odds")
         away_odds = game.get("away_spread_odds")
         home_odds = home_odds if odds_math.is_valid_american(home_odds) else -110
         away_odds = away_odds if odds_math.is_valid_american(away_odds) else -110
+
+        home_line, home_price, home_cover = _best_spread_quote(
+            game.get("home_spread_quotes"), pred_margin, sigma, "home", spread_line, home_odds
+        )
+        away_line, away_price, away_cover = _best_spread_quote(
+            game.get("away_spread_quotes"), pred_margin, sigma, "away", spread_line, away_odds
+        )
+        home_best = {"line": home_line, "odds": home_price}
+        away_best = {"line": away_line, "odds": away_price}
         # nflverse spread_line is the home number; the away team gets +spread_line.
         wagers.append(
-            _wager("spread", "home", _spread_label(home, -spread_line), home_cover, home_odds)
+            _wager("spread", "home", _spread_label(home, -home_line), home_cover, home_price,
+                   line=home_line)
         )
         wagers.append(
-            _wager("spread", "away", _spread_label(away, spread_line), away_cover, away_odds)
+            _wager("spread", "away", _spread_label(away, away_line), away_cover, away_price,
+                   line=away_line)
         )
 
     qualifying = sorted(
@@ -161,6 +218,9 @@ def analyze_game(game: dict, pred_margin: float, sigma: float) -> dict:
             "awayMoneyline": game.get("away_moneyline"),
             "homeSpreadOdds": home_odds,
             "awaySpreadOdds": away_odds,
+            # Best number on offer across books, vs the consensus above.
+            "homeBestSpread": home_best,
+            "awayBestSpread": away_best,
             "noVigHomeWin": market_home,
             "noVigAwayWin": market_away,
         },

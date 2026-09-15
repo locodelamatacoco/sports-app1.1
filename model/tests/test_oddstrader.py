@@ -164,3 +164,43 @@ def test_half_scores_drops_games_missing_a_first_half_quarter():
 
 def test_half_scores_handles_empty_input():
     assert ot.half_scores(pd.DataFrame()).empty
+
+
+# --------------------------------------------------------------------------- #
+# Per-book spread quotes (best-price shopping)
+# --------------------------------------------------------------------------- #
+_EVENTS = {
+    1: {"home": {"partid": 10, "abbr": "KC", "season": "2026"},
+        "away": {"partid": 20, "abbr": "DEN"}, "kickoff_ms": None},
+}
+_NOW = 1_800_000_000_000.0
+_HOUR = 3_600_000.0
+
+
+def _spread_row(partid, adj, ap, hours_old=0.0):
+    return {"eid": 1, "mtid": ot.MTID_SPREAD, "partid": partid,
+            "adj": adj, "ap": ap, "tim": _NOW - hours_old * _HOUR}
+
+
+def test_quotes_are_carried_in_nflverse_convention():
+    rows = [_spread_row(10, -3.5, -110), _spread_row(20, 3.5, -108)]
+    out = ot.parse_current_lines(_EVENTS, rows)[0]
+    # OddsTrader stores the home handicap (-3.5); nflverse negates it.
+    assert out["home_spread_quotes"] == [(3.5, -110)]
+    assert out["away_spread_quotes"] == [(3.5, -108)]
+    assert out["spread_line"] == 3.5
+
+
+def test_stale_quotes_are_dropped():
+    rows = [
+        _spread_row(10, -3.5, -110, hours_old=0.0),
+        _spread_row(10, -3.5, +120, hours_old=48.0),  # two days old: not bettable
+    ]
+    out = ot.parse_current_lines(_EVENTS, rows)[0]
+    assert out["home_spread_quotes"] == [(3.5, -110)]
+
+
+def test_illegal_prices_never_become_quotes():
+    rows = [_spread_row(10, -3.5, -110), _spread_row(10, -3.5, -2)]
+    out = ot.parse_current_lines(_EVENTS, rows)[0]
+    assert out["home_spread_quotes"] == [(3.5, -110)]

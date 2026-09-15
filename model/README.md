@@ -74,6 +74,20 @@ OddsTrader has no public API, so this reads the game list from the page's
 backend the site itself calls, taking the **median across books** as the
 consensus line. See the caveat below — it's an undocumented private API.
 
+**Best-price shopping.** The consensus is what the model is *measured* against,
+but a bet is struck at the best number any book is actually offering, so every
+book's spread quote is carried through and the gate stakes the EV-maximising one.
+A better number at worse juice is not automatically better — CLE +9 at −118
+against +8.5 at −110 depends on where the margin distribution has its mass — so
+quotes are compared whole rather than optimising line and price separately.
+Quotes more than 12 hours stale are dropped: taking the best price across *all*
+books systematically selects the ones nobody is still offering. Measured on a
+live week-2 board, unfiltered "best" looked worth +2.43 pts of EV per bet and the
+filtered one +1.60 — the difference was the part that wasn't real. In
+model-free terms, shopping drops the average break-even from 52.29% to 51.70%,
+worth roughly **+1.3 points of ROI at any win rate** — more than the spread
+model's entire measured edge, for free.
+
 Sample console output (synthetic):
 
 ```
