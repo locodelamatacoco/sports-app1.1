@@ -6,8 +6,10 @@ import { UFC_329_CARD } from '../data/ufc329';
 import { UFC_OKC_CARD } from '../data/ufcOkc';
 import { UFC_BELGRADE_CARD } from '../data/ufcBelgrade';
 import { UFC_330_CARD } from '../data/ufc330';
+import { UFC_331_CARD } from '../data/ufc331';
 
 const CARDS = [
+  { key: 'ufc331', title: 'UFC 331 (Sep 19)', card: UFC_331_CARD },
   { key: 'ufc330', title: 'UFC 330 (Aug 15)', card: UFC_330_CARD },
   { key: 'belgrade', title: 'UFC Belgrade (Aug 1)', card: UFC_BELGRADE_CARD },
   { key: 'okc', title: 'UFC OKC (Jul 18)', card: UFC_OKC_CARD },

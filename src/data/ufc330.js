@@ -20,6 +20,12 @@ export const UFC_330_CARD = {
       estimatedMarkets: ['goesDistance', 'totalRounds', 'koA', 'koB', 'subA', 'subB', 'decA', 'decB'],
       notes:
         'Makhachev defends the welterweight belt on a 16-fight win streak — a win passes Anderson Silva for the longest in UFC history. Machado Garry is undefeated, coming off wins over Prates and Belal Muhammad, with a big height/reach edge but a grappling test ahead of him. MLs sourced; props estimated.',
+      result: {
+        winner: 'A',
+        method: 'Decision',
+        round: 5,
+        note: 'Makhachev by unanimous decision — 17th straight UFC win, passing Anderson Silva for the all-time record. Model had Makhachev by decision as the single most likely outcome.',
+      },
       fighterA: {
         name: 'Islam Makhachev',
         record: '28-1',
@@ -128,6 +134,12 @@ export const UFC_330_CARD = {
       estimatedMarkets: ['goesDistance', 'totalRounds', 'koA', 'koB', 'subA', 'subB', 'decA', 'decB'],
       notes:
         "Dern's first defense of the strawweight belt against Robertson — a grappler-vs-grappler title fight between the two most active submission threats in the division. Dern is the superior pure BJJ player; Robertson is the bigger, more physical top-control wrestler. MLs sourced; props estimated.",
+      result: {
+        winner: 'A',
+        method: 'Decision',
+        round: 5,
+        note: 'Dern by unanimous decision in her first title defense, outworking Robertson over four rounds. Model had Dern by decision as the most likely outcome.',
+      },
       fighterA: {
         name: 'Mackenzie Dern',
         record: '17-5',
@@ -236,6 +248,13 @@ export const UFC_330_CARD = {
       estimatedMarkets: ['goesDistance', 'totalRounds', 'koA', 'koB', 'subA', 'subB', 'decA', 'decB'],
       notes:
         'A true pick-em (-112/-108). Turner is a 6\'3" finisher with an enormous reach edge coming off a first-round TKO, but has been stopped himself; Fernandes is the younger, steadier prospect. MLs sourced; props estimated.',
+      result: {
+        winner: 'A',
+        method: 'KO/TKO',
+        round: 1,
+        timeMin: 0.65,
+        note: 'Turner TKO at 0:39 of round 1 — model had Turner by KO/TKO as the most likely outcome in a fight the book priced as a pick-em.',
+      },
       fighterA: {
         name: 'Jalin Turner',
         record: '15-8',
@@ -344,6 +363,13 @@ export const UFC_330_CARD = {
       estimatedMarkets: ['goesDistance', 'totalRounds', 'koA', 'koB', 'subA', 'subB', 'decA', 'decB'],
       notes:
         'Abdul-Malik is an undefeated finisher being matched up at -700 against Stoltzfus, a durable journeyman grappler with a losing octagon record. Huge-favorite pricing with little value either way. MLs sourced; props estimated.',
+      result: {
+        winner: 'B',
+        method: 'Submission',
+        round: 2,
+        timeMin: 4.42,
+        note: 'UPSET: Stoltzfus (+500) submitted the undefeated Abdul-Malik at 4:25 of round 2. The model had Abdul-Malik at 92.8% but the huge-favorite filter refused the bet — a -700 favorite lost outright.',
+      },
       fighterA: {
         name: 'Mansur Abdul-Malik',
         record: '11-0',
@@ -452,6 +478,12 @@ export const UFC_330_CARD = {
       estimatedMarkets: ['goesDistance', 'totalRounds', 'koA', 'koB', 'subA', 'subB', 'decA', 'decB'],
       notes:
         'Ribovics (-700) against a 40-year-old Edson Barboza (+500) whose legendary career has entered its decline phase. Age-cliff and damage-accumulation flags all point one way, and the price already reflects it. MLs sourced; props estimated.',
+      result: {
+        winner: 'A',
+        method: 'KO/TKO',
+        round: 2,
+        note: 'Ribovics TKO in round 2 — model had Ribovics by KO/TKO at 74.6%, the strongest method read on the card.',
+      },
       fighterA: {
         name: 'Esteban Ribovics',
         record: '14-2',
