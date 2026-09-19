@@ -473,3 +473,7 @@ date,game,market,model_prob,bet_side,odds,result,note
 2026-09-17,MIL@PIT,F5,0.78,MIL,-149,L,cohort=ranked RANKED #4 edge +7.2% HALF(gap21) None-tier K.Harrison-3.98 vs Dotel-4.84-35IP-thinnest-mechanism-flagged hot-bats-7.3; F5 MIL 1-5 thru5 LOSS (PIT won 7-4)
 2026-09-17,ATH@TB,F5,0.91,TB,-288,W,cohort=ranked RANKED #5 edge +6.9% full STEEP CONFIRMED FADE J.Springs-5.93-135IP Rasmussen-2.81 top-gap-3.12; F5 TB 6-0 thru5 WIN (TB won 10-1)
 2026-09-17,MIN@LAA,F5,0.68,LAA,-112,W,cohort=ranked RANKED #6 edge +6.9% full None-tier Urena-2.88 vs T.Bradley-3.81-165IP thin-gap-0.93; F5 LAA 3-0 thru5 WIN (LAA won 5-4)
+2026-09-18,PHI@NYM,F5,0.81,NYM,-130,W,cohort=ranked RANKED #1 edge +7.9% HALF(gap28) CONFIRMED FADE Painter-5.54-115IP-WHIP-1.44-corroborated Thornton-3.44 hot-bats-5.4; F5 NYM 3-1 thru5 WIN (NYM won 6-3)
+2026-09-18,KC@PIT,F5,0.55,KC,150,P,cohort=ranked RANKED #2 edge +7.5% full None-tier Dobnak-2.73 vs Skenes-3.78-162IP-good-arm-not-a-fade cold-bats-3.2-flagged; F5 5-5 thru5 PUSH (PIT won 8-5)
+2026-09-18,NYY@AZ,F5,0.64,AZ,100,L,cohort=ranked RANKED #3 edge +6.8% full None-tier E.Rodriguez-2.62 vs Cole-3.67-115IP-good-arm-not-a-fade; F5 AZ 2-6 thru5 LOSS (NYY won 9-2)
+2026-09-18,TOR@TEX,F5,0.70,TOR,-140,L,cohort=ranked RANKED #4 edge +5.9% full None-tier Cease-2.38 vs K.Rocker-4.54-138IP best-full-stake-pregame Cease-now-1-2; F5 TOR 1-5 thru5 LOSS (TEX won 7-1)
