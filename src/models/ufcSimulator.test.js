@@ -11,8 +11,10 @@ import {
   betUnits,
   calibrationFactor,
   calibrateProbs,
+  reweightToWinProb,
   BET_RULES,
 } from './ufcSimulator';
+import { winProbability } from './winProbModel';
 import { UFC_CARD } from '../data/ufcFights';
 import { UFC_329_CARD } from '../data/ufc329';
 
@@ -267,11 +269,47 @@ describe('probability calibration', () => {
   });
 
   test('raw simulation output is preserved alongside the calibrated one', () => {
-    const analysis = analyzeFight(UFC_CARD.fights[0], { numSims: 2000, seed: 7 });
-    expect(analysis.sim.rawProbs).toBeDefined();
-    expect(analysis.sim.calibrationFactor).toBeLessThanOrEqual(1);
-    const rawFav = Math.max(analysis.sim.rawProbs.aWin, analysis.sim.rawProbs.bWin);
-    const calFav = Math.max(analysis.sim.probs.aWin, analysis.sim.probs.bWin);
+    const legacy = analyzeFight(UFC_CARD.fights[0], {
+      numSims: 2000,
+      seed: 7,
+      useFittedWinProb: false,
+    });
+    expect(legacy.sim.rawProbs).toBeDefined();
+    expect(legacy.sim.winProbSource).toBe('simulation');
+    expect(legacy.sim.calibrationFactor).toBeLessThanOrEqual(1);
+    const rawFav = Math.max(legacy.sim.rawProbs.aWin, legacy.sim.rawProbs.bWin);
+    const calFav = Math.max(legacy.sim.probs.aWin, legacy.sim.probs.bWin);
     expect(calFav).toBeLessThanOrEqual(rawFav + 1e-9);
+  });
+
+  test('hand-entered profiles keep the simulation engine by default', () => {
+    const analysis = analyzeFight(UFC_CARD.fights[0], { numSims: 2000, seed: 7 });
+    expect(analysis.sim.winProbSource).toBe('simulation');
+  });
+
+  test('derived profiles opt in to the fitted win-probability model', () => {
+    const fight = { ...UFC_CARD.fights[0], profileSource: 'derived' };
+    const analysis = analyzeFight(fight, { numSims: 2000, seed: 7 });
+    expect(analysis.sim.winProbSource).toBe('fitted');
+    expect(analysis.sim.rawProbs).toBeDefined();
+    const pA = winProbability(fight.fighterA, fight.fighterB);
+    const decisive = 1 - analysis.sim.probs.draw;
+    expect(analysis.sim.probs.aWin / decisive).toBeCloseTo(pA, 6);
+  });
+
+  test('reweighting preserves the distribution and the round markets', () => {
+    const raw = {
+      aWin: 0.7, bWin: 0.28, draw: 0.02,
+      aKO: 0.3, aSub: 0.1, aDec: 0.3,
+      bKO: 0.1, bSub: 0.08, bDec: 0.1,
+      goesDistance: 0.42,
+    };
+    const out = reweightToWinProb(raw, 0.4);
+    const total = out.aKO + out.aSub + out.aDec + out.bKO + out.bSub + out.bDec + out.draw;
+    expect(total).toBeCloseTo(1, 6);
+    expect(out.aWin / (1 - out.draw)).toBeCloseTo(0.4, 6);
+    // method mix within each fighter is unchanged, only the overall share moves
+    expect(out.aKO / out.aWin).toBeCloseTo(raw.aKO / raw.aWin, 6);
+    expect(out.goesDistance).toBeCloseTo(out.aDec + out.bDec + out.draw, 6);
   });
 });

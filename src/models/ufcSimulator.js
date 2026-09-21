@@ -7,6 +7,8 @@
 // damage accumulation, and finish escalation. Compares simulated
 // probabilities against sportsbook odds to surface value bets.
 
+import { winProbability } from './winProbModel';
+
 // ---------------------------------------------------------------------------
 // Tunable model constants
 // ---------------------------------------------------------------------------
@@ -465,8 +467,12 @@ export function simulateFight(fight, { numSims = 10000, seed = 42 } = {}) {
     expectedRounds: tally.totalRoundsCompleted / numSims,
   };
 
-  // Over/under vs. the fight's posted round line (e.g. 2.5 or 4.5)
-  const line = fight.odds.totalRounds.line;
+  // Over/under vs. the fight's posted round line (e.g. 2.5 or 4.5). A fight
+  // with no book attached (backtest fixtures, exploratory matchups) falls back
+  // to the conventional line for its length so the simulator stays usable
+  // without odds.
+  const line =
+    fight.odds?.totalRounds?.line ?? (fight.rounds === 5 ? 3.5 : 2.5);
   let underProb = 0;
   probs.finishByRound.forEach((prob, idx) => {
     // finish in round idx+1 counts under if the line sits above that midpoint
@@ -637,20 +643,71 @@ export function calibrateProbs(probs, k) {
   };
 }
 
-export function analyzeFight(fight, { numSims = 10000, seed = 42 } = {}) {
+// Rescale the simulation's method/round distribution so that its implied win
+// probabilities match a supplied pair (pA, pB). The simulation decides the
+// SHAPE of the outcome — how and when a fight ends — while the fitted model
+// decides WHO wins, because that is the split the backtest supports: the
+// simulation lost to a coin flip on winner probability, but it is the only
+// thing producing a round-by-round and method distribution at all.
+export function reweightToWinProb(probs, pA) {
+  const draw = probs.draw;
+  const decisive = 1 - draw;
+  if (decisive <= 0) return probs;
+  const targetA = pA * decisive;
+  const targetB = decisive - targetA;
+  const scaleA = probs.aWin > 0 ? targetA / probs.aWin : 0;
+  const scaleB = probs.bWin > 0 ? targetB / probs.bWin : 0;
+  const out = {
+    ...probs,
+    aWin: targetA,
+    bWin: targetB,
+    aKO: probs.aKO * scaleA,
+    aSub: probs.aSub * scaleA,
+    aDec: probs.aDec * scaleA,
+    bKO: probs.bKO * scaleB,
+    bSub: probs.bSub * scaleB,
+    bDec: probs.bDec * scaleB,
+  };
+  // goesDistance must stay consistent with the rescaled decision mass.
+  out.goesDistance = out.aDec + out.bDec + draw;
+  return out;
+}
+
+export function analyzeFight(fight, { numSims = 10000, seed = 42, useFittedWinProb } = {}) {
   const sim = simulateFight(fight, { numSims, seed });
   const projections = poissonProjections(fight);
   const confidence = confidenceScore(fight, sim.probs);
 
-  // Calibrate the raw simulation output before anything downstream uses it.
-  const calFactor = calibrationFactor(
-    confidence.score,
-    Math.min(fight.fighterA.factors.ufcFights, fight.fighterB.factors.ufcFights)
-  );
-  const probs = calibrateProbs(sim.probs, calFactor);
+  // The fitted model is only valid on profiles built by scripts/build_corpus.py.
+  // It was trained on those derived features, and its standardisation constants
+  // assume their scales (percentile 0-10 ratings, career-average rates). Feeding
+  // it hand-entered profiles is a distribution shift, and measurably so: across
+  // the five graded cards whose profiles were entered by hand, swapping the
+  // simulation for the fitted model moved winner accuracy from 17/25 to 12/25.
+  // So it is opt-in, keyed to how the profile was built.
+  const fitted =
+    useFittedWinProb !== undefined ? useFittedWinProb : fight.profileSource === 'derived';
+
   sim.rawProbs = sim.probs;
+  let probs;
+  if (fitted) {
+    // Fitted logistic supplies the win probability; it is already well
+    // calibrated out of sample, so no extra compression is applied.
+    const pA = winProbability(fight.fighterA, fight.fighterB);
+    probs = reweightToWinProb(sim.probs, pA);
+    sim.winProbSource = 'fitted';
+    sim.calibrationFactor = 1;
+  } else {
+    // Hand-entered profiles: compress the simulation's own overconfident output.
+    const calFactor = calibrationFactor(
+      confidence.score,
+      Math.min(fight.fighterA.factors.ufcFights, fight.fighterB.factors.ufcFights)
+    );
+    probs = calibrateProbs(sim.probs, calFactor);
+    sim.winProbSource = 'simulation';
+    sim.calibrationFactor = calFactor;
+  }
   sim.probs = probs;
-  sim.calibrationFactor = calFactor;
 
   const { odds } = fight;
 
