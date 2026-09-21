@@ -20,6 +20,12 @@ export const UFC_331_CARD = {
       estimatedMarkets: ['goesDistance', 'totalRounds', 'koA', 'koB', 'subA', 'subB', 'decA', 'decB'],
       notes:
         'Rematch of a title fight that lasted 26 seconds — Pantoja dislocated his elbow falling after Van caught a kick, so neither man really got tested. Van has since defended against Tatsuro Taira. Pantoja, 36, is chasing a rare reclaimed flyweight belt. MLs sourced; props estimated.',
+      result: {
+        winner: 'A',
+        method: 'Decision',
+        round: 5,
+        note: 'Van retained by unanimous decision (49-46, 48-47, 50-45). Model picked Van correctly but leaned KO/TKO; the fight went the distance, which the model gave 31.6%.',
+      },
       fighterA: {
         name: 'Joshua Van',
         record: '17-2',
@@ -128,6 +134,12 @@ export const UFC_331_CARD = {
       estimatedMarkets: ['goesDistance', 'totalRounds', 'koA', 'koB', 'subA', 'subB', 'decA', 'decB'],
       notes:
         'Tsarukyan returns from a long layoff (he withdrew from a title shot against Makhachev with a back injury) against Ruffy, who knocked out Michael Chandler in round one in June. Elite wrestler vs explosive counter-striker. MLs sourced; props estimated.',
+      result: {
+        winner: 'A',
+        method: 'KO/TKO',
+        round: 1,
+        note: 'Tsarukyan knocked Ruffy out with an elbow in round 1 — no sign of ring rust. Model picked Tsarukyan but expected a decision (44.9%); his KO path was only 12.5%.',
+      },
       fighterA: {
         name: 'Arman Tsarukyan',
         record: '23-3',
@@ -236,6 +248,12 @@ export const UFC_331_CARD = {
       estimatedMarkets: ['goesDistance', 'totalRounds', 'koA', 'koB', 'subA', 'subB', 'decA', 'decB'],
       notes:
         'Patrício Pitbull, the Bellator great, is 39 and has struggled to translate his dominance to the UFC roster. Choi Doo-ho is the resurgent Korean Superboy. Age-cliff and damage flags both point the same way. MLs sourced; props estimated.',
+      result: {
+        winner: 'B',
+        method: 'KO/TKO',
+        round: 1,
+        note: 'UPSET: Patrício Pitbull (+220) TKO\'d Choi in round 1. The model had Choi at 72.3% and Choi-by-KO as the single most likely outcome on the card — the age-cliff read on Pitbull was flatly wrong.',
+      },
       fighterA: {
         name: 'Choi Doo-ho',
         record: '15-4',
@@ -344,6 +362,13 @@ export const UFC_331_CARD = {
       estimatedMarkets: ['goesDistance', 'totalRounds', 'koA', 'koB', 'subA', 'subB', 'decA', 'decB'],
       notes:
         'Olympic gold medalist Steveson at -2400 against a late-notice-level opponent. The most extreme price on the card and exactly the shape the huge-favorite filter exists for — note UFC 330, where a -700 favorite was submitted outright. MLs sourced; props estimated.',
+      result: {
+        winner: 'B',
+        method: 'KO/TKO',
+        round: 1,
+        timeMin: 0.2,
+        note: 'STUNNER: Sean Sharaf (+1200) TKO\'d Gable Steveson in 12 seconds. A -2400 favorite lost outright — the huge-favorite filter refused this bet, saving a near-certain catastrophic loss.',
+      },
       fighterA: {
         name: 'Gable Steveson',
         record: '4-0',
@@ -452,6 +477,13 @@ export const UFC_331_CARD = {
       estimatedMarkets: ['goesDistance', 'totalRounds', 'koA', 'koB', 'subA', 'subB', 'decA', 'decB'],
       notes:
         'Card placement may be late prelims rather than main card. Vera is a former title challenger and one of the most durable fighters in the division, but the market has him as a live dog against Jourdain — notable, since Vera is rarely finished. MLs sourced; props estimated.',
+      result: {
+        winner: 'B',
+        method: 'KO/TKO',
+        round: 3,
+        timeMin: 2.03,
+        note: 'Vera TKO at 2:02 of round 3. The model picked Vera and rated him +6.2% at +170 — just under the 7% underdog gate, so it passed on a bet that would have returned +1.70u.',
+      },
       fighterA: {
         name: 'Charles Jourdain',
         record: '16-8-1',
