@@ -26,10 +26,26 @@ BET_RULES = {
     # with a 95% CI of [-11.06%, -0.88%] -- the one slice whose interval clears
     # zero, and on the losing side. The same slice was the worst performer in
     # every earlier version of the model too, so this is a standing result
-    # rather than a bucket picked out of one backtest. Spreads over the same
-    # span sit at +0.46% [-3.46%, +4.38%]: no demonstrated edge, but not a
-    # demonstrated leak either. Both markets are still priced and exported; this
-    # only governs what gets *flagged* as a bet.
+    # rather than a bucket picked out of one backtest.
+    #
+    # Spreads over that same span sit at +0.46% [-3.46%, +4.38%], but that is
+    # the FLATTERING window and should not be quoted on its own. Restricted to
+    # 2019-2026, where the features are best populated, gated spreads return
+    # -5.12% [-10.63%, +0.39%] over 1,161 bets, and taking a side on *every*
+    # game returns -6.32% [-10.53%, -2.02%] over 1,947 -- that interval clears
+    # zero on the losing side. Across every slice the model wins 47-49% ATS
+    # against a 52.38% break-even; it has never shown 52.4%+ in a large sample.
+    #
+    # The mechanism is in the disagreement profile: when the model and the line
+    # agree to within a point, their errors are identical (gap +0.02 pts). The
+    # gap then grows monotonically with disagreement, reaching +1.13 pts
+    # [+0.65, +1.62] at 4-6 points apart. The gate fires only on disagreement,
+    # so by construction it selects the games where the model is least
+    # reliable -- and no threshold escapes that, because raising it selects
+    # MORE disagreement. That is a structural problem, not a tuning one.
+    #
+    # Both markets are still priced and exported; this only governs what gets
+    # *flagged* as a bet. Flagged is not a recommendation to stake.
     "MARKETS": ("spread",),
 }
 
