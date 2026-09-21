@@ -587,11 +587,71 @@ function edgeRow(label, modelProb, bookOdds, opts = {}) {
   };
 }
 
+// ---------------------------------------------------------------------------
+// Probability calibration
+// ---------------------------------------------------------------------------
+
+// The raw simulation is systematically overconfident, and the overconfidence
+// is worst exactly where the inputs are weakest. Measured over the graded
+// fights so far, the model's 70%+ bands badly underperformed their stated
+// probability and the 90%+ band went 0-for-2 (Cepo, Steveson — both built on
+// little or no UFC tape), while the vig-free closing line scored a better
+// Brier. Compressing the win probability toward parity fixes the bias; the
+// amount of compression is keyed to the two things that predict input
+// quality: the confidence score and the smaller fighter's UFC sample.
+//
+// Every compression strength tested improved both Brier and log loss
+// monotonically, so the DIRECTION is robust even though the exact
+// coefficients are fitted on a small sample and should be refit as more
+// fights are graded.
+export function calibrationFactor(confidenceScore, minUfcFights) {
+  const kConfidence = Math.min(1, 0.45 + 0.05 * confidenceScore);
+  const kSample = 0.55 + 0.45 * Math.min(1, minUfcFights / 10);
+  return kConfidence * kSample;
+}
+
+// Shrink the win probabilities toward parity by factor k, preserving the draw
+// mass and rescaling each method component proportionally so the distribution
+// still sums to 1.
+export function calibrateProbs(probs, k) {
+  const decisive = probs.aWin + probs.bWin;
+  if (decisive <= 0 || k >= 1) return probs;
+  const aShare = probs.aWin / decisive;
+  const newAWin = decisive * (0.5 + (aShare - 0.5) * k);
+  const newBWin = decisive - newAWin;
+  const scaleA = probs.aWin > 0 ? newAWin / probs.aWin : 0;
+  const scaleB = probs.bWin > 0 ? newBWin / probs.bWin : 0;
+  return {
+    ...probs,
+    aWin: newAWin,
+    bWin: newBWin,
+    aKO: probs.aKO * scaleA,
+    aSub: probs.aSub * scaleA,
+    aDec: probs.aDec * scaleA,
+    bKO: probs.bKO * scaleB,
+    bSub: probs.bSub * scaleB,
+    bDec: probs.bDec * scaleB,
+    // Distance and round markets describe *when* a fight ends, not who wins,
+    // so they are left untouched by the winner-probability compression.
+    goesDistance: probs.goesDistance,
+  };
+}
+
 export function analyzeFight(fight, { numSims = 10000, seed = 42 } = {}) {
   const sim = simulateFight(fight, { numSims, seed });
-  const { probs } = sim;
   const projections = poissonProjections(fight);
-  const confidence = confidenceScore(fight, probs);
+  const confidence = confidenceScore(fight, sim.probs);
+
+  // Calibrate the raw simulation output before anything downstream uses it.
+  const calFactor = calibrationFactor(
+    confidence.score,
+    Math.min(fight.fighterA.factors.ufcFights, fight.fighterB.factors.ufcFights)
+  );
+  const probs = calibrateProbs(sim.probs, calFactor);
+  sim.rawProbs = sim.probs;
+  sim.probs = probs;
+  sim.calibrationFactor = calFactor;
+
   const { odds } = fight;
 
   // Vig-free moneyline market probabilities for trap/coin-flip detection

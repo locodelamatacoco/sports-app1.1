@@ -9,6 +9,8 @@ import {
   analyzeCard,
   gradeBet,
   betUnits,
+  calibrationFactor,
+  calibrateProbs,
   BET_RULES,
 } from './ufcSimulator';
 import { UFC_CARD } from '../data/ufcFights';
@@ -229,5 +231,47 @@ describe('card-level filters', () => {
     expect(reasons).toMatch(/high-variance/);
     expect(reasons).toMatch(/poor cardio/);
     expect(reasons).toMatch(/low UFC sample/);
+  });
+});
+
+describe('probability calibration', () => {
+  test('compression factor rises with confidence and UFC sample', () => {
+    expect(calibrationFactor(4, 0)).toBeLessThan(calibrationFactor(9, 0));
+    expect(calibrationFactor(8, 1)).toBeLessThan(calibrationFactor(8, 15));
+    // Even a maximum-confidence, high-sample fight keeps a little compression:
+    // the simulation is never trusted at full strength.
+    const best = calibrationFactor(10, 20);
+    expect(best).toBeGreaterThan(0.9);
+    expect(best).toBeLessThan(1);
+    // The worst case is heavily compressed but never inverts the pick.
+    expect(calibrationFactor(1, 0)).toBeGreaterThan(0.2);
+  });
+
+  test('calibrated probabilities stay a valid distribution', () => {
+    const analysis = analyzeFight(UFC_CARD.fights[0], { numSims: 4000, seed: 11 });
+    const p = analysis.sim.probs;
+    const total =
+      p.aKO + p.aSub + p.aDec + p.bKO + p.bSub + p.bDec + p.draw;
+    expect(total).toBeCloseTo(1, 6);
+    expect(p.aWin).toBeCloseTo(p.aKO + p.aSub + p.aDec, 6);
+    expect(p.bWin).toBeCloseTo(p.bKO + p.bSub + p.bDec, 6);
+  });
+
+  test('compression pulls the favourite toward parity without flipping the pick', () => {
+    const raw = { aWin: 0.9, bWin: 0.1, draw: 0, aKO: 0.5, aSub: 0.2, aDec: 0.2, bKO: 0.05, bSub: 0.02, bDec: 0.03, goesDistance: 0.3 };
+    const out = calibrateProbs(raw, 0.6);
+    expect(out.aWin).toBeLessThan(raw.aWin);
+    expect(out.aWin).toBeGreaterThan(0.5);
+    expect(out.aWin + out.bWin).toBeCloseTo(1, 6);
+    expect(out.goesDistance).toBe(raw.goesDistance); // round markets untouched
+  });
+
+  test('raw simulation output is preserved alongside the calibrated one', () => {
+    const analysis = analyzeFight(UFC_CARD.fights[0], { numSims: 2000, seed: 7 });
+    expect(analysis.sim.rawProbs).toBeDefined();
+    expect(analysis.sim.calibrationFactor).toBeLessThanOrEqual(1);
+    const rawFav = Math.max(analysis.sim.rawProbs.aWin, analysis.sim.rawProbs.bWin);
+    const calFav = Math.max(analysis.sim.probs.aWin, analysis.sim.probs.bWin);
+    expect(calFav).toBeLessThanOrEqual(rawFav + 1e-9);
   });
 });
