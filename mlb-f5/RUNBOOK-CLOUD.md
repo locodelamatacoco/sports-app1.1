@@ -169,6 +169,46 @@ the right number. It gets a forward test regardless.
 - Reported by `divergence_trial.py` under the SHADOW banner. **A human
   edits `HARD_VETO`, never the daily routine.**
 
+### VERDICT 2026-09-21: **EXTEND** — underpowered, not contradicted
+
+Final against the rule pre-registered 2026-09-07 (no criteria changed):
+
+| cohort | record | hit | P/L | ROI | n |
+|---|---|---|---|---|---|
+| BAND (would drop) | 11-9 | 55.0% | −1.37u | −6.8% | **20** |
+| KEPT (would remain) | 23-18 | 56.1% | −1.31u | −3.2% | 41 |
+| LIVE (as played) | 34-27 | 55.7% | −2.68u | −4.4% | 61 |
+
+`n_band = 20 < 25` → **EXTEND**. Not ADOPT, not REJECT.
+
+What thirteen days of watching it actually showed:
+
+- **Hit rate did not separate.** All three cohorts landed between 55.0%
+  and 56.1%. On the metric Jonathan actually cares about, the band is
+  indistinguishable from the rest of the card.
+- **ROI mildly favors dropping the band** (−6.8% vs −3.2% kept), and the
+  tightened card was steadier — 62% green days vs 54%, maxDD 3.90u vs
+  6.73u. Real but small.
+- **The direction reversed four times in fourteen days.** Days 1–9 ran
+  hard against the hypothesis, days 11 and 13 for it, day 12 against.
+  That flip-flopping is itself evidence: a band with a genuine edge
+  would not keep changing sign at n≈15.
+- The band produces ~1.4 plays/day, so a 14-day window can never reach
+  n=25. **Any future window for this hypothesis must be 28 days.**
+
+Accumulated backtest (now 316 settled plays) still points the same way
+it did on 9/07: BAND 62-55, −6.9% ROI over n=117; KEPT essentially
+break-even at −0.1% vs LIVE −2.6%. So the forward trial is underpowered
+rather than contradictory — the opposite of the tier gate, which
+reversed outright.
+
+**Action: `HARD_VETO` stays 0.30. Live card unchanged.** Extending is
+the honest call, but only under the original criteria and a 28-day
+window; if a second window also fails to reach n=25 or again fails to
+separate on hit rate, the hypothesis is dead and does not get a third
+run. Re-testing until it passes is the failure mode this discipline
+exists to prevent.
+
 ## Morning brief — ranked plays table format
 
 Requested 2026-09-08. The pitching matchup is the single thing Jonathan
