@@ -492,3 +492,8 @@ date,game,market,model_prob,bet_side,odds,result,note
 2026-09-20,WSH@STL,F5,0.68,STL,-133,W,cohort=ranked RANKED #6 edge +5.8% full CONFIRMED PARLAY-LEG FADE J.Irvin-5.51-96IP Q.Mathews-3.62 cheaper-way-to-buy-same-idea; F5 STL 2-1 thru5 WIN (STL won 5-3)
 2026-09-20,PHI@NYM,F5,0.52,NYM,140,L,cohort=ranked RANKED #7 edge +5.8% full None-tier NEGATIVE-gap-0.50 Tong-3.43 vs C.Sanchez-2.93-193IP pure-price-and-bats-flagged; F5 NYM 0-4 thru5 LOSS (PHI won 7-2)
 2026-09-20,MIN@LAA,F5,0.62,LAA,-105,L,cohort=ranked RANKED #8 edge +5.6% full None-tier R.Johnson-4.88-own-arm-no-edge vs D.Kremer-5.35-77IP; F5 LAA 0-3 thru5 LOSS (MIN won 8-0)
+2026-09-22,WSH@DET,F5,0.85,DET,-150,L,cohort=ranked RANKED #1 edge +8.8% HALF(gap28) CONFIRMED FADE J.Kent-6.40-32IP-small-sample-flagged D.Anderson-3.62 hot-bats-5.9; F5 DET 0-1 thru5 LOSS (DET won full 3-1)
+2026-09-22,HOU@SEA,F5,0.83,SEA,-145,L,cohort=ranked RANKED #2 edge +8.6% HALF(gap26) None-tier Gilbert-3.69 vs C.Javier-5.31-61IP hot-bats-5.7; F5 SEA 0-4 thru5 LOSS (HOU won 7-0)
+2026-09-22,CLE@BOS,F5,0.66,CLE,113,W,cohort=ranked RANKED #3 edge +8.3% HALF(gap21) None-tier Messick-2.57 vs P.Tolle-3.02-143IP-good-arm gap-0.45 bats-play-5.6-L10; F5 CLE 2-1 thru5 WIN (CLE won 3-2)
+2026-09-22,AZ@COL,F5,0.81,AZ,-165,W,cohort=ranked RANKED #4 edge +8.3% HALF(gap21) CONFIRMED FADE K.Freeland-6.38-128IP-WHIP-1.47-corroborated Soroka-3.45 top-gap-2.93 called-best-play-lead-with; F5 AZ 6-2 thru5 WIN (AZ won 7-2)
+2026-09-22,CIN@ATL,F5,0.77,ATL,-176,L,cohort=ranked RANKED #5 edge +6.4% full CONFIRMED PARLAY-LEG FADE Williamson-5.56-43IP own-arm-JR-Ritchie-5.03-no-edge-flagged-weakest-parlay; F5 ATL 0-1 thru5 LOSS (ATL won full 4-0)
