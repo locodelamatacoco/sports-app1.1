@@ -497,3 +497,8 @@ date,game,market,model_prob,bet_side,odds,result,note
 2026-09-22,CLE@BOS,F5,0.66,CLE,113,W,cohort=ranked RANKED #3 edge +8.3% HALF(gap21) None-tier Messick-2.57 vs P.Tolle-3.02-143IP-good-arm gap-0.45 bats-play-5.6-L10; F5 CLE 2-1 thru5 WIN (CLE won 3-2)
 2026-09-22,AZ@COL,F5,0.81,AZ,-165,W,cohort=ranked RANKED #4 edge +8.3% HALF(gap21) CONFIRMED FADE K.Freeland-6.38-128IP-WHIP-1.47-corroborated Soroka-3.45 top-gap-2.93 called-best-play-lead-with; F5 AZ 6-2 thru5 WIN (AZ won 7-2)
 2026-09-22,CIN@ATL,F5,0.77,ATL,-176,L,cohort=ranked RANKED #5 edge +6.4% full CONFIRMED PARLAY-LEG FADE Williamson-5.56-43IP own-arm-JR-Ritchie-5.03-no-edge-flagged-weakest-parlay; F5 ATL 0-1 thru5 LOSS (ATL won full 4-0)
+2026-09-23,LAA@ATH,F5,0.82,LAA,-130,L,cohort=ranked RANKED #1 edge +8.8% HALF(gap28) CONFIRMED FADE J.Springs-6.18-138IP Urena-2.74 top-gap-3.44 called-best-play-user-flagged-cold-bats-correctly; F5 LAA 3-5 thru5 LOSS (ATH won 7-3)
+2026-09-23,STL@PIT,F5,0.77,PIT,-130,L,cohort=ranked RANKED #2 edge +8.2% HALF(gap23) None-tier Bachar-3.56 vs M.Liberatore-5.36-149IP offered-as-livelier-alternative; F5 PIT 1-5 thru5 LOSS (STL won 5-1)
+2026-09-23,CIN@ATL,F5,0.89,ATL,-285,L,cohort=ranked RANKED #3 edge +6.6% full STEEP None-tier Sale-2.18 vs A.Abbott-4.70-159IP-good-arm-not-a-fade; F5 ATL 0-1 thru5 LOSS (ATL won full 3-2)
+2026-09-23,MIL@PHI,F5,0.84,MIL,-128,W,cohort=shadow HARD-VETO gap30-boundary edge +9.7% no-fade Henderson-2.51-WHIP-0.81-93IP vs Nola-4.49-168IP MIL-F5-73.4pct-3.77-F5RPG hot-6.4 NO BET; F5 MIL 4-1 thru5 WIN (MIL won 4-1)
+2026-09-23,CWS@KC,F5,0.82,CWS,-105,P,cohort=shadow HARD-VETO gap33 edge +10.9% no-fade Lugo-5.06-169IP hot-bats-5.9 NO BET; F5 4-4 thru5 PUSH (KC won 5-4)
