@@ -111,3 +111,47 @@ def test_clv_sign_is_taken_from_the_bettor_side(monkeypatch, capsys):
     monkeypatch.setattr(track.pd, "read_csv", lambda *a, **k: _SCHED_CLV.copy())
     track._clv_report(picks)
     assert "+1.00 pts" in capsys.readouterr().out   # took -7.5, closed -8.5
+
+
+# --------------------------------------------------------------------------- #
+# Pre-kickoff projection revisions
+# --------------------------------------------------------------------------- #
+def _proj_row(eid, kickoff, margin):
+    return {"recorded_at": "2026-09-24T00:00:00+00:00", "eid": eid, "season": 2026,
+            "week": 3, "kickoff": kickoff, "away": "MIN", "home": "TB",
+            "home_partid": 1, "away_partid": 2, "model_margin": margin,
+            "market_line": -1.5, "home_score": None, "away_score": None,
+            "actual_margin": None, "model_error": None, "market_error": None}
+
+
+def _game(margin, line=-1.5):
+    return {"id": "OT_99", "away": "MIN", "home": "TB", "projectedMargin": margin,
+            "market": {"spreadLine": line}}
+
+
+def test_projection_is_revised_before_kickoff():
+    future = (pd.Timestamp.now(tz="UTC") + pd.Timedelta(days=2)).isoformat()
+    proj = pd.DataFrame([_proj_row(99, future, -0.03)])
+    assert track._revise_projection(proj, 99, _game(-0.9), "now") == 1
+    assert proj.at[0, "model_margin"] == -0.9
+
+
+def test_projection_is_sealed_once_the_game_starts():
+    past = (pd.Timestamp.now(tz="UTC") - pd.Timedelta(hours=1)).isoformat()
+    proj = pd.DataFrame([_proj_row(99, past, -0.03)])
+    # A game under way must never have its forecast rewritten, for any reason.
+    assert track._revise_projection(proj, 99, _game(-9.9), "now") == 0
+    assert proj.at[0, "model_margin"] == -0.03
+
+
+def test_unchanged_projection_is_not_rewritten():
+    future = (pd.Timestamp.now(tz="UTC") + pd.Timedelta(days=2)).isoformat()
+    proj = pd.DataFrame([_proj_row(99, future, -0.03)])
+    # A hundredth of a point is noise, not news -- leave the record alone.
+    assert track._revise_projection(proj, 99, _game(-0.04), "now") == 0
+    assert proj.at[0, "model_margin"] == -0.03
+
+
+def test_unparseable_kickoff_is_left_alone():
+    proj = pd.DataFrame([_proj_row(99, "not a date", -0.03)])
+    assert track._revise_projection(proj, 99, _game(-9.9), "now") == 0

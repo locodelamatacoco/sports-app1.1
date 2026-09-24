@@ -151,9 +151,13 @@ def _record_projections(payload: dict) -> None:
     now = datetime.now(timezone.utc).isoformat(timespec="seconds")
 
     rows = []
+    revised = 0
     for game in payload.get("games", []):
         eid = _to_int(str(game.get("id", "")).replace("OT_", ""))
-        if eid is None or eid in seen:
+        if eid is None:
+            continue
+        if eid in seen:
+            revised += _revise_projection(existing_proj, eid, game, now)
             continue
         rows.append({
             "recorded_at": now, "eid": eid,
@@ -165,10 +169,56 @@ def _record_projections(payload: dict) -> None:
             "home_score": None, "away_score": None, "actual_margin": None,
             "model_error": None, "market_error": None,
         })
-    if rows:
-        out = pd.concat([existing_proj, pd.DataFrame(rows)], ignore_index=True)[PROJ_COLUMNS]
+    if rows or revised:
+        # Revisions are applied in place on existing_proj, so concatenating it
+        # carries them through alongside any genuinely new rows.
+        out = (pd.concat([existing_proj, pd.DataFrame(rows)], ignore_index=True)
+               if rows else existing_proj)[PROJ_COLUMNS]
         out.to_csv(PROJECTIONS, index=False)
-        print(f"Logged {len(rows)} game projections ({len(out)} total).")
+        parts = []
+        if rows:
+            parts.append(f"Logged {len(rows)} game projections ({len(out)} total)")
+        if revised:
+            parts.append(f"revised {revised} pre-kickoff projection(s)")
+        print("; ".join(parts) + ".")
+
+
+def _revise_projection(proj: pd.DataFrame, eid: int, game: dict, now: str) -> int:
+    """Update a logged projection for a game that has not kicked off yet.
+
+    News moves a projection -- a quarterback clearing concussion protocol is
+    worth a couple of points, and reacting to that is the whole job. Leaving the
+    first number frozen would score the model against a forecast it no longer
+    holds, which flatters or damns it for the wrong reason.
+
+    The guard that keeps this honest is kickoff, not intent: once a game has
+    started its projection is sealed, so this can never quietly rewrite a
+    forecast in light of how the game is going. Returns 1 if a row changed.
+    """
+    idx = proj.index[proj["eid"] == eid]
+    if len(idx) == 0:
+        return 0
+    row = idx[0]
+    kickoff = proj.at[row, "kickoff"]
+    try:
+        if pd.Timestamp(kickoff, tz="UTC") <= pd.Timestamp.now(tz="UTC"):
+            return 0  # already under way: the record stands
+    except (ValueError, TypeError):
+        return 0  # unparseable kickoff: never touch it
+
+    new_margin = game.get("projectedMargin")
+    new_line = game["market"].get("spreadLine")
+    old_margin = proj.at[row, "model_margin"]
+    if new_margin is None or (pd.notna(old_margin) and abs(float(old_margin) - float(new_margin)) < 0.05):
+        return 0
+
+    print(f"  [revised] {game['away']} @ {game['home']}: projection "
+          f"{float(old_margin):+.1f} -> {float(new_margin):+.1f} (pre-kickoff)")
+    proj.at[row, "model_margin"] = new_margin
+    if new_line is not None:
+        proj.at[row, "market_line"] = new_line
+    proj.at[row, "recorded_at"] = now
+    return 1
 
 
 def _load_projections() -> pd.DataFrame:
