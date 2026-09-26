@@ -509,3 +509,7 @@ date,game,market,model_prob,bet_side,odds,result,note
 2026-09-24,CIN@ATL,F5,0.85,ATL,-200,W,cohort=ranked RANKED #5 edge +7.7% HALF(gap21) STEEP CONFIRMED FADE B.Singer-5.67-154IP-WHIP-1.56 Mahle-3.81 ATL-F5-31pct-1.44-flagged-anyway; F5 ATL 6-5 thru5 WIN (ATL won 7-6)
 2026-09-24,LAA@SEA,F5,0.85,SEA,-197,W,cohort=ranked RANKED #6 edge +7.6% full CONFIRMED PARLAY-LEG FADE G.Rodriguez-5.96-93IP B.Woo-3.92 hot-bats-5.4; F5 SEA 4-3 thru5 WIN (SEA won 6-4)
 2026-09-24,SD@LAD,F5,0.51,SD,144,P,cohort=ranked RANKED #7 edge +5.6% full None-tier Pivetta-3.30 vs Glasnow-3.46-67IP gap-0.16-nothing hot-bats-6.2; F5 0-0 thru5 PUSH (SD won 4-2)
+2026-09-25,COL@CWS,F5,0.87,CWS,-225,W,cohort=ranked RANKED #1 edge +7.0% full STEEP None-tier S.Burke-3.40 vs Sugano-5.36-147IP hot-bats-6.5; F5 CWS 3-1 thru5 WIN (CWS won 6-1)
+2026-09-25,TB@PHI,F5,0.75,PHI,-165,L,cohort=ranked RANKED #2 edge +6.3% full None-tier C.Sanchez-2.93 vs F.Peralta-4.56-163IP-not-a-fade-flagged cold-bats-3.9; F5 PHI 0-2 thru5 LOSS (TB won 2-0)
+2026-09-25,HOU@ATH,F5,0.74,HOU,-165,W,cohort=ranked RANKED #3 edge +6.3% full CONFIRMED FADE J.Lopez-5.68-117IP-WHIP-1.53 H.Brown-3.26 deep-bad-arm called-the-play; F5 HOU 1-0 thru5 WIN (ATH won full 6-5)
+2026-09-25,CIN@TOR,F5,0.71,TOR,-147,L,cohort=ranked LATE-PASS edge +6.0% full None-tier Soriano-3.72 vs Lodolo-5.04-103IP-UNDER-5.40-gate not-a-fade-cohort-45.7pct advised-SKIP-pregame; F5 TOR 2-5 thru5 LOSS (TOR won full 6-5)
