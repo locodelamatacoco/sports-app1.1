@@ -213,7 +213,7 @@ def _revise_projection(proj: pd.DataFrame, eid: int, game: dict, now: str) -> in
         return 0
 
     print(f"  [revised] {game['away']} @ {game['home']}: projection "
-          f"{float(old_margin):+.1f} -> {float(new_margin):+.1f} (pre-kickoff)")
+          f"{float(old_margin):+.2f} -> {float(new_margin):+.2f} (pre-kickoff)")
     proj.at[row, "model_margin"] = new_margin
     if new_line is not None:
         proj.at[row, "market_line"] = new_line
