@@ -10,3 +10,4 @@ venv/
 
 # Generated model output (the committed sample under src/data/ is the exception)
 output/*.json
+output/box_scores.csv
