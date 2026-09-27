@@ -204,3 +204,34 @@ def test_illegal_prices_never_become_quotes():
     rows = [_spread_row(10, -3.5, -110), _spread_row(10, -3.5, -2)]
     out = ot.parse_current_lines(_EVENTS, rows)[0]
     assert out["home_spread_quotes"] == [(3.5, -110)]
+
+
+# --------------------------------------------------------------------------- #
+# Started games must leave the board
+# --------------------------------------------------------------------------- #
+def _slate_row(away, home, kickoff, status="pre"):
+    return {"game_id": f"OT_{away}{home}", "gameday": kickoff, "away_team": away,
+            "home_team": home, "status": status, "spread_line": 3.0}
+
+
+def test_finished_games_are_dropped_even_when_status_says_pre():
+    past = (pd.Timestamp.now(tz="UTC") - pd.Timedelta(days=2)).isoformat()
+    future = (pd.Timestamp.now(tz="UTC") + pd.Timedelta(days=1)).isoformat()
+    slate = pd.DataFrame([_slate_row("ATL", "GB", past), _slate_row("KC", "MIA", future)])
+    out = ot.drop_started_games(slate)
+    assert list(out["away_team"]) == ["KC"]
+
+
+def test_a_game_already_under_way_is_dropped():
+    live = (pd.Timestamp.now(tz="UTC") - pd.Timedelta(minutes=20)).isoformat()
+    out = ot.drop_started_games(pd.DataFrame([_slate_row("NE", "JAX", live)]))
+    assert out.empty
+
+
+def test_unparseable_kickoff_is_kept_rather_than_silently_dropped():
+    slate = pd.DataFrame([_slate_row("NE", "JAX", "not a date")])
+    assert len(ot.drop_started_games(slate)) == 1
+
+
+def test_empty_slate_survives():
+    assert ot.drop_started_games(pd.DataFrame()).empty

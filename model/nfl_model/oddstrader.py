@@ -330,12 +330,35 @@ def fetch_current_lines(eids: List[int], catid: int, timeout: int) -> List[dict]
     return _graphql(query, timeout) .get("currentLines", []) or []
 
 
+def drop_started_games(slate: pd.DataFrame) -> pd.DataFrame:
+    """Remove games that have already kicked off.
+
+    The board keeps finished games listed with ``status`` still reading "pre" --
+    ATL @ GB sat on the slate two days after it ended 35-14, and the gate duly
+    priced it and flagged a bet on it. Status cannot be trusted to say whether a
+    game is live, so go by kickoff: anything at or past its start time is gone
+    from the board we price. A bet cannot be placed on a game in progress, and
+    one "flagged" after the result is known is worse than useless -- it would
+    enter the ledger as a pick we never could have made.
+    """
+    if slate.empty or "gameday" not in slate.columns:
+        return slate
+    kickoff = pd.to_datetime(slate["gameday"], utc=True, errors="coerce")
+    upcoming = kickoff.isna() | (kickoff > pd.Timestamp.now(tz="UTC"))
+    dropped = int((~upcoming).sum())
+    if dropped:
+        for _, r in slate[~upcoming].iterrows():
+            print(f"[slate] dropping {r['away_team']} @ {r['home_team']} "
+                  f"— kicked off {r['gameday']}")
+    return slate[upcoming].reset_index(drop=True)
+
+
 def fetch_oddstrader_slate(catid: int = DEFAULT_CATID, timeout: int = 30) -> pd.DataFrame:
     """Scrape the current NFL slate + consensus odds from OddsTrader."""
     state = extract_initial_state(_http_get(NFL_PAGE_URL, timeout))
     events = parse_events(state)
     line_rows = fetch_current_lines(list(events.keys()), catid=catid, timeout=timeout)
-    return pd.DataFrame(parse_current_lines(events, line_rows))
+    return drop_started_games(pd.DataFrame(parse_current_lines(events, line_rows)))
 
 
 # --------------------------------------------------------------------------- #
