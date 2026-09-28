@@ -519,3 +519,7 @@ date,game,market,model_prob,bet_side,odds,result,note
 2026-09-26,HOU@ATH,F5,0.75,HOU,-155,W,cohort=ranked RANKED #4 edge +7.0% full CONFIRMED PARLAY-LEG FADE Perkins-5.90-116IP Wesneski-3.50 recommended-leg; F5 HOU 6-1 thru5 WIN (HOU won 13-2)
 2026-09-26,TEX@MIN,F5,0.64,MIN,110,L,cohort=ranked RANKED #5 edge +6.8% full None-tier B.Ober-4.21 vs Eovaldi-4.27-141IP gap-0.06-nothing advised-skip-pregame; F5 MIN 1-6 thru5 LOSS (TEX won 6-2)
 2026-09-26,CLE@KC,F5,0.67,KC,-125,L,cohort=ranked RANKED #6 edge +5.8% full None-tier Wacha-3.33 vs Bibee-4.35-182IP-not-a-fade; F5 KC 3-5 thru5 LOSS (CLE won 11-5)
+2026-09-27,TB@PHI,F5,0.58,TB,150,L,cohort=ranked RANKED #1 edge +8.5% full None-tier N.Martinez-2.94 vs Wheeler-3.06-156IP-NOT-a-fade gap-0.12 flagged-weakest-mechanism; F5 TB 1-7 thru5 LOSS (PHI won 7-3)
+2026-09-27,COL@CWS,F5,0.87,CWS,-165,W,cohort=ranked RANKED #2 edge +8.4% HALF(gap27) CONFIRMED FADE Freeland-6.58-131IP-WHIP-1.52-deep own-arm-A.Kay-4.53-no-edge hot-bats-6.4; F5 CWS 4-1 thru5 WIN (CWS won 4-2)
+2026-09-27,CLE@KC,F5,0.72,CLE,-120,L,cohort=ranked RANKED #3 edge +7.6% HALF(gap20) None-tier Messick-2.55 vs D.Lynch-4.13-80IP-not-a-fade hot-bats-5.8; F5 CLE 1-2 thru5 LOSS (KC won 3-2)
+2026-09-27,HOU@ATH,F5,0.77,HOU,-165,W,cohort=ranked RANKED #4 edge +7.3% full CONFIRMED FADE S.Johnson-6.19-32IP-THIN-cohort-flagged P.Lambert-3.87; F5 HOU 4-0 thru5 WIN (HOU won 9-0)

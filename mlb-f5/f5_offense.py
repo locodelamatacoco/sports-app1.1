@@ -96,10 +96,17 @@ def main():
         return
 
     id2ab = {}
-    for g in sched.get("dates", [{}])[0].get("games", []):
-        for s in ("away", "home"):
-            t = g["teams"][s]["team"]
-            id2ab[t["id"]] = t.get("abbreviation", str(t["id"]))
+    # An empty slate (off day, end of the regular season) has no dates[] at
+    # all — same guard daily_run.run() and odds_fetch.slate_games() carry.
+    for d in sched.get("dates", []):
+        for g in d.get("games", []):
+            for s in ("away", "home"):
+                t = g["teams"][s]["team"]
+                id2ab[t["id"]] = t.get("abbreviation", str(t["id"]))
+    if not id2ab:
+        print("\n[skip comparison] no games on today's slate — "
+              "f5_offense.json was still written")
+        return
 
     print("\n=== F5 offense vs FULL-GAME offense (teams on today's slate) ===")
     print(f"{'TM':4} {'full R/G':>9} {'F5 R/G':>8} {'F5 share':>9} {'F5 L10':>8}  read")
