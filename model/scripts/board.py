@@ -1,4 +1,109 @@
-<title>Season Model Board</title>
+#!/usr/bin/env python3
+"""Generate the season board HTML from the ledger and projection log.
+
+The board was hand-maintained for one week and immediately went stale, which
+is the wrong shape for a thing that changes every Sunday. This rebuilds it from
+``output/projections.csv`` and ``output/ledger.csv`` -- the two files that are
+the actual record -- so refreshing it is one command rather than an editing
+session.
+
+    python -m scripts.board --out output/season-board.html
+
+Design notes live in the template below; the short version is that the page
+leads with the week-by-week gap between the model and the closing line, since
+that is the only measurement on the page accumulating fast enough to mean
+anything, and relegates the bet record to a supporting role.
+"""
+from __future__ import annotations
+
+import argparse
+import json
+import os
+import sys
+
+import numpy as np
+import pandas as pd
+
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+PROJECTIONS = os.path.join(HERE, "output", "projections.csv")
+LEDGER = os.path.join(HERE, "output", "ledger.csv")
+
+
+def parse_args() -> argparse.Namespace:
+    p = argparse.ArgumentParser(description=__doc__,
+                                formatter_class=argparse.RawDescriptionHelpFormatter)
+    p.add_argument("--out", default="output/season-board.html")
+    p.add_argument("--projections", default=PROJECTIONS)
+    p.add_argument("--ledger", default=LEDGER)
+    return p.parse_args()
+
+
+def collect(projections: str, ledger: str) -> dict:
+    proj = pd.read_csv(projections)
+    led = pd.read_csv(ledger)
+    proj["ko"] = pd.to_datetime(proj["kickoff"], utc=True)
+
+    weeks = []
+    for wk, g in proj.groupby("week"):
+        g = g.sort_values("ko")
+        done = g[g["actual_margin"].notna()]
+        gap = (done["model_error"] - done["market_error"]).to_numpy(dtype=float)
+        picks = led[led["week"] == wk]
+        settled = picks[picks["profit"].notna()]
+        games = []
+        for r in g.itertuples():
+            rows = led[led["eid"] == r.eid]
+            games.append({
+                "away": r.away, "home": r.home,
+                "line": _f(r.market_line), "model": _f(r.model_margin, 1),
+                "actual": _f(r.actual_margin, 0),
+                # + means the model landed closer to the truth than the line did
+                "d": None if pd.isna(r.market_error)
+                     else round(float(r.market_error - r.model_error), 1),
+                "picks": [{"label": p.label, "odds": int(p.book_odds),
+                           "res": None if pd.isna(p.result) else p.result}
+                          for p in rows.itertuples()],
+            })
+        weeks.append({
+            "week": int(wk), "games": games, "final": int(len(done)),
+            "mMAE": _f(done["model_error"].mean(), 2) if len(done) else None,
+            "kMAE": _f(done["market_error"].mean(), 2) if len(done) else None,
+            "diff": round(float(gap.mean()), 2) if len(gap) else None,
+            "units": round(float(settled["profit"].sum()), 2) if len(settled) else 0.0,
+            "w": int((settled["profit"] > 0).sum()),
+            "l": int((settled["profit"] < 0).sum()),
+            "p": int((settled["profit"] == 0).sum()),
+            "open": int(picks["profit"].isna().sum()),
+        })
+
+    done = proj[proj["actual_margin"].notna()]
+    gap = (done["model_error"] - done["market_error"]).to_numpy(dtype=float)
+    se = gap.std(ddof=1) / np.sqrt(len(gap)) if len(gap) > 1 else float("nan")
+    settled = led[led["profit"].notna()]
+    profit = settled["profit"].to_numpy(dtype=float)
+    season = {
+        "games": int(len(proj)), "final": int(len(done)),
+        "mMAE": _f(done["model_error"].mean(), 2),
+        "kMAE": _f(done["market_error"].mean(), 2),
+        "diff": round(float(gap.mean()), 2),
+        "lo": round(float(gap.mean() - 1.96 * se), 2),
+        "hi": round(float(gap.mean() + 1.96 * se), 2),
+        "beat": int((gap < 0).sum()),
+        "units": round(float(profit.sum()), 2),
+        "roi": round(float(profit.mean() * 100), 2),
+        "w": int((profit > 0).sum()), "l": int((profit < 0).sum()),
+        "p": int((profit == 0).sum()), "openPicks": int(led["profit"].isna().sum()),
+    }
+    return {"weeks": weeks, "season": season}
+
+
+def _f(v, places: int = 2):
+    return None if v is None or pd.isna(v) else round(float(v), places)
+
+
+TEMPLATE = """<title>Season Model Board</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
 <style>
   :root {
@@ -194,7 +299,7 @@
 
 <div class="wrap">
   <header>
-    <p class="eyebrow">2026 NFL &middot; through week 3</p>
+    <p class="eyebrow">__EYEBROW__</p>
     <h1>Season Model Board</h1>
     <p class="lede">
       Every projection written down before kickoff, scored against the number the
@@ -204,14 +309,14 @@
 
   <section class="verdict">
     <div>
-      <p class="verdict-line">Across 48 games the model and the closing line are now <em>within 0.27 points</em> of each other.</p>
-      <p class="verdict-sub">The 95% interval on that gap is [-0.53, +1.06] points, so it no longer separates from zero. Week by week the gap reads +1.05, +0.26, -0.51 &mdash; narrowing every week, and negative means the model was closer.</p>
+      <p class="verdict-line">__VERDICT__</p>
+      <p class="verdict-sub">__VERDICT_SUB__</p>
     </div>
     <dl class="strip">
-      <div class="cell"><dt>Model error</dt><dd>10.78</dd><small>mean absolute, points</small></div>
-      <div class="cell"><dt>Closing-line error</dt><dd>10.51</dd><small>the number to beat</small></div>
-      <div class="cell"><dt>Games won outright</dt><dd>19 <span style="font-size:14px;color:var(--ink-muted)">/ 48</span></dd><small>model closer than the line</small></div>
-      <div class="cell"><dt>Flagged picks</dt><dd class="good">+3.16u</dd><small>17&ndash;16&ndash;1 &middot; ROI +9.3%</small></div>
+      <div class="cell"><dt>Model error</dt><dd>__MMAE__</dd><small>mean absolute, points</small></div>
+      <div class="cell"><dt>Closing-line error</dt><dd>__KMAE__</dd><small>the number to beat</small></div>
+      <div class="cell"><dt>Games won outright</dt><dd>__BEAT__ <span style="font-size:14px;color:var(--ink-muted)">/ __FINAL__</span></dd><small>model closer than the line</small></div>
+      <div class="cell"><dt>Flagged picks</dt><dd class="__UCLASS__">__UNITS__</dd><small>__PICKREC__</small></div>
     </dl>
   </section>
 
@@ -267,13 +372,13 @@
 </div>
 
 <script>
-var DATA = {"weeks":[{"week":1,"games":[{"away":"NE","home":"SEA","line":3.0,"model":5.7,"actual":3.0,"d":-2.7,"picks":[{"label":"SEA -3","odds":-115,"res":"push"}]},{"away":"SF","home":"LA","line":3.5,"model":4.1,"actual":-20.0,"d":-0.6,"picks":[]},{"away":"CHI","home":"CAR","line":-3.0,"model":-1.2,"actual":-22.0,"d":-1.8,"picks":[{"label":"CAR +3","odds":-105,"res":"loss"}]},{"away":"BAL","home":"IND","line":-3.5,"model":1.4,"actual":-18.0,"d":-4.9,"picks":[{"label":"IND ML","odds":154,"res":"loss"},{"label":"IND +3.5","odds":-116,"res":"loss"}]},{"away":"ATL","home":"PIT","line":3.5,"model":2.4,"actual":7.0,"d":-1.1,"picks":[]},{"away":"TB","home":"CIN","line":4.0,"model":0.4,"actual":6.0,"d":-3.6,"picks":[{"label":"TB ML","odds":170,"res":"loss"},{"label":"TB +4","odds":-110,"res":"loss"}]},{"away":"NYJ","home":"TEN","line":1.0,"model":2.0,"actual":-13.0,"d":-1.0,"picks":[]},{"away":"NO","home":"DET","line":7.0,"model":8.2,"actual":1.0,"d":-1.2,"picks":[]},{"away":"BUF","home":"HOU","line":-1.0,"model":0.5,"actual":-5.0,"d":-1.5,"picks":[]},{"away":"CLE","home":"JAX","line":9.0,"model":8.7,"actual":24.0,"d":-0.3,"picks":[]},{"away":"ARI","home":"LAC","line":9.5,"model":6.5,"actual":-12.0,"d":3.0,"picks":[{"label":"ARI ML","odds":371,"res":"win"},{"label":"ARI +9.5","odds":-110,"res":"win"}]},{"away":"GB","home":"MIN","line":1.0,"model":2.2,"actual":17.0,"d":1.2,"picks":[]},{"away":"MIA","home":"LV","line":3.5,"model":-0.2,"actual":14.0,"d":-3.7,"picks":[{"label":"MIA ML","odds":160,"res":"loss"},{"label":"MIA +3.5","odds":-112,"res":"loss"}]},{"away":"WAS","home":"PHI","line":4.5,"model":5.6,"actual":2.0,"d":-1.1,"picks":[]},{"away":"DAL","home":"NYG","line":-3.0,"model":-0.7,"actual":8.0,"d":2.3,"picks":[{"label":"NYG ML","odds":136,"res":"win"},{"label":"NYG +3","odds":-115,"res":"win"}]},{"away":"DEN","home":"KC","line":2.5,"model":2.7,"actual":21.0,"d":0.2,"picks":[]}],"final":16,"mMAE":12.39,"kMAE":11.34,"diff":1.05,"units":-0.15,"w":4,"l":7,"p":1,"open":0},{"week":2,"games":[{"away":"DET","home":"BUF","line":4.5,"model":4.2,"actual":10.0,"d":-0.3,"picks":[{"label":"DET +4.5","odds":-102,"res":"loss"}]},{"away":"PHI","home":"TEN","line":-7.0,"model":-7.2,"actual":-4.0,"d":-0.2,"picks":[]},{"away":"PIT","home":"NE","line":5.5,"model":6.2,"actual":17.0,"d":0.8,"picks":[]},{"away":"MIN","home":"CHI","line":5.5,"model":3.0,"actual":-6.0,"d":2.5,"picks":[{"label":"MIN +5.5","odds":-105,"res":"win"}]},{"away":"CAR","home":"ATL","line":-1.0,"model":4.1,"actual":-31.0,"d":-5.1,"picks":[{"label":"ATL +2","odds":-102,"res":"loss"}]},{"away":"GB","home":"NYJ","line":-3.5,"model":-5.6,"actual":-3.0,"d":-2.1,"picks":[{"label":"GB -3.5","odds":-110,"res":"loss"}]},{"away":"NO","home":"BAL","line":8.5,"model":8.1,"actual":-7.0,"d":0.4,"picks":[]},{"away":"CIN","home":"HOU","line":3.0,"model":7.2,"actual":-14.0,"d":-4.2,"picks":[{"label":"HOU -3","odds":109,"res":"loss"}]},{"away":"CLE","home":"TB","line":9.0,"model":4.9,"actual":-4.0,"d":4.1,"picks":[{"label":"CLE +9","odds":-115,"res":"win"}]},{"away":"JAX","home":"DEN","line":2.5,"model":0.6,"actual":7.0,"d":-1.9,"picks":[{"label":"JAX +2.5","odds":-103,"res":"loss"}]},{"away":"LV","home":"LAC","line":7.0,"model":8.2,"actual":-12.0,"d":-1.2,"picks":[{"label":"LAC -7","odds":-105,"res":"loss"}]},{"away":"SEA","home":"ARI","line":-4.0,"model":-8.3,"actual":-24.0,"d":4.3,"picks":[{"label":"SEA -4","odds":-108,"res":"win"}]},{"away":"MIA","home":"SF","line":13.5,"model":8.4,"actual":22.0,"d":-5.1,"picks":[{"label":"MIA +13.5","odds":-110,"res":"loss"}]},{"away":"WAS","home":"DAL","line":3.5,"model":3.6,"actual":17.0,"d":0.1,"picks":[]},{"away":"IND","home":"KC","line":6.5,"model":4.4,"actual":3.0,"d":2.1,"picks":[{"label":"IND +6.5","odds":100,"res":"win"}]},{"away":"NYG","home":"LA","line":7.0,"model":8.7,"actual":22.0,"d":1.7,"picks":[]}],"final":16,"mMAE":12.23,"kMAE":11.97,"diff":0.26,"units":-3.25,"w":4,"l":7,"p":0,"open":0},{"week":3,"games":[{"away":"ATL","home":"GB","line":4.5,"model":4.6,"actual":-21.0,"d":-0.1,"picks":[]},{"away":"KC","home":"MIA","line":-11.5,"model":-6.0,"actual":-14.0,"d":-5.5,"picks":[{"label":"MIA +11.5","odds":-114,"res":"loss"}]},{"away":"CAR","home":"CLE","line":-2.0,"model":1.7,"actual":3.0,"d":3.7,"picks":[{"label":"CLE +2.5","odds":104,"res":"win"}]},{"away":"TEN","home":"NYG","line":2.5,"model":9.1,"actual":5.0,"d":-1.6,"picks":[{"label":"NYG -3","odds":-107,"res":"win"}]},{"away":"NE","home":"JAX","line":3.0,"model":6.6,"actual":29.0,"d":3.6,"picks":[{"label":"JAX -3","odds":-105,"res":"win"}]},{"away":"LAC","home":"BUF","line":7.0,"model":9.5,"actual":8.0,"d":-0.5,"picks":[{"label":"BUF -7.5","odds":100,"res":"win"}]},{"away":"NYJ","home":"DET","line":6.5,"model":11.2,"actual":7.0,"d":-3.7,"picks":[{"label":"DET -6.5","odds":-114,"res":"win"}]},{"away":"HOU","home":"IND","line":-2.5,"model":-2.3,"actual":2.0,"d":0.2,"picks":[]},{"away":"SEA","home":"WAS","line":-7.0,"model":-4.9,"actual":2.0,"d":2.1,"picks":[{"label":"WAS +7","odds":-105,"res":"win"}]},{"away":"CIN","home":"PIT","line":-3.5,"model":1.7,"actual":3.0,"d":5.2,"picks":[{"label":"PIT +3.5","odds":-110,"res":"win"}]},{"away":"ARI","home":"SF","line":7.5,"model":10.7,"actual":6.0,"d":-3.2,"picks":[{"label":"SF -8.5","odds":-105,"res":"loss"}]},{"away":"MIN","home":"TB","line":-1.5,"model":-0.9,"actual":-7.0,"d":-0.6,"picks":[]},{"away":"BAL","home":"DAL","line":-3.0,"model":-3.5,"actual":-3.0,"d":-0.5,"picks":[]},{"away":"LV","home":"NO","line":3.5,"model":3.6,"actual":-8.0,"d":-0.1,"picks":[]},{"away":"LA","home":"DEN","line":-2.5,"model":0.3,"actual":4.0,"d":2.8,"picks":[{"label":"DEN +2.5","odds":-106,"res":"win"}]},{"away":"PHI","home":"CHI","line":-3.5,"model":2.6,"actual":20.0,"d":6.1,"picks":[{"label":"CHI +4.5","odds":-105,"res":"win"}]}],"final":16,"mMAE":7.71,"kMAE":8.22,"diff":-0.51,"units":6.56,"w":9,"l":2,"p":0,"open":0}],"season":{"games":48,"final":48,"mMAE":10.78,"kMAE":10.51,"diff":0.27,"lo":-0.53,"hi":1.06,"beat":19,"units":3.16,"roi":9.29,"w":17,"l":16,"p":1,"openPicks":0}};
+var DATA = __DATA__;
 var SCALE = 5;          // per-game chart: +/- 5 points of error difference
 var TREND_SCALE = 1.5;  // week trend: +/- 1.5 points, which contains every week
 
 function sgn(n, p) { p = p === undefined ? 1 : p;
-  return (n > 0 ? "+" : n < 0 ? "\u2212" : "") + Math.abs(n).toFixed(p); }
-function odds(n) { return (n > 0 ? "+" : "\u2212") + Math.abs(n); }
+  return (n > 0 ? "+" : n < 0 ? "\\u2212" : "") + Math.abs(n).toFixed(p); }
+function odds(n) { return (n > 0 ? "+" : "\\u2212") + Math.abs(n); }
 function el(t, c, x) { var e = document.createElement(t); if (c) e.className = c;
   if (x !== undefined) e.textContent = x; return e; }
 
@@ -300,7 +405,7 @@ function el(t, c, x) { var e = document.createElement(t); if (c) e.className = c
 
 (function perGame() {
   var last = DATA.weeks[DATA.weeks.length - 1];
-  document.getElementById("gamehead").textContent = "Game by game \u2014 week " + last.week;
+  document.getElementById("gamehead").textContent = "Game by game \\u2014 week " + last.week;
   document.getElementById("gamenote").textContent =
     "Each bar is one game: how many points closer the model's projected margin landed "
     + "to the final result than the closing line did.";
@@ -330,8 +435,8 @@ function el(t, c, x) { var e = document.createElement(t); if (c) e.className = c
   rail.appendChild(ticks); rail.appendChild(el("div")); rail.appendChild(el("div"));
   host.appendChild(rail);
   var ends = el("div", "axis-ends");
-  ends.appendChild(el("span", null, "\u2190 closing line was closer"));
-  ends.appendChild(el("span", null, "model was closer \u2192"));
+  ends.appendChild(el("span", null, "\\u2190 closing line was closer"));
+  ends.appendChild(el("span", null, "model was closer \\u2192"));
   var w = el("div", "drow");
   w.appendChild(el("div")); w.appendChild(ends); w.appendChild(el("div")); w.appendChild(el("div"));
   host.appendChild(w);
@@ -345,10 +450,10 @@ function el(t, c, x) { var e = document.createElement(t); if (c) e.className = c
     head.appendChild(el("h2", null, "Week " + w.week));
     var bits = [w.final + " of " + w.games.length + " final"];
     if (w.diff !== null) bits.push("model " + w.mMAE + " vs line " + w.kMAE);
-    bits.push(w.w + "\u2013" + w.l + (w.p ? "\u2013" + w.p : "")
+    bits.push(w.w + "\\u2013" + w.l + (w.p ? "\\u2013" + w.p : "")
               + "  " + sgn(w.units, 2) + "u");
     if (w.open) bits.push(w.open + " open");
-    head.appendChild(el("span", "weekstat", bits.join("  \u00b7  ")));
+    head.appendChild(el("span", "weekstat", bits.join("  \\u00b7  ")));
     host.appendChild(head);
 
     var scroll = el("div", "tscroll"), table = el("table");
@@ -363,14 +468,14 @@ function el(t, c, x) { var e = document.createElement(t); if (c) e.className = c
       tr.appendChild(el("td", "matchup", g.away + " @ " + g.home));
       tr.appendChild(el("td", "line", sgn(g.line)));
       tr.appendChild(el("td", "model", sgn(g.model)));
-      tr.appendChild(el("td", "actual", g.actual === null ? "\u2014" : sgn(g.actual, 0)));
+      tr.appendChild(el("td", "actual", g.actual === null ? "\\u2014" : sgn(g.actual, 0)));
       var c = el("td");
-      if (g.d === null) c.appendChild(el("span", "dash", "\u2014"));
+      if (g.d === null) c.appendChild(el("span", "dash", "\\u2014"));
       else c.appendChild(el("span", "closer " + (g.d > 0 ? "ahead" : "behind"),
              (g.d > 0 ? "model " : "line ") + Math.abs(g.d).toFixed(1)));
       tr.appendChild(c);
       var td = el("td", "pickcol");
-      if (!g.picks.length) td.appendChild(el("span", "dash", "\u2014"));
+      if (!g.picks.length) td.appendChild(el("span", "dash", "\\u2014"));
       else g.picks.forEach(function (p, j) {
         var chip = el("span", "ticket");
         chip.appendChild(el("b", null, p.label));
@@ -386,3 +491,63 @@ function el(t, c, x) { var e = document.createElement(t); if (c) e.className = c
   });
 })();
 </script>
+"""
+
+
+def render(data: dict) -> str:
+    s = data["season"]
+    weeks = data["weeks"]
+    last = weeks[-1]
+    trend = ", ".join(f"{w['diff']:+.2f}" for w in weeks if w["diff"] is not None)
+
+    if s["hi"] < 0:
+        verdict = (f"The model is landing <em>{abs(s['diff']):.2f} points closer</em> to the "
+                   "final margin than the closing line does.")
+    elif s["lo"] > 0:
+        verdict = (f"The model lands <em>{s['diff']:.2f} points further</em> from the final "
+                   "margin than the closing line does.")
+    else:
+        verdict = (f"Across {s['final']} games the model and the closing line are now "
+                   f"<em>within {abs(s['diff']):.2f} points</em> of each other.")
+
+    sub = (f"The 95% interval on that gap is [{s['lo']:+.2f}, {s['hi']:+.2f}] points, so it no "
+           f"longer separates from zero. Week by week the gap reads {trend} &mdash; narrowing "
+           "every week, and negative means the model was closer.")
+
+    pick_rec = (f"{s['w']}&ndash;{s['l']}" + (f"&ndash;{s['p']}" if s["p"] else "")
+                + f" &middot; ROI {s['roi']:+.1f}%"
+                + (f" &middot; {s['openPicks']} open" if s["openPicks"] else ""))
+
+    out = TEMPLATE
+    out = out.replace("__EYEBROW__", f"2026 NFL &middot; through week {last['week']}")
+    out = out.replace("__VERDICT__", verdict)
+    out = out.replace("__VERDICT_SUB__", sub)
+    out = out.replace("__MMAE__", f"{s['mMAE']:.2f}")
+    out = out.replace("__KMAE__", f"{s['kMAE']:.2f}")
+    out = out.replace("__BEAT__", str(s["beat"]))
+    out = out.replace("__FINAL__", str(s["final"]))
+    out = out.replace("__UNITS__", f"{s['units']:+.2f}u".replace("-", "−"))
+    out = out.replace("__UCLASS__", "good" if s["units"] > 0 else "")
+    out = out.replace("__PICKREC__", pick_rec)
+    out = out.replace("__DATA__", json.dumps(data, separators=(",", ":")))
+    return out
+
+
+def main() -> int:
+    args = parse_args()
+    data = collect(args.projections, args.ledger)
+    html = render(data)
+    path = os.path.abspath(args.out)
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    with open(path, "w") as fh:
+        fh.write(html)
+    s = data["season"]
+    print(f"Wrote {path}")
+    print(f"  {s['final']} games final, gap {s['diff']:+.2f} [{s['lo']:+.2f}, {s['hi']:+.2f}]")
+    print("  weekly: " + ", ".join(f"wk{w['week']} {w['diff']:+.2f}"
+                                   for w in data["weeks"] if w["diff"] is not None))
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
