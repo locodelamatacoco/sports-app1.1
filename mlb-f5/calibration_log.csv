@@ -523,3 +523,6 @@ date,game,market,model_prob,bet_side,odds,result,note
 2026-09-27,COL@CWS,F5,0.87,CWS,-165,W,cohort=ranked RANKED #2 edge +8.4% HALF(gap27) CONFIRMED FADE Freeland-6.58-131IP-WHIP-1.52-deep own-arm-A.Kay-4.53-no-edge hot-bats-6.4; F5 CWS 4-1 thru5 WIN (CWS won 4-2)
 2026-09-27,CLE@KC,F5,0.72,CLE,-120,L,cohort=ranked RANKED #3 edge +7.6% HALF(gap20) None-tier Messick-2.55 vs D.Lynch-4.13-80IP-not-a-fade hot-bats-5.8; F5 CLE 1-2 thru5 LOSS (KC won 3-2)
 2026-09-27,HOU@ATH,F5,0.77,HOU,-165,W,cohort=ranked RANKED #4 edge +7.3% full CONFIRMED FADE S.Johnson-6.19-32IP-THIN-cohort-flagged P.Lambert-3.87; F5 HOU 4-0 thru5 WIN (HOU won 9-0)
+2026-09-29,CWS@HOU,F5,0.72,CWS,102,W,cohort=ranked RANKED #1 edge +8.5% HALF(gap24) None-tier POSTSEASON-WC H.Smith-1.29-28IP-OPENER-1-start-in-18-apps vs Blubaugh-3.66-96IP; advised PASS on opener/bullpen analysis -- WRONG; F5 CWS 5-2 thru5 WIN (CWS won 6-3)
+2026-09-29,BOS@NYY,F5,0.77,NYY,-142,W,cohort=ranked RANKED #2 edge +7.9% HALF(gap21) None-tier POSTSEASON-WC Schlittler-1.95-194IP vs P.Tolle-3.03-148IP BOS-bats-2.1-L10-coldest; F5 NYY 2-0 thru5 WIN (NYY won 9-0)
+2026-09-29,CHC@SD,F5,0.71,SD,-125,W,cohort=ranked RANKED #3 edge +7.2% full None-tier POSTSEASON-WC M.King-3.21-185IP vs Boyd-3.91-127IP hot-bats-6.3 vs CHC-best-season-offense-cooled-4.1; flagged-as-coin-flip; F5 SD 7-0 thru5 WIN (SD won 8-0)
