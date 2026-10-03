@@ -34,10 +34,12 @@ abbreviation conventions differ between the two sources, nicknames don't.
 Usage: python3 odds_fetch.py   (after fetch_data.py; writes odds_<date>.csv)
 """
 import csv
+import datetime
 import json
 import os
 import re
 import statistics
+from zoneinfo import ZoneInfo
 
 import requests
 
@@ -51,6 +53,7 @@ HDRS = {"User-Agent": UA, "Referer": PAGE, "Origin": "https://www.oddstrader.com
 F5_MONEY_MTID = 91
 SAO_PAGE = "https://www.scoresandodds.com/mlb/more-lines"
 SAO_TBODY = 'id="odds-table--first-5-innings'
+ET = ZoneInfo("America/New_York")
 
 
 def american(dec):
@@ -65,14 +68,20 @@ def decimal(am):
 
 
 def ot_events():
-    """eid -> {partid: nickname} plus the sportsbook paid list, from the page."""
+    """eid -> {partid: nickname} plus the sportsbook paid list, from the page.
+
+    Each event also carries `dt`, its start time in epoch millis. The board
+    is multi-day — in a postseason series the SAME matchup appears on
+    consecutive days — so the caller must filter by date or it will match
+    the wrong game. Returns (events, dts, paids).
+    """
     html = requests.get(PAGE, headers=HDRS, timeout=60).text
     i = html.find("window.__INITIAL_STATE__")
     if i < 0:
         raise RuntimeError("no __INITIAL_STATE__ on OddsTrader page")
     state, _ = json.JSONDecoder().raw_decode(html[html.find("{", i):])
     paids = [b["paid"] for b in state["sportsbooks"]["sportsbooks"] if b.get("paid")]
-    events = {}
+    events, dts = {}, {}
     for eid, e in state["events"]["events"].items():
         parts = {}
         for pid, p in e.get("participants", {}).items():
@@ -81,7 +90,19 @@ def ot_events():
                 parts[int(pid)] = src["nn"]
         if len(parts) == 2:
             events[int(eid)] = parts
-    return events, paids
+            dts[int(eid)] = e.get("dt")
+    return events, dts, paids
+
+
+def et_date(dt_millis):
+    """OddsTrader `dt` (epoch ms) -> ET calendar date, statsapi's convention.
+
+    A 00:30Z first pitch is still the previous day's slate in ET, so the
+    comparison has to happen in ET, not UTC.
+    """
+    if not dt_millis:
+        return None
+    return datetime.datetime.fromtimestamp(dt_millis / 1000, tz=ET).date().isoformat()
 
 
 def f5_lines(eids, paids):
@@ -108,11 +129,22 @@ def f5_lines(eids, paids):
     return {k: american(statistics.median(v)) for k, v in prices.items()}
 
 
-def ot_source():
+def ot_source(date):
     """PRIMARY source -> (events, prices) in the shared contract:
-    events {eid: {side_key: nickname}}, prices {(eid, side_key): american}."""
-    events, paids = ot_events()
-    return events, f5_lines(list(events), paids)
+    events {eid: {side_key: nickname}}, prices {(eid, side_key): american}.
+
+    Events are restricted to `date` (ET). Without this the matcher picks
+    whichever copy of a repeated matchup comes first in the board's dict
+    order — which on 2026-10-03 was tomorrow's unpriced Division Series
+    game for all four series, blanking the whole card.
+    """
+    events, dts, paids = ot_events()
+    today = {e: p for e, p in events.items() if et_date(dts.get(e)) == date}
+    if not today:
+        raise RuntimeError(
+            f"OddsTrader board has no events dated {date} "
+            f"({len(events)} events seen, none on the slate date)")
+    return today, f5_lines(list(today), paids)
 
 
 def sao_source(date):
@@ -189,7 +221,7 @@ def main():
         print("no games on today's slate (off day / All-Star break) — no odds to fetch")
         return
     try:
-        events, prices = ot_source()
+        events, prices = ot_source(date)
         source = f"oddstrader mtid {F5_MONEY_MTID}"
     except Exception as e:
         print(f"[warn] primary source (OddsTrader) failed: {e}")
