@@ -23,6 +23,7 @@ gentle (cache, low request rates).
 from __future__ import annotations
 
 import json
+import re
 import statistics
 import urllib.request
 from datetime import datetime, timezone
@@ -247,7 +248,7 @@ def parse_current_lines(events: Dict[int, dict], line_rows: List[dict]) -> List[
 
         rows.append({
             "game_id": f"OT_{eid}",
-            "season": _season_int(ev["home"].get("season")),
+            "season": _season_int(ev["home"].get("season"), ev.get("kickoff_ms")),
             "week": None,
             "gameday": _kickoff_iso(ev.get("kickoff_ms")),
             "home_team": ev["home"]["abbr"],
@@ -282,11 +283,31 @@ def _round_half(x: float) -> float:
     return round(x * 2) / 2
 
 
-def _season_int(senam) -> Optional[int]:
-    try:
-        return int(senam)
-    except (TypeError, ValueError):
-        return None
+def _season_int(senam, kickoff_ms=None) -> Optional[int]:
+    """The NFL season a game belongs to, as a single year.
+
+    The feed's own label is not a stable integer: it reads "2026" in some
+    weeks and "2026-27" in others, and ``int()`` on the span form throws. That
+    failure was silent -- season became None, the schedule join that stamps the
+    NFL week had nothing to match on, and a whole week of picks landed in the
+    ledger unlabelled.
+
+    So parse the leading year when the label offers one, and otherwise derive
+    the season from kickoff, which does not depend on how they format anything.
+    A season spans September to February, so January and February games belong
+    to the previous year's season.
+    """
+    if senam is not None:
+        match = re.match(r"\s*(\d{4})", str(senam))
+        if match:
+            return int(match.group(1))
+    if kickoff_ms is not None:
+        try:
+            when = datetime.fromtimestamp(float(kickoff_ms) / 1000.0, tz=timezone.utc)
+            return when.year if when.month >= 3 else when.year - 1
+        except (ValueError, OverflowError, OSError, TypeError):
+            return None
+    return None
 
 
 # --------------------------------------------------------------------------- #

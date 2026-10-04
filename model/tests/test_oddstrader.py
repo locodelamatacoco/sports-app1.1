@@ -235,3 +235,32 @@ def test_unparseable_kickoff_is_kept_rather_than_silently_dropped():
 
 def test_empty_slate_survives():
     assert ot.drop_started_games(pd.DataFrame()).empty
+
+
+# --------------------------------------------------------------------------- #
+# Season parsing (the feed's label is not a stable integer)
+# --------------------------------------------------------------------------- #
+def test_season_parses_a_plain_year():
+    assert ot._season_int("2026") == 2026
+
+
+def test_season_parses_a_span_label():
+    # The feed switched from "2026" to "2026-27" mid-season. int() threw on the
+    # span form, season went None, and a week of picks lost its week number.
+    assert ot._season_int("2026-27") == 2026
+
+
+def test_season_falls_back_to_kickoff_when_the_label_is_useless():
+    sept = 1791120600000   # 2026-10-04, in the 2026 season
+    assert ot._season_int(None, sept) == 2026
+    assert ot._season_int("not a season", sept) == 2026
+
+
+def test_january_games_belong_to_the_previous_season():
+    jan = int(pd.Timestamp("2027-01-10", tz="UTC").timestamp() * 1000)
+    assert ot._season_int(None, jan) == 2026
+
+
+def test_season_is_none_when_nothing_is_knowable():
+    assert ot._season_int(None) is None
+    assert ot._season_int(None, "garbage") is None
