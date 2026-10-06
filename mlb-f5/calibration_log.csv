@@ -529,3 +529,5 @@ date,game,market,model_prob,bet_side,odds,result,note
 2026-09-30,CHC@SD,F5,0.82,SD,-135,W,cohort=ranked RANKED #1 edge +8.6% HALF(gap27) None-tier POSTSEASON-WC-g2 Pivetta-2.86 vs Gausman-4.51-177IP hot-bats-6.2; F5 SD 4-1 thru5 WIN (SD won 4-1)
 2026-09-30,BOS@NYY,F5,0.71,NYY,-141,W,cohort=ranked RANKED #2 edge +6.2% full None-tier POSTSEASON-WC-g2 Fried-2.80 vs S.Gray-2.72-169IP NEGATIVE-gap-0.08 BOS-bats-frozen-1.7-L10; F5 NYY 2-0 thru5 WIN (NYY won 9-2)
 2026-10-03,CWS@CLE,F5,0.67,CWS,125,W,cohort=ranked RANKED #1 edge +8.9% HALF(gap23) None-tier POSTSEASON-ALDS-g1 H.Smith-1.29-28IP-OPENER-again vs Messick-2.56-186IP-good-arm hot-bats-7.1-L10-season-high; F5 CWS 2-0 thru5 WIN (CWS won 3-0)
+2026-10-05,NYY@TB,F5,0.80,NYY,-137,L,cohort=ranked RANKED #1 edge +8.0% HALF(gap25) None-tier POSTSEASON-ALDS Schlittler-1.95 vs F.Peralta-4.42-169IP gap-2.47 called-better-constructed; F5 NYY 1-5 thru5 LOSS (TB won 5-2)
+2026-10-05,CWS@CLE,F5,0.52,CWS,135,L,cohort=ranked RANKED #2 edge +5.6% full None-tier POSTSEASON-ALDS A.Kay-4.44 vs G.Williams-3.76-184IP NEGATIVE-gap-0.68 pure-hot-bats-6.6-L10 third-straight-CHC-bats-play; F5 CWS 1-2 thru5 LOSS (CWS won full 4-3)
