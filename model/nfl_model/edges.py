@@ -15,10 +15,31 @@ from . import distribution as dist
 from . import odds as odds_math
 
 # Minimum model-vs-market edge (in probability) required to flag a bet, plus the
-# hard EV floor. A "favorite" here is any side priced at negative American odds.
+# hard EV floor.
 BET_RULES = {
-    "MIN_FAVORITE_EDGE": 0.03,
-    "MIN_UNDERDOG_EDGE": 0.05,
+    # The edge a bet must clear, as a function of its price. This used to be a
+    # step: 3% at any negative price, 5% at any positive one. That boundary sits
+    # at +/-100, where the economics are continuous but the rule was not -- a
+    # real case was IND +2.5 ticking from -105 to +100, which left the number
+    # unchanged, improved the price, RAISED the edge from 3.4% to 4.6%, and
+    # disqualified the bet. A better bet cannot be the thing that fails a gate.
+    #
+    # The split's direction is only weakly supported. Over 2019-2026, flagged
+    # spreads at negative prices returned -3.1% [-9.0%, +2.9%] against -12.5%
+    # [-26.9%, +1.8%] at positive prices: the point estimates differ, the
+    # intervals overlap heavily on 1,002 against 191 bets, and that is not a
+    # separation. So the requirement still rises as the price lengthens, but
+    # gently and continuously, rather than jumping two points at a line the
+    # evidence does not draw.
+    #
+    # Anchors: 3.0% at -110, where most spread prices live, rising to about 5%
+    # near +200. Clipped so a heavy favorite cannot sneak in on a sliver of
+    # edge, since EV scales with the payout and a short price pays little.
+    "EDGE_AT_REFERENCE": 0.03,
+    "REFERENCE_PROB": odds_math.american_to_prob(-110),
+    "EDGE_SLOPE": 0.103,       # extra edge required per unit of implied prob below reference
+    "MIN_EDGE_FLOOR": 0.025,
+    "MIN_EDGE_CEILING": 0.08,
     "MIN_EV": 0.0,  # Expected Value must be strictly positive to qualify.
     "COIN_FLIP_BAND": (0.47, 0.53),  # win-prob band we treat as a toss-up
     # Markets the gate is allowed to flag. Moneylines are excluded on evidence,
@@ -72,13 +93,25 @@ class Wager:
     qualifies: bool
 
 
+def required_edge(book_odds: float) -> float:
+    """The minimum model-vs-market edge this price has to clear.
+
+    Continuous in the price: longer odds ask for more edge, by a little, with
+    no step anywhere. See ``BET_RULES`` for why the old two-tier rule was
+    replaced and how weakly the split it encoded is supported.
+    """
+    implied = odds_math.american_to_prob(book_odds)
+    extra = BET_RULES["EDGE_SLOPE"] * (BET_RULES["REFERENCE_PROB"] - implied)
+    return float(min(max(BET_RULES["EDGE_AT_REFERENCE"] + extra,
+                         BET_RULES["MIN_EDGE_FLOOR"]), BET_RULES["MIN_EDGE_CEILING"]))
+
+
 def _wager(market: str, side: str, label: str, model_prob: float, book_odds: float,
            line: Optional[float] = None) -> Wager:
     implied = odds_math.american_to_prob(book_odds)
     edge = model_prob - implied
     ev = odds_math.ev_per_dollar(model_prob, book_odds)
-    is_dog = book_odds > 0
-    min_edge = BET_RULES["MIN_UNDERDOG_EDGE"] if is_dog else BET_RULES["MIN_FAVORITE_EDGE"]
+    min_edge = required_edge(book_odds)
     qualifies = (
         market in BET_RULES["MARKETS"]
         and edge >= min_edge

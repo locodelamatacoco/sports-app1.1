@@ -115,3 +115,46 @@ def test_shopping_ignores_illegal_prices():
     out = edges.analyze_game(_game_with_quotes([(3.0, -110), (3.0, -2)], []), 6.0, 13.2)
     # -2 implies a 98% win probability; it is not a real price.
     assert _spread(out, "home")["book_odds"] == -110
+
+
+# --------------------------------------------------------------------------- #
+# The edge requirement must be continuous in the price
+# --------------------------------------------------------------------------- #
+def test_no_step_across_the_even_money_boundary():
+    # The old rule jumped 3% -> 5% at +/-100, so a price improving from -101 to
+    # +100 raised the bar two points. Nothing about the economics changes there.
+    just_under = edges.required_edge(-101)
+    just_over = edges.required_edge(100)
+    assert abs(just_over - just_under) < 0.005
+
+
+def test_requirement_rises_as_the_price_lengthens():
+    prices = [-200, -130, -110, 100, 150, 300]
+    req = [edges.required_edge(p) for p in prices]
+    assert req == sorted(req)
+
+
+def test_reference_price_keeps_its_historical_threshold():
+    # -110 is where most spread prices sit; it must still ask for 3%.
+    assert abs(edges.required_edge(-110) - 0.03) < 1e-9
+
+
+def test_requirement_is_clipped_at_both_ends():
+    assert edges.required_edge(-5000) == edges.BET_RULES["MIN_EDGE_FLOOR"]
+    assert edges.required_edge(5000) == edges.BET_RULES["MIN_EDGE_CEILING"]
+
+
+def test_a_better_price_never_disqualifies_a_bet():
+    """The bug this replaced: same side, same number, better price, rejected.
+
+    Walk a bet's price up through the old boundary and check that a wager which
+    qualifies at a worse price still qualifies at a better one.
+    """
+    game = {"game_id": "T", "home_team": "KC", "away_team": "DEN",
+            "spread_line": 3.0, "home_spread_odds": -105, "away_spread_odds": -105}
+    worse = edges.analyze_game(dict(game, home_spread_odds=-105), 6.0, 13.2)
+    better = edges.analyze_game(dict(game, home_spread_odds=100), 6.0, 13.2)
+    w = next(x for x in worse["wagers"] if x["market"] == "spread" and x["side"] == "home")
+    b = next(x for x in better["wagers"] if x["market"] == "spread" and x["side"] == "home")
+    assert b["edge"] > w["edge"]          # the better price is a bigger edge
+    assert not (w["qualifies"] and not b["qualifies"])
