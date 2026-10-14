@@ -532,3 +532,4 @@ date,game,market,model_prob,bet_side,odds,result,note
 2026-10-05,NYY@TB,F5,0.80,NYY,-137,L,cohort=ranked RANKED #1 edge +8.0% HALF(gap25) None-tier POSTSEASON-ALDS Schlittler-1.95 vs F.Peralta-4.42-169IP gap-2.47 called-better-constructed; F5 NYY 1-5 thru5 LOSS (TB won 5-2)
 2026-10-05,CWS@CLE,F5,0.52,CWS,135,L,cohort=ranked RANKED #2 edge +5.6% full None-tier POSTSEASON-ALDS A.Kay-4.44 vs G.Williams-3.76-184IP NEGATIVE-gap-0.68 pure-hot-bats-6.6-L10 third-straight-CHC-bats-play; F5 CWS 1-2 thru5 LOSS (CWS won full 4-3)
 2026-10-06,MIL@SD,F5,0.78,SD,-135,W,cohort=ranked RANKED #1 edge +7.8% HALF(gap23) None-tier POSTSEASON-NLDS Pivetta-2.86 vs D.May-4.70-145IP gap-1.84 deep-samples-both-sides; F5 SD 3-2 thru5 WIN (SD won 4-3)
+2026-10-13,CLE@TB,F5,0.58,CLE,110,L,cohort=shadow HARD-VETO(gap31) WATCHLIST edge +10.5% POSTSEASON-ALCS-g2 Messick-2.56-186IP vs F.Peralta-4.42-169IP no-fade-signal cond-76.8-calib-58.2 CLE-L10-5.0; F5 CLE 0-3 thru5 LOSS (TB won 3-1)
