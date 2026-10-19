@@ -12,3 +12,4 @@ venv/
 output/*.json
 output/box_scores.csv
 output/box_history*.csv
+output/event_map.csv

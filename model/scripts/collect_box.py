@@ -39,8 +39,9 @@ WINDOW_HOURS = 120
 # its row limit rather than erroring. Fetching four games against the 8,000-row
 # default silently returned partial games: 74% of team-games came back missing
 # a whole category, which showed up downstream as teams gaining yards on no
-# plays. Two games per request, well inside a raised limit, with room to spare.
-CHUNK = 2
+# plays. The limit is what truncates, not the batch size, so raise the limit and
+# batch six -- about 13,800 rows, well inside it, and three times the throughput.
+CHUNK = 6
 ROW_LIMIT = 20000
 MAX_RETRIES = 3
 
