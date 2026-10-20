@@ -77,8 +77,23 @@ function MarketTable({ rows, caption }) {
 
 function GameCard({ analysis }) {
   const [showDetails, setShowDetails] = useState(false);
-  const { game, sim, summary, projection, penalties, confidence, riskLevel, veto, markets, props, bestBet } =
-    analysis;
+  const [showShop, setShowShop] = useState(false);
+  const {
+    game,
+    sim,
+    summary,
+    projection,
+    penalties,
+    confidence,
+    riskLevel,
+    veto,
+    markets,
+    props,
+    derived,
+    bestBet,
+  } = analysis;
+  const shopRows = (derived ?? []).filter((r) => r.priced === false);
+  const scoredDerived = (derived ?? []).filter((r) => r.priced);
   const o = game.odds;
 
   return (
@@ -134,6 +149,12 @@ function GameCard({ analysis }) {
         <div>
           <strong>Blowout risk:</strong> {pct(summary.blowoutProb)} · OT {pct(summary.overtimeProb)}
         </div>
+        {game.espnPredictor && (
+          <div>
+            <strong>ESPN predictor:</strong> {game.home.code}{' '}
+            {pct(game.espnPredictor.home)} (independent read, not a model input)
+          </div>
+        )}
         <div>
           <strong>Confidence:</strong> {confidence}/10{' '}
           <span className={`nba-risk nba-risk-${riskLevel.toLowerCase()}`}>{riskLevel} risk</span>
@@ -152,6 +173,46 @@ function GameCard({ analysis }) {
 
       <MarketTable rows={markets} caption="Game markets" />
       {props.length > 0 && <MarketTable rows={props} caption="Player props" />}
+      {scoredDerived.length > 0 && (
+        <MarketTable rows={scoredDerived} caption="Team totals & alternate lines" />
+      )}
+
+      {shopRows.length > 0 && (
+        <div className="nba-section">
+          <button className="nba-details-toggle" onClick={() => setShowShop(!showShop)}>
+            {showShop ? 'Hide' : 'Show'} {shopRows.length} model prices with no posted line
+          </button>
+          {showShop && (
+            <>
+              <p className="nba-note">
+                The feed posts no price for these, so they carry the model's fair odds to shop
+                against your own book rather than a verified edge. Supply prices in the slate data
+                and they get scored like any other market.
+              </p>
+              <div className="nba-table-wrap">
+                <table className="nba-table">
+                  <thead>
+                    <tr>
+                      <th>Market</th>
+                      <th>Model</th>
+                      <th>Fair odds</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {shopRows.map((row) => (
+                      <tr key={row.label}>
+                        <td>{row.label}</td>
+                        <td>{pct(row.settleProb)}</td>
+                        <td>{formatAmerican(row.fairOdds)}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </>
+          )}
+        </div>
+      )}
 
       <button className="nba-details-toggle" onClick={() => setShowDetails(!showDetails)}>
         {showDetails ? 'Hide' : 'Show'} confidence dampeners & projection detail
@@ -170,6 +231,21 @@ function GameCard({ analysis }) {
                 </li>
               ))}
             </ul>
+          )}
+
+          {game.injuries?.length > 0 && (
+            <>
+              <h3>Injury report (live)</h3>
+              <ul className="nba-list">
+                {game.injuries.map((i) => (
+                  <li key={`${i.team}-${i.player}`}>
+                    {i.player} ({i.team}) — {i.status}
+                    {i.detail ? `, ${i.detail}` : ''}
+                    {i.starter ? ' · projected starter' : ''}
+                  </li>
+                ))}
+              </ul>
+            </>
           )}
 
           <h3>Projection detail</h3>

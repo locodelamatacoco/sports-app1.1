@@ -15,6 +15,8 @@ import {
   sumPenalties,
   divergenceVeto,
   confidenceFromPenalties,
+  priceLine,
+  derivedMarkets,
   MODEL_CONSTANTS,
   BET_RULES,
 } from './nbaSimulator';
@@ -485,5 +487,97 @@ describe('slate summary', () => {
       expect(r.summary.possessions).toBeGreaterThan(88);
       expect(r.summary.possessions).toBeLessThan(110);
     });
+  });
+});
+
+describe('pricing arbitrary lines off the simulated distribution', () => {
+  test('priceLine partitions a known distribution exactly', () => {
+    const dist = new Map([
+      [100, 10],
+      [110, 30],
+      [120, 60],
+    ]);
+    const half = priceLine(dist, 100, 110.5);
+    expect(half.overProb).toBeCloseTo(0.6, 10);
+    expect(half.pushProb).toBe(0);
+    expect(half.underProb).toBeCloseTo(0.4, 10);
+
+    // A whole number that lands on a value in the distribution pushes.
+    const whole = priceLine(dist, 100, 110);
+    expect(whole.overProb).toBeCloseTo(0.6, 10);
+    expect(whole.pushProb).toBeCloseTo(0.3, 10);
+    expect(whole.underProb).toBeCloseTo(0.1, 10);
+    expect(whole.overProb + whole.pushProb + whole.underProb).toBeCloseTo(1, 10);
+  });
+
+  test('the recorded distributions agree with the headline probabilities', () => {
+    const sim = simulateGame(okcSas, { numSims: 8000, seed: 17 });
+    const total = priceLine(sim.dist.total, sim.numSims, okcSas.odds.total.line);
+    expect(total.overProb).toBeCloseTo(sim.probs.over, 10);
+    expect(total.underProb).toBeCloseTo(sim.probs.under, 10);
+
+    // A home line of -1 covers when the margin exceeds 1.
+    const margin = priceLine(sim.dist.margin, sim.numSims, -okcSas.odds.spread.homeLine);
+    expect(margin.overProb).toBeCloseTo(sim.probs.homeCover, 10);
+    expect(margin.pushProb).toBeCloseTo(sim.probs.homePush, 10);
+  });
+
+  test('derived markets cover team totals and alternate lines', () => {
+    const sim = simulateGame(okcSas, { numSims: 6000, seed: 18 });
+    const rows = derivedMarkets(okcSas, sim);
+    const kinds = new Set(rows.map((r) => r.market));
+    expect(kinds).toEqual(new Set(['teamTotal', 'altSpread', 'altTotal']));
+    expect(rows.length).toBeGreaterThan(20);
+
+    // Team totals must centre on each side's projected score.
+    const homeTotals = rows.filter((r) => r.market === 'teamTotal' && r.side === 'home-over');
+    const lines = homeTotals.map((r) => r.line);
+    expect(Math.min(...lines)).toBeLessThan(sim.means.homeScore);
+    expect(Math.max(...lines)).toBeGreaterThan(sim.means.homeScore);
+  });
+
+  test('an unpriced derived market is a shop row, never a bet', () => {
+    const sim = simulateGame(okcSas, { numSims: 4000, seed: 19 });
+    const rows = derivedMarkets(okcSas, sim);
+    rows.forEach((r) => {
+      expect(r.priced).toBe(false);
+      expect(r.price).toBeNull();
+      expect(r.qualifies).toBe(false);
+      expect(r.recommendation).toMatch(/SHOP/);
+      expect(typeof r.fairOdds).toBe('number');
+    });
+
+    const analysis = analyzeGame(okcSas, { numSims: 4000, seed: 19 });
+    expect(analysis.derived.length).toBeGreaterThan(20);
+    // Shop rows stay out of the qualified list and the leaderboard.
+    analysis.qualified.forEach((q) => expect(q.priced).not.toBe(false));
+  });
+
+  test('supplying a price turns a derived market into a scored one', () => {
+    const game = JSON.parse(JSON.stringify(okcSas));
+    const sim = simulateGame(game, { numSims: 6000, seed: 20 });
+    const centre = Math.round(sim.means.homeScore * 2) / 2;
+    game.odds.teamTotals = { home: { [String(centre)]: { over: -110, under: -110 } } };
+
+    const rows = derivedMarkets(game, simulateGame(game, { numSims: 6000, seed: 20 }));
+    const scored = rows.filter((r) => r.priced);
+    expect(scored.length).toBe(2);
+    scored.forEach((r) => {
+      expect(r.price).toBe(-110);
+      expect(typeof r.rawEdge).toBe('number');
+      expect(r.adjustedEdge).toBeCloseTo(r.rawEdge - r.penaltyTotal, 10);
+    });
+  });
+
+  test('an alternate spread further from the number is harder to cover', () => {
+    const sim = simulateGame(okcSas, { numSims: 20000, seed: 22 });
+    const rows = derivedMarkets(okcSas, sim).filter(
+      (r) => r.market === 'altSpread' && r.side === 'home'
+    );
+    // Rows are built from a ladder; laying more points must lower the win rate.
+    const sorted = rows.slice().sort((a, b) => a.line - b.line); // line is -homeLine
+    for (let i = 1; i < sorted.length; i++) {
+      expect(sorted[i].modelProb).toBeLessThanOrEqual(sorted[i - 1].modelProb);
+    }
   });
 });

@@ -15,10 +15,13 @@
 
 import axios from 'axios';
 import { ratingsFor, LEAGUE_AVG } from './nbaTeamRatings';
-import { PROP_SETS, CURATED_CONTEXT } from './nbaGames';
+import { PROP_SETS, CURATED_CONTEXT, PROJECTED_STARTERS } from './nbaGames';
 
 export const ESPN_NBA_SCOREBOARD =
   'https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard';
+
+export const ESPN_NBA_SUMMARY =
+  'https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary';
 
 // Opening-to-current movement at or beyond this many points is treated as the
 // market reacting to information our inputs do not contain.
@@ -223,6 +226,80 @@ function hasPlayedGames(competitor) {
   return (w || 0) + (l || 0) > 0;
 }
 
+// The summary endpoint carries what the scoreboard omits: an explicit price on
+// each side of the total, the injury report, and ESPN's own win projection
+// (useful as an independent read, never as a model input).
+export function mapSummary(summary, { starters = PROJECTED_STARTERS } = {}) {
+  if (!summary) return null;
+  const book = pickOdds(summary.pickcenter);
+
+  const injuries = [];
+  (summary.injuries ?? []).forEach((teamBlock) => {
+    const abbr = teamBlock.team?.abbreviation;
+    const roster = starters[abbr] ?? [];
+    (teamBlock.injuries ?? []).forEach((item) => {
+      const player = item.athlete?.displayName;
+      if (!player) return;
+      injuries.push({
+        team: abbr,
+        player,
+        status: item.status ?? 'Unknown',
+        detail: item.details?.type ?? item.type ?? null,
+        starter: roster.includes(player),
+      });
+    });
+  });
+
+  const predictorHome = Number(summary.predictor?.homeTeam?.gameProjection);
+  const predictorAway = Number(summary.predictor?.awayTeam?.gameProjection);
+
+  return {
+    injuries,
+    total: book
+      ? {
+          line: parseLine(book.overUnder),
+          over: parseAmerican(book.overOdds) ?? readPrice(book.total?.over, 'close'),
+          under: parseAmerican(book.underOdds) ?? readPrice(book.total?.under, 'close'),
+        }
+      : null,
+    espnPredictor:
+      Number.isFinite(predictorHome) && Number.isFinite(predictorAway)
+        ? { home: predictorHome / 100, away: predictorAway / 100 }
+        : null,
+  };
+}
+
+// Fold a mapped summary onto a mapped game: live injuries replace the curated
+// note, and real total prices replace the inferred -110 pair.
+export function enrichGame(game, mapped) {
+  if (!game || !mapped) return game;
+  const next = { ...game, dataQuality: { ...game.dataQuality } };
+
+  if (mapped.injuries.length > 0) {
+    next.injuries = mapped.injuries;
+    // The structured list is what the dampener now prices, so drop the
+    // free-text note to avoid charging for the same thing twice.
+    next.dataQuality.injuryNewsUncertainty = null;
+  }
+
+  if (mapped.total?.over != null && mapped.total?.under != null) {
+    next.odds = {
+      ...game.odds,
+      total: {
+        line: mapped.total.line ?? game.odds.total.line,
+        over: mapped.total.over,
+        under: mapped.total.under,
+      },
+    };
+    next.dataQuality.estimatedInputs = (game.dataQuality.estimatedInputs ?? []).filter(
+      (e) => !/total juice/i.test(e)
+    );
+  }
+
+  if (mapped.espnPredictor) next.espnPredictor = mapped.espnPredictor;
+  return next;
+}
+
 export function mapScoreboard(scoreboard, options = {}) {
   const events = scoreboard?.events ?? [];
   return {
@@ -234,11 +311,31 @@ export function mapScoreboard(scoreboard, options = {}) {
   };
 }
 
-// `date` is YYYYMMDD; omit it for today's slate.
-export async function fetchNbaSlate({ date, client = axios, signal } = {}) {
+// `date` is YYYYMMDD; omit it for today's slate. `enrich` adds one summary
+// request per game for injuries and real total prices; a failed summary leaves
+// that game on its scoreboard-only data rather than failing the slate.
+export async function fetchNbaSlate({ date, client = axios, signal, enrich = true } = {}) {
   const url = date ? `${ESPN_NBA_SCOREBOARD}?dates=${date}` : ESPN_NBA_SCOREBOARD;
   const { data } = await client.get(url, { signal });
-  return mapScoreboard(data);
+  const slate = mapScoreboard(data);
+  if (!enrich || slate.games.length === 0) return slate;
+
+  const games = await Promise.all(
+    slate.games.map(async (game) => {
+      if (!game.espnId) return game;
+      try {
+        const { data: summary } = await client.get(
+          `${ESPN_NBA_SUMMARY}?event=${game.espnId}`,
+          { signal }
+        );
+        return enrichGame(game, mapSummary(summary));
+      } catch (err) {
+        console.warn(`ESPN summary unavailable for ${game.id}:`, err?.message ?? err);
+        return game;
+      }
+    })
+  );
+  return { ...slate, games };
 }
 
 export { LEAGUE_AVG };

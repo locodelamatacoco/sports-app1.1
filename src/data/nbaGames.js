@@ -251,7 +251,7 @@ export const CURATED_CONTEXT = {
   },
   'PHI@NY': {
     injuryNewsUncertainty:
-      'a PHI veteran guard missed the entire preseason with hamstring soreness; availability unclear',
+      'Anfernee Simons (PHI) day-to-day with a hamstring issue after missing the preseason',
     lineupUnconfirmed:
       'no official lineup release; outlets label the same fives both "projected" and "confirmed"',
   },
@@ -260,6 +260,21 @@ export const CURATED_CONTEXT = {
       'SAS without Tobias Harris (calf) and Jayden Quaintance (knee); OKC without Oweh, Sorber and Topic — none are starters',
     lineupUnconfirmed: 'no confirmed OKC starting five published',
   },
+};
+
+// Projected starting fives, by ESPN team abbreviation. ESPN does not publish a
+// reliable pregame starting five on the endpoints this session can reach, and
+// the injury penalty needs to know whether an absence is a starter or the
+// twelfth man — five deep-bench absences are not the same uncertainty as one
+// ruled-out star. Gathered from beat reporting; treat as projected, not
+// confirmed.
+export const PROJECTED_STARTERS = {
+  BOS: ['Derrick White', 'Paul George', 'Jayson Tatum'], // 4th and 5th spots unsettled
+  DET: ['Cade Cunningham', 'Duncan Robinson', 'Ausar Thompson', 'John Collins', 'Jalen Duren'],
+  PHI: ['Tyrese Maxey', 'VJ Edgecombe', 'Jaylen Brown', 'LeBron James', 'Joel Embiid'],
+  NY: ['Jalen Brunson', 'Mikal Bridges', 'Josh Hart', 'OG Anunoby', 'Karl-Anthony Towns'],
+  SA: ["De'Aaron Fox", 'Dylan Harper', 'Stephon Castle', 'Devin Vassell', 'Victor Wembanyama'],
+  OKC: ['Shai Gilgeous-Alexander', 'Jalen Williams', 'Chet Holmgren'], // full five not published
 };
 
 // ---------------------------------------------------------------------------

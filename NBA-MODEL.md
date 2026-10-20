@@ -73,6 +73,23 @@ a normal-curve approximation.
 A prop with no sourced baseline returns `insufficientData` and is reported as
 `NO PLAY` rather than being modelled off an invented number.
 
+## Market coverage
+
+ESPN posts three markets per game: moneyline, spread, total. The simulation
+records full distributions of each team's score, the margin, and the total, so
+**any** line can be priced from the same run — `derivedMarkets` adds team
+totals and alternate spreads and totals, about 28 rows per game.
+
+ESPN prices none of those, so by default they come back as **fair odds to
+shop**, flagged `priced: false`, and are excluded from `qualified` and from the
+slate leaderboard. They never count as bets. Supply real prices via
+`game.odds.teamTotals` / `altSpreads` / `altTotals` and they are scored through
+the same dampener as everything else.
+
+What is still not covered: first-half and quarter lines (would need period
+modelling), and correlated multi-stat props such as triple-doubles, since props
+are simulated independently of one another.
+
 ## Confidence dampener
 
 ```
@@ -82,9 +99,16 @@ adjustedEdge = rawEdge - sum(penalties)
 
 Penalties are a named ledger in probability points (`PENALTIES`), driven by
 flags on the slate data: no current-season data, small sample, roster
-turnover, estimated inputs, market disagreement, line movement, injury/news
-uncertainty, unconfirmed lineups, minutes volatility, role change,
-back-to-back, blowout risk, coin flip. The total is capped at 22%.
+turnover, estimated inputs, market disagreement, line movement, unconfirmed
+lineups, minutes volatility, role change, back-to-back, blowout risk, coin
+flip. The total is capped at 22%.
+
+Injury uncertainty is **sized by who is missing** rather than charged flat: a
+ruled-out projected starter costs 5%, a questionable one 4%, while absent
+reserves cost 1% each capped at 2% — five deep-bench absences are not the same
+uncertainty as one ruled-out star. `injuryPenalties` reads the live report and
+matches names against `PROJECTED_STARTERS`; with no live report, the curated
+free-text note is charged at the old flat rate.
 
 Each row also reports `edgeVsNoVig` — the edge against the de-vigged market
 rather than the posted price. That is the harder and more honest test.
@@ -119,7 +143,11 @@ not expose are curated.
 | Multi-book disagreement | **Derived** when the feed returns more than one book |
 | Off/def rating, pace | **Curated** — `nbaTeamRatings.js` |
 | Player props and baselines | **Curated** — `PROP_SETS` in `nbaGames.js` |
-| Injuries, lineup confirmation | **Curated** — `CURATED_CONTEXT` in `nbaGames.js` |
+| Over/under prices, both sides | **Live** — summary endpoint |
+| Injury report, with status | **Live** — summary endpoint |
+| ESPN's own win projection | **Live** — shown for comparison, never a model input |
+| Projected starting fives | **Curated** — `PROJECTED_STARTERS` in `nbaGames.js` |
+| Lineup-confirmation uncertainty | **Curated** — `CURATED_CONTEXT` in `nbaGames.js` |
 
 Ratings and pace are not in the public scoreboard — they sit behind
 `site.web.api.espn.com`, a separate host. The page fetches the live board and

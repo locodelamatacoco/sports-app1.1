@@ -129,6 +129,12 @@ export const PENALTIES = {
   ROLE_CHANGE: 0.05, // new team / new usage share
   BACK_TO_BACK: 0.02,
   COIN_FLIP: 0.03,
+  // Injury uncertainty is sized by who is missing, not charged as a flat rate.
+  INJURY_STARTER_OUT: 0.05,
+  INJURY_STARTER_QUESTIONABLE: 0.04,
+  INJURY_RESERVE_OUT: 0.01, // per player, capped below
+  INJURY_RESERVE_QUESTIONABLE: 0.005,
+  INJURY_RESERVE_CAP: 0.02,
   MARGIN_DIVERGENCE: 0.0, // sized per point of gap, see MODEL_CONSTANTS
   TOTAL_DIVERGENCE: 0.0,
 };
@@ -430,6 +436,11 @@ export function simulateGame(game, { numSims = 10000, seed = 42, anchorWeight } 
   const spreadLine = game.odds?.spread?.homeLine ?? null; // negative = home favored
   const totalLine = game.odds?.total?.line ?? null;
 
+  // Full distributions of each quantity, so alternate lines and team totals can
+  // be priced from this same run instead of needing their own simulation.
+  const dist = { home: new Map(), away: new Map(), margin: new Map(), total: new Map() };
+  const bump = (m, k) => m.set(k, (m.get(k) ?? 0) + 1);
+
   for (let i = 0; i < numSims; i++) {
     // Shared shocks: how many possessions this game runs, and whether the
     // ball is going in for everybody tonight.
@@ -482,6 +493,11 @@ export function simulateGame(game, { numSims = 10000, seed = 42, anchorWeight } 
     if (otPeriods > 0) tally.overtime += 1;
     const isBlowout = Math.abs(margin) >= C.BLOWOUT_MARGIN;
     if (isBlowout) tally.blowout += 1;
+
+    bump(dist.home, home);
+    bump(dist.away, away);
+    bump(dist.margin, margin);
+    bump(dist.total, total);
 
     // Spread: a whole-number line can push, so count the three outcomes
     // separately instead of folding pushes into one side.
@@ -562,7 +578,163 @@ export function simulateGame(game, { numSims = 10000, seed = 42, anchorWeight } 
     };
   });
 
-  return { numSims, seed, projection, variance: v, probs, means, propResults };
+  return { numSims, seed, projection, variance: v, probs, means, propResults, dist };
+}
+
+// ---------------------------------------------------------------------------
+// Pricing arbitrary lines off a recorded distribution
+// ---------------------------------------------------------------------------
+
+// P(X > line), P(X === line), P(X < line) for any line, from the simulated
+// distribution. A whole-number line can push; a half-point line cannot.
+export function priceLine(distribution, numSims, line) {
+  let over = 0;
+  let push = 0;
+  let under = 0;
+  distribution.forEach((count, value) => {
+    if (value > line) over += count;
+    else if (value === line) push += count;
+    else under += count;
+  });
+  return { overProb: over / numSims, pushProb: push / numSims, underProb: under / numSims };
+}
+
+// Half-point steps either side of a centre, used to build a ladder.
+function ladder(centre, steps) {
+  const base = Math.round(centre * 2) / 2;
+  return steps.map((d) => base + d);
+}
+
+// Every market the simulation can price beyond the three the feed posts:
+// each team's total, and alternate spreads and totals.
+//
+// ESPN's public scoreboard carries no prices for these, so by default they come
+// back as fair odds to shop rather than as edges. Supply prices via
+// `game.odds.teamTotals` / `altSpreads` / `altTotals` and they are scored like
+// any other market.
+export function derivedMarkets(game, sim, { ledger = [], veto = null } = {}) {
+  const { dist, numSims, means } = sim;
+  const rows = [];
+
+  const add = ({ label, market, side, distribution, line, price, invert = false }) => {
+    const p = priceLine(distribution, numSims, line);
+    const modelProb = invert ? p.underProb : p.overProb;
+    if (price == null) {
+      const settleProb =
+        p.pushProb > 0 && p.pushProb < 1 ? modelProb / (1 - p.pushProb) : modelProb;
+      rows.push({
+        label,
+        market,
+        side,
+        gameId: game.id,
+        line,
+        modelProb,
+        settleProb,
+        pushProb: p.pushProb,
+        price: null,
+        fairOdds: probToAmerican(settleProb),
+        priced: false,
+        qualifies: false,
+        recommendation: 'SHOP — model price only, no posted line in the feed',
+      });
+      return;
+    }
+    rows.push({
+      ...marketRow({
+        label,
+        market,
+        side,
+        gameId: game.id,
+        modelProb,
+        pushProb: p.pushProb,
+        price,
+        penalties: ledger,
+        veto,
+      }),
+      line,
+      priced: true,
+    });
+  };
+
+  const posted = game.odds ?? {};
+  const teamTotals = posted.teamTotals ?? {};
+  const mainSpread = posted.spread?.homeLine ?? -Math.round(means.margin * 2) / 2;
+  const mainTotal = posted.total?.line ?? Math.round(means.total * 2) / 2;
+
+  // --- Team totals, centred on each side's projected score ---
+  [
+    { key: 'home', team: game.home, distribution: dist.home, mean: means.homeScore },
+    { key: 'away', team: game.away, distribution: dist.away, mean: means.awayScore },
+  ].forEach(({ key, team, distribution, mean }) => {
+    ladder(mean, [-3, 0, 3]).forEach((line) => {
+      const supplied = teamTotals[key]?.[String(line)];
+      add({
+        label: `${team.code} team total Over ${line}`,
+        market: 'teamTotal',
+        side: `${key}-over`,
+        distribution,
+        line,
+        price: supplied?.over ?? null,
+      });
+      add({
+        label: `${team.code} team total Under ${line}`,
+        market: 'teamTotal',
+        side: `${key}-under`,
+        distribution,
+        line,
+        price: supplied?.under ?? null,
+        invert: true,
+      });
+    });
+  });
+
+  // --- Alternate spreads, stepping away from the posted number ---
+  ladder(mainSpread, [-5, -2.5, 2.5, 5].filter((d) => d !== 0)).forEach((line) => {
+    const supplied = posted.altSpreads?.[String(line)];
+    const fmt = (n) => (n > 0 ? `+${n}` : `${n}`);
+    // A home line of -4.5 covers when margin - 4.5 > 0, i.e. margin > 4.5.
+    add({
+      label: `${game.home.code} ${fmt(line)} (alt)`,
+      market: 'altSpread',
+      side: 'home',
+      distribution: dist.margin,
+      line: -line,
+      price: supplied?.home ?? null,
+    });
+    add({
+      label: `${game.away.code} ${fmt(-line)} (alt)`,
+      market: 'altSpread',
+      side: 'away',
+      distribution: dist.margin,
+      line: -line,
+      price: supplied?.away ?? null,
+      invert: true,
+    });
+  });
+
+  // --- Alternate totals ---
+  ladder(mainTotal, [-6, -3, 3, 6]).forEach((line) => {
+    const supplied = posted.altTotals?.[String(line)];
+    add({
+      label: `Over ${line} (alt)`,
+      market: 'altTotal',
+      side: 'over',
+      distribution: dist.total,
+      line,
+      price: supplied?.over ?? null,
+    });
+    add({
+      label: `Under ${line} (alt)`,
+      market: 'altTotal',
+      side: 'under',
+      distribution: dist.total,
+      line,
+      price: supplied?.under ?? null,
+      invert: true,
+    });
+  });
+
+  return rows;
 }
 
 // ---------------------------------------------------------------------------
@@ -584,8 +756,13 @@ export function gamePenalties(game, sim) {
     add(PENALTIES.MARKET_DISAGREEMENT, `Books disagree on the number (${q.marketDisagreement})`);
   if (q.lineMovedAgainst)
     add(PENALTIES.LINE_MOVED_AGAINST, `Line moved against the model (${q.lineMovedAgainst})`);
-  if (q.injuryNewsUncertainty)
+  // Prefer a structured injury list when the feed supplied one; fall back to a
+  // curated note, which can only be charged at the flat rate.
+  if (Array.isArray(game.injuries) && game.injuries.length > 0) {
+    injuryPenalties(game.injuries).forEach((e) => add(e.amount, e.reason));
+  } else if (q.injuryNewsUncertainty) {
     add(PENALTIES.INJURY_NEWS_UNCERTAINTY, `Injury/news uncertainty: ${q.injuryNewsUncertainty}`);
+  }
   if (q.lineupUnconfirmed)
     add(PENALTIES.LINEUP_UNCONFIRMED, `Lineup unconfirmed: ${q.lineupUnconfirmed}`);
 
@@ -626,6 +803,47 @@ export function gamePenalties(game, sim) {
     add(PENALTIES.COIN_FLIP, 'Model sees a coin flip');
 
   return ledger;
+}
+
+// A ruled-out starter and five absent reserves are not the same uncertainty, so
+// the ledger is built from who is actually missing. `starter` is set by the data
+// layer from the projected lineups.
+export function injuryPenalties(injuries) {
+  const entries = [];
+  const isOut = (status) => /^(out|doubtful)$/i.test(status ?? '');
+  const starters = injuries.filter((i) => i.starter);
+  const reserves = injuries.filter((i) => !i.starter);
+
+  starters.forEach((i) => {
+    const amount = isOut(i.status)
+      ? PENALTIES.INJURY_STARTER_OUT
+      : PENALTIES.INJURY_STARTER_QUESTIONABLE;
+    entries.push({
+      amount,
+      reason: `${i.team} projected starter ${i.player} ${String(i.status).toLowerCase()}${
+        i.detail ? ` (${i.detail})` : ''
+      }`,
+    });
+  });
+
+  const reserveRaw = reserves.reduce(
+    (sum, i) =>
+      sum +
+      (isOut(i.status)
+        ? PENALTIES.INJURY_RESERVE_OUT
+        : PENALTIES.INJURY_RESERVE_QUESTIONABLE),
+    0
+  );
+  if (reserveRaw > 0) {
+    const amount = Math.min(reserveRaw, PENALTIES.INJURY_RESERVE_CAP);
+    const names = reserves.map((i) => `${i.player} (${i.team})`).join(', ');
+    entries.push({
+      amount,
+      reason: `${reserves.length} reserve${reserves.length === 1 ? '' : 's'} unavailable: ${names}`,
+    });
+  }
+
+  return entries;
 }
 
 // Prop-specific penalties, layered on top of the game ledger.
@@ -933,7 +1151,13 @@ export function analyzeGame(game, { numSims = 10000, seed = 42, anchorWeight } =
     );
   });
 
-  const playable = [...rows, ...propRows].filter((r) => !r.insufficientData);
+  // Markets the simulation can price beyond the posted three. Unpriced rows
+  // carry fair odds to shop and are never treated as bets.
+  const derived = derivedMarkets(game, sim, { ledger, veto });
+
+  const playable = [...rows, ...propRows, ...derived].filter(
+    (r) => !r.insufficientData && r.priced !== false
+  );
   const byEdge = playable.slice().sort((a, b) => b.adjustedEdge - a.adjustedEdge);
   const qualified = byEdge.filter((r) => r.qualifies);
   const confidence = confidenceFromPenalties(ledger);
@@ -949,6 +1173,7 @@ export function analyzeGame(game, { numSims = 10000, seed = 42, anchorWeight } =
     riskLevel: confidence >= 7.5 ? 'Low' : confidence >= 6 ? 'Medium' : 'High',
     markets: rows,
     props: propRows,
+    derived,
     qualified,
     bestBet: qualified[0] ?? null,
     bestByEdge: byEdge[0] ?? null,
@@ -986,7 +1211,9 @@ export function analyzeSlate(games, options = {}) {
   // rows that clear the gate; `topByEdge` is the leaderboard regardless, so a
   // thin slate reports "nothing qualifies" instead of inventing a card.
   const everyRow = results.flatMap((r) =>
-    [...r.markets, ...r.props].filter((row) => !row.insufficientData)
+    [...r.markets, ...r.props, ...r.derived].filter(
+      (row) => !row.insufficientData && row.priced !== false
+    )
   );
   const topByEdge = everyRow.slice().sort((a, b) => b.adjustedEdge - a.adjustedEdge).slice(0, 5);
   const topBets = everyRow

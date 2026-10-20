@@ -1,0 +1,387 @@
+{
+  "pickcenter": [
+    {
+      "provider": {
+        "id": "100",
+        "name": "DraftKings",
+        "priority": 1
+      },
+      "details": "SA -1.5",
+      "overUnder": 230.5,
+      "spread": -1.5,
+      "overOdds": -108,
+      "underOdds": -112,
+      "awayTeamOdds": {
+        "favorite": false,
+        "underdog": true,
+        "moneyLine": -108,
+        "spreadOdds": -118,
+        "team": {
+          "$ref": "http://sports.core.api.espn.pvt/v2/sports/basketball/leagues/nba/seasons/2027/teams/25?lang=en&region=us"
+        },
+        "teamId": "25",
+        "favoriteAtOpen": false
+      },
+      "homeTeamOdds": {
+        "favorite": true,
+        "underdog": false,
+        "moneyLine": -112,
+        "spreadOdds": -102,
+        "team": {
+          "$ref": "http://sports.core.api.espn.pvt/v2/sports/basketball/leagues/nba/seasons/2027/teams/24?lang=en&region=us"
+        },
+        "teamId": "24",
+        "favoriteAtOpen": true
+      },
+      "moneyline": {
+        "displayName": "Moneyline",
+        "shortDisplayName": "ML",
+        "home": {
+          "close": {
+            "odds": "-112"
+          },
+          "open": {
+            "odds": "-125"
+          }
+        },
+        "away": {
+          "close": {
+            "odds": "-108"
+          },
+          "open": {
+            "odds": "+105"
+          }
+        }
+      },
+      "pointSpread": {
+        "displayName": "Spread",
+        "shortDisplayName": "Spread",
+        "home": {
+          "close": {
+            "line": "-1.5",
+            "odds": "-102"
+          },
+          "open": {
+            "line": "-1.5",
+            "odds": "-115"
+          }
+        },
+        "away": {
+          "close": {
+            "line": "+1.5",
+            "odds": "-118"
+          },
+          "open": {
+            "line": "+1.5",
+            "odds": "-105"
+          }
+        }
+      },
+      "total": {
+        "displayName": "Total",
+        "shortDisplayName": "Total",
+        "over": {
+          "close": {
+            "line": "o230.5",
+            "odds": "-108"
+          },
+          "open": {
+            "line": "o228.5",
+            "odds": "-115"
+          }
+        },
+        "under": {
+          "close": {
+            "line": "u230.5",
+            "odds": "-112"
+          },
+          "open": {
+            "line": "u228.5",
+            "odds": "-105"
+          }
+        }
+      },
+      "header": {
+        "text": "Game Odds"
+      },
+      "footer": {
+        "disclaimer": "GAMBLING PROBLEM? CALL 1-800-GAMBLER or 1-800-MY-RESET, (800) 327-5050 or visit gamblinghelplinema.org (MA). Call 877-8-HOPENY/text HOPENY (467369) (NY). Call 888-789-7777/visit ccpg.org (CT), or visit www.mdgamblinghelp.org (MD), 1-800-981-0023 (PR). 21+ and present in most states. (18+ DC/KY/NH/PR/WY). Void in ONT. Eligibility restrictions apply. Terms: draftkings.com/sportsbook. On behalf of Boot Hill Casino (KS). Pass-thru of per wager tax may apply in IL."
+      }
+    }
+  ],
+  "injuries": [
+    {
+      "team": {
+        "id": "24",
+        "displayName": "San Antonio Spurs",
+        "abbreviation": "SA"
+      },
+      "injuries": [
+        {
+          "status": "Out",
+          "date": "2026-10-19T17:51Z",
+          "athlete": {
+            "id": "6440",
+            "guid": "7975a3ae-314d-5282-e1d0-b9d4d47e151a",
+            "lastName": "Harris",
+            "fullName": "Tobias Harris",
+            "displayName": "Tobias Harris",
+            "shortName": "T. Harris",
+            "headshot": {
+              "href": "https://a.espncdn.com/i/headshots/nba/players/full/6440.png",
+              "alt": "Tobias Harris"
+            },
+            "jersey": "23",
+            "position": {
+              "name": "Forward",
+              "displayName": "Forward",
+              "abbreviation": "F"
+            },
+            "collegeAthlete": {
+              "$ref": "http://sports.core.api.espn.pvt/v2/sports/basketball/leagues/mens-college-basketball/athletes/51417?lang=en&region=us"
+            },
+            "status": {
+              "id": "1",
+              "name": "Active",
+              "type": "active",
+              "abbreviation": "Active"
+            }
+          },
+          "type": {
+            "id": "4",
+            "name": "INJURY_STATUS_OUT",
+            "description": "out",
+            "abbreviation": "O"
+          },
+          "details": {
+            "fantasyStatus": {
+              "description": "OUT",
+              "abbreviation": "OUT",
+              "displayDescription": "Out"
+            },
+            "type": "Calf",
+            "location": "Leg",
+            "detail": "Strain",
+            "side": "Left",
+            "returnDate": "2026-10-23"
+          }
+        },
+        {
+          "status": "Out",
+          "date": "2026-10-05T21:43Z",
+          "athlete": {
+            "id": "5101845",
+            "guid": "ad6a2af6-d0cd-3882-950d-d9cee753bc1b",
+            "lastName": "Quaintance",
+            "fullName": "Jayden Quaintance",
+            "displayName": "Jayden Quaintance",
+            "shortName": "J. Quaintance",
+            "headshot": {
+              "href": "https://a.espncdn.com/i/headshots/nba/players/full/5101845.png",
+              "alt": "Jayden Quaintance"
+            },
+            "jersey": "22",
+            "position": {
+              "name": "Forward",
+              "displayName": "Forward",
+              "abbreviation": "F"
+            },
+            "collegeAthlete": {
+              "$ref": "http://sports.core.api.espn.pvt/v2/sports/basketball/leagues/mens-college-basketball/athletes/5101845?lang=en&region=us"
+            },
+            "status": {
+              "id": "1",
+              "name": "Active",
+              "type": "active",
+              "abbreviation": "Active"
+            }
+          },
+          "type": {
+            "id": "4",
+            "name": "INJURY_STATUS_OUT",
+            "description": "out",
+            "abbreviation": "O"
+          },
+          "details": {
+            "fantasyStatus": {
+              "description": "OUT",
+              "abbreviation": "OUT",
+              "displayDescription": "Out"
+            },
+            "type": "Knee",
+            "location": "Leg",
+            "detail": "Surgery",
+            "side": "Right",
+            "returnDate": "2026-12-03"
+          }
+        }
+      ]
+    },
+    {
+      "team": {
+        "id": "25",
+        "displayName": "Oklahoma City Thunder",
+        "abbreviation": "OKC"
+      },
+      "injuries": [
+        {
+          "status": "Out",
+          "date": "2026-10-19T22:11Z",
+          "athlete": {
+            "id": "5061603",
+            "guid": "662a5a94-8cf3-33c4-8d91-f950cae85e12",
+            "lastName": "Sorber",
+            "fullName": "Thomas Sorber",
+            "displayName": "Thomas Sorber",
+            "shortName": "T. Sorber",
+            "headshot": {
+              "href": "https://a.espncdn.com/i/headshots/nba/players/full/5061603.png",
+              "alt": "Thomas Sorber"
+            },
+            "jersey": "12",
+            "position": {
+              "name": "Center",
+              "displayName": "Center",
+              "abbreviation": "C"
+            },
+            "collegeAthlete": {
+              "$ref": "http://sports.core.api.espn.pvt/v2/sports/basketball/leagues/mens-college-basketball/athletes/5061603?lang=en&region=us"
+            },
+            "status": {
+              "id": "1",
+              "name": "Active",
+              "type": "active",
+              "abbreviation": "Active"
+            }
+          },
+          "type": {
+            "id": "4",
+            "name": "INJURY_STATUS_OUT",
+            "description": "out",
+            "abbreviation": "O"
+          },
+          "details": {
+            "fantasyStatus": {
+              "description": "OUT",
+              "abbreviation": "OUT",
+              "displayDescription": "Out"
+            },
+            "type": "Knee",
+            "location": "Leg",
+            "detail": "Surgery",
+            "side": "Right",
+            "returnDate": "2026-10-22"
+          }
+        },
+        {
+          "status": "Out",
+          "date": "2026-10-19T22:09Z",
+          "athlete": {
+            "id": "5159925",
+            "guid": "d4609779-e07b-36a5-910e-bc4a44a46013",
+            "lastName": "Topic",
+            "fullName": "Nikola Topic",
+            "displayName": "Nikola Topic",
+            "shortName": "N. Topic",
+            "headshot": {
+              "href": "https://a.espncdn.com/i/headshots/nba/players/full/5159925.png",
+              "alt": "Nikola Topic"
+            },
+            "jersey": "44",
+            "position": {
+              "name": "Guard",
+              "displayName": "Guard",
+              "abbreviation": "G"
+            },
+            "status": {
+              "id": "1",
+              "name": "Active",
+              "type": "active",
+              "abbreviation": "Active"
+            }
+          },
+          "type": {
+            "id": "4",
+            "name": "INJURY_STATUS_OUT",
+            "description": "out",
+            "abbreviation": "O"
+          },
+          "details": {
+            "fantasyStatus": {
+              "description": "OUT",
+              "abbreviation": "OUT",
+              "displayDescription": "Out"
+            },
+            "type": "Back",
+            "location": "Torso",
+            "detail": "Surgery",
+            "side": "Not Specified",
+            "returnDate": "2026-10-22"
+          }
+        },
+        {
+          "status": "Out",
+          "date": "2026-10-15T01:22Z",
+          "athlete": {
+            "id": "5106270",
+            "guid": "aa1992e8-3cef-3fc0-a8e5-46fcdaadc2b0",
+            "lastName": "Oweh",
+            "fullName": "Otega Oweh",
+            "displayName": "Otega Oweh",
+            "shortName": "O. Oweh",
+            "headshot": {
+              "href": "https://a.espncdn.com/i/headshots/nba/players/full/5106270.png",
+              "alt": "Otega Oweh"
+            },
+            "jersey": "13",
+            "position": {
+              "name": "Guard",
+              "displayName": "Guard",
+              "abbreviation": "G"
+            },
+            "collegeAthlete": {
+              "$ref": "http://sports.core.api.espn.pvt/v2/sports/basketball/leagues/mens-college-basketball/athletes/5106270?lang=en&region=us"
+            },
+            "status": {
+              "id": "1",
+              "name": "Active",
+              "type": "active",
+              "abbreviation": "Active"
+            }
+          },
+          "type": {
+            "id": "4",
+            "name": "INJURY_STATUS_OUT",
+            "description": "out",
+            "abbreviation": "O"
+          },
+          "details": {
+            "fantasyStatus": {
+              "description": "OFS",
+              "abbreviation": "OFS",
+              "displayDescription": "OFS"
+            },
+            "type": "Achilles",
+            "location": "Leg",
+            "detail": "Surgery",
+            "side": "Right",
+            "returnDate": "2027-07-01"
+          }
+        }
+      ]
+    }
+  ],
+  "predictor": {
+    "header": "Matchup Predictor",
+    "homeTeam": {
+      "id": "24",
+      "gameProjection": "52.6",
+      "teamChanceLoss": "47.4"
+    },
+    "awayTeam": {
+      "id": "25",
+      "gameProjection": "47.4",
+      "teamChanceLoss": "52.6"
+    }
+  }
+}

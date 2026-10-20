@@ -178,7 +178,7 @@ describe('mapping the live scoreboard', () => {
 describe('fetchNbaSlate', () => {
   test('requests today by default and maps the response', async () => {
     const client = { get: jest.fn().mockResolvedValue({ data: scoreboard }) };
-    const slate = await fetchNbaSlate({ client });
+    const slate = await fetchNbaSlate({ client, enrich: false });
     expect(client.get).toHaveBeenCalledTimes(1);
     expect(client.get.mock.calls[0][0]).not.toMatch(/dates=/);
     expect(slate.games).toHaveLength(3);
@@ -186,8 +186,34 @@ describe('fetchNbaSlate', () => {
 
   test('passes an explicit date through to the feed', async () => {
     const client = { get: jest.fn().mockResolvedValue({ data: scoreboard }) };
-    await fetchNbaSlate({ date: '20261020', client });
+    await fetchNbaSlate({ date: '20261020', client, enrich: false });
     expect(client.get.mock.calls[0][0]).toMatch(/dates=20261020/);
+  });
+
+  test('enrichment adds one summary request per game', async () => {
+    const client = { get: jest.fn().mockResolvedValue({ data: scoreboard }) };
+    const slate = await fetchNbaSlate({ client });
+    // One scoreboard call plus a summary for each of the three games.
+    expect(client.get).toHaveBeenCalledTimes(4);
+    const summaryCalls = client.get.mock.calls.filter(([url]) => /summary\?event=/.test(url));
+    expect(summaryCalls).toHaveLength(3);
+    expect(slate.games).toHaveLength(3);
+  });
+
+  test('a failed summary leaves that game on scoreboard data', async () => {
+    const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
+    const client = {
+      get: jest.fn((url) =>
+        /summary/.test(url)
+          ? Promise.reject(new Error('summary down'))
+          : Promise.resolve({ data: scoreboard })
+      ),
+    };
+    const slate = await fetchNbaSlate({ client });
+    // The slate still arrives; only the enrichment is missing.
+    expect(slate.games).toHaveLength(3);
+    expect(slate.games.every((g) => g.injuries === undefined)).toBe(true);
+    warn.mockRestore();
   });
 
   test('propagates a transport failure so the caller can fall back', async () => {
