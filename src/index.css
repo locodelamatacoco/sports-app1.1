@@ -1300,3 +1300,296 @@ body,
     font-size: 12px;
   }
 }
+
+/* ===================== NBA Betting Model ===================== */
+
+.nba-subtitle {
+  color: #aaa;
+  font-size: 14px;
+  line-height: 1.6;
+  max-width: 860px;
+  margin: 0 auto 18px;
+  text-align: center;
+}
+
+.nba-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-bottom: 22px;
+}
+
+.nba-rerun-btn {
+  background: #ff6b35;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 9px 18px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.nba-rerun-btn:hover:not(:disabled) {
+  background: #ff8255;
+}
+
+.nba-rerun-btn:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.nba-bet-rules {
+  color: #888;
+  font-size: 12px;
+}
+
+.nba-loading {
+  text-align: center;
+  color: #aaa;
+}
+
+.nba-top-board {
+  background: #1a1a1a;
+  border: 1px solid #ff6b35;
+  border-radius: 10px;
+  padding: 18px 20px;
+  margin: 0 auto 26px;
+  max-width: 900px;
+}
+
+.nba-top-board h2 {
+  color: #ff6b35;
+  font-size: 15px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 0 0 12px;
+}
+
+.nba-top-list {
+  margin: 0;
+  padding-left: 22px;
+  color: #ddd;
+  font-size: 13px;
+  line-height: 1.9;
+}
+
+.nba-top-label {
+  color: #fff;
+  font-weight: 700;
+}
+
+.nba-game-card {
+  background: #1e1e1e;
+  border: 1px solid #333;
+  border-radius: 10px;
+  padding: 20px;
+  margin: 0 auto 24px;
+  max-width: 900px;
+}
+
+.nba-game-header {
+  border-bottom: 1px solid #333;
+  padding-bottom: 12px;
+  margin-bottom: 14px;
+}
+
+.nba-game-label {
+  color: #ff6b35;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.nba-game-title {
+  font-size: 20px;
+  margin: 6px 0 4px;
+  color: #fff;
+}
+
+.nba-game-odds {
+  color: #888;
+  font-size: 13px;
+}
+
+.nba-veto-banner {
+  background: rgba(239, 83, 80, 0.12);
+  border: 1px solid #ef5350;
+  color: #ffa4a2;
+  border-radius: 6px;
+  padding: 10px 14px;
+  font-size: 14px;
+  margin-bottom: 14px;
+}
+
+.nba-summary-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 20px;
+  font-size: 13px;
+  color: #ddd;
+  margin-bottom: 18px;
+}
+
+.nba-summary-grid strong {
+  color: #fff;
+}
+
+.nba-edge {
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-size: 13px;
+}
+
+.nba-rec {
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 0.5px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+.nba-rec-bet {
+  color: #0d2b10;
+  background: #4caf50;
+}
+
+.nba-rec-pass {
+  color: #aaa;
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.nba-rec-veto {
+  color: #ffa4a2;
+  background: rgba(239, 83, 80, 0.16);
+}
+
+.nba-rec-none {
+  color: #888;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.nba-risk {
+  font-weight: 700;
+}
+
+.nba-risk-low {
+  color: #4caf50;
+}
+
+.nba-risk-medium {
+  color: #ffb300;
+}
+
+.nba-risk-high {
+  color: #ef5350;
+}
+
+.nba-table-wrap {
+  overflow-x: auto;
+  margin-bottom: 16px;
+}
+
+.nba-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  min-width: 620px;
+}
+
+.nba-table-caption {
+  text-align: left;
+  color: #ff6b35;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding-bottom: 8px;
+}
+
+.nba-table th,
+.nba-table td {
+  text-align: left;
+  padding: 7px 10px;
+  border-bottom: 1px solid #2c2c2c;
+  color: #ddd;
+}
+
+.nba-table th {
+  color: #999;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.nba-row-bet {
+  background: rgba(76, 175, 80, 0.08);
+}
+
+.nba-proj {
+  color: #777;
+  font-size: 11px;
+  margin-left: 6px;
+}
+
+.nba-insufficient {
+  color: #777;
+  font-style: italic;
+}
+
+.nba-details-toggle {
+  background: none;
+  border: 1px solid #444;
+  color: #ccc;
+  border-radius: 6px;
+  padding: 7px 14px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.nba-details h3 {
+  color: #ff6b35;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 18px 0 8px;
+}
+
+.nba-list {
+  margin: 0;
+  padding-left: 20px;
+  color: #bbb;
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+.nba-penalty {
+  color: #ef5350;
+  font-weight: 700;
+}
+
+.nba-note {
+  color: #aaa;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.nba-disclaimer {
+  text-align: center;
+  color: #777;
+  font-size: 12px;
+  max-width: 700px;
+  margin: 28px auto 0;
+  line-height: 1.5;
+}
+
+@media (max-width: 640px) {
+  .nba-summary-grid {
+    grid-template-columns: 1fr;
+  }
+}

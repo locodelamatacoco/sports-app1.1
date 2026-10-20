@@ -7,6 +7,27 @@
 // damage accumulation, and finish escalation. Compares simulated
 // probabilities against sportsbook odds to surface value bets.
 
+import {
+  clamp,
+  mulberry32,
+  poissonSample,
+  gaussianSample,
+  americanToProb,
+  probToAmerican,
+  formatAmerican,
+  removeVig,
+} from './oddsMath';
+
+// Re-exported so callers can pull the odds helpers straight off the model.
+export {
+  mulberry32,
+  poissonSample,
+  americanToProb,
+  probToAmerican,
+  formatAmerican,
+  removeVig,
+};
+
 // ---------------------------------------------------------------------------
 // Tunable model constants
 // ---------------------------------------------------------------------------
@@ -36,68 +57,6 @@ export const BET_RULES = {
   HUGE_FAVORITE_IMPLIED: 0.8, // implied prob above which value must be present
   LOW_VOLUME_SLPM: 2.2, // combined striking+grappling output floor
 };
-
-// ---------------------------------------------------------------------------
-// RNG + sampling helpers
-// ---------------------------------------------------------------------------
-
-// Deterministic PRNG so simulation runs are reproducible per seed.
-export function mulberry32(seed) {
-  let a = seed >>> 0;
-  return function () {
-    a |= 0;
-    a = (a + 0x6d2b79f5) | 0;
-    let t = Math.imul(a ^ (a >>> 15), 1 | a);
-    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
-    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-  };
-}
-
-// Knuth Poisson sampler; lambdas in this model stay small (< ~40).
-export function poissonSample(lambda, rand) {
-  if (lambda <= 0) return 0;
-  const L = Math.exp(-lambda);
-  let k = 0;
-  let p = 1;
-  do {
-    k += 1;
-    p *= rand();
-  } while (p > L);
-  return k - 1;
-}
-
-function gaussianSample(rand, mean = 0, sd = 1) {
-  const u1 = Math.max(rand(), 1e-12);
-  const u2 = rand();
-  return mean + sd * Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2);
-}
-
-const clamp = (x, lo, hi) => Math.min(hi, Math.max(lo, x));
-
-// ---------------------------------------------------------------------------
-// Odds math
-// ---------------------------------------------------------------------------
-
-export function americanToProb(odds) {
-  return odds > 0 ? 100 / (odds + 100) : -odds / (-odds + 100);
-}
-
-export function probToAmerican(prob) {
-  const p = clamp(prob, 0.001, 0.999);
-  return p >= 0.5
-    ? Math.round((-100 * p) / (1 - p))
-    : Math.round((100 * (1 - p)) / p);
-}
-
-export function formatAmerican(odds) {
-  return odds > 0 ? `+${odds}` : `${odds}`;
-}
-
-// Remove the vig from a set of mutually exclusive market prices.
-export function removeVig(probs) {
-  const total = probs.reduce((a, b) => a + b, 0);
-  return probs.map((p) => p / total);
-}
 
 // ---------------------------------------------------------------------------
 // Pre-simulation Poisson-style projections
