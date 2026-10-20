@@ -83,7 +83,7 @@ export default function Header() {
           </NavLink>
           {/* NEW: PRD Link */}
           <a
-            href="/Overtime-PRD.md"
+            href="/OVERTIME-PRD.md"
             className="header-link"
             target="_blank"
             rel="noopener noreferrer"
@@ -155,7 +155,7 @@ export default function Header() {
             NBA Model
           </NavLink>
           <a
-            href="/public/OVERTIME-PRD.md"
+            href="/OVERTIME-PRD.md"
             className="mobile-link"
             target="_blank"
             rel="noopener noreferrer"
