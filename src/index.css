@@ -1593,3 +1593,20 @@ body,
     grid-template-columns: 1fr;
   }
 }
+
+.nba-source {
+  text-align: center;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  margin: 0 auto 10px;
+  max-width: 860px;
+}
+
+.nba-source-live {
+  color: #4caf50;
+}
+
+.nba-source-stale {
+  color: #ffb300;
+}

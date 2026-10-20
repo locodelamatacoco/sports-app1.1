@@ -2,6 +2,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { analyzeSlate, formatAmerican, MODEL_CONSTANTS, BET_RULES } from '../models/nbaSimulator';
 import { NBA_SLATE } from '../data/nbaGames';
+import { fetchNbaSlate } from '../data/espnNba';
 
 const NUM_SIMS = 20000;
 
@@ -213,17 +214,35 @@ function GameCard({ analysis }) {
 
 export default function NBABettingPage() {
   const [slate, setSlate] = useState(null);
+  const [source, setSource] = useState(null);
   const [running, setRunning] = useState(true);
   const [seed, setSeed] = useState(2026);
 
-  const run = useCallback((simSeed) => {
-    setRunning(true);
-    // Defer so the "running" state paints before the sims block the thread
-    setTimeout(() => {
-      setSlate(analyzeSlate(NBA_SLATE.games, { numSims: NUM_SIMS, seed: simSeed }));
-      setRunning(false);
-    }, 30);
+  // Pull the live board first; fall back to the hand-entered snapshot so the
+  // page still renders something auditable if ESPN is unreachable.
+  const load = useCallback(async () => {
+    try {
+      const live = await fetchNbaSlate({});
+      if (live.games.length > 0) return { games: live.games, meta: live, live: true };
+    } catch (err) {
+      console.warn('ESPN slate unavailable, using offline snapshot:', err);
+    }
+    return { games: NBA_SLATE.games, meta: NBA_SLATE, live: false };
   }, []);
+
+  const run = useCallback(
+    async (simSeed) => {
+      setRunning(true);
+      const { games, meta, live } = await load();
+      // Defer so the "running" state paints before the sims block the thread
+      setTimeout(() => {
+        setSource({ live, date: meta.date, book: games[0]?.book, count: games.length });
+        setSlate(analyzeSlate(games, { numSims: NUM_SIMS, seed: simSeed }));
+        setRunning(false);
+      }, 30);
+    },
+    [load]
+  );
 
   useEffect(() => {
     run(seed);
@@ -235,8 +254,17 @@ export default function NBABettingPage() {
       style={{ padding: '50px 20px 40px', minHeight: 'calc(100vh - 180px)' }}
     >
       <h1 className="page-title">NBA Betting Model</h1>
+      {source && (
+        <p className={`nba-source ${source.live ? 'nba-source-live' : 'nba-source-stale'}`}>
+          {source.live
+            ? `● Live board — ${source.count} game${source.count === 1 ? '' : 's'} from ESPN${
+                source.book ? ` (${source.book} pricing)` : ''
+              }${source.date ? ` · ${source.date}` : ''}`
+            : '○ ESPN unreachable — showing the hand-entered offline snapshot, which will have drifted from the current board'}
+        </p>
+      )}
       <p className="nba-subtitle">
-        {NBA_SLATE.label} — {NBA_SLATE.date}. Expected scores come from the possession identity
+        Expected scores come from the possession identity
         (efficiency × possessions) rather than raw PPG, then {NUM_SIMS.toLocaleString()} correlated
         Monte Carlo simulations price the moneyline, spread, total, and player props. Every edge is
         reported raw and again after a ledger of uncertainty penalties; only the adjusted edge can

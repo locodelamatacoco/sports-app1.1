@@ -106,7 +106,44 @@ bad input, and we are the side without a trading desk. `projectGame` also
 reports the possessions the market's total implies, which isolates pace as the
 input to distrust.
 
+## Data sources
+
+The slate is pulled live from ESPN's public scoreboard; the inputs ESPN does
+not expose are curated.
+
+| Input | Source |
+|---|---|
+| Games, teams, venue, tip time | **Live** — `espnNba.js` |
+| Moneyline, spread, total — both sides, opening and current | **Live** — DraftKings via ESPN |
+| Line movement | **Derived** from the feed's opening vs current numbers |
+| Multi-book disagreement | **Derived** when the feed returns more than one book |
+| Off/def rating, pace | **Curated** — `nbaTeamRatings.js` |
+| Player props and baselines | **Curated** — `PROP_SETS` in `nbaGames.js` |
+| Injuries, lineup confirmation | **Curated** — `CURATED_CONTEXT` in `nbaGames.js` |
+
+Ratings and pace are not in the public scoreboard — they sit behind
+`site.web.api.espn.com`, a separate host. The page fetches the live board and
+falls back to the hand-entered snapshot in `NBA_SLATE` if ESPN is unreachable,
+labelling which one it used.
+
+`mapScoreboard` is pure, so `espnNba.test.js` runs it against a recorded
+payload (`src/data/__fixtures__/espnScoreboard.json`) with no network. It
+covers the trap worth guarding: the spread is read from the **home** side, so
+a road favourite comes back as a positive home line rather than inverted.
+
+A team with no entry in `nbaTeamRatings.js` resolves to league average with
+`ratingsSourced: false` and is flagged, so the model degrades to "no opinion"
+instead of inventing a rating. **Only six teams are currently filled in** —
+the rest of the league needs its 2025-26 figures added before the model has
+anything to say about those games.
+
 ## Running it on a new slate
+
+The slate and the lines arrive on their own. What needs maintaining is
+`nbaTeamRatings.js` (ratings, pace, roster priors) and, for props,
+`PROP_SETS` / `CURATED_CONTEXT` in `src/data/nbaGames.js`, keyed by an
+`AWAY@HOME` matchup of ESPN abbreviations (note ESPN uses `NY` and `SA`, not
+`NYK`/`SAS`).
 
 Edit `src/data/nbaGames.js`. Each number is SOURCED, ESTIMATED, or JUDGEMENT —
 flag the latter two in `dataQuality` / `flags` so the dampener charges for
@@ -129,4 +166,8 @@ has gone mute.
   combination markets (triple-doubles, PRA built from separate legs) are not
   priced.
 - Pace inputs mix a directly sourced figure with rank-derived estimates; see
-  the header comment in `src/data/nbaGames.js`.
+  `PACE_SCALE_NOTE` in `src/data/nbaTeamRatings.js`.
+- ESPN returns one book (DraftKings) on this endpoint, so cross-book
+  disagreement is usually undetectable and stays a curated note.
+- ESPN prices only one side of the total and spread on this endpoint; the
+  missing side falls back to -110 and is flagged as inferred.
