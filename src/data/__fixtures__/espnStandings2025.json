@@ -1,0 +1,1008 @@
+{
+  "children": [
+    {
+      "name": "Eastern Conference",
+      "standings": {
+        "entries": [
+          {
+            "team": {
+              "abbreviation": "CLE",
+              "displayName": "Cleveland Cavaliers"
+            },
+            "stats": [
+              {
+                "name": "avgPointsAgainst",
+                "value": 112.414635,
+                "displayValue": "112.4"
+              },
+              {
+                "name": "avgPointsFor",
+                "value": 121.939026,
+                "displayValue": "121.9"
+              },
+              {
+                "name": "differential",
+                "value": 9.5,
+                "displayValue": "+9.5"
+              },
+              {
+                "name": "losses",
+                "value": 18,
+                "displayValue": "18"
+              },
+              {
+                "name": "wins",
+                "value": 64,
+                "displayValue": "64"
+              }
+            ]
+          },
+          {
+            "team": {
+              "abbreviation": "BOS",
+              "displayName": "Boston Celtics"
+            },
+            "stats": [
+              {
+                "name": "avgPointsAgainst",
+                "value": 107.15854,
+                "displayValue": "107.2"
+              },
+              {
+                "name": "avgPointsFor",
+                "value": 116.268295,
+                "displayValue": "116.3"
+              },
+              {
+                "name": "differential",
+                "value": 9.099999999999994,
+                "displayValue": "+9.1"
+              },
+              {
+                "name": "losses",
+                "value": 21,
+                "displayValue": "21"
+              },
+              {
+                "name": "wins",
+                "value": 61,
+                "displayValue": "61"
+              }
+            ]
+          },
+          {
+            "team": {
+              "abbreviation": "MIA",
+              "displayName": "Miami Heat"
+            },
+            "stats": [
+              {
+                "name": "avgPointsAgainst",
+                "value": 110.03658,
+                "displayValue": "110.0"
+              },
+              {
+                "name": "avgPointsFor",
+                "value": 110.597565,
+                "displayValue": "110.6"
+              },
+              {
+                "name": "differential",
+                "value": 0.5999999999999943,
+                "displayValue": "+0.6"
+              },
+              {
+                "name": "losses",
+                "value": 45,
+                "displayValue": "45"
+              },
+              {
+                "name": "wins",
+                "value": 37,
+                "displayValue": "37"
+              }
+            ]
+          },
+          {
+            "team": {
+              "abbreviation": "ORL",
+              "displayName": "Orlando Magic"
+            },
+            "stats": [
+              {
+                "name": "avgPointsAgainst",
+                "value": 105.54878,
+                "displayValue": "105.5"
+              },
+              {
+                "name": "avgPointsFor",
+                "value": 105.42683,
+                "displayValue": "105.4"
+              },
+              {
+                "name": "differential",
+                "value": -0.09999999999999432,
+                "displayValue": "-0.1"
+              },
+              {
+                "name": "losses",
+                "value": 41,
+                "displayValue": "41"
+              },
+              {
+                "name": "wins",
+                "value": 41,
+                "displayValue": "41"
+              }
+            ]
+          },
+          {
+            "team": {
+              "abbreviation": "DET",
+              "displayName": "Detroit Pistons"
+            },
+            "stats": [
+              {
+                "name": "avgPointsAgainst",
+                "value": 113.597565,
+                "displayValue": "113.6"
+              },
+              {
+                "name": "avgPointsFor",
+                "value": 115.5,
+                "displayValue": "115.5"
+              },
+              {
+                "name": "differential",
+                "value": 1.9000000000000057,
+                "displayValue": "+1.9"
+              },
+              {
+                "name": "losses",
+                "value": 38,
+                "displayValue": "38"
+              },
+              {
+                "name": "wins",
+                "value": 44,
+                "displayValue": "44"
+              }
+            ]
+          },
+          {
+            "team": {
+              "abbreviation": "MIL",
+              "displayName": "Milwaukee Bucks"
+            },
+            "stats": [
+              {
+                "name": "avgPointsAgainst",
+                "value": 113.03658,
+                "displayValue": "113.0"
+              },
+              {
+                "name": "avgPointsFor",
+                "value": 115.51219,
+                "displayValue": "115.5"
+              },
+              {
+                "name": "differential",
+                "value": 2.5,
+                "displayValue": "+2.5"
+              },
+              {
+                "name": "losses",
+                "value": 34,
+                "displayValue": "34"
+              },
+              {
+                "name": "wins",
+                "value": 48,
+                "displayValue": "48"
+              }
+            ]
+          },
+          {
+            "team": {
+              "abbreviation": "IND",
+              "displayName": "Indiana Pacers"
+            },
+            "stats": [
+              {
+                "name": "avgPointsAgainst",
+                "value": 115.13415,
+                "displayValue": "115.1"
+              },
+              {
+                "name": "avgPointsFor",
+                "value": 117.36585,
+                "displayValue": "117.4"
+              },
+              {
+                "name": "differential",
+                "value": 2.3000000000000114,
+                "displayValue": "+2.3"
+              },
+              {
+                "name": "losses",
+                "value": 32,
+                "displayValue": "32"
+              },
+              {
+                "name": "wins",
+                "value": 50,
+                "displayValue": "50"
+              }
+            ]
+          },
+          {
+            "team": {
+              "abbreviation": "NY",
+              "displayName": "New York Knicks"
+            },
+            "stats": [
+              {
+                "name": "avgPointsAgainst",
+                "value": 111.68293,
+                "displayValue": "111.7"
+              },
+              {
+                "name": "avgPointsFor",
+                "value": 115.79269,
+                "displayValue": "115.8"
+              },
+              {
+                "name": "differential",
+                "value": 4.099999999999994,
+                "displayValue": "+4.1"
+              },
+              {
+                "name": "losses",
+                "value": 31,
+                "displayValue": "31"
+              },
+              {
+                "name": "wins",
+                "value": 51,
+                "displayValue": "51"
+              }
+            ]
+          },
+          {
+            "team": {
+              "abbreviation": "CHI",
+              "displayName": "Chicago Bulls"
+            },
+            "stats": [
+              {
+                "name": "avgPointsAgainst",
+                "value": 119.36585,
+                "displayValue": "119.4"
+              },
+              {
+                "name": "avgPointsFor",
+                "value": 117.80488,
+                "displayValue": "117.8"
+              },
+              {
+                "name": "differential",
+                "value": -1.6000000000000085,
+                "displayValue": "-1.6"
+              },
+              {
+                "name": "losses",
+                "value": 43,
+                "displayValue": "43"
+              },
+              {
+                "name": "wins",
+                "value": 39,
+                "displayValue": "39"
+              }
+            ]
+          },
+          {
+            "team": {
+              "abbreviation": "ATL",
+              "displayName": "Atlanta Hawks"
+            },
+            "stats": [
+              {
+                "name": "avgPointsAgainst",
+                "value": 119.31707,
+                "displayValue": "119.3"
+              },
+              {
+                "name": "avgPointsFor",
+                "value": 118.18293,
+                "displayValue": "118.2"
+              },
+              {
+                "name": "differential",
+                "value": -1.0999999999999943,
+                "displayValue": "-1.1"
+              },
+              {
+                "name": "losses",
+                "value": 42,
+                "displayValue": "42"
+              },
+              {
+                "name": "wins",
+                "value": 40,
+                "displayValue": "40"
+              }
+            ]
+          },
+          {
+            "team": {
+              "abbreviation": "WSH",
+              "displayName": "Washington Wizards"
+            },
+            "stats": [
+              {
+                "name": "avgPointsAgainst",
+                "value": 120.439026,
+                "displayValue": "120.4"
+              },
+              {
+                "name": "avgPointsFor",
+                "value": 108,
+                "displayValue": "108.0"
+              },
+              {
+                "name": "differential",
+                "value": -12.400000000000006,
+                "displayValue": "-12.4"
+              },
+              {
+                "name": "losses",
+                "value": 64,
+                "displayValue": "64"
+              },
+              {
+                "name": "wins",
+                "value": 18,
+                "displayValue": "18"
+              }
+            ]
+          },
+          {
+            "team": {
+              "abbreviation": "CHA",
+              "displayName": "Charlotte Hornets"
+            },
+            "stats": [
+              {
+                "name": "avgPointsAgainst",
+                "value": 114.20731,
+                "displayValue": "114.2"
+              },
+              {
+                "name": "avgPointsFor",
+                "value": 105.097565,
+                "displayValue": "105.1"
+              },
+              {
+                "name": "differential",
+                "value": -9.100000000000009,
+                "displayValue": "-9.1"
+              },
+              {
+                "name": "losses",
+                "value": 63,
+                "displayValue": "63"
+              },
+              {
+                "name": "wins",
+                "value": 19,
+                "displayValue": "19"
+              }
+            ]
+          },
+          {
+            "team": {
+              "abbreviation": "PHI",
+              "displayName": "Philadelphia 76ers"
+            },
+            "stats": [
+              {
+                "name": "avgPointsAgainst",
+                "value": 115.84146,
+                "displayValue": "115.8"
+              },
+              {
+                "name": "avgPointsFor",
+                "value": 109.60976,
+                "displayValue": "109.6"
+              },
+              {
+                "name": "differential",
+                "value": -6.200000000000003,
+                "displayValue": "-6.2"
+              },
+              {
+                "name": "losses",
+                "value": 58,
+                "displayValue": "58"
+              },
+              {
+                "name": "wins",
+                "value": 24,
+                "displayValue": "24"
+              }
+            ]
+          },
+          {
+            "team": {
+              "abbreviation": "BKN",
+              "displayName": "Brooklyn Nets"
+            },
+            "stats": [
+              {
+                "name": "avgPointsAgainst",
+                "value": 112.21951,
+                "displayValue": "112.2"
+              },
+              {
+                "name": "avgPointsFor",
+                "value": 105.10976,
+                "displayValue": "105.1"
+              },
+              {
+                "name": "differential",
+                "value": -7.1000000000000085,
+                "displayValue": "-7.1"
+              },
+              {
+                "name": "losses",
+                "value": 56,
+                "displayValue": "56"
+              },
+              {
+                "name": "wins",
+                "value": 26,
+                "displayValue": "26"
+              }
+            ]
+          },
+          {
+            "team": {
+              "abbreviation": "TOR",
+              "displayName": "Toronto Raptors"
+            },
+            "stats": [
+              {
+                "name": "avgPointsAgainst",
+                "value": 115.15854,
+                "displayValue": "115.2"
+              },
+              {
+                "name": "avgPointsFor",
+                "value": 110.86585,
+                "displayValue": "110.9"
+              },
+              {
+                "name": "differential",
+                "value": -4.299999999999997,
+                "displayValue": "-4.3"
+              },
+              {
+                "name": "losses",
+                "value": 52,
+                "displayValue": "52"
+              },
+              {
+                "name": "wins",
+                "value": 30,
+                "displayValue": "30"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "Western Conference",
+      "standings": {
+        "entries": [
+          {
+            "team": {
+              "abbreviation": "OKC",
+              "displayName": "Oklahoma City Thunder"
+            },
+            "stats": [
+              {
+                "name": "avgPointsAgainst",
+                "value": 107.63415,
+                "displayValue": "107.6"
+              },
+              {
+                "name": "avgPointsFor",
+                "value": 120.5,
+                "displayValue": "120.5"
+              },
+              {
+                "name": "differential",
+                "value": 12.900000000000006,
+                "displayValue": "+12.9"
+              },
+              {
+                "name": "losses",
+                "value": 14,
+                "displayValue": "14"
+              },
+              {
+                "name": "wins",
+                "value": 68,
+                "displayValue": "68"
+              }
+            ]
+          },
+          {
+            "team": {
+              "abbreviation": "LAL",
+              "displayName": "Los Angeles Lakers"
+            },
+            "stats": [
+              {
+                "name": "avgPointsAgainst",
+                "value": 112.17073,
+                "displayValue": "112.2"
+              },
+              {
+                "name": "avgPointsFor",
+                "value": 113.39024,
+                "displayValue": "113.4"
+              },
+              {
+                "name": "differential",
+                "value": 1.2000000000000028,
+                "displayValue": "+1.2"
+              },
+              {
+                "name": "losses",
+                "value": 32,
+                "displayValue": "32"
+              },
+              {
+                "name": "wins",
+                "value": 50,
+                "displayValue": "50"
+              }
+            ]
+          },
+          {
+            "team": {
+              "abbreviation": "HOU",
+              "displayName": "Houston Rockets"
+            },
+            "stats": [
+              {
+                "name": "avgPointsAgainst",
+                "value": 109.78049,
+                "displayValue": "109.8"
+              },
+              {
+                "name": "avgPointsFor",
+                "value": 114.29269,
+                "displayValue": "114.3"
+              },
+              {
+                "name": "differential",
+                "value": 4.5,
+                "displayValue": "+4.5"
+              },
+              {
+                "name": "losses",
+                "value": 30,
+                "displayValue": "30"
+              },
+              {
+                "name": "wins",
+                "value": 52,
+                "displayValue": "52"
+              }
+            ]
+          },
+          {
+            "team": {
+              "abbreviation": "GS",
+              "displayName": "Golden State Warriors"
+            },
+            "stats": [
+              {
+                "name": "avgPointsAgainst",
+                "value": 110.48781,
+                "displayValue": "110.5"
+              },
+              {
+                "name": "avgPointsFor",
+                "value": 113.79269,
+                "displayValue": "113.8"
+              },
+              {
+                "name": "differential",
+                "value": 3.299999999999997,
+                "displayValue": "+3.3"
+              },
+              {
+                "name": "losses",
+                "value": 34,
+                "displayValue": "34"
+              },
+              {
+                "name": "wins",
+                "value": 48,
+                "displayValue": "48"
+              }
+            ]
+          },
+          {
+            "team": {
+              "abbreviation": "MEM",
+              "displayName": "Memphis Grizzlies"
+            },
+            "stats": [
+              {
+                "name": "avgPointsAgainst",
+                "value": 116.85366,
+                "displayValue": "116.9"
+              },
+              {
+                "name": "avgPointsFor",
+                "value": 121.70731,
+                "displayValue": "121.7"
+              },
+              {
+                "name": "differential",
+                "value": 4.799999999999997,
+                "displayValue": "+4.8"
+              },
+              {
+                "name": "losses",
+                "value": 34,
+                "displayValue": "34"
+              },
+              {
+                "name": "wins",
+                "value": 48,
+                "displayValue": "48"
+              }
+            ]
+          },
+          {
+            "team": {
+              "abbreviation": "MIN",
+              "displayName": "Minnesota Timberwolves"
+            },
+            "stats": [
+              {
+                "name": "avgPointsAgainst",
+                "value": 109.29269,
+                "displayValue": "109.3"
+              },
+              {
+                "name": "avgPointsFor",
+                "value": 114.29269,
+                "displayValue": "114.3"
+              },
+              {
+                "name": "differential",
+                "value": 5,
+                "displayValue": "+5.0"
+              },
+              {
+                "name": "losses",
+                "value": 33,
+                "displayValue": "33"
+              },
+              {
+                "name": "wins",
+                "value": 49,
+                "displayValue": "49"
+              }
+            ]
+          },
+          {
+            "team": {
+              "abbreviation": "DEN",
+              "displayName": "Denver Nuggets"
+            },
+            "stats": [
+              {
+                "name": "avgPointsAgainst",
+                "value": 116.86585,
+                "displayValue": "116.9"
+              },
+              {
+                "name": "avgPointsFor",
+                "value": 120.756096,
+                "displayValue": "120.8"
+              },
+              {
+                "name": "differential",
+                "value": 3.8999999999999915,
+                "displayValue": "+3.9"
+              },
+              {
+                "name": "losses",
+                "value": 32,
+                "displayValue": "32"
+              },
+              {
+                "name": "wins",
+                "value": 50,
+                "displayValue": "50"
+              }
+            ]
+          },
+          {
+            "team": {
+              "abbreviation": "LAC",
+              "displayName": "LA Clippers"
+            },
+            "stats": [
+              {
+                "name": "avgPointsAgainst",
+                "value": 108.21951,
+                "displayValue": "108.2"
+              },
+              {
+                "name": "avgPointsFor",
+                "value": 112.87805,
+                "displayValue": "112.9"
+              },
+              {
+                "name": "differential",
+                "value": 4.700000000000003,
+                "displayValue": "+4.7"
+              },
+              {
+                "name": "losses",
+                "value": 32,
+                "displayValue": "32"
+              },
+              {
+                "name": "wins",
+                "value": 50,
+                "displayValue": "50"
+              }
+            ]
+          },
+          {
+            "team": {
+              "abbreviation": "DAL",
+              "displayName": "Dallas Mavericks"
+            },
+            "stats": [
+              {
+                "name": "avgPointsAgainst",
+                "value": 115.39024,
+                "displayValue": "115.4"
+              },
+              {
+                "name": "avgPointsFor",
+                "value": 114.19512,
+                "displayValue": "114.2"
+              },
+              {
+                "name": "differential",
+                "value": -1.2000000000000028,
+                "displayValue": "-1.2"
+              },
+              {
+                "name": "losses",
+                "value": 43,
+                "displayValue": "43"
+              },
+              {
+                "name": "wins",
+                "value": 39,
+                "displayValue": "39"
+              }
+            ]
+          },
+          {
+            "team": {
+              "abbreviation": "SAC",
+              "displayName": "Sacramento Kings"
+            },
+            "stats": [
+              {
+                "name": "avgPointsAgainst",
+                "value": 115.256096,
+                "displayValue": "115.3"
+              },
+              {
+                "name": "avgPointsFor",
+                "value": 115.731705,
+                "displayValue": "115.7"
+              },
+              {
+                "name": "differential",
+                "value": 0.4000000000000057,
+                "displayValue": "+0.4"
+              },
+              {
+                "name": "losses",
+                "value": 42,
+                "displayValue": "42"
+              },
+              {
+                "name": "wins",
+                "value": 40,
+                "displayValue": "40"
+              }
+            ]
+          },
+          {
+            "team": {
+              "abbreviation": "UTAH",
+              "displayName": "Utah Jazz"
+            },
+            "stats": [
+              {
+                "name": "avgPointsAgainst",
+                "value": 121.231705,
+                "displayValue": "121.2"
+              },
+              {
+                "name": "avgPointsFor",
+                "value": 111.89024,
+                "displayValue": "111.9"
+              },
+              {
+                "name": "differential",
+                "value": -9.299999999999997,
+                "displayValue": "-9.3"
+              },
+              {
+                "name": "losses",
+                "value": 65,
+                "displayValue": "65"
+              },
+              {
+                "name": "wins",
+                "value": 17,
+                "displayValue": "17"
+              }
+            ]
+          },
+          {
+            "team": {
+              "abbreviation": "NO",
+              "displayName": "New Orleans Pelicans"
+            },
+            "stats": [
+              {
+                "name": "avgPointsAgainst",
+                "value": 119.256096,
+                "displayValue": "119.3"
+              },
+              {
+                "name": "avgPointsFor",
+                "value": 109.82927,
+                "displayValue": "109.8"
+              },
+              {
+                "name": "differential",
+                "value": -9.5,
+                "displayValue": "-9.5"
+              },
+              {
+                "name": "losses",
+                "value": 61,
+                "displayValue": "61"
+              },
+              {
+                "name": "wins",
+                "value": 21,
+                "displayValue": "21"
+              }
+            ]
+          },
+          {
+            "team": {
+              "abbreviation": "SA",
+              "displayName": "San Antonio Spurs"
+            },
+            "stats": [
+              {
+                "name": "avgPointsAgainst",
+                "value": 116.68293,
+                "displayValue": "116.7"
+              },
+              {
+                "name": "avgPointsFor",
+                "value": 113.92683,
+                "displayValue": "113.9"
+              },
+              {
+                "name": "differential",
+                "value": -2.799999999999997,
+                "displayValue": "-2.8"
+              },
+              {
+                "name": "losses",
+                "value": 48,
+                "displayValue": "48"
+              },
+              {
+                "name": "wins",
+                "value": 34,
+                "displayValue": "34"
+              }
+            ]
+          },
+          {
+            "team": {
+              "abbreviation": "PHX",
+              "displayName": "Phoenix Suns"
+            },
+            "stats": [
+              {
+                "name": "avgPointsAgainst",
+                "value": 116.62195,
+                "displayValue": "116.6"
+              },
+              {
+                "name": "avgPointsFor",
+                "value": 113.62195,
+                "displayValue": "113.6"
+              },
+              {
+                "name": "differential",
+                "value": -3,
+                "displayValue": "-3.0"
+              },
+              {
+                "name": "losses",
+                "value": 46,
+                "displayValue": "46"
+              },
+              {
+                "name": "wins",
+                "value": 36,
+                "displayValue": "36"
+              }
+            ]
+          },
+          {
+            "team": {
+              "abbreviation": "POR",
+              "displayName": "Portland Trail Blazers"
+            },
+            "stats": [
+              {
+                "name": "avgPointsAgainst",
+                "value": 113.86585,
+                "displayValue": "113.9"
+              },
+              {
+                "name": "avgPointsFor",
+                "value": 110.89024,
+                "displayValue": "110.9"
+              },
+              {
+                "name": "differential",
+                "value": -3,
+                "displayValue": "-3.0"
+              },
+              {
+                "name": "losses",
+                "value": 46,
+                "displayValue": "46"
+              },
+              {
+                "name": "wins",
+                "value": 36,
+                "displayValue": "36"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

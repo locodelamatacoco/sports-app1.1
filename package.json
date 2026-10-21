@@ -22,7 +22,10 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "log-board": "node scripts/log-board.js",
+    "grade-board": "node scripts/grade-board.js",
+    "backtest": "node scripts/backtest.js"
   },
   "eslintConfig": {
     "extends": [

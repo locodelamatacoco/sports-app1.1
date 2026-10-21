@@ -44,20 +44,20 @@ const CLEAN_GAME = {
   home: {
     code: 'HOM',
     name: 'Home Team',
-    ratings: { off: 118, def: 112, pace: 100 },
+    ratings: { off: 116, def: 113, pace: 100 },
     rosterAdj: { off: 0, def: 0 },
     turnover: 'low',
-    recentForm: { off: 118, def: 112, pace: 100, games: 20 },
+    recentForm: { off: 116, def: 113, pace: 100, games: 20 },
   },
   context: {
     home: { restDays: 1, backToBack: false },
     away: { restDays: 1, backToBack: false },
   },
   odds: {
-    // +100 on a team the market itself makes an 8.5-point favourite.
+    // Even money on a side the market itself makes a 3.5-point favourite.
     moneyline: { away: -120, home: 100 },
-    spread: { homeLine: -8.5, homePrice: -110, awayPrice: -110 },
-    total: { line: 229.5, over: -110, under: -110 },
+    spread: { homeLine: -3.5, homePrice: -110, awayPrice: -110 },
+    total: { line: 230.5, over: -110, under: -110 },
   },
   props: [],
 };
@@ -132,14 +132,23 @@ describe('expected score model', () => {
     expect(p.away.efficiency).toBeCloseTo(avg, 6);
     // Home court is the only thing separating identical teams.
     expect(p.expectedMargin).toBeCloseTo(MODEL_CONSTANTS.HOME_COURT_POINTS, 6);
-    // Regulation lands exactly on the possession identity; the all-in total
-    // sits above it by the expected overtime contribution.
-    expect(p.regulation.total).toBeCloseTo(2 * (avg / 100) * pace, 6);
-    expect(p.expectedTotal).toBeCloseTo(
+    // The possession identity describes the projection BEFORE shrinkage: the
+    // all-in unshrunk total is the identity plus the overtime contribution.
+    expect(p.unshrunk.total).toBeCloseTo(
       2 * (avg / 100) * pace + p.expectedOvertimePoints,
       6
     );
     expect(p.expectedOvertimePoints).toBeGreaterThan(0);
+
+    // The reported total is then regressed toward the league mean, so it sits
+    // between the identity and that mean rather than on either.
+    const identity = 2 * (avg / 100) * pace + p.expectedOvertimePoints;
+    const mean = MODEL_CONSTANTS.LEAGUE_MEAN_TOTAL;
+    expect(p.expectedTotal).toBeCloseTo(
+      mean + MODEL_CONSTANTS.RATING_SHRINK_TOTAL * (identity - mean),
+      6
+    );
+    expect(Math.abs(p.expectedTotal - mean)).toBeLessThan(Math.abs(identity - mean));
   });
 
   test('a better defence suppresses the opponent efficiency', () => {

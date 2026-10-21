@@ -48,15 +48,38 @@ export const MODEL_CONSTANTS = {
 
   // Home court, expressed as total points of margin, split evenly between
   // a bump for the home side and a haircut for the road side.
-  HOME_COURT_POINTS: 2.6,
+  //
+  // MEASURED, not assumed: the mean home margin across 1,229 games of 2025-26
+  // was 1.745, and a structural fit (margin = homeCourt + shrink * rating
+  // margin) put the intercept at 1.74. The 2.6 this used to carry was folk
+  // wisdom and made every projection too kind to the home side.
+  HOME_COURT_POINTS: 1.74,
+
+  // Prior-season ratings regress hard. Fitting actual margin on the
+  // rating-driven margin over 1,229 out-of-sample games gives a slope of
+  // 0.555 — barely more than half of a projected rating gap shows up on the
+  // night. Totals are worse: slope 0.325, and prior-season ratings explain
+  // only 2% of total variance (R^2 0.0204) against 7.7% for margin.
+  //
+  // Without these the model is systematically too extreme, which showed up as
+  // ~9 points of overconfidence in every probability bucket. Home court is NOT
+  // shrunk — it is a real, stable effect; only the rating difference regresses.
+  RATING_SHRINK_MARGIN: 0.555,
+  RATING_SHRINK_TOTAL: 0.325,
+  LEAGUE_MEAN_TOTAL: 231.2, // observed mean, 2025-26
 
   // Variance calibration. These two are the empirical anchors: NBA final
   // margins have a standard deviation near 13 and totals near 17.5. The
   // per-team score SD and the home/away score correlation are *derived* from
   // them rather than guessed, so the simulated spread and total markets stay
   // mutually consistent.
-  MARGIN_SD: 13.0,
-  TOTAL_SD: 17.5,
+  // MEASURED from the same backtest, as the SD of the residual after
+  // shrinkage. The old 13.0 / 17.5 pair was sourced from general NBA knowledge
+  // about final-score spread, which is not the same quantity as the spread of
+  // outcomes around THIS model's projection — the number the simulation
+  // actually needs. Understating it by 20% made every price overconfident.
+  MARGIN_SD: 15.8,
+  TOTAL_SD: 19.7,
 
   // Possession count is a shock shared by both teams (one game, one pace),
   // which is also what drives per-simulation prop pace factors.
@@ -213,7 +236,12 @@ export function projectGame(game, { anchorWeight } = {}) {
 
   const regHome = (homeEff / 100) * expectedPossessions + homeSchedule;
   const regAway = (awayEff / 100) * expectedPossessions + awaySchedule;
-  const rawMargin = regHome - regAway;
+  // Regress the rating-driven part of the margin toward zero, leaving home
+  // court untouched. See RATING_SHRINK_MARGIN.
+  const unshrunkMargin = regHome - regAway;
+  const homeCourtMargin = homeSchedule - awaySchedule;
+  const rawMargin =
+    homeCourtMargin + C.RATING_SHRINK_MARGIN * (unshrunkMargin - homeCourtMargin);
 
   // A posted total settles including overtime, so the projection has to carry
   // the expected overtime contribution or every Over reads ~0.7 points cheap.
@@ -227,7 +255,10 @@ export function projectGame(game, { anchorWeight } = {}) {
   const pTieInOt = 1 / (C.OT_SCORE_SD * Math.SQRT2 * Math.sqrt(2 * Math.PI));
   const expectedOvertimePoints = (pTie * otTotalPoints) / (1 - pTieInOt);
 
-  const rawTotal = regHome + regAway + expectedOvertimePoints;
+  // Totals regress toward the league mean rather than toward zero.
+  const unshrunkTotal = regHome + regAway + expectedOvertimePoints;
+  const rawTotal =
+    C.LEAGUE_MEAN_TOTAL + C.RATING_SHRINK_TOTAL * (unshrunkTotal - C.LEAGUE_MEAN_TOTAL);
 
   // What the book's numbers say. A home line of -4.5 means the market
   // projects the home side to win by 4.5.
@@ -282,6 +313,7 @@ export function projectGame(game, { anchorWeight } = {}) {
     },
     regulation,
     expectedOvertimePoints,
+    unshrunk: { margin: unshrunkMargin, total: unshrunkTotal },
     raw: { homeScore: regHome, awayScore: regAway, margin: rawMargin, total: rawTotal },
     home: {
       efficiency: homeEff,

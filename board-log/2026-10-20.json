@@ -1,0 +1,545 @@
+{
+  "loggedAt": "2026-10-21T15:12:18.716Z",
+  "slateDate": "2026-10-20",
+  "numSims": 40000,
+  "reconstructed": true,
+  "reconstructionNote": "Built from the pre-tip ESPN fetch saved during the session that wrote these scripts. ESPN strips odds once a game is final, so these closing lines could not be re-fetched afterwards. Model constants are the recalibrated set, not the ones in force on the night.",
+  "constants": {
+    "LEAGUE_AVG_RATING": 114.4,
+    "LEAGUE_AVG_PACE": 99.5,
+    "LEAGUE_PACE_SD": 2.2,
+    "HOME_COURT_POINTS": 1.74,
+    "RATING_SHRINK_MARGIN": 0.555,
+    "RATING_SHRINK_TOTAL": 0.325,
+    "LEAGUE_MEAN_TOTAL": 231.2,
+    "MARGIN_SD": 15.8,
+    "TOTAL_SD": 19.7,
+    "POSSESSION_SD": 3.2,
+    "OT_MINUTES": 5,
+    "OT_SCORE_SD": 4.2,
+    "REGULATION_MINUTES": 48,
+    "MAX_OT_PERIODS": 4,
+    "REST_POINTS_PER_DAY": 0.35,
+    "MAX_REST_POINTS": 1,
+    "BACK_TO_BACK_POINTS": -1.1,
+    "BLOWOUT_MARGIN": 18,
+    "BLOWOUT_MINUTES_FACTOR": 0.86,
+    "MARKET_ANCHOR_WEIGHT": 0.35,
+    "MAX_TRUSTED_MARGIN_DIVERGENCE": 4,
+    "MAX_TRUSTED_TOTAL_DIVERGENCE": 6,
+    "DIVERGENCE_PENALTY_PER_POINT": 0.015,
+    "DIVERGENCE_VETO_MULTIPLE": 2
+  },
+  "games": [
+    {
+      "gameId": "bos-det",
+      "espnId": "401909088",
+      "label": "Celtics @ Pistons",
+      "tipoff": "3:00 PM ET",
+      "book": "DraftKings",
+      "away": "BOS",
+      "home": "DET",
+      "projectedAway": 112.23,
+      "projectedHome": 113.88,
+      "projectedTotal": 226.11,
+      "projectedMargin": 1.64,
+      "unshrunkMargin": 5.29,
+      "confidence": 3,
+      "penaltyTotal": 0.22,
+      "veto": null,
+      "odds": {
+        "moneyline": {
+          "home": 110,
+          "away": -130
+        },
+        "spread": {
+          "homeLine": 1.5,
+          "homePrice": -105,
+          "awayPrice": -115
+        },
+        "total": {
+          "line": 220.5,
+          "over": -112,
+          "under": -108
+        },
+        "opening": {
+          "moneyline": {
+            "home": -125,
+            "away": 105
+          },
+          "spreadHomeLine": -2.5
+        }
+      },
+      "markets": [
+        {
+          "label": "Detroit Pistons ML",
+          "market": "moneyline",
+          "side": "home",
+          "line": null,
+          "price": 110,
+          "modelProb": 0.5411,
+          "impliedProb": 0.4762,
+          "rawEdge": 0.0649,
+          "adjustedEdge": -0.1551,
+          "qualifies": false
+        },
+        {
+          "label": "Boston Celtics ML",
+          "market": "moneyline",
+          "side": "away",
+          "line": null,
+          "price": -130,
+          "modelProb": 0.4589,
+          "impliedProb": 0.5652,
+          "rawEdge": -0.1063,
+          "adjustedEdge": -0.3263,
+          "qualifies": false
+        },
+        {
+          "label": "Detroit Pistons +1.5",
+          "market": "spread",
+          "side": "home",
+          "line": null,
+          "price": -105,
+          "modelProb": 0.5687,
+          "impliedProb": 0.5122,
+          "rawEdge": 0.0565,
+          "adjustedEdge": -0.1635,
+          "qualifies": false
+        },
+        {
+          "label": "Boston Celtics -1.5",
+          "market": "spread",
+          "side": "away",
+          "line": null,
+          "price": -115,
+          "modelProb": 0.4313,
+          "impliedProb": 0.5349,
+          "rawEdge": -0.1036,
+          "adjustedEdge": -0.3236,
+          "qualifies": false
+        },
+        {
+          "label": "Over 220.5",
+          "market": "total",
+          "side": "over",
+          "line": null,
+          "price": -112,
+          "modelProb": 0.608,
+          "impliedProb": 0.5283,
+          "rawEdge": 0.0797,
+          "adjustedEdge": -0.1403,
+          "qualifies": false
+        },
+        {
+          "label": "Under 220.5",
+          "market": "total",
+          "side": "under",
+          "line": null,
+          "price": -108,
+          "modelProb": 0.392,
+          "impliedProb": 0.5192,
+          "rawEdge": -0.1273,
+          "adjustedEdge": -0.3473,
+          "qualifies": false
+        },
+        {
+          "label": "Cade Cunningham Over 8.5 assists",
+          "market": "prop",
+          "side": "over",
+          "line": null,
+          "price": -136,
+          "modelProb": 0.5312,
+          "impliedProb": 0.5763,
+          "rawEdge": -0.0451,
+          "adjustedEdge": -0.2651,
+          "qualifies": false
+        },
+        {
+          "label": "Cade Cunningham Under 8.5 assists",
+          "market": "prop",
+          "side": "under",
+          "line": null,
+          "price": 110,
+          "modelProb": 0.4688,
+          "impliedProb": 0.4762,
+          "rawEdge": -0.0074,
+          "adjustedEdge": -0.2274,
+          "qualifies": false
+        },
+        {
+          "label": "Jayson Tatum 25+ points",
+          "market": "prop",
+          "side": "yes",
+          "line": null,
+          "price": -192,
+          "modelProb": 0.3005,
+          "impliedProb": 0.6575,
+          "rawEdge": -0.357,
+          "adjustedEdge": -0.577,
+          "qualifies": false
+        },
+        {
+          "label": "Jayson Tatum Over 8.5 rebounds",
+          "market": "prop",
+          "side": "over",
+          "line": null,
+          "price": -114,
+          "modelProb": 0.6634,
+          "impliedProb": 0.5327,
+          "rawEdge": 0.1307,
+          "adjustedEdge": -0.0893,
+          "qualifies": false
+        },
+        {
+          "label": "Jayson Tatum Under 8.5 rebounds",
+          "market": "prop",
+          "side": "under",
+          "line": null,
+          "price": -106,
+          "modelProb": 0.3366,
+          "impliedProb": 0.5146,
+          "rawEdge": -0.178,
+          "adjustedEdge": -0.398,
+          "qualifies": false
+        }
+      ]
+    },
+    {
+      "gameId": "phi-ny",
+      "espnId": "401909089",
+      "label": "76ers @ Knicks",
+      "tipoff": "7:00 PM ET",
+      "book": "DraftKings",
+      "away": "PHI",
+      "home": "NY",
+      "projectedAway": 114.08,
+      "projectedHome": 117.4,
+      "projectedTotal": 231.48,
+      "projectedMargin": 3.32,
+      "unshrunkMargin": 3.47,
+      "confidence": 5.3,
+      "penaltyTotal": 0.15,
+      "veto": null,
+      "odds": {
+        "moneyline": {
+          "home": -180,
+          "away": 150
+        },
+        "spread": {
+          "homeLine": -4.5,
+          "homePrice": -110,
+          "awayPrice": -110
+        },
+        "total": {
+          "line": 231.5,
+          "over": -112,
+          "under": -108
+        },
+        "opening": {
+          "moneyline": {
+            "home": -170,
+            "away": 142
+          },
+          "spreadHomeLine": -3.5
+        }
+      },
+      "markets": [
+        {
+          "label": "New York Knicks ML",
+          "market": "moneyline",
+          "side": "home",
+          "line": null,
+          "price": -180,
+          "modelProb": 0.5835,
+          "impliedProb": 0.6429,
+          "rawEdge": -0.0594,
+          "adjustedEdge": -0.2094,
+          "qualifies": false
+        },
+        {
+          "label": "Philadelphia 76ers ML",
+          "market": "moneyline",
+          "side": "away",
+          "line": null,
+          "price": 150,
+          "modelProb": 0.4165,
+          "impliedProb": 0.4,
+          "rawEdge": 0.0165,
+          "adjustedEdge": -0.1335,
+          "qualifies": false
+        },
+        {
+          "label": "New York Knicks -4.5",
+          "market": "spread",
+          "side": "home",
+          "line": null,
+          "price": -110,
+          "modelProb": 0.4771,
+          "impliedProb": 0.5238,
+          "rawEdge": -0.0467,
+          "adjustedEdge": -0.1967,
+          "qualifies": false
+        },
+        {
+          "label": "Philadelphia 76ers +4.5",
+          "market": "spread",
+          "side": "away",
+          "line": null,
+          "price": -110,
+          "modelProb": 0.5229,
+          "impliedProb": 0.5238,
+          "rawEdge": -0.0009,
+          "adjustedEdge": -0.1509,
+          "qualifies": false
+        },
+        {
+          "label": "Over 231.5",
+          "market": "total",
+          "side": "over",
+          "line": null,
+          "price": -112,
+          "modelProb": 0.4979,
+          "impliedProb": 0.5283,
+          "rawEdge": -0.0305,
+          "adjustedEdge": -0.1805,
+          "qualifies": false
+        },
+        {
+          "label": "Under 231.5",
+          "market": "total",
+          "side": "under",
+          "line": null,
+          "price": -108,
+          "modelProb": 0.5021,
+          "impliedProb": 0.5192,
+          "rawEdge": -0.0171,
+          "adjustedEdge": -0.1671,
+          "qualifies": false
+        },
+        {
+          "label": "Jalen Brunson Over 27.5 points",
+          "market": "prop",
+          "side": "over",
+          "line": null,
+          "price": -106,
+          "modelProb": 0.4841,
+          "impliedProb": 0.5146,
+          "rawEdge": -0.0305,
+          "adjustedEdge": -0.2205,
+          "qualifies": false
+        },
+        {
+          "label": "Jalen Brunson Under 27.5 points",
+          "market": "prop",
+          "side": "under",
+          "line": null,
+          "price": -114,
+          "modelProb": 0.5159,
+          "impliedProb": 0.5327,
+          "rawEdge": -0.0168,
+          "adjustedEdge": -0.2068,
+          "qualifies": false
+        },
+        {
+          "label": "Jalen Brunson Over 6.5 assists",
+          "market": "prop",
+          "side": "over",
+          "line": null,
+          "price": -118,
+          "modelProb": 0.4879,
+          "impliedProb": 0.5413,
+          "rawEdge": -0.0534,
+          "adjustedEdge": -0.2434,
+          "qualifies": false
+        },
+        {
+          "label": "Jalen Brunson Under 6.5 assists",
+          "market": "prop",
+          "side": "under",
+          "line": null,
+          "price": -102,
+          "modelProb": 0.5121,
+          "impliedProb": 0.505,
+          "rawEdge": 0.0071,
+          "adjustedEdge": -0.1829,
+          "qualifies": false
+        },
+        {
+          "label": "Jaylen Brown 20+ points",
+          "market": "prop",
+          "side": "yes",
+          "line": null,
+          "price": -156,
+          "modelProb": 0.5298,
+          "impliedProb": 0.6094,
+          "rawEdge": -0.0796,
+          "adjustedEdge": -0.2996,
+          "qualifies": false
+        }
+      ]
+    },
+    {
+      "gameId": "okc-sa",
+      "espnId": "401909090",
+      "label": "Thunder @ Spurs",
+      "tipoff": "9:30 PM ET",
+      "book": "DraftKings",
+      "away": "OKC",
+      "home": "SA",
+      "projectedAway": 114.51,
+      "projectedHome": 115.72,
+      "projectedTotal": 230.23,
+      "projectedMargin": 1.21,
+      "unshrunkMargin": 0.19,
+      "confidence": 5.9,
+      "penaltyTotal": 0.13,
+      "veto": null,
+      "odds": {
+        "moneyline": {
+          "home": -112,
+          "away": -108
+        },
+        "spread": {
+          "homeLine": -1.5,
+          "homePrice": -102,
+          "awayPrice": -118
+        },
+        "total": {
+          "line": 230.5,
+          "over": -108,
+          "under": -112
+        },
+        "opening": {
+          "moneyline": {
+            "home": -125,
+            "away": 105
+          },
+          "spreadHomeLine": -1.5
+        }
+      },
+      "markets": [
+        {
+          "label": "San Antonio Spurs ML",
+          "market": "moneyline",
+          "side": "home",
+          "line": null,
+          "price": -112,
+          "modelProb": 0.5302,
+          "impliedProb": 0.5283,
+          "rawEdge": 0.0019,
+          "adjustedEdge": -0.1281,
+          "qualifies": false
+        },
+        {
+          "label": "Oklahoma City Thunder ML",
+          "market": "moneyline",
+          "side": "away",
+          "line": null,
+          "price": -108,
+          "modelProb": 0.4698,
+          "impliedProb": 0.5192,
+          "rawEdge": -0.0495,
+          "adjustedEdge": -0.1795,
+          "qualifies": false
+        },
+        {
+          "label": "San Antonio Spurs -1.5",
+          "market": "spread",
+          "side": "home",
+          "line": null,
+          "price": -102,
+          "modelProb": 0.5031,
+          "impliedProb": 0.505,
+          "rawEdge": -0.0019,
+          "adjustedEdge": -0.1319,
+          "qualifies": false
+        },
+        {
+          "label": "Oklahoma City Thunder +1.5",
+          "market": "spread",
+          "side": "away",
+          "line": null,
+          "price": -118,
+          "modelProb": 0.4969,
+          "impliedProb": 0.5413,
+          "rawEdge": -0.0444,
+          "adjustedEdge": -0.1744,
+          "qualifies": false
+        },
+        {
+          "label": "Over 230.5",
+          "market": "total",
+          "side": "over",
+          "line": null,
+          "price": -108,
+          "modelProb": 0.4921,
+          "impliedProb": 0.5192,
+          "rawEdge": -0.0271,
+          "adjustedEdge": -0.1571,
+          "qualifies": false
+        },
+        {
+          "label": "Under 230.5",
+          "market": "total",
+          "side": "under",
+          "line": null,
+          "price": -112,
+          "modelProb": 0.5079,
+          "impliedProb": 0.5283,
+          "rawEdge": -0.0204,
+          "adjustedEdge": -0.1504,
+          "qualifies": false
+        },
+        {
+          "label": "Victor Wembanyama Over 26.5 points",
+          "market": "prop",
+          "side": "over",
+          "line": null,
+          "price": 108,
+          "modelProb": 0.2805,
+          "impliedProb": 0.4808,
+          "rawEdge": -0.2003,
+          "adjustedEdge": -0.3703,
+          "qualifies": false
+        },
+        {
+          "label": "Victor Wembanyama Under 26.5 points",
+          "market": "prop",
+          "side": "under",
+          "line": null,
+          "price": -132,
+          "modelProb": 0.7195,
+          "impliedProb": 0.569,
+          "rawEdge": 0.1506,
+          "adjustedEdge": -0.0194,
+          "qualifies": false
+        },
+        {
+          "label": "Victor Wembanyama Over 11.5 rebounds",
+          "market": "prop",
+          "side": "over",
+          "line": null,
+          "price": -125,
+          "modelProb": 0.3344,
+          "impliedProb": 0.5556,
+          "rawEdge": -0.2211,
+          "adjustedEdge": -0.3911,
+          "qualifies": false
+        },
+        {
+          "label": "Victor Wembanyama Under 11.5 rebounds",
+          "market": "prop",
+          "side": "under",
+          "line": null,
+          "price": 113,
+          "modelProb": 0.6656,
+          "impliedProb": 0.4695,
+          "rawEdge": 0.1961,
+          "adjustedEdge": 0.0261,
+          "qualifies": false
+        }
+      ]
+    }
+  ]
+}

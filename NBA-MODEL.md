@@ -182,6 +182,88 @@ payload (`src/data/__fixtures__/espnScoreboard.json`) with no network. It
 covers the trap worth guarding: the spread is read from the **home** side, so
 a road favourite comes back as a positive home line rather than inverted.
 
+## Validation: what the backtest found
+
+`src/models/backtest.js` rates teams on 2024-25 and predicts all **1,229
+regular-season games of 2025-26** — the same shape as production, where tonight
+is projected from last season. Run it with `npm run backtest`.
+
+It found the model was badly overconfident, and three constants wrong:
+
+| Constant | Was | Measured |
+|---|---|---|
+| `HOME_COURT_POINTS` | 2.6 | **1.74** |
+| `MARGIN_SD` | 13.0 | **15.8** |
+| `TOTAL_SD` | 17.5 | **19.7** |
+
+The 2.6 was folk wisdom; the measured mean home margin is 1.745. The SDs were
+sourced from general knowledge about the spread of NBA final scores, which is
+**not the same quantity** the simulation needs — that is the spread of outcomes
+around *this model's* projection. Understating it by 20% made every price on
+the board overconfident.
+
+Worse, the projections themselves were too extreme. Fitting actual margin on
+the rating-driven margin gives a slope of **0.555**: barely more than half of a
+projected rating gap shows up on the night. Totals are far weaker, slope
+**0.325**. So `RATING_SHRINK_MARGIN` and `RATING_SHRINK_TOTAL` now regress the
+rating-driven part toward zero and toward the league mean respectively. Home
+court is *not* shrunk — it is a real, stable effect.
+
+Calibration before and after, as mean absolute gap between stated and realised
+win rate across probability buckets:
+
+```
+before   8.74 points   (60-65% bucket won 51.5%; 70-80% bucket won 64.1%)
+after    2.86 points   and erring underconfident at the top, the safe direction
+```
+
+### The honest limits
+
+- Prior-season ratings explain **7.7% of margin variance** (R² 0.077) and
+  **2.0% of total variance** (R² 0.020). The total projections are close to
+  uninformative, which is why a 6-point disagreement with a posted total is not
+  an edge.
+- Straight-up accuracy is **60.1%** against a 55.5% always-pick-home baseline
+  over the full season. On a chronologically held-out final quarter it was
+  **61.0% against a 61.4% baseline** — i.e. **no measurable edge over a trivial
+  rule** in that window. Treat the full-season figure as the optimistic end.
+- **The backtest cannot measure profitability.** ESPN strips odds from
+  completed games, so there are no historical closing lines to beat. It
+  validates the score projection only. Those are different claims.
+
+## Nightly logging, because the lines disappear
+
+Since a price not recorded before tip-off is gone for good, that question only
+becomes answerable going forward:
+
+```
+npm run log-board              # snapshot tonight's board before tip
+npm run log-board 20261022     # a specific date
+npm run grade-board            # grade every log against finals
+npm run grade-board 2026-10-21
+```
+
+`board-log/YYYY-MM-DD.json` stores every priced market with its price, the
+model's probability, raw and adjusted edge, and **the constants in force at the
+time** — so a later improvement cannot silently rewrite its own history.
+
+The grader reports two things separately, because they answer different
+questions:
+
+- **the side the model leaned** (one per market family, raw edge > 0), which
+  measures whether the projection is right. Grading both logged sides would be
+  mechanically 50% and meaningless.
+- **qualifying bets only**, which is the only line reflecting what the model
+  actually told you to do.
+
+Settlement lives in `src/models/settle.js` rather than in the script, and is
+tested: spread orientation, pushes on whole numbers, and pushes excluded from
+ROI denominators are each easy to get silently wrong.
+
+The scripts run the real `src/` modules through a `@babel/core` require hook
+(`scripts/_loader.cjs`) so they cannot drift from what the page uses, and they
+tunnel through `HTTPS_PROXY` via CONNECT when one is set.
+
 ## Two unknown-is-not-zero bugs worth not reintroducing
 
 Both made the model quietly *more* confident about the things it knew least
