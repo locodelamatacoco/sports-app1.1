@@ -1,0 +1,196 @@
+{
+ "events": [
+  {
+   "id": "401902644",
+   "date": "2026-10-03T23:00Z",
+   "season": {
+    "year": 2027,
+    "type": 1,
+    "slug": "preseason"
+   },
+   "status": {
+    "type": {
+     "completed": true
+    }
+   },
+   "competitions": [
+    {
+     "competitors": [
+      {
+       "homeAway": "home",
+       "team": {
+        "abbreviation": "TOR"
+       }
+      },
+      {
+       "homeAway": "away",
+       "team": {
+        "abbreviation": "MIA"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "401914127",
+   "date": "2026-10-04T23:00Z",
+   "season": {
+    "year": 2027,
+    "type": 1,
+    "slug": "preseason"
+   },
+   "status": {
+    "type": {
+     "completed": true
+    }
+   },
+   "competitions": [
+    {
+     "competitors": [
+      {
+       "homeAway": "home",
+       "team": {
+        "abbreviation": "DEN"
+       }
+      },
+      {
+       "homeAway": "away",
+       "team": {
+        "abbreviation": "UTAH"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "401918010",
+   "date": "2026-10-04T23:00Z",
+   "season": {
+    "year": 2027,
+    "type": 1,
+    "slug": "preseason"
+   },
+   "status": {
+    "type": {
+     "completed": true
+    }
+   },
+   "competitions": [
+    {
+     "competitors": [
+      {
+       "homeAway": "home",
+       "team": {
+        "abbreviation": "LAC"
+       }
+      },
+      {
+       "homeAway": "away",
+       "team": {
+        "abbreviation": "GS"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "401898388",
+   "date": "2026-10-05T23:00Z",
+   "season": {
+    "year": 2027,
+    "type": 1,
+    "slug": "preseason"
+   },
+   "status": {
+    "type": {
+     "completed": true
+    }
+   },
+   "competitions": [
+    {
+     "competitors": [
+      {
+       "homeAway": "home",
+       "team": {
+        "abbreviation": "ATL"
+       }
+      },
+      {
+       "homeAway": "away",
+       "team": {
+        "abbreviation": "MEM"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "401909088",
+   "date": "2026-10-20T19:00Z",
+   "season": {
+    "year": 2027,
+    "type": 2,
+    "slug": "regular-season"
+   },
+   "status": {
+    "type": {
+     "completed": true
+    }
+   },
+   "competitions": [
+    {
+     "competitors": [
+      {
+       "homeAway": "home",
+       "team": {
+        "abbreviation": "DET"
+       }
+      },
+      {
+       "homeAway": "away",
+       "team": {
+        "abbreviation": "BOS"
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "401909089",
+   "date": "2026-10-20T23:00Z",
+   "season": {
+    "year": 2027,
+    "type": 2,
+    "slug": "regular-season"
+   },
+   "status": {
+    "type": {
+     "completed": true
+    }
+   },
+   "competitions": [
+    {
+     "competitors": [
+      {
+       "homeAway": "home",
+       "team": {
+        "abbreviation": "NY"
+       }
+      },
+      {
+       "homeAway": "away",
+       "team": {
+        "abbreviation": "PHI"
+       }
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

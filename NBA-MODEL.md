@@ -73,6 +73,27 @@ a normal-curve approximation.
 A prop with no sourced baseline returns `insufficientData` and is reported as
 `NO PLAY` rather than being modelled off an invented number.
 
+## Preseason: the only current-roster data there is
+
+Every team rating comes from last season's standings, which describe rosters
+that no longer exist — Miami's 2025-26 numbers were posted by a team that did
+not have Giannis Antetokounmpo on it. `espnPreseason.js` reads this season's
+preseason box scores, the only current-roster data available before the season
+starts, and the only source of player baselines at all.
+
+It is also bad data, and the module is built to say so rather than hide it:
+
+- Two to six games per team.
+- Starters play 15-20 minutes, not 32. **Per-game numbers are useless**, so the
+  module returns per-minute rates only, and `projectedMinutes` is a prior the
+  caller supplies and the dampener charges for.
+- A player with under `MIN_MINUTES_FOR_RATE` (24) total minutes is marked
+  `usableSample: false` and `propBaseline` refuses to project from it.
+- Rotations are experiments, so deep-bench rates are not repeatable.
+
+The sample size travels with every rate, so a caller cannot use one without
+seeing how thin it is.
+
 ## Market coverage
 
 ESPN posts three markets per game: moneyline, spread, total. The simulation
@@ -144,7 +165,8 @@ not expose are curated.
 | Off/def rating, all 30 teams | **Derived** — `espnRatings.js`, from standings |
 | Pace | **Partly sourced** — `PACE_PER_48`, else league average (flagged) |
 | Roster-change priors | **Curated judgement** — `ROSTER_PRIORS` |
-| Player props and baselines | **Curated** — `PROP_SETS` in `nbaGames.js` |
+| Player per-minute rates, current roster | **Live** — `espnPreseason.js` |
+| Player prop lines | **Curated** — ESPN publishes none |
 | Over/under prices, both sides | **Live** — summary endpoint |
 | Injury report, with status | **Live** — summary endpoint |
 | ESPN's own win projection | **Live** — shown for comparison, never a model input |
