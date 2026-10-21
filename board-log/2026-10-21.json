@@ -1,5 +1,5 @@
 {
-  "loggedAt": "2026-10-21T15:15:49.846Z",
+  "loggedAt": "2026-10-21T15:45:38.293Z",
   "slateDate": "2026-10-21",
   "numSims": 40000,
   "constants": {
@@ -265,13 +265,13 @@
       "book": "DraftKings",
       "away": "MIN",
       "home": "MIA",
-      "projectedAway": 117.13,
-      "projectedHome": 118.44,
-      "projectedTotal": 235.57,
-      "projectedMargin": 1.31,
+      "projectedAway": 117.25,
+      "projectedHome": 118.48,
+      "projectedTotal": 235.73,
+      "projectedMargin": 1.23,
       "unshrunkMargin": 0.63,
-      "confidence": 5.1,
-      "penaltyTotal": 0.1585,
+      "confidence": 3,
+      "penaltyTotal": 0.22,
       "veto": null,
       "odds": {
         "moneyline": {
@@ -284,9 +284,9 @@
           "awayPrice": -108
         },
         "total": {
-          "line": 239.5,
-          "over": -108,
-          "under": -112
+          "line": 240.5,
+          "over": -105,
+          "under": -115
         },
         "opening": {
           "moneyline": {
@@ -303,10 +303,10 @@
           "side": "home",
           "line": null,
           "price": -122,
-          "modelProb": 0.534,
+          "modelProb": 0.5283,
           "impliedProb": 0.5495,
-          "rawEdge": -0.0156,
-          "adjustedEdge": -0.1741,
+          "rawEdge": -0.0212,
+          "adjustedEdge": -0.2412,
           "qualifies": false
         },
         {
@@ -315,10 +315,10 @@
           "side": "away",
           "line": null,
           "price": 102,
-          "modelProb": 0.4661,
+          "modelProb": 0.4717,
           "impliedProb": 0.495,
-          "rawEdge": -0.029,
-          "adjustedEdge": -0.1875,
+          "rawEdge": -0.0234,
+          "adjustedEdge": -0.2434,
           "qualifies": false
         },
         {
@@ -327,10 +327,10 @@
           "side": "home",
           "line": null,
           "price": -112,
-          "modelProb": 0.5068,
+          "modelProb": 0.5013,
           "impliedProb": 0.5283,
-          "rawEdge": -0.0215,
-          "adjustedEdge": -0.1799,
+          "rawEdge": -0.027,
+          "adjustedEdge": -0.247,
           "qualifies": false
         },
         {
@@ -339,34 +339,82 @@
           "side": "away",
           "line": null,
           "price": -108,
-          "modelProb": 0.4932,
+          "modelProb": 0.4987,
           "impliedProb": 0.5192,
-          "rawEdge": -0.0261,
-          "adjustedEdge": -0.1845,
+          "rawEdge": -0.0205,
+          "adjustedEdge": -0.2405,
           "qualifies": false
         },
         {
-          "label": "Over 239.5",
+          "label": "Over 240.5",
           "market": "total",
           "side": "over",
           "line": null,
-          "price": -108,
-          "modelProb": 0.4167,
-          "impliedProb": 0.5192,
-          "rawEdge": -0.1026,
-          "adjustedEdge": -0.261,
+          "price": -105,
+          "modelProb": 0.4012,
+          "impliedProb": 0.5122,
+          "rawEdge": -0.111,
+          "adjustedEdge": -0.331,
           "qualifies": false
         },
         {
-          "label": "Under 239.5",
+          "label": "Under 240.5",
           "market": "total",
           "side": "under",
           "line": null,
-          "price": -112,
-          "modelProb": 0.5833,
-          "impliedProb": 0.5283,
-          "rawEdge": 0.055,
-          "adjustedEdge": -0.1034,
+          "price": -115,
+          "modelProb": 0.5988,
+          "impliedProb": 0.5349,
+          "rawEdge": 0.0639,
+          "adjustedEdge": -0.1561,
+          "qualifies": false
+        },
+        {
+          "label": "Bam Adebayo 17+ points",
+          "market": "prop",
+          "side": "yes",
+          "line": null,
+          "price": -121,
+          "modelProb": 0.4086,
+          "impliedProb": 0.5475,
+          "rawEdge": -0.1389,
+          "adjustedEdge": -0.3589,
+          "qualifies": false
+        },
+        {
+          "label": "Bam Adebayo Over 9.5 rebounds",
+          "market": "prop",
+          "side": "over",
+          "line": null,
+          "price": -110,
+          "modelProb": 0.3163,
+          "impliedProb": 0.5238,
+          "rawEdge": -0.2075,
+          "adjustedEdge": -0.4275,
+          "qualifies": false
+        },
+        {
+          "label": "Bam Adebayo Under 9.5 rebounds",
+          "market": "prop",
+          "side": "under",
+          "line": null,
+          "price": -110,
+          "modelProb": 0.6837,
+          "impliedProb": 0.5238,
+          "rawEdge": 0.1599,
+          "adjustedEdge": -0.0601,
+          "qualifies": false
+        },
+        {
+          "label": "Pelle Larsson 11+ points",
+          "market": "prop",
+          "side": "yes",
+          "line": null,
+          "price": -130,
+          "modelProb": 0.2505,
+          "impliedProb": 0.5652,
+          "rawEdge": -0.3147,
+          "adjustedEdge": -0.5347,
           "qualifies": false
         }
       ]
@@ -741,8 +789,8 @@
         },
         "total": {
           "line": 239.5,
-          "over": -110,
-          "under": -110
+          "over": -115,
+          "under": -105
         },
         "opening": {
           "moneyline": {
@@ -806,11 +854,11 @@
           "market": "total",
           "side": "over",
           "line": null,
-          "price": -110,
+          "price": -115,
           "modelProb": 0.4148,
-          "impliedProb": 0.5238,
-          "rawEdge": -0.109,
-          "adjustedEdge": -0.3049,
+          "impliedProb": 0.5349,
+          "rawEdge": -0.12,
+          "adjustedEdge": -0.3159,
           "qualifies": false
         },
         {
@@ -818,11 +866,11 @@
           "market": "total",
           "side": "under",
           "line": null,
-          "price": -110,
+          "price": -105,
           "modelProb": 0.5851,
-          "impliedProb": 0.5238,
-          "rawEdge": 0.0613,
-          "adjustedEdge": -0.1346,
+          "impliedProb": 0.5122,
+          "rawEdge": 0.073,
+          "adjustedEdge": -0.1229,
           "qualifies": false
         }
       ]
@@ -964,13 +1012,13 @@
         },
         "spread": {
           "homeLine": -6.5,
-          "homePrice": -110,
-          "awayPrice": -110
+          "homePrice": -112,
+          "awayPrice": -108
         },
         "total": {
           "line": 234.5,
-          "over": -112,
-          "under": -108
+          "over": -115,
+          "under": -105
         },
         "opening": {
           "moneyline": {
@@ -1010,11 +1058,11 @@
           "market": "spread",
           "side": "home",
           "line": null,
-          "price": -110,
+          "price": -112,
           "modelProb": 0.4464,
-          "impliedProb": 0.5238,
-          "rawEdge": -0.0774,
-          "adjustedEdge": -0.1974,
+          "impliedProb": 0.5283,
+          "rawEdge": -0.0819,
+          "adjustedEdge": -0.2019,
           "qualifies": false
         },
         {
@@ -1022,11 +1070,11 @@
           "market": "spread",
           "side": "away",
           "line": null,
-          "price": -110,
+          "price": -108,
           "modelProb": 0.5536,
-          "impliedProb": 0.5238,
-          "rawEdge": 0.0298,
-          "adjustedEdge": -0.0902,
+          "impliedProb": 0.5192,
+          "rawEdge": 0.0343,
+          "adjustedEdge": -0.0857,
           "qualifies": false
         },
         {
@@ -1034,11 +1082,11 @@
           "market": "total",
           "side": "over",
           "line": null,
-          "price": -112,
+          "price": -115,
           "modelProb": 0.4647,
-          "impliedProb": 0.5283,
-          "rawEdge": -0.0636,
-          "adjustedEdge": -0.1836,
+          "impliedProb": 0.5349,
+          "rawEdge": -0.0702,
+          "adjustedEdge": -0.1902,
           "qualifies": false
         },
         {
@@ -1046,11 +1094,11 @@
           "market": "total",
           "side": "under",
           "line": null,
-          "price": -108,
+          "price": -105,
           "modelProb": 0.5353,
-          "impliedProb": 0.5192,
-          "rawEdge": 0.0161,
-          "adjustedEdge": -0.1039,
+          "impliedProb": 0.5122,
+          "rawEdge": 0.0231,
+          "adjustedEdge": -0.0969,
           "qualifies": false
         }
       ]
@@ -1197,8 +1245,8 @@
         },
         "total": {
           "line": 227.5,
-          "over": -110,
-          "under": -110
+          "over": -108,
+          "under": -112
         },
         "opening": {
           "moneyline": {
@@ -1262,11 +1310,11 @@
           "market": "total",
           "side": "over",
           "line": null,
-          "price": -110,
+          "price": -108,
           "modelProb": 0.5513,
-          "impliedProb": 0.5238,
-          "rawEdge": 0.0274,
-          "adjustedEdge": -0.1426,
+          "impliedProb": 0.5192,
+          "rawEdge": 0.032,
+          "adjustedEdge": -0.138,
           "qualifies": false
         },
         {
@@ -1274,11 +1322,11 @@
           "market": "total",
           "side": "under",
           "line": null,
-          "price": -110,
+          "price": -112,
           "modelProb": 0.4487,
-          "impliedProb": 0.5238,
-          "rawEdge": -0.0751,
-          "adjustedEdge": -0.2451,
+          "impliedProb": 0.5283,
+          "rawEdge": -0.0796,
+          "adjustedEdge": -0.2496,
           "qualifies": false
         }
       ]

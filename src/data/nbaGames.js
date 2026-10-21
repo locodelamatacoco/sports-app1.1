@@ -191,6 +191,72 @@ export const PROP_SETS = {
     },
   ],
 
+  // 2026-10-21. Lines gathered from published previews (FanDuel, BetMGM,
+  // Yahoo, Bleacher Nation, The Lines) — ESPN carries no prop market. Baselines
+  // are 2025-26 season figures, which are a far better sample than this
+  // season's preseason: Adebayo played 73 games at 32.4 mpg, while his
+  // preseason was 2 games at 14.5 mpg because he sat the last three with groin
+  // tightness. Preseason rates had Larsson at 27.0 per 36; his season rate is
+  // 15.5 per 36, so preseason overstated him by about 75%.
+  'MIN@MIA': [
+    {
+      id: 'adebayo-pts-17plus',
+      player: 'Bam Adebayo',
+      team: 'MIA',
+      stat: 'points',
+      threshold: 17,
+      price: -121, // Bleacher Nation (book unnamed)
+      baseline: { perGame: 20.1, minutes: 32.4, pace: 103.6 }, // 73 games, 2025-26
+      projectedMinutes: 32.4,
+      minutesVolatility: 0.07,
+      // JUDGEMENT: Giannis Antetokounmpo now takes a usage share Adebayo did
+      // not have to share last season. This haircut is the single biggest
+      // assumption in the row.
+      usageFactor: 0.88,
+      matchupFactor: 0.98,
+      flags: {
+        roleChange: 'Giannis arrival redistributes usage — haircut is our prior',
+        injuryReturn: 'missed the last three preseason games with right groin tightness',
+      },
+    },
+    {
+      id: 'adebayo-reb',
+      player: 'Bam Adebayo',
+      team: 'MIA',
+      stat: 'rebounds',
+      line: 9.5,
+      over: -110, // no book price found
+      under: -110,
+      baseline: { perGame: 10.0, minutes: 32.4, pace: 103.6 },
+      projectedMinutes: 32.4,
+      minutesVolatility: 0.07,
+      usageFactor: 0.88,
+      matchupFactor: 0.98,
+      flags: {
+        roleChange: 'Giannis arrival takes frontcourt rebounds',
+        injuryReturn: 'missed the last three preseason games with right groin tightness',
+        estimatedPrice: true,
+      },
+    },
+    {
+      id: 'larsson-pts-11plus',
+      player: 'Pelle Larsson',
+      team: 'MIA',
+      stat: 'points',
+      threshold: 11,
+      price: -130, // Bleacher Nation
+      baseline: { perGame: 11.4, minutes: 26.4, pace: 103.6 }, // 70 games, 54 starts
+      projectedMinutes: 26.4,
+      minutesVolatility: 0.09,
+      usageFactor: 0.88,
+      matchupFactor: 0.98,
+      flags: {
+        roleChange: 'Giannis arrival redistributes usage — haircut is our prior',
+        estimatedBaseline: 'reports suggest he may start, which would lift minutes above 26.4',
+      },
+    },
+  ],
+
   'OKC@SA': [
     {
       id: 'wemby-pts',
@@ -254,6 +320,11 @@ export const CURATED_CONTEXT = {
       'Anfernee Simons (PHI) day-to-day with a hamstring issue after missing the preseason',
     lineupUnconfirmed:
       'no official lineup release; outlets label the same fives both "projected" and "confirmed"',
+  },
+  'MIN@MIA': {
+    injuryNewsUncertainty: null, // the live feed supplies this game's report
+    lineupUnconfirmed:
+      'Larsson may start per beat reporting; no official Heat lineup released, and the Giannis-era rotation is unseen',
   },
   'OKC@SA': {
     injuryNewsUncertainty:
