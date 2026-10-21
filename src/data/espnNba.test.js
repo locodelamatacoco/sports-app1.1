@@ -179,22 +179,25 @@ describe('fetchNbaSlate', () => {
   test('requests today by default and maps the response', async () => {
     const client = { get: jest.fn().mockResolvedValue({ data: scoreboard }) };
     const slate = await fetchNbaSlate({ client, enrich: false });
-    expect(client.get).toHaveBeenCalledTimes(1);
-    expect(client.get.mock.calls[0][0]).not.toMatch(/dates=/);
+    // One standings call for ratings, then the scoreboard.
+    expect(client.get).toHaveBeenCalledTimes(2);
+    const scoreboardCall = client.get.mock.calls.find(([u]) => /scoreboard/.test(u));
+    expect(scoreboardCall[0]).not.toMatch(/dates=/);
     expect(slate.games).toHaveLength(3);
   });
 
   test('passes an explicit date through to the feed', async () => {
     const client = { get: jest.fn().mockResolvedValue({ data: scoreboard }) };
     await fetchNbaSlate({ date: '20261020', client, enrich: false });
-    expect(client.get.mock.calls[0][0]).toMatch(/dates=20261020/);
+    const scoreboardCall = client.get.mock.calls.find(([u]) => /scoreboard/.test(u));
+    expect(scoreboardCall[0]).toMatch(/dates=20261020/);
   });
 
   test('enrichment adds one summary request per game', async () => {
     const client = { get: jest.fn().mockResolvedValue({ data: scoreboard }) };
     const slate = await fetchNbaSlate({ client });
-    // One scoreboard call plus a summary for each of the three games.
-    expect(client.get).toHaveBeenCalledTimes(4);
+    // Standings, scoreboard, then a summary for each of the three games.
+    expect(client.get).toHaveBeenCalledTimes(5);
     const summaryCalls = client.get.mock.calls.filter(([url]) => /summary\?event=/.test(url));
     expect(summaryCalls).toHaveLength(3);
     expect(slate.games).toHaveLength(3);
@@ -237,5 +240,24 @@ describe('the live slate drives the model end to end', () => {
         expect(row.adjustedEdge).toBeCloseTo(row.rawEdge - row.penaltyTotal, 10);
       });
     });
+  });
+});
+
+describe('ratings failure is survivable', () => {
+  test('a failed standings call leaves the slate on curated ratings', async () => {
+    const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
+    const client = {
+      get: jest.fn((url) =>
+        /standings/.test(url)
+          ? Promise.reject(new Error('standings down'))
+          : Promise.resolve({ data: scoreboard })
+      ),
+    };
+    const slate = await fetchNbaSlate({ client, enrich: false });
+    expect(slate.games).toHaveLength(3);
+    // Falls back to the curated table rather than failing the slate.
+    const bosDet = slate.games.find((g) => g.id === 'bos-det');
+    expect(bosDet.away.ratings).toEqual(TEAM_RATINGS.BOS.ratings);
+    warn.mockRestore();
   });
 });

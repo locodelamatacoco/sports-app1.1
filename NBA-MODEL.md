@@ -141,7 +141,9 @@ not expose are curated.
 | Moneyline, spread, total — both sides, opening and current | **Live** — DraftKings via ESPN |
 | Line movement | **Derived** from the feed's opening vs current numbers |
 | Multi-book disagreement | **Derived** when the feed returns more than one book |
-| Off/def rating, pace | **Curated** — `nbaTeamRatings.js` |
+| Off/def rating, all 30 teams | **Derived** — `espnRatings.js`, from standings |
+| Pace | **Partly sourced** — `PACE_PER_48`, else league average (flagged) |
+| Roster-change priors | **Curated judgement** — `ROSTER_PRIORS` |
 | Player props and baselines | **Curated** — `PROP_SETS` in `nbaGames.js` |
 | Over/under prices, both sides | **Live** — summary endpoint |
 | Injury report, with status | **Live** — summary endpoint |
@@ -149,8 +151,29 @@ not expose are curated.
 | Projected starting fives | **Curated** — `PROJECTED_STARTERS` in `nbaGames.js` |
 | Lineup-confirmation uncertainty | **Curated** — `CURATED_CONTEXT` in `nbaGames.js` |
 
-Ratings and pace are not in the public scoreboard — they sit behind
-`site.web.api.espn.com`, a separate host. The page fetches the live board and
+Ratings are derived rather than curated. ESPN's standings endpoint carries
+season points for and against per game for all 30 teams, which is the
+possession identity inverted:
+
+```
+offRating = (pointsFor     / pace) * 100
+defRating = (pointsAgainst / pace) * 100
+```
+
+Pace is the catch — ESPN publishes none on the reachable hosts, so
+`PACE_PER_48` holds the figures that could be sourced and every other team
+falls back to the league average with `paceEstimated` set. Assuming league pace
+for a team that plays faster or slower scales **both** its ratings together, so
+its net rating, and therefore the projected margin, stays right while its
+contribution to the projected total is off. Hence the per-team flag.
+
+The league-average rating used for the matchup adjustment is computed from the
+same fetch, so the adjustment cannot drift onto a different scale than the
+ratings it adjusts.
+
+The derivation is cross-checked in `espnRatings.test.js` against net ratings
+gathered by hand before the feed was wired up (OKC +11.1, DET +8.2, NY +6.4,
+BOS +7.7, PHI −0.2). The page fetches the live board and
 falls back to the hand-entered snapshot in `NBA_SLATE` if ESPN is unreachable,
 labelling which one it used.
 
@@ -159,11 +182,20 @@ payload (`src/data/__fixtures__/espnScoreboard.json`) with no network. It
 covers the trap worth guarding: the spread is read from the **home** side, so
 a road favourite comes back as a positive home line rather than inverted.
 
-A team with no entry in `nbaTeamRatings.js` resolves to league average with
-`ratingsSourced: false` and is flagged, so the model degrades to "no opinion"
-instead of inventing a rating. **Only six teams are currently filled in** —
-the rest of the league needs its 2025-26 figures added before the model has
-anything to say about those games.
+## Two unknown-is-not-zero bugs worth not reintroducing
+
+Both made the model quietly *more* confident about the things it knew least
+about, which is the exact failure the dampener exists to prevent:
+
+1. `noCurrentSeasonData` was tied to whether a team had played games. One game
+   in, the 4% penalty vanished — while the projection still ran on prior-season
+   ratings, because there is no pipeline for current-season form. The market
+   does ingest those games, so the gap favours the market, not us. It is now
+   always true, with a separate `BEHIND_MARKET` charge when games have been
+   played that the model cannot read.
+2. Roster turnover charged for `high` and `moderate` and nothing for
+   `unknown` — so teams nobody had assessed scored as confident as teams
+   verified unchanged. `UNASSESSED_ROSTER` now charges 3%.
 
 ## Running it on a new slate
 

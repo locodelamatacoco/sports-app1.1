@@ -113,11 +113,14 @@ export const BET_RULES = {
 };
 
 export const PENALTIES = {
-  NO_CURRENT_SEASON_DATA: 0.04, // opening night: priors only, no form
+  NO_CURRENT_SEASON_DATA: 0.04, // priors only, no current-season form
+  // Games have been played that the model does not ingest but the market does.
+  BEHIND_MARKET: 0.02,
   SMALL_SAMPLE_TEAM: 0.03,
   SMALL_SAMPLE_PLAYER: 0.05,
   HEAVY_ROSTER_TURNOVER: 0.04,
   MODERATE_ROSTER_TURNOVER: 0.02,
+  UNASSESSED_ROSTER: 0.03, // we have not looked, which is its own uncertainty
   ESTIMATED_INPUT: 0.02, // a model input we inferred rather than sourced
   MARKET_DISAGREEMENT: 0.02, // books disagree on the number
   LINE_MOVED_AGAINST: 0.02, // sharp move away from our side
@@ -168,9 +171,8 @@ function blendedRatings(team) {
 // Points per 100 possessions a team should manage against this specific
 // opponent: its own offense scaled by how the defense it faces compares to
 // league average.
-function adjustedEfficiency(offRating, oppDefRating) {
-  const C = MODEL_CONSTANTS;
-  return offRating * (oppDefRating / C.LEAGUE_AVG_RATING);
+function adjustedEfficiency(offRating, oppDefRating, leagueAvgRating) {
+  return offRating * (oppDefRating / leagueAvgRating);
 }
 
 // Schedule points: extra rest helps a little, a back-to-back hurts.
@@ -199,8 +201,12 @@ export function projectGame(game, { anchorWeight } = {}) {
   const expectedPossessions = (home.pace + away.pace) / 2;
   const paceFactor = expectedPossessions / C.LEAGUE_AVG_PACE;
 
-  const homeEff = adjustedEfficiency(home.off, away.def);
-  const awayEff = adjustedEfficiency(away.off, home.def);
+  // When ratings are derived from a feed, that feed's own league average comes
+  // with them, so the adjustment stays self-consistent instead of mixing
+  // scales.
+  const leagueAvgRating = game.leagueContext?.rating ?? C.LEAGUE_AVG_RATING;
+  const homeEff = adjustedEfficiency(home.off, away.def, leagueAvgRating);
+  const awayEff = adjustedEfficiency(away.off, home.def, leagueAvgRating);
 
   const homeSchedule = scheduleAdjustment(game.context?.home) + C.HOME_COURT_POINTS / 2;
   const awaySchedule = scheduleAdjustment(game.context?.away) - C.HOME_COURT_POINTS / 2;
@@ -255,6 +261,7 @@ export function projectGame(game, { anchorWeight } = {}) {
   return {
     expectedPossessions,
     paceFactor,
+    leagueAvgRating,
     anchorWeight: w,
     market: {
       margin: marketMargin,
@@ -750,6 +757,8 @@ export function gamePenalties(game, sim) {
 
   if (q.noCurrentSeasonData)
     add(PENALTIES.NO_CURRENT_SEASON_DATA, 'No current-season data — prior-season ratings only');
+  if (q.gamesPlayedNotIngested)
+    add(PENALTIES.BEHIND_MARKET, `Behind the market: ${q.gamesPlayedNotIngested}`);
   if (q.estimatedInputs?.length)
     add(PENALTIES.ESTIMATED_INPUT, `Estimated inputs: ${q.estimatedInputs.join(', ')}`);
   if (q.marketDisagreement)
@@ -771,6 +780,10 @@ export function gamePenalties(game, sim) {
       add(PENALTIES.HEAVY_ROSTER_TURNOVER, `${team.code}: heavy roster turnover`);
     else if (team.turnover === 'moderate')
       add(PENALTIES.MODERATE_ROSTER_TURNOVER, `${team.code}: moderate roster turnover`);
+    else if (team.turnover !== 'low')
+      // Unassessed is not the same as unchanged. Charging nothing here let the
+      // model look most confident about exactly the teams nobody had looked at.
+      add(PENALTIES.UNASSESSED_ROSTER, `${team.code}: roster turnover not assessed`);
     if (team.recentForm && team.recentForm.games && team.recentForm.games < 5)
       add(PENALTIES.SMALL_SAMPLE_TEAM, `${team.code}: ${team.recentForm.games}-game sample`);
   });

@@ -26,6 +26,19 @@ export const PACE_SCALE_NOTE =
   'rest are mapped from published pace ranks with a 1.84-possession league SD, ' +
   'which reproduces Boston\'s sourced figure at rank 30.';
 
+// Roster-change priors, keyed by ESPN abbreviation. These are JUDGEMENT, not
+// measurement: what we think a roster change is worth per 100 possessions, and
+// how much of the team turned over. They overlay the ratings derived from the
+// standings feed, and the dampener charges for every one of them.
+export const ROSTER_PRIORS = {
+  BOS: { rosterAdj: { off: -2.5, def: 0.5 }, turnover: 'high' },
+  DET: { rosterAdj: { off: 1.0, def: 0.5 }, turnover: 'moderate' },
+  PHI: { rosterAdj: { off: 4.5, def: -0.5 }, turnover: 'high' },
+  NY: { rosterAdj: { off: 0, def: 0 }, turnover: 'low' },
+  OKC: { rosterAdj: { off: 0, def: 0 }, turnover: 'low' },
+  SA: { rosterAdj: { off: 1.0, def: -0.5 }, turnover: 'moderate' },
+};
+
 export const TEAM_RATINGS = {
   BOS: {
     code: 'BOS',

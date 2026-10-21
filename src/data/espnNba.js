@@ -15,6 +15,7 @@
 
 import axios from 'axios';
 import { ratingsFor, LEAGUE_AVG } from './nbaTeamRatings';
+import { fetchTeamRatings } from './espnRatings';
 import { PROP_SETS, CURATED_CONTEXT, PROJECTED_STARTERS } from './nbaGames';
 
 export const ESPN_NBA_SCOREBOARD =
@@ -107,7 +108,10 @@ function scheduleFor(competitor, eventDate) {
   return { restDays: Math.max(days, 0), backToBack: days <= 1 };
 }
 
-export function mapEvent(event, { propSets = PROP_SETS, curated = CURATED_CONTEXT } = {}) {
+export function mapEvent(
+  event,
+  { propSets = PROP_SETS, curated = CURATED_CONTEXT, ratings = null, leagueContext = null } = {}
+) {
   const competition = event?.competitions?.[0];
   if (!competition) return null;
 
@@ -119,8 +123,10 @@ export function mapEvent(event, { propSets = PROP_SETS, curated = CURATED_CONTEX
   const awayAbbr = away.team.abbreviation;
   const matchup = `${awayAbbr}@${homeAbbr}`;
 
-  const homeTeam = ratingsFor(homeAbbr);
-  const awayTeam = ratingsFor(awayAbbr);
+  // Prefer ratings derived from the standings feed; fall back to the curated
+  // table, then to league average.
+  const homeTeam = ratings?.[homeAbbr] ?? ratingsFor(homeAbbr);
+  const awayTeam = ratings?.[awayAbbr] ?? ratingsFor(awayAbbr);
 
   const book = pickOdds(competition.odds);
   if (!book) return null;
@@ -182,6 +188,7 @@ export function mapEvent(event, { propSets = PROP_SETS, curated = CURATED_CONTEX
     venue: competition.venue?.fullName ?? '',
     source: 'espn',
     book: book.provider?.name ?? 'unknown book',
+    leagueContext,
     away: {
       ...awayTeam,
       record: away.records?.find((r) => r.type === 'total')?.summary || awayTeam.record,
@@ -206,9 +213,19 @@ export function mapEvent(event, { propSets = PROP_SETS, curated = CURATED_CONTEX
       },
     },
     dataQuality: {
-      // Records read 0-0 until games are played, which is the feed telling us
-      // there is no current-season sample yet.
-      noCurrentSeasonData: !hasPlayedGames(home) && !hasPlayedGames(away),
+      // The projection runs on prior-season ratings and there is no pipeline
+      // for current-season form, so this stays true even once games are
+      // played. Tying it to the record would silently drop the penalty after
+      // one game while the market — which does ingest those games — moves
+      // away from us, making the model look more confident on no new
+      // information.
+      noCurrentSeasonData: true,
+      gamesPlayedNotIngested:
+        hasPlayedGames(home) || hasPlayedGames(away)
+          ? `${[awayAbbr, homeAbbr]
+              .filter((_, i) => hasPlayedGames(i === 0 ? away : home))
+              .join(' and ')} have played games the model does not ingest`
+          : null,
       estimatedInputs: estimated,
       marketDisagreement: marketDisagreementFrom(competition.odds),
       lineMovedAgainst,
@@ -304,6 +321,7 @@ export function mapScoreboard(scoreboard, options = {}) {
   const events = scoreboard?.events ?? [];
   return {
     date: scoreboard?.day?.date ?? null,
+    leagueContext: options.leagueContext ?? null,
     season: scoreboard?.season?.year ?? null,
     label: 'NBA — live slate from ESPN',
     skipped: events.length - events.map((e) => mapEvent(e, options)).filter(Boolean).length,
@@ -314,10 +332,29 @@ export function mapScoreboard(scoreboard, options = {}) {
 // `date` is YYYYMMDD; omit it for today's slate. `enrich` adds one summary
 // request per game for injuries and real total prices; a failed summary leaves
 // that game on its scoreboard-only data rather than failing the slate.
-export async function fetchNbaSlate({ date, client = axios, signal, enrich = true } = {}) {
+export async function fetchNbaSlate({
+  date,
+  client = axios,
+  signal,
+  enrich = true,
+  ratingsSeason = 2026,
+} = {}) {
   const url = date ? `${ESPN_NBA_SCOREBOARD}?dates=${date}` : ESPN_NBA_SCOREBOARD;
+
+  // Ratings for all 30 teams come from the completed prior season's standings.
+  // A failure here is not fatal: the slate falls back to the curated table.
+  let derived = null;
+  try {
+    derived = await fetchTeamRatings({ season: ratingsSeason, client, signal });
+  } catch (err) {
+    console.warn('ESPN standings unavailable, using curated ratings:', err?.message ?? err);
+  }
+
   const { data } = await client.get(url, { signal });
-  const slate = mapScoreboard(data);
+  const slate = mapScoreboard(data, {
+    ratings: derived?.teams ?? null,
+    leagueContext: derived?.league ?? null,
+  });
   if (!enrich || slate.games.length === 0) return slate;
 
   const games = await Promise.all(
