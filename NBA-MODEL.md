@@ -73,6 +73,42 @@ a normal-curve approximation.
 A prop with no sourced baseline returns `insufficientData` and is reported as
 `NO PLAY` rather than being modelled off an invented number.
 
+## Sources are configuration, not hard-wired
+
+`providers.js` resolves each capability through a list of providers in priority
+order; `providers.espn.js` registers the ESPN-backed ones. Nothing in the model
+reaches for ESPN by name.
+
+Only `site.api.espn.com` is reachable from this environment — `stats.nba.com`,
+`cdn.nba.com`, `sports.yahoo.com`, `bleacherreport.com`,
+`basketball-reference.com` and `api.the-odds-api.com` are all refused at the
+proxy. That is a network-policy setting, not a code limitation, so adding an
+outlet is three steps: allow the host, write a fetch function, `register` it
+with a priority ahead of the ESPN entry.
+
+What each capability is served by now, and what another source would fix:
+
+| Capability | Source | Quality | Gap |
+|---|---|---|---|
+| slate | espn:scoreboard | 1.00 | — |
+| ratings | espn:standings | 1.00 | — |
+| injuries | espn:summary | 1.00 | — |
+| odds | espn:scoreboard | 0.70 | one book, so cross-book disagreement is mostly invisible |
+| playerRates | espn:preseason | 0.50 | 2-6 games, preseason minutes |
+| pace | curated:pace-ranks | 0.40 | **rank-derived, not measured** — 20 of 30 teams |
+| props | **none** | — | **ESPN publishes no prop lines at all** |
+
+Every resolved value carries its provenance, and `provenancePenalty` turns a
+below-first-class source into a dampener charge. This is the point of the
+abstraction: without it, swapping in a worse source leaves the model looking
+exactly as confident as before. A pace figure from an official feed and one
+inferred from a published rank are not the same input.
+
+Ranked by what it would actually buy: a **pace** source would fix the model's
+weakest output (totals explain 2% of variance, and estimated pace is why), a
+**props** source would put props on the board at all, and a **multi-book odds**
+source would make market disagreement measurable instead of hand-noted.
+
 ## Preseason: the only current-roster data there is
 
 Every team rating comes from last season's standings, which describe rosters
