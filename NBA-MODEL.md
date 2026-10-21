@@ -147,6 +147,24 @@ What is still not covered: first-half and quarter lines (would need period
 modelling), and correlated multi-stat props such as triple-doubles, since props
 are simulated independently of one another.
 
+## Adjustable lines: `propLadder`
+
+Where a book lets you move a prop line, the question is not "is the over good"
+but "at which line, and at what price". `propLadder` prices a ladder off the
+prop's recorded outcome distribution and, for each rung, states the price the
+market would have to offer for the bet to clear the gate **after** that prop's
+penalty load.
+
+The uncomfortable thing it shows: moving the line does not rescue a bet. The
+required price and the fair price stay roughly one penalty-load apart at every
+rung, because an efficient book prices the outcome near fair. A rung whose
+model probability sits below the penalty load plus the 5% gate returns
+`requiredOverPrice: null` — no price clears it — which is more useful than
+quoting +50000.
+
+So the ladder is a tool for finding where the model has a real cushion on the
+outcome, not for manufacturing a qualifying bet out of a line change.
+
 ## Confidence dampener
 
 ```

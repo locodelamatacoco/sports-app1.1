@@ -17,6 +17,7 @@ import {
   confidenceFromPenalties,
   priceLine,
   derivedMarkets,
+  propLadder,
   MODEL_CONSTANTS,
   BET_RULES,
 } from './nbaSimulator';
@@ -588,5 +589,75 @@ describe('pricing arbitrary lines off the simulated distribution', () => {
     for (let i = 1; i < sorted.length; i++) {
       expect(sorted[i].modelProb).toBeLessThanOrEqual(sorted[i - 1].modelProb);
     }
+  });
+});
+
+describe('prop ladders for an adjustable line', () => {
+  const game = JSON.parse(JSON.stringify(bosDet));
+  game.props = [
+    {
+      id: 'ladder-test',
+      player: 'Test Scorer',
+      team: 'DET',
+      stat: 'points',
+      line: 15.5,
+      over: -110,
+      under: -110,
+      baseline: { perGame: 20, minutes: 32, pace: 99.4 },
+      projectedMinutes: 32,
+      minutesVolatility: 0.06,
+    },
+  ];
+  const sim = simulateGame(game, { numSims: 30000, seed: 44 });
+  const result = sim.propResults.find((r) => r.prop.id === 'ladder-test');
+
+  test('a prop records its full outcome distribution', () => {
+    expect(result.dist).toBeInstanceOf(Map);
+    expect(result.dist.size).toBeGreaterThan(10);
+    const counted = [...result.dist.values()].reduce((a, b) => a + b, 0);
+    expect(counted).toBe(result.samples);
+  });
+
+  test('the ladder agrees with the prop row at the posted line', () => {
+    const [rung] = propLadder(result, [15.5]);
+    expect(rung.overProb).toBeCloseTo(result.overProb, 2);
+  });
+
+  test('a lower line is always easier to clear', () => {
+    const rungs = propLadder(result, [10.5, 14.5, 18.5, 22.5, 26.5]);
+    for (let i = 1; i < rungs.length; i++) {
+      expect(rungs[i].overProb).toBeLessThan(rungs[i - 1].overProb);
+    }
+    expect(rungs[0].overProb).toBeGreaterThan(0.9);
+    expect(rungs[rungs.length - 1].overProb).toBeLessThan(0.15);
+  });
+
+  test('over and under are complementary at every rung', () => {
+    propLadder(result, [12.5, 16.5, 20.5]).forEach((r) => {
+      expect(r.overProb + r.underProb).toBeCloseTo(1, 10);
+    });
+  });
+
+  test('the required price accounts for the penalty load', () => {
+    // With nothing to dampen, the required price is just the gate above fair.
+    const clean = propLadder(result, [15.5], { penaltyTotal: 0 })[0];
+    const dampened = propLadder(result, [15.5], { penaltyTotal: 0.22 })[0];
+    // A heavier penalty demands a longer price for the same outcome.
+    expect(dampened.requiredOverPrice).toBeGreaterThan(clean.requiredOverPrice);
+    expect(clean.fairOver).toBe(dampened.fairOver); // fair odds do not move
+  });
+
+  test('a rung no price can rescue reports null rather than a silly number', () => {
+    // Model probability below the penalty load plus the gate is unbettable at
+    // any price, and saying so is more useful than quoting +50000.
+    const rungs = propLadder(result, [34.5], { penaltyTotal: 0.22 });
+    expect(rungs[0].overProb).toBeLessThan(0.22);
+    expect(rungs[0].requiredOverPrice).toBeNull();
+  });
+
+  test('an unsimulated or insufficient prop yields an empty ladder', () => {
+    expect(propLadder(null, [10.5])).toEqual([]);
+    expect(propLadder({ insufficientData: true }, [10.5])).toEqual([]);
+    expect(propLadder({ dist: null, samples: 0 }, [10.5])).toEqual([]);
   });
 });

@@ -451,6 +451,9 @@ export function simulateGame(game, { numSims = 10000, seed = 42, anchorWeight } 
     hits: 0, // for threshold props: count of sims clearing the threshold
     total: 0,
     samples: 0,
+    // Full outcome distribution, so any alternate line can be priced off this
+    // run instead of needing its own simulation.
+    dist: new Map(),
   }));
 
   const tally = {
@@ -570,6 +573,10 @@ export function simulateGame(game, { numSims = 10000, seed = 42, anchorWeight } 
 
       entry.total += value;
       entry.samples += 1;
+      // Continuous stats are rounded for the histogram; a points line is
+      // always a whole or half number so nothing is lost.
+      const bucket = Math.round(value);
+      entry.dist.set(bucket, (entry.dist.get(bucket) ?? 0) + 1);
       if (p.threshold != null) {
         if (value >= p.threshold) entry.hits += 1;
       } else if (value > p.line) entry.over += 1;
@@ -610,6 +617,8 @@ export function simulateGame(game, { numSims = 10000, seed = 42, anchorWeight } 
       prop: entry.prop,
       projected: entry.projected,
       insufficientData: false,
+      dist: entry.dist,
+      samples: n,
       simulatedMean: entry.total / n,
       overProb: entry.prop.threshold != null ? entry.hits / n : entry.over / n,
       pushProb: entry.prop.threshold != null ? 0 : entry.push / n,
@@ -774,6 +783,39 @@ export function derivedMarkets(game, sim, { ledger = [], veto = null } = {}) {
   });
 
   return rows;
+}
+
+// For a prop whose line you can move, the useful question is not "is the over
+// good" but "at which line, and at what price". This prices a ladder off the
+// recorded distribution and, for each rung, states the price the market would
+// have to offer for the bet to clear the gate once penalties are applied.
+//
+// `penaltyTotal` is the charge that applies to this prop, which is what makes
+// the required price honest rather than theoretical.
+export function propLadder(propResult, lines, { penaltyTotal = 0 } = {}) {
+  if (!propResult || propResult.insufficientData || !propResult.dist) return [];
+
+  return lines.map((line) => {
+    const p = priceLine(propResult.dist, propResult.samples, line);
+    const settleProb =
+      p.pushProb > 0 && p.pushProb < 1 ? p.overProb / (1 - p.pushProb) : p.overProb;
+
+    // adjustedEdge = modelProb - impliedProb - penalties >= MIN, so the
+    // market has to price the outcome at or below this probability.
+    const maxImplied = settleProb - penaltyTotal - BET_RULES.MIN_ADJUSTED_EDGE;
+
+    return {
+      line,
+      overProb: settleProb,
+      underProb: 1 - settleProb,
+      pushProb: p.pushProb,
+      fairOver: probToAmerican(settleProb),
+      fairUnder: probToAmerican(1 - settleProb),
+      // null when no price could ever clear the gate at this line.
+      requiredOverPrice: maxImplied > 0.001 ? probToAmerican(maxImplied) : null,
+      qualifiesAtFair: false, // fair odds are break-even by definition
+    };
+  });
 }
 
 // ---------------------------------------------------------------------------
