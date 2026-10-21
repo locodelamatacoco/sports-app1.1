@@ -1,5 +1,5 @@
 {
-  "loggedAt": "2026-10-21T15:10:25.829Z",
+  "loggedAt": "2026-10-21T15:15:49.846Z",
   "slateDate": "2026-10-21",
   "numSims": 40000,
   "constants": {
@@ -265,13 +265,13 @@
       "book": "DraftKings",
       "away": "MIN",
       "home": "MIA",
-      "projectedAway": 116.93,
-      "projectedHome": 118.27,
-      "projectedTotal": 235.2,
-      "projectedMargin": 1.34,
+      "projectedAway": 117.13,
+      "projectedHome": 118.44,
+      "projectedTotal": 235.57,
+      "projectedMargin": 1.31,
       "unshrunkMargin": 0.63,
-      "confidence": 5.2,
-      "penaltyTotal": 0.155,
+      "confidence": 5.1,
+      "penaltyTotal": 0.1585,
       "veto": null,
       "odds": {
         "moneyline": {
@@ -284,9 +284,9 @@
           "awayPrice": -108
         },
         "total": {
-          "line": 238.5,
-          "over": -112,
-          "under": -108
+          "line": 239.5,
+          "over": -108,
+          "under": -112
         },
         "opening": {
           "moneyline": {
@@ -303,10 +303,10 @@
           "side": "home",
           "line": null,
           "price": -122,
-          "modelProb": 0.5347,
+          "modelProb": 0.534,
           "impliedProb": 0.5495,
-          "rawEdge": -0.0148,
-          "adjustedEdge": -0.1698,
+          "rawEdge": -0.0156,
+          "adjustedEdge": -0.1741,
           "qualifies": false
         },
         {
@@ -315,10 +315,10 @@
           "side": "away",
           "line": null,
           "price": 102,
-          "modelProb": 0.4653,
+          "modelProb": 0.4661,
           "impliedProb": 0.495,
-          "rawEdge": -0.0298,
-          "adjustedEdge": -0.1848,
+          "rawEdge": -0.029,
+          "adjustedEdge": -0.1875,
           "qualifies": false
         },
         {
@@ -327,10 +327,10 @@
           "side": "home",
           "line": null,
           "price": -112,
-          "modelProb": 0.5077,
+          "modelProb": 0.5068,
           "impliedProb": 0.5283,
-          "rawEdge": -0.0206,
-          "adjustedEdge": -0.1756,
+          "rawEdge": -0.0215,
+          "adjustedEdge": -0.1799,
           "qualifies": false
         },
         {
@@ -339,34 +339,34 @@
           "side": "away",
           "line": null,
           "price": -108,
-          "modelProb": 0.4923,
+          "modelProb": 0.4932,
           "impliedProb": 0.5192,
-          "rawEdge": -0.027,
-          "adjustedEdge": -0.182,
+          "rawEdge": -0.0261,
+          "adjustedEdge": -0.1845,
           "qualifies": false
         },
         {
-          "label": "Over 238.5",
+          "label": "Over 239.5",
           "market": "total",
           "side": "over",
           "line": null,
-          "price": -112,
-          "modelProb": 0.4305,
-          "impliedProb": 0.5283,
-          "rawEdge": -0.0978,
-          "adjustedEdge": -0.2528,
+          "price": -108,
+          "modelProb": 0.4167,
+          "impliedProb": 0.5192,
+          "rawEdge": -0.1026,
+          "adjustedEdge": -0.261,
           "qualifies": false
         },
         {
-          "label": "Under 238.5",
+          "label": "Under 239.5",
           "market": "total",
           "side": "under",
           "line": null,
-          "price": -108,
-          "modelProb": 0.5695,
-          "impliedProb": 0.5192,
-          "rawEdge": 0.0503,
-          "adjustedEdge": -0.1047,
+          "price": -112,
+          "modelProb": 0.5833,
+          "impliedProb": 0.5283,
+          "rawEdge": 0.055,
+          "adjustedEdge": -0.1034,
           "qualifies": false
         }
       ]
