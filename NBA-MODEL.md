@@ -332,6 +332,11 @@ questions:
 - **qualifying bets only**, which is the only line reflecting what the model
   actually told you to do.
 
+Player props settle from box scores (`settleProp`), not from the final score.
+A player absent from the box score returns `null` — void, not a loss — because
+a player who did not appear usually voids the bet and guessing either way
+would quietly corrupt the record.
+
 Settlement lives in `src/models/settle.js` rather than in the script, and is
 tested: spread orientation, pushes on whole numbers, and pushes excluded from
 ROI denominators are each easy to get silently wrong.
@@ -339,6 +344,33 @@ ROI denominators are each easy to get silently wrong.
 The scripts run the real `src/` modules through a `@babel/core` require hook
 (`scripts/_loader.cjs`) so they cannot drift from what the page uses, and they
 tunnel through `HTTPS_PROXY` via CONNECT when one is set.
+
+## Live record
+
+Logged before tip, graded after. The model has **passed on every market so
+far**, so the lean record measures whether the projection is right, not
+whether following the model would have made money — following it would have
+staked nothing.
+
+| | Record | Units | ROI |
+|---|---|---|---|
+| all leans | 18-19 (48.6%) | −2.29u | −6.2% |
+| totals | 7-5 (58.3%) | +1.36u | +11.3% |
+| props | 2-2 (50.0%) | −0.11u | −2.8% |
+| spreads | 4-5 (44.4%) | −1.32u | −14.7% |
+| moneylines | 5-7 (41.7%) | −2.21u | −18.4% |
+
+n=37 across two slates, which is far too small to mean anything — the
+standard error on a win rate here is about 8 points. The shape is worth
+watching though: totals have been the best family and sides the worst, which
+inverts what the backtest predicted (margin R² 0.077 against total R² 0.020).
+Either the backtest's ordering or this sample is misleading, and two slates is
+not enough to say which.
+
+One day-level diagnostic worth recording: on 2026-10-21 the margin bias was
+**−9.78** points across 11 games, with home teams winning 8 and several by
+30+. Home court is calibrated at 1.74 from 1,229 games, so that is a one-day
+anomaly rather than a defect — but a repeat would mean revisiting it.
 
 ## Two unknown-is-not-zero bugs worth not reintroducing
 

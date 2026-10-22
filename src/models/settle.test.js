@@ -1,5 +1,10 @@
 import {
   settleMarket,
+  settleProp,
+  propPlayerFrom,
+  propStatFrom,
+  propThresholdFrom,
+  propLineFrom,
   homeLineFor,
   lineFromLabel,
   unitProfit,
@@ -129,5 +134,98 @@ describe('bookkeeping', () => {
     expect(s.n).toBe(2);
     expect(s.decided).toBe(1);
     expect(s.winRate).toBe(1);
+  });
+});
+
+describe('settling player props from a box score', () => {
+  // Real lines from 2026-10-21, Timberwolves at Heat.
+  const box = {
+    'Bam Adebayo': { points: 15, rebounds: 7, assists: 4, threes: 1, minutes: 31 },
+    'Pelle Larsson': { points: 2, rebounds: 3, assists: 4, threes: 0, minutes: 24 },
+    'Andrew Wiggins': { points: 11, rebounds: 2, assists: 1, threes: 1, minutes: 27 },
+  };
+
+  describe('reading a logged prop row', () => {
+    test('pulls the player name out of the label', () => {
+      expect(propPlayerFrom({ label: 'Bam Adebayo 17+ points' })).toBe('Bam Adebayo');
+      expect(propPlayerFrom({ label: 'Bam Adebayo Over 9.5 rebounds' })).toBe('Bam Adebayo');
+      expect(propPlayerFrom({ label: 'Shai Gilgeous-Alexander Under 30.5 points' })).toBe(
+        'Shai Gilgeous-Alexander'
+      );
+      // An explicit field always wins over parsing.
+      expect(propPlayerFrom({ player: 'Explicit', label: 'Other Over 1.5 points' })).toBe(
+        'Explicit'
+      );
+    });
+
+    test('pulls the stat out of the label', () => {
+      expect(propStatFrom({ label: 'X 17+ points' })).toBe('points');
+      expect(propStatFrom({ label: 'X Over 9.5 rebounds' })).toBe('rebounds');
+      expect(propStatFrom({ label: 'X Over 6.5 assists' })).toBe('assists');
+      expect(propStatFrom({ label: 'X 3+ threes' })).toBe('threes');
+      expect(propStatFrom({ label: 'X Over 1.5 somethings' })).toBeNull();
+    });
+
+    test('reads a threshold and a mid-string line, which the spread reader cannot', () => {
+      // lineFromLabel is end-anchored for "Raptors -10.5" and finds nothing here.
+      expect(lineFromLabel('Bam Adebayo Over 9.5 rebounds')).toBeNull();
+      expect(propLineFrom({ label: 'Bam Adebayo Over 9.5 rebounds' })).toBe(9.5);
+      expect(propThresholdFrom({ label: 'Bam Adebayo 17+ points' })).toBe(17);
+      expect(propThresholdFrom({ label: 'Bam Adebayo Over 9.5 rebounds' })).toBeNull();
+    });
+  });
+
+  test('a threshold prop wins at or above the number', () => {
+    // Adebayo scored exactly 15.
+    expect(settleProp({ label: 'Bam Adebayo 15+ points' }, box['Bam Adebayo'])).toBe(true);
+    expect(settleProp({ label: 'Bam Adebayo 16+ points' }, box['Bam Adebayo'])).toBe(false);
+    expect(settleProp({ label: 'Bam Adebayo 17+ points' }, box['Bam Adebayo'])).toBe(false);
+  });
+
+  test('an over/under prop settles against the line', () => {
+    const over = (line) =>
+      settleProp(
+        { label: `Bam Adebayo Over ${line} rebounds`, side: 'over' },
+        box['Bam Adebayo']
+      );
+    expect(over(6.5)).toBe(true); // 7 rebounds
+    expect(over(9.5)).toBe(false);
+    expect(
+      settleProp(
+        { label: 'Bam Adebayo Under 9.5 rebounds', side: 'under' },
+        box['Bam Adebayo']
+      )
+    ).toBe(true);
+  });
+
+  test('landing exactly on a whole-number line is a push', () => {
+    expect(
+      settleProp({ label: 'Bam Adebayo Over 15 points', side: 'over' }, box['Bam Adebayo'])
+    ).toBe('push');
+  });
+
+  test('a player absent from the box score is void, not a loss', () => {
+    // Guessing either way here would quietly corrupt the record: a player who
+    // did not appear usually voids the bet.
+    expect(settleProp({ label: 'Nobody 10+ points' }, box['Nobody'])).toBeNull();
+    expect(settleProp({ label: 'Nobody 10+ points' }, undefined)).toBeNull();
+  });
+
+  test('settleMarket routes props through the box score', () => {
+    const row = { market: 'prop', side: 'over', label: 'Pelle Larsson 11+ points' };
+    // Larsson scored 2.
+    expect(settleMarket(row, 106, 131, box)).toBe(false);
+    // Without a box score it reports unsettleable rather than guessing.
+    expect(settleMarket(row, 106, 131, null)).toBeNull();
+  });
+
+  test('the Wiggins and Larsson fades both settled as the model read them', () => {
+    const wiggins = { market: 'prop', side: 'over', label: 'Andrew Wiggins 15+ points' };
+    const larsson = { market: 'prop', side: 'over', label: 'Pelle Larsson 11+ points' };
+    expect(settleMarket(wiggins, 106, 131, box)).toBe(false);
+    expect(settleMarket(larsson, 106, 131, box)).toBe(false);
+    // And the cushion lines the ladder pointed at did land.
+    const cushion = { market: 'prop', side: 'over', label: 'Andrew Wiggins Over 10.5 points' };
+    expect(settleMarket(cushion, 106, 131, box)).toBe(true);
   });
 });

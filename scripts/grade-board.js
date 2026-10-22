@@ -29,6 +29,41 @@ const {
 const LOG_DIR = path.join(__dirname, '..', 'board-log');
 const SCOREBOARD =
   'https://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard';
+const SUMMARY = 'https://site.api.espn.com/apis/site/v2/sports/basketball/nba/summary';
+
+// Player lines from a game's box score, keyed by display name. Needed because
+// a final score cannot settle a player prop.
+async function boxScoresFor(espnId) {
+  const { data } = await axios.get(`${SUMMARY}?event=${espnId}`);
+  const out = {};
+  for (const teamBlock of data.boxscore?.players ?? []) {
+    for (const group of teamBlock.statistics ?? []) {
+      const keys = group.keys ?? [];
+      const at = (stats, key) => {
+        const i = keys.indexOf(key);
+        if (i < 0) return null;
+        // "7-12" for made-attempted pairs; the made count is what props use.
+        const n = Number(String(stats[i]).split('-')[0]);
+        return Number.isFinite(n) ? n : null;
+      };
+      for (const athlete of group.athletes ?? []) {
+        const name = athlete.athlete?.displayName;
+        const stats = athlete.stats ?? [];
+        if (!name || stats.length === 0) continue;
+        if (at(stats, 'minutes') == null) continue; // did not play
+        out[name] = {
+          points: at(stats, 'points'),
+          rebounds: at(stats, 'rebounds'),
+          assists: at(stats, 'assists'),
+          steals: at(stats, 'steals'),
+          blocks: at(stats, 'blocks'),
+          threes: at(stats, 'threePointFieldGoalsMade-threePointFieldGoalsAttempted'),
+        };
+      }
+    }
+  }
+  return out;
+}
 
 async function finalsFor(dates) {
   const byId = new Map();
@@ -100,6 +135,16 @@ async function main() {
         continue;
       }
 
+      // Only fetch a box score when the game actually has props logged.
+      let boxScores = null;
+      if (game.markets.some((m) => m.market === 'prop')) {
+        try {
+          boxScores = await boxScoresFor(game.espnId);
+        } catch (err) {
+          console.warn(`Box score unavailable for ${game.gameId}:`, err?.message ?? err);
+        }
+      }
+
       // Both sides of every market are logged, so grading all of them is
       // mechanically 50% and says nothing. Grade the ONE side the model
       // actually preferred in each market family.
@@ -111,7 +156,7 @@ async function main() {
       }
 
       for (const market of families.values()) {
-        const outcome = settleMarket(market, final.away, final.home);
+        const outcome = settleMarket(market, final.away, final.home, boxScores);
         if (outcome === null) {
           unsettled += 1;
           continue;
@@ -130,7 +175,7 @@ async function main() {
       // recommendations, not a family to pick a side from.
       for (const market of game.markets) {
         if (!market.qualifies) continue;
-        const outcome = settleMarket(market, final.away, final.home);
+        const outcome = settleMarket(market, final.away, final.home, boxScores);
         if (outcome !== null) record(qualifying, outcome, market.price);
       }
     }

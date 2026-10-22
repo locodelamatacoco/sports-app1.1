@@ -66,7 +66,11 @@ async function main() {
         label: m.label,
         market: m.market,
         side: m.side,
-        line: m.line ?? null,
+        line: m.line ?? m.prop?.line ?? null,
+        // Recorded explicitly so grading never has to parse the label.
+        player: m.prop?.player ?? null,
+        stat: m.prop?.stat ?? null,
+        threshold: m.prop?.threshold ?? null,
         price: m.price,
         modelProb: +m.settleProb.toFixed(4),
         impliedProb: +m.implied.toFixed(4),

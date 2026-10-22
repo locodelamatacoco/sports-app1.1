@@ -34,11 +34,81 @@ export function totalLineFor(market) {
   return lineFromLabel(market.label);
 }
 
+// Which stat a prop row is about, read from the logged market shape.
+const PROP_STAT_FROM_LABEL = [
+  [/\bpoints?\b/i, 'points'],
+  [/\brebounds?\b/i, 'rebounds'],
+  [/\bassists?\b/i, 'assists'],
+  [/\bthrees?\b|\b3pm\b|made threes/i, 'threes'],
+  [/\bsteals?\b/i, 'steals'],
+  [/\bblocks?\b/i, 'blocks'],
+];
+
+export function propStatFrom(market) {
+  if (market.stat) return market.stat;
+  for (const [pattern, stat] of PROP_STAT_FROM_LABEL) {
+    if (pattern.test(market.label ?? '')) return stat;
+  }
+  return null;
+}
+
+// The player a prop row is about. Logged labels read "Bam Adebayo 17+ points"
+// or "Bam Adebayo Over 9.5 rebounds", so the name is everything before the
+// threshold or the Over/Under.
+export function propPlayerFrom(market) {
+  if (market.player) return market.player;
+  const label = market.label ?? '';
+  const match = /^(.+?)\s+(?:Over|Under|\d+\+)/.exec(label);
+  return match ? match[1].trim() : null;
+}
+
+// Settle a player prop against that player's actual line. `boxScore` maps a
+// stat name to the number the player posted. Returns null when the player is
+// absent from the box score, which is NOT the same as a loss: a player who
+// did not play usually voids the bet, and guessing either way would corrupt
+// the record.
+export function settleProp(market, boxScore) {
+  if (!boxScore) return null;
+  const stat = propStatFrom(market);
+  if (!stat) return null;
+  const actual = boxScore[stat];
+  if (actual == null) return null;
+
+  // A threshold row ("17+ points") wins at or above the threshold.
+  const threshold = market.threshold ?? propThresholdFrom(market);
+  if (threshold != null) return actual >= threshold;
+
+  // Prop labels carry the number mid-string ("Over 9.5 rebounds"), so the
+  // end-anchored reader used for spreads and totals will not find it.
+  const line = market.line ?? propLineFrom(market);
+  if (line == null) return null;
+  if (actual === line) return 'push';
+  return market.side === 'over' ? actual > line : actual < line;
+}
+
+// "Bam Adebayo 17+ points" -> 17
+export function propThresholdFrom(market) {
+  const match = /(\d+(?:\.\d+)?)\+/.exec(market.label ?? '');
+  return match ? Number(match[1]) : null;
+}
+
+// "Bam Adebayo Over 9.5 rebounds" -> 9.5
+export function propLineFrom(market) {
+  const match = /\b(?:Over|Under)\s+(\d+(?:\.\d+)?)/i.exec(market.label ?? '');
+  return match ? Number(match[1]) : null;
+}
+
 // Returns true (won), false (lost), 'push', or null when a final score cannot
 // decide the market — a player prop, which needs a box score.
-export function settleMarket(market, awayScore, homeScore) {
+export function settleMarket(market, awayScore, homeScore, boxScores = null) {
   const margin = homeScore - awayScore;
   const total = homeScore + awayScore;
+
+  if (market.market === 'prop') {
+    if (!boxScores) return null;
+    const player = propPlayerFrom(market);
+    return player ? settleProp(market, boxScores[player]) : null;
+  }
 
   switch (market.market) {
     case 'moneyline':
