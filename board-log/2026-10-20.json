@@ -541,5 +541,33 @@
         }
       ]
     }
-  ]
+  ],
+  "publishedTop5": [
+    {
+      "rank": 1,
+      "label": "Victor Wembanyama Under 11.5 rebounds",
+      "price": 113
+    },
+    {
+      "rank": 2,
+      "label": "Victor Wembanyama Under 26.5 points",
+      "price": -132
+    },
+    {
+      "rank": 3,
+      "label": "Under 230.5",
+      "price": -112
+    },
+    {
+      "rank": 4,
+      "label": "Jayson Tatum Over 8.5 rebounds",
+      "price": -114
+    },
+    {
+      "rank": 5,
+      "label": "Detroit Pistons ML",
+      "price": 110
+    }
+  ],
+  "publishedTop5Note": "The ranking published in chat on the night, under the PRE-recalibration constants. This file's own edges were regenerated afterwards and no longer reproduce that order, so the stored edges cannot be used to recover what was advised. Graded result: 3-2, +0.75u."
 }

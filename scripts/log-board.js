@@ -80,8 +80,26 @@ async function main() {
       })),
   }));
 
+  // Rank every priced market across the slate exactly as the published Top 5
+  // was derived, and store the rank. Re-deriving it later from stored edges
+  // fails as soon as the model is recalibrated, which is precisely what
+  // happened to the first logged slate.
+  const ranked = record
+    .flatMap((g) => g.markets.map((m) => ({ gameId: g.gameId, label: m.label, m })))
+    .sort((a, b) => b.m.adjustedEdge - a.m.adjustedEdge);
+  ranked.forEach((entry, index) => {
+    entry.m.slateRank = index + 1;
+  });
+
   const snapshot = {
     loggedAt: new Date().toISOString(),
+    publishedTop5: ranked.slice(0, 5).map((e) => ({
+      rank: e.m.slateRank,
+      gameId: e.gameId,
+      label: e.label,
+      price: e.m.price,
+      adjustedEdge: e.m.adjustedEdge,
+    })),
     slateDate: slate.date ?? isoDate,
     numSims: NUM_SIMS,
     // Grading later has to know what the model believed at the time, or an
