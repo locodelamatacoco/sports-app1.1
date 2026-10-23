@@ -198,86 +198,151 @@ export const PROP_SETS = {
   // preseason was 2 games at 14.5 mpg because he sat the last three with groin
   // tightness. Preseason rates had Larsson at 27.0 per 36; his season rate is
   // 15.5 per 36, so preseason overstated him by about 75%.
-  // 2026-10-23. Lines from published previews (SportsbookReview citing FanDuel
-  // and DraftKings, Sports Mole) — ESPN carries no prop market. Baselines are
-  // 2025-26 season figures. Current-season baselines are NOT used: every team
-  // has played one or two games, which `espnPreseason`'s sample floors
-  // correctly reject.
-  // Dimers flagged both of these with prices on the morning of 2026-10-23.
-  'POR@SAC': [
-    {
-      id: 'avdija-ast',
-      player: 'Deni Avdija',
-      team: 'POR',
-      stat: 'assists',
-      line: 4.5,
-      over: -125, // Dimers
-      under: 105, // inferred
-      baseline: { perGame: 6.8, minutes: 34, pace: 99.5 }, // 24.2 pts / 6.7 reb / 6.8 ast
-      projectedMinutes: 34,
-      minutesVolatility: 0.06,
-      matchupFactor: 1.0,
-      flags: { estimatedBaseline: 'minutes estimated', estimatedPrice: true },
-    },
-  ],
-
-  'TOR@WSH': [
-    {
-      id: 'kawhi-pts',
-      player: 'Kawhi Leonard',
-      team: 'TOR',
-      stat: 'points',
-      line: 23.5,
-      over: -116, // Dimers
-      under: -104, // inferred
-      // Sources conflict badly on his 2025-26 scoring: Basketball-Reference's
-      // leaders page says 27.9 while another stats site says 24.3. On a 23.5
-      // line that gap is decisive, so the conservative figure is used and the
-      // conflict is charged for rather than split quietly down the middle.
-      baseline: { perGame: 24.3, minutes: 34, pace: 99.5 },
-      projectedMinutes: 34,
-      minutesVolatility: 0.07,
-      matchupFactor: 1.02, // Washington had the league's worst defensive rating
-      flags: {
-        estimatedBaseline: 'sources disagree on his scoring average, 24.3 vs 27.9; the lower is used',
-        estimatedPrice: true,
-      },
-    },
-  ],
-
+  // 2026-10-23. Lines and prices read off the scoresandodds game pages for
+  // tonight, which carry a per-book grid and the site's own projection. The
+  // player-id prop pages are NOT usable: they serve a stale game (Adebayo's
+  // showed a January fixture), while the game pages serve the current one.
+  //
+  // Baselines are 2025-26 season figures. `theirProj` records the source's own
+  // projection purely so a disagreement with ours is visible; it is never an
+  // input to the model.
   'NY@BOS': [
     {
-      id: 'anunoby-3pm',
-      player: 'OG Anunoby',
+      id: 'brunson-pts',
+      player: 'Jalen Brunson',
       team: 'NY',
-      stat: 'threes',
-      threshold: 3, // "Over 2.5 made threes"
-      price: 142, // FanDuel via SportsbookReview
-      baseline: { perGame: 2.3, minutes: 33.2, pace: 99.5 }, // 67 games, 38.6% on 6.1 att
-      projectedMinutes: 33.2,
-      minutesVolatility: 0.06,
+      stat: 'points',
+      line: 24.5,
+      over: -125,
+      under: 100,
+      theirProj: 23.22,
+      baseline: { perGame: 28.4, minutes: 35, pace: 99.5 },
+      projectedMinutes: 35,
+      minutesVolatility: 0.05,
       matchupFactor: 0.96, // Boston's defence ranked 4th by rating last season
-      flags: {},
+      flags: { estimatedBaseline: 'minutes estimated' },
     },
     {
-      id: 'george-pts',
-      player: 'Paul George',
-      team: 'BOS',
+      id: 'anunoby-pts',
+      player: 'OG Anunoby',
+      team: 'NY',
       stat: 'points',
-      line: 17.5,
-      over: -112, // DraftKings via SportsbookReview
-      under: -108,
-      // No 2025-26 per-game figure could be sourced, and one 38-point opening
-      // night is not a baseline. Reported as NO PLAY rather than projected.
-      baseline: null,
+      line: 15.5,
+      over: -120,
+      under: -105,
+      theirProj: 15.71,
+      baseline: { perGame: 16.7, minutes: 33.2, pace: 99.5 },
+      projectedMinutes: 33.2,
+      minutesVolatility: 0.06,
+      matchupFactor: 0.96,
       flags: {},
     },
   ],
 
-  // Luka's points line could not be confirmed for this game: preview articles
-  // quoted 25.5, 30.5, 31.5 and 32.5, several of them for a Warriors game that
-  // is not on this slate. Nothing here until a book's own number is in hand.
-  'LAC@LAL': [],
+  'DET@MIA': [
+    {
+      id: 'giannis-pts',
+      player: 'Giannis Antetokounmpo',
+      team: 'MIA',
+      stat: 'points',
+      line: 28.5,
+      over: -120,
+      under: -105,
+      theirProj: 29.3,
+      // 2025-26 with Milwaukee: 27.6 points in 28.9 minutes across 36 games.
+      // Now the focal scorer on a different team, which is a role change in
+      // the opposite direction to a usage haircut.
+      baseline: { perGame: 27.6, minutes: 28.9, pace: 103.6 },
+      projectedMinutes: 32,
+      minutesVolatility: 0.08,
+      matchupFactor: 1.02, // Detroit's defence was 2nd by rating, but he is the focal point
+      flags: {
+        smallSample: 'only 36 games played in 2025-26',
+        roleChange: 'new team and a larger offensive role than last season',
+      },
+    },
+    {
+      id: 'cunningham-pts',
+      player: 'Cade Cunningham',
+      team: 'DET',
+      stat: 'points',
+      line: 24.5,
+      over: -112,
+      under: -112,
+      theirProj: 23,
+      baseline: { perGame: 28.1, minutes: 35, pace: 99.4 },
+      projectedMinutes: 35,
+      minutesVolatility: 0.05,
+      matchupFactor: 1.0,
+      flags: { estimatedBaseline: 'minutes estimated' },
+    },
+    {
+      id: 'adebayo-pts',
+      player: 'Bam Adebayo',
+      team: 'MIA',
+      stat: 'points',
+      line: 16.5,
+      over: -125,
+      under: 100,
+      theirProj: 16.96,
+      baseline: { perGame: 20.1, minutes: 32.4, pace: 103.6 },
+      projectedMinutes: 32.4,
+      minutesVolatility: 0.07,
+      usageFactor: 0.88, // Giannis takes a share he did not have to give up last season
+      matchupFactor: 0.98,
+      flags: { roleChange: 'Giannis arrival redistributes usage — haircut is our prior' },
+    },
+    {
+      id: 'wiggins-pts',
+      player: 'Andrew Wiggins',
+      team: 'MIA',
+      stat: 'points',
+      line: 12.5,
+      over: -120,
+      under: -105,
+      theirProj: 13.19,
+      baseline: { perGame: 15.4, minutes: 30.3, pace: 103.6 },
+      projectedMinutes: 30.3,
+      minutesVolatility: 0.07,
+      usageFactor: 0.85,
+      matchupFactor: 0.98,
+      flags: { roleChange: 'Giannis arrival redistributes usage — haircut is our prior' },
+    },
+    {
+      id: 'larsson-pts',
+      player: 'Pelle Larsson',
+      team: 'MIA',
+      stat: 'points',
+      line: 9.5,
+      over: 100,
+      under: -125,
+      theirProj: 7.76,
+      baseline: { perGame: 11.4, minutes: 26.4, pace: 103.6 },
+      projectedMinutes: 26.4,
+      minutesVolatility: 0.09,
+      usageFactor: 0.88,
+      matchupFactor: 0.98,
+      flags: { roleChange: 'Giannis arrival redistributes usage' },
+    },
+  ],
+
+  'LAC@LAL': [
+    {
+      id: 'doncic-pts',
+      player: 'Luka Doncic',
+      team: 'LAL',
+      stat: 'points',
+      line: 31.5,
+      over: -110,
+      under: -115,
+      theirProj: 33.57,
+      baseline: { perGame: 33.5, minutes: 35, pace: 98.3 }, // led the NBA in scoring
+      projectedMinutes: 35,
+      minutesVolatility: 0.06,
+      matchupFactor: 1.0,
+      flags: { estimatedBaseline: 'minutes estimated' },
+    },
+  ],
 
   'MIN@MIA': [
     {
