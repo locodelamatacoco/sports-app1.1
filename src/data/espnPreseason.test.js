@@ -5,6 +5,8 @@ import {
   propBaseline,
   fetchPreseasonRates,
   MIN_MINUTES_FOR_RATE,
+  MIN_GAMES_FOR_RATE,
+  TRACKED_STATS,
   SEASON_TYPE_PRESEASON,
 } from './espnPreseason';
 import box from './__fixtures__/espnPreseasonBox.json';
@@ -87,9 +89,43 @@ describe('per-minute rates', () => {
 
   test('a thin sample is marked unusable, and says how thin', () => {
     Object.values(rates).forEach((r) => {
-      expect(r.usableSample).toBe(r.totalMinutes >= MIN_MINUTES_FOR_RATE);
+      expect(r.usableSample).toBe(
+        r.totalMinutes >= MIN_MINUTES_FOR_RATE && r.games >= MIN_GAMES_FOR_RATE
+      );
       expect(r.sampleNote).toMatch(/preseason game/);
     });
+  });
+
+  test('every tracked stat produces a real number, not NaN', () => {
+    // threes were exposed as a rate while never being summed, so the rate came
+    // back NaN — which then propagates silently into any projection built on it.
+    Object.values(rates).forEach((r) => {
+      TRACKED_STATS.forEach((stat) => {
+        expect(Number.isFinite(r.perMinute[stat])).toBe(true);
+      });
+    });
+    expect(TRACKED_STATS).toContain('threes');
+  });
+
+  test('one long game does not clear the sample floor', () => {
+    // A single 31-minute outing beats the minutes floor while saying nothing,
+    // which briefly turned a 38-point opening night into a 38-point baseline.
+    const oneBigGame = ratesFrom({
+      Someone: {
+        player: 'Someone',
+        team: 'BOS',
+        games: 1,
+        minutes: 31,
+        points: 38,
+        rebounds: 5,
+        assists: 3,
+        steals: 0,
+        blocks: 0,
+        threes: 7,
+      },
+    });
+    expect(oneBigGame.Someone.totalMinutes).toBeGreaterThan(MIN_MINUTES_FOR_RATE);
+    expect(oneBigGame.Someone.usableSample).toBe(false);
   });
 });
 

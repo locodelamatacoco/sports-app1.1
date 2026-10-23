@@ -198,6 +198,85 @@ export const PROP_SETS = {
   // preseason was 2 games at 14.5 mpg because he sat the last three with groin
   // tightness. Preseason rates had Larsson at 27.0 per 36; his season rate is
   // 15.5 per 36, so preseason overstated him by about 75%.
+  // 2026-10-23. Lines from published previews (SportsbookReview citing FanDuel
+  // and DraftKings, Sports Mole) — ESPN carries no prop market. Baselines are
+  // 2025-26 season figures. Current-season baselines are NOT used: every team
+  // has played one or two games, which `espnPreseason`'s sample floors
+  // correctly reject.
+  'NY@BOS': [
+    {
+      id: 'anunoby-3pm',
+      player: 'OG Anunoby',
+      team: 'NY',
+      stat: 'threes',
+      threshold: 3, // "Over 2.5 made threes"
+      price: 142, // FanDuel via SportsbookReview
+      baseline: { perGame: 2.3, minutes: 33.2, pace: 99.5 }, // 67 games, 38.6% on 6.1 att
+      projectedMinutes: 33.2,
+      minutesVolatility: 0.06,
+      matchupFactor: 0.96, // Boston's defence ranked 4th by rating last season
+      flags: {},
+    },
+    {
+      id: 'brunson-pts-205',
+      player: 'Jalen Brunson',
+      team: 'NY',
+      stat: 'points',
+      line: 20.5,
+      over: -110, // Sports Mole flagged the over; no book price published
+      under: -110,
+      baseline: { perGame: 28.4, minutes: 35, pace: 99.5 }, // led the league in scoring
+      projectedMinutes: 35,
+      minutesVolatility: 0.05,
+      matchupFactor: 0.96,
+      flags: { estimatedPrice: true, estimatedBaseline: 'minutes estimated' },
+    },
+    {
+      id: 'towns-reb',
+      player: 'Karl-Anthony Towns',
+      team: 'NY',
+      stat: 'rebounds',
+      line: 10.5,
+      over: -110, // Sports Mole flagged the over; no book price published
+      under: -110,
+      baseline: { perGame: 10.6, minutes: 32, pace: 99.5 }, // 4th in the NBA in rebounding
+      projectedMinutes: 32,
+      minutesVolatility: 0.08,
+      matchupFactor: 0.98,
+      flags: { estimatedPrice: true, estimatedBaseline: 'minutes estimated' },
+    },
+    {
+      id: 'george-pts',
+      player: 'Paul George',
+      team: 'BOS',
+      stat: 'points',
+      line: 17.5,
+      over: -112, // DraftKings via SportsbookReview
+      under: -108,
+      // No 2025-26 per-game figure could be sourced, and one 38-point opening
+      // night is not a baseline. Reported as NO PLAY rather than projected.
+      baseline: null,
+      flags: {},
+    },
+  ],
+
+  'LAC@LAL': [
+    {
+      id: 'doncic-pts',
+      player: 'Luka Doncic',
+      team: 'LAL',
+      stat: 'points',
+      line: 25.5,
+      over: -110, // Sports Mole flagged the over; no book price published
+      under: -110,
+      baseline: { perGame: 33.5, minutes: 35, pace: 98.3 }, // led the NBA in scoring
+      projectedMinutes: 35,
+      minutesVolatility: 0.06,
+      matchupFactor: 1.0,
+      flags: { estimatedPrice: true, estimatedBaseline: 'minutes estimated' },
+    },
+  ],
+
   'MIN@MIA': [
     {
       id: 'adebayo-pts-17plus',
@@ -320,6 +399,15 @@ export const CURATED_CONTEXT = {
       'Anfernee Simons (PHI) day-to-day with a hamstring issue after missing the preseason',
     lineupUnconfirmed:
       'no official lineup release; outlets label the same fives both "projected" and "confirmed"',
+  },
+  'NY@BOS': {
+    injuryNewsUncertainty: null, // the live feed supplies this game's report
+    lineupUnconfirmed: 'books disagree on the number: BOS -1.5 to -2.5 and the total 221.5 to 224.5',
+  },
+  'LAC@LAL': {
+    injuryNewsUncertainty: null,
+    lineupUnconfirmed:
+      'books disagree sharply: LAL -4.5 to -9.5 and the total 228.5 to 234.5 across outlets',
   },
   'MIN@MIA': {
     injuryNewsUncertainty: null, // the live feed supplies this game's report

@@ -34,6 +34,11 @@ export const SEASON_TYPE_PRESEASON = 1;
 // Below this many minutes a line is noise from a blowout's closing stretch.
 export const MIN_MINUTES_FOR_RATE = 24;
 
+// And minutes alone cannot express sample size: one 31-minute game clears the
+// minutes floor while telling you almost nothing, which is how a 38-point
+// opening night briefly read as a 38-point baseline. Both floors must pass.
+export const MIN_GAMES_FOR_RATE = 3;
+
 const STAT_KEYS = {
   minutes: 'minutes',
   points: 'points',
@@ -41,7 +46,13 @@ const STAT_KEYS = {
   assists: 'assists',
   steals: 'steals',
   blocks: 'blocks',
+  // Box scores give made-attempted as one cell; numberFrom takes the made half.
+  threes: 'threePointFieldGoalsMade-threePointFieldGoalsAttempted',
 };
+
+// Every counting stat the accumulator tracks. Keeping this in one place is what
+// stops a stat being exposed as a rate without ever being summed.
+export const TRACKED_STATS = ['points', 'rebounds', 'assists', 'steals', 'blocks', 'threes'];
 
 // Box-score cells arrive as strings, and made-attempted pairs as "7-12".
 function numberFrom(value) {
@@ -93,15 +104,13 @@ export function accumulateBoxScore(summary, accumulator = {}, { team = null } = 
           team: abbr,
           games: 0,
           minutes: 0,
-          points: 0,
-          rebounds: 0,
-          assists: 0,
-          steals: 0,
-          blocks: 0,
+          ...Object.fromEntries(TRACKED_STATS.map((stat) => [stat, 0])),
         });
         entry.games += 1;
         entry.minutes += minutes;
-        for (const stat of ['points', 'rebounds', 'assists', 'steals', 'blocks']) {
+        // Keep the latest team, so a mid-season move is not stuck on the old one.
+        entry.team = abbr ?? entry.team;
+        for (const stat of TRACKED_STATS) {
           entry[stat] += at(stats, stat) ?? 0;
         }
       }
@@ -115,20 +124,17 @@ export function accumulateBoxScore(summary, accumulator = {}, { team = null } = 
 export function ratesFrom(accumulator) {
   const out = {};
   for (const entry of Object.values(accumulator)) {
-    const usable = entry.minutes >= MIN_MINUTES_FOR_RATE;
+    const usable =
+      entry.minutes >= MIN_MINUTES_FOR_RATE && entry.games >= MIN_GAMES_FOR_RATE;
     out[entry.player] = {
       player: entry.player,
       team: entry.team,
       games: entry.games,
       totalMinutes: entry.minutes,
       minutesPerGame: entry.minutes / entry.games,
-      perMinute: {
-        points: entry.points / entry.minutes,
-        rebounds: entry.rebounds / entry.minutes,
-        assists: entry.assists / entry.minutes,
-        steals: entry.steals / entry.minutes,
-        blocks: entry.blocks / entry.minutes,
-      },
+      perMinute: Object.fromEntries(
+        TRACKED_STATS.map((stat) => [stat, entry[stat] / entry.minutes])
+      ),
       // Thin enough that the model should decline rather than project.
       usableSample: usable,
       sampleNote: `${entry.games} preseason game${entry.games === 1 ? '' : 's'}, ${entry.minutes.toFixed(0)} total minutes`,

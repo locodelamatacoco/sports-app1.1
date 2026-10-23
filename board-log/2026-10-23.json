@@ -1,0 +1,1838 @@
+{
+  "loggedAt": "2026-10-23T01:58:33.205Z",
+  "publishedTop5": [
+    {
+      "rank": 1,
+      "gameId": "ny-bos",
+      "label": "Jalen Brunson Over 20.5 points",
+      "price": -110,
+      "adjustedEdge": 0.004
+    },
+    {
+      "rank": 2,
+      "gameId": "lac-lal",
+      "label": "Luka Doncic Over 25.5 points",
+      "price": -110,
+      "adjustedEdge": -0.0174
+    },
+    {
+      "rank": 3,
+      "gameId": "por-sac",
+      "label": "Sacramento Kings ML",
+      "price": 245,
+      "adjustedEdge": -0.0756
+    },
+    {
+      "rank": 4,
+      "gameId": "lac-lal",
+      "label": "LA Clippers ML",
+      "price": 310,
+      "adjustedEdge": -0.0796
+    },
+    {
+      "rank": 5,
+      "gameId": "dal-ind",
+      "label": "Dallas Mavericks ML",
+      "price": 185,
+      "adjustedEdge": -0.085
+    }
+  ],
+  "slateDate": "2026-10-23",
+  "numSims": 40000,
+  "constants": {
+    "LEAGUE_AVG_RATING": 114.4,
+    "LEAGUE_AVG_PACE": 99.5,
+    "LEAGUE_PACE_SD": 2.2,
+    "HOME_COURT_POINTS": 1.74,
+    "RATING_SHRINK_MARGIN": 0.555,
+    "RATING_SHRINK_TOTAL": 0.325,
+    "LEAGUE_MEAN_TOTAL": 231.2,
+    "MARGIN_SD": 15.8,
+    "TOTAL_SD": 19.7,
+    "POSSESSION_SD": 3.2,
+    "OT_MINUTES": 5,
+    "OT_SCORE_SD": 4.2,
+    "REGULATION_MINUTES": 48,
+    "MAX_OT_PERIODS": 4,
+    "REST_POINTS_PER_DAY": 0.35,
+    "MAX_REST_POINTS": 1,
+    "BACK_TO_BACK_POINTS": -1.1,
+    "BLOWOUT_MARGIN": 18,
+    "BLOWOUT_MINUTES_FACTOR": 0.86,
+    "MARKET_ANCHOR_WEIGHT": 0.35,
+    "MAX_TRUSTED_MARGIN_DIVERGENCE": 4,
+    "MAX_TRUSTED_TOTAL_DIVERGENCE": 6,
+    "DIVERGENCE_PENALTY_PER_POINT": 0.015,
+    "DIVERGENCE_VETO_MULTIPLE": 2
+  },
+  "games": [
+    {
+      "gameId": "chi-mil",
+      "espnId": "401909848",
+      "label": "Bulls @ Bucks",
+      "tipoff": "4:00 PM ET",
+      "book": "DraftKings",
+      "away": "CHI",
+      "home": "MIL",
+      "projectedAway": 116.45,
+      "projectedHome": 117.64,
+      "projectedTotal": 234.09,
+      "projectedMargin": 1.19,
+      "unshrunkMargin": 0.48,
+      "confidence": 4.2,
+      "penaltyTotal": 0.19,
+      "veto": null,
+      "odds": {
+        "moneyline": {
+          "home": -115,
+          "away": -105
+        },
+        "spread": {
+          "homeLine": -1.5,
+          "homePrice": -105,
+          "awayPrice": -115
+        },
+        "total": {
+          "line": 237.5,
+          "over": -110,
+          "under": -110
+        },
+        "opening": {
+          "moneyline": {
+            "home": -110,
+            "away": -110
+          },
+          "spreadHomeLine": -1.5
+        }
+      },
+      "markets": [
+        {
+          "label": "Milwaukee Bucks ML",
+          "market": "moneyline",
+          "side": "home",
+          "line": null,
+          "player": null,
+          "stat": null,
+          "threshold": null,
+          "price": -115,
+          "modelProb": 0.5296,
+          "impliedProb": 0.5349,
+          "rawEdge": -0.0053,
+          "adjustedEdge": -0.1953,
+          "qualifies": false,
+          "slateRank": 38
+        },
+        {
+          "label": "Chicago Bulls ML",
+          "market": "moneyline",
+          "side": "away",
+          "line": null,
+          "player": null,
+          "stat": null,
+          "threshold": null,
+          "price": -105,
+          "modelProb": 0.4704,
+          "impliedProb": 0.5122,
+          "rawEdge": -0.0418,
+          "adjustedEdge": -0.2318,
+          "qualifies": false,
+          "slateRank": 54
+        },
+        {
+          "label": "Milwaukee Bucks -1.5",
+          "market": "spread",
+          "side": "home",
+          "line": null,
+          "player": null,
+          "stat": null,
+          "threshold": null,
+          "price": -105,
+          "modelProb": 0.503,
+          "impliedProb": 0.5122,
+          "rawEdge": -0.0091,
+          "adjustedEdge": -0.1991,
+          "qualifies": false,
+          "slateRank": 41
+        },
+        {
+          "label": "Chicago Bulls +1.5",
+          "market": "spread",
+          "side": "away",
+          "line": null,
+          "player": null,
+          "stat": null,
+          "threshold": null,
+          "price": -115,
+          "modelProb": 0.497,
+          "impliedProb": 0.5349,
+          "rawEdge": -0.0379,
+          "adjustedEdge": -0.2279,
+          "qualifies": false,
+          "slateRank": 53
+        },
+        {
+          "label": "Over 237.5",
+          "market": "total",
+          "side": "over",
+          "line": null,
+          "player": null,
+          "stat": null,
+          "threshold": null,
+          "price": -110,
+          "modelProb": 0.4274,
+          "impliedProb": 0.5238,
+          "rawEdge": -0.0964,
+          "adjustedEdge": -0.2864,
+          "qualifies": false,
+          "slateRank": 69
+        },
+        {
+          "label": "Under 237.5",
+          "market": "total",
+          "side": "under",
+          "line": null,
+          "player": null,
+          "stat": null,
+          "threshold": null,
+          "price": -110,
+          "modelProb": 0.5726,
+          "impliedProb": 0.5238,
+          "rawEdge": 0.0487,
+          "adjustedEdge": -0.1413,
+          "qualifies": false,
+          "slateRank": 17
+        }
+      ]
+    },
+    {
+      "gameId": "ny-bos",
+      "espnId": "401909095",
+      "label": "Knicks @ Celtics",
+      "tipoff": "7:00 PM ET",
+      "book": "DraftKings",
+      "away": "NY",
+      "home": "BOS",
+      "projectedAway": 112.73,
+      "projectedHome": 114.3,
+      "projectedTotal": 227.02,
+      "projectedMargin": 1.57,
+      "unshrunkMargin": 0.43,
+      "confidence": 5,
+      "penaltyTotal": 0.16,
+      "veto": null,
+      "odds": {
+        "moneyline": {
+          "home": -142,
+          "away": 120
+        },
+        "spread": {
+          "homeLine": -2.5,
+          "homePrice": -110,
+          "awayPrice": -110
+        },
+        "total": {
+          "line": 224.5,
+          "over": -105,
+          "under": -115
+        },
+        "opening": {
+          "moneyline": {
+            "home": -135,
+            "away": 114
+          },
+          "spreadHomeLine": -2.5
+        }
+      },
+      "markets": [
+        {
+          "label": "Boston Celtics ML",
+          "market": "moneyline",
+          "side": "home",
+          "line": null,
+          "player": null,
+          "stat": null,
+          "threshold": null,
+          "price": -142,
+          "modelProb": 0.5398,
+          "impliedProb": 0.5868,
+          "rawEdge": -0.047,
+          "adjustedEdge": -0.207,
+          "qualifies": false,
+          "slateRank": 46
+        },
+        {
+          "label": "New York Knicks ML",
+          "market": "moneyline",
+          "side": "away",
+          "line": null,
+          "player": null,
+          "stat": null,
+          "threshold": null,
+          "price": 120,
+          "modelProb": 0.4602,
+          "impliedProb": 0.4545,
+          "rawEdge": 0.0057,
+          "adjustedEdge": -0.1543,
+          "qualifies": false,
+          "slateRank": 23
+        },
+        {
+          "label": "Boston Celtics -2.5",
+          "market": "spread",
+          "side": "home",
+          "line": null,
+          "player": null,
+          "stat": null,
+          "threshold": null,
+          "price": -110,
+          "modelProb": 0.485,
+          "impliedProb": 0.5238,
+          "rawEdge": -0.0388,
+          "adjustedEdge": -0.1988,
+          "qualifies": false,
+          "slateRank": 39
+        },
+        {
+          "label": "New York Knicks +2.5",
+          "market": "spread",
+          "side": "away",
+          "line": null,
+          "player": null,
+          "stat": null,
+          "threshold": null,
+          "price": -110,
+          "modelProb": 0.515,
+          "impliedProb": 0.5238,
+          "rawEdge": -0.0089,
+          "adjustedEdge": -0.1689,
+          "qualifies": false,
+          "slateRank": 28
+        },
+        {
+          "label": "Over 224.5",
+          "market": "total",
+          "side": "over",
+          "line": null,
+          "player": null,
+          "stat": null,
+          "threshold": null,
+          "price": -105,
+          "modelProb": 0.5471,
+          "impliedProb": 0.5122,
+          "rawEdge": 0.0349,
+          "adjustedEdge": -0.1251,
+          "qualifies": false,
+          "slateRank": 13
+        },
+        {
+          "label": "Under 224.5",
+          "market": "total",
+          "side": "under",
+          "line": null,
+          "player": null,
+          "stat": null,
+          "threshold": null,
+          "price": -115,
+          "modelProb": 0.453,
+          "impliedProb": 0.5349,
+          "rawEdge": -0.0819,
+          "adjustedEdge": -0.2419,
+          "qualifies": false,
+          "slateRank": 57
+        },
+        {
+          "label": "OG Anunoby 3+ threes",
+          "market": "prop",
+          "side": "yes",
+          "line": null,
+          "player": "OG Anunoby",
+          "stat": "threes",
+          "threshold": 3,
+          "price": 142,
+          "modelProb": 0.3471,
+          "impliedProb": 0.4132,
+          "rawEdge": -0.0661,
+          "adjustedEdge": -0.2261,
+          "qualifies": false,
+          "slateRank": 51
+        },
+        {
+          "label": "Jalen Brunson Over 20.5 points",
+          "market": "prop",
+          "side": "over",
+          "line": 20.5,
+          "player": "Jalen Brunson",
+          "stat": "points",
+          "threshold": null,
+          "price": -110,
+          "modelProb": 0.7278,
+          "impliedProb": 0.5238,
+          "rawEdge": 0.204,
+          "adjustedEdge": 0.004,
+          "qualifies": false,
+          "slateRank": 1
+        },
+        {
+          "label": "Jalen Brunson Under 20.5 points",
+          "market": "prop",
+          "side": "under",
+          "line": 20.5,
+          "player": "Jalen Brunson",
+          "stat": "points",
+          "threshold": null,
+          "price": -110,
+          "modelProb": 0.2722,
+          "impliedProb": 0.5238,
+          "rawEdge": -0.2517,
+          "adjustedEdge": -0.4517,
+          "qualifies": false,
+          "slateRank": 78
+        },
+        {
+          "label": "Karl-Anthony Towns Over 10.5 rebounds",
+          "market": "prop",
+          "side": "over",
+          "line": 10.5,
+          "player": "Karl-Anthony Towns",
+          "stat": "rebounds",
+          "threshold": null,
+          "price": -110,
+          "modelProb": 0.3978,
+          "impliedProb": 0.5238,
+          "rawEdge": -0.126,
+          "adjustedEdge": -0.346,
+          "qualifies": false,
+          "slateRank": 75
+        },
+        {
+          "label": "Karl-Anthony Towns Under 10.5 rebounds",
+          "market": "prop",
+          "side": "under",
+          "line": 10.5,
+          "player": "Karl-Anthony Towns",
+          "stat": "rebounds",
+          "threshold": null,
+          "price": -110,
+          "modelProb": 0.6022,
+          "impliedProb": 0.5238,
+          "rawEdge": 0.0784,
+          "adjustedEdge": -0.1416,
+          "qualifies": false,
+          "slateRank": 18
+        }
+      ]
+    },
+    {
+      "gameId": "atl-cha",
+      "espnId": "401909843",
+      "label": "Hawks @ Hornets",
+      "tipoff": "7:00 PM ET",
+      "book": "DraftKings",
+      "away": "ATL",
+      "home": "CHA",
+      "projectedAway": 113.85,
+      "projectedHome": 115.07,
+      "projectedTotal": 228.92,
+      "projectedMargin": 1.22,
+      "unshrunkMargin": 4.25,
+      "confidence": 4.3,
+      "penaltyTotal": 0.1845,
+      "veto": null,
+      "odds": {
+        "moneyline": {
+          "home": 120,
+          "away": -142
+        },
+        "spread": {
+          "homeLine": 2.5,
+          "homePrice": -108,
+          "awayPrice": -112
+        },
+        "total": {
+          "line": 225.5,
+          "over": -110,
+          "under": -110
+        },
+        "opening": {
+          "moneyline": {
+            "home": 114,
+            "away": -135
+          },
+          "spreadHomeLine": 2.5
+        }
+      },
+      "markets": [
+        {
+          "label": "Charlotte Hornets ML",
+          "market": "moneyline",
+          "side": "home",
+          "line": null,
+          "player": null,
+          "stat": null,
+          "threshold": null,
+          "price": 120,
+          "modelProb": 0.5324,
+          "impliedProb": 0.4545,
+          "rawEdge": 0.0778,
+          "adjustedEdge": -0.1067,
+          "qualifies": false,
+          "slateRank": 7
+        },
+        {
+          "label": "Atlanta Hawks ML",
+          "market": "moneyline",
+          "side": "away",
+          "line": null,
+          "player": null,
+          "stat": null,
+          "threshold": null,
+          "price": -142,
+          "modelProb": 0.4676,
+          "impliedProb": 0.5868,
+          "rawEdge": -0.1192,
+          "adjustedEdge": -0.3036,
+          "qualifies": false,
+          "slateRank": 73
+        },
+        {
+          "label": "Charlotte Hornets +2.5",
+          "market": "spread",
+          "side": "home",
+          "line": null,
+          "player": null,
+          "stat": null,
+          "threshold": null,
+          "price": -108,
+          "modelProb": 0.5852,
+          "impliedProb": 0.5192,
+          "rawEdge": 0.066,
+          "adjustedEdge": -0.1185,
+          "qualifies": false,
+          "slateRank": 10
+        },
+        {
+          "label": "Atlanta Hawks -2.5",
+          "market": "spread",
+          "side": "away",
+          "line": null,
+          "player": null,
+          "stat": null,
+          "threshold": null,
+          "price": -112,
+          "modelProb": 0.4148,
+          "impliedProb": 0.5283,
+          "rawEdge": -0.1135,
+          "adjustedEdge": -0.298,
+          "qualifies": false,
+          "slateRank": 72
+        },
+        {
+          "label": "Over 225.5",
+          "market": "total",
+          "side": "over",
+          "line": null,
+          "player": null,
+          "stat": null,
+          "threshold": null,
+          "price": -110,
+          "modelProb": 0.5631,
+          "impliedProb": 0.5238,
+          "rawEdge": 0.0392,
+          "adjustedEdge": -0.1452,
+          "qualifies": false,
+          "slateRank": 20
+        },
+        {
+          "label": "Under 225.5",
+          "market": "total",
+          "side": "under",
+          "line": null,
+          "player": null,
+          "stat": null,
+          "threshold": null,
+          "price": -110,
+          "modelProb": 0.437,
+          "impliedProb": 0.5238,
+          "rawEdge": -0.0869,
+          "adjustedEdge": -0.2713,
+          "qualifies": false,
+          "slateRank": 64
+        }
+      ]
+    },
+    {
+      "gameId": "dal-ind",
+      "espnId": "401909844",
+      "label": "Mavericks @ Pacers",
+      "tipoff": "7:00 PM ET",
+      "book": "DraftKings",
+      "away": "DAL",
+      "home": "IND",
+      "projectedAway": 115.79,
+      "projectedHome": 118.03,
+      "projectedTotal": 233.82,
+      "projectedMargin": 2.24,
+      "unshrunkMargin": -0.77,
+      "confidence": 4.5,
+      "penaltyTotal": 0.1773,
+      "veto": null,
+      "odds": {
+        "moneyline": {
+          "home": -225,
+          "away": 185
+        },
+        "spread": {
+          "homeLine": -5.5,
+          "homePrice": -115,
+          "awayPrice": -105
+        },
+        "total": {
+          "line": 236.5,
+          "over": -115,
+          "under": -105
+        },
+        "opening": {
+          "moneyline": {
+            "home": -205,
+            "away": 170
+          },
+          "spreadHomeLine": -5.5
+        }
+      },
+      "markets": [
+        {
+          "label": "Indiana Pacers ML",
+          "market": "moneyline",
+          "side": "home",
+          "line": null,
+          "player": null,
+          "stat": null,
+          "threshold": null,
+          "price": -225,
+          "modelProb": 0.5567,
+          "impliedProb": 0.6923,
+          "rawEdge": -0.1356,
+          "adjustedEdge": -0.3129,
+          "qualifies": false,
+          "slateRank": 74
+        },
+        {
+          "label": "Dallas Mavericks ML",
+          "market": "moneyline",
+          "side": "away",
+          "line": null,
+          "player": null,
+          "stat": null,
+          "threshold": null,
+          "price": 185,
+          "modelProb": 0.4432,
+          "impliedProb": 0.3509,
+          "rawEdge": 0.0924,
+          "adjustedEdge": -0.085,
+          "qualifies": false,
+          "slateRank": 5
+        },
+        {
+          "label": "Indiana Pacers -5.5",
+          "market": "spread",
+          "side": "home",
+          "line": null,
+          "player": null,
+          "stat": null,
+          "threshold": null,
+          "price": -115,
+          "modelProb": 0.422,
+          "impliedProb": 0.5349,
+          "rawEdge": -0.1128,
+          "adjustedEdge": -0.2902,
+          "qualifies": false,
+          "slateRank": 71
+        },
+        {
+          "label": "Dallas Mavericks +5.5",
+          "market": "spread",
+          "side": "away",
+          "line": null,
+          "player": null,
+          "stat": null,
+          "threshold": null,
+          "price": -105,
+          "modelProb": 0.5779,
+          "impliedProb": 0.5122,
+          "rawEdge": 0.0658,
+          "adjustedEdge": -0.1116,
+          "qualifies": false,
+          "slateRank": 8
+        },
+        {
+          "label": "Over 236.5",
+          "market": "total",
+          "side": "over",
+          "line": null,
+          "player": null,
+          "stat": null,
+          "threshold": null,
+          "price": -115,
+          "modelProb": 0.4439,
+          "impliedProb": 0.5349,
+          "rawEdge": -0.091,
+          "adjustedEdge": -0.2684,
+          "qualifies": false,
+          "slateRank": 63
+        },
+        {
+          "label": "Under 236.5",
+          "market": "total",
+          "side": "under",
+          "line": null,
+          "player": null,
+          "stat": null,
+          "threshold": null,
+          "price": -105,
+          "modelProb": 0.5562,
+          "impliedProb": 0.5122,
+          "rawEdge": 0.044,
+          "adjustedEdge": -0.1334,
+          "qualifies": false,
+          "slateRank": 16
+        }
+      ]
+    },
+    {
+      "gameId": "min-orl",
+      "espnId": "401909845",
+      "label": "Timberwolves @ Magic",
+      "tipoff": "7:00 PM ET",
+      "book": "DraftKings",
+      "away": "MIN",
+      "home": "ORL",
+      "projectedAway": 116.93,
+      "projectedHome": 116.59,
+      "projectedTotal": 233.52,
+      "projectedMargin": -0.34,
+      "unshrunkMargin": -0.97,
+      "confidence": 4.2,
+      "penaltyTotal": 0.19,
+      "veto": null,
+      "odds": {
+        "moneyline": {
+          "home": 105,
+          "away": -125
+        },
+        "spread": {
+          "homeLine": 1.5,
+          "homePrice": -110,
+          "awayPrice": -110
+        },
+        "total": {
+          "line": 236.5,
+          "over": -110,
+          "under": -110
+        },
+        "opening": {
+          "moneyline": {
+            "home": -102,
+            "away": -118
+          },
+          "spreadHomeLine": 1.5
+        }
+      },
+      "markets": [
+        {
+          "label": "Orlando Magic ML",
+          "market": "moneyline",
+          "side": "home",
+          "line": null,
+          "player": null,
+          "stat": null,
+          "threshold": null,
+          "price": 105,
+          "modelProb": 0.4915,
+          "impliedProb": 0.4878,
+          "rawEdge": 0.0037,
+          "adjustedEdge": -0.1863,
+          "qualifies": false,
+          "slateRank": 32
+        },
+        {
+          "label": "Minnesota Timberwolves ML",
+          "market": "moneyline",
+          "side": "away",
+          "line": null,
+          "player": null,
+          "stat": null,
+          "threshold": null,
+          "price": -125,
+          "modelProb": 0.5085,
+          "impliedProb": 0.5556,
+          "rawEdge": -0.0471,
+          "adjustedEdge": -0.2371,
+          "qualifies": false,
+          "slateRank": 56
+        },
+        {
+          "label": "Orlando Magic +1.5",
+          "market": "spread",
+          "side": "home",
+          "line": null,
+          "player": null,
+          "stat": null,
+          "threshold": null,
+          "price": -110,
+          "modelProb": 0.5209,
+          "impliedProb": 0.5238,
+          "rawEdge": -0.0029,
+          "adjustedEdge": -0.1929,
+          "qualifies": false,
+          "slateRank": 36
+        },
+        {
+          "label": "Minnesota Timberwolves -1.5",
+          "market": "spread",
+          "side": "away",
+          "line": null,
+          "player": null,
+          "stat": null,
+          "threshold": null,
+          "price": -110,
+          "modelProb": 0.4791,
+          "impliedProb": 0.5238,
+          "rawEdge": -0.0447,
+          "adjustedEdge": -0.2347,
+          "qualifies": false,
+          "slateRank": 55
+        },
+        {
+          "label": "Over 236.5",
+          "market": "total",
+          "side": "over",
+          "line": null,
+          "player": null,
+          "stat": null,
+          "threshold": null,
+          "price": -110,
+          "modelProb": 0.4357,
+          "impliedProb": 0.5238,
+          "rawEdge": -0.0881,
+          "adjustedEdge": -0.2781,
+          "qualifies": false,
+          "slateRank": 66
+        },
+        {
+          "label": "Under 236.5",
+          "market": "total",
+          "side": "under",
+          "line": null,
+          "player": null,
+          "stat": null,
+          "threshold": null,
+          "price": -110,
+          "modelProb": 0.5643,
+          "impliedProb": 0.5238,
+          "rawEdge": 0.0405,
+          "adjustedEdge": -0.1495,
+          "qualifies": false,
+          "slateRank": 22
+        }
+      ]
+    },
+    {
+      "gameId": "tor-wsh",
+      "espnId": "401909846",
+      "label": "Raptors @ Wizards",
+      "tipoff": "7:00 PM ET",
+      "book": "DraftKings",
+      "away": "TOR",
+      "home": "WSH",
+      "projectedAway": 119.83,
+      "projectedHome": 113.67,
+      "projectedTotal": 233.5,
+      "projectedMargin": -6.15,
+      "unshrunkMargin": -12.9,
+      "confidence": 5,
+      "penaltyTotal": 0.16,
+      "veto": null,
+      "odds": {
+        "moneyline": {
+          "home": 180,
+          "away": -218
+        },
+        "spread": {
+          "homeLine": 5.5,
+          "homePrice": -115,
+          "awayPrice": -105
+        },
+        "total": {
+          "line": 236.5,
+          "over": -108,
+          "under": -112
+        },
+        "opening": {
+          "moneyline": {
+            "home": 154,
+            "away": -185
+          },
+          "spreadHomeLine": 4.5
+        }
+      },
+      "markets": [
+        {
+          "label": "Washington Wizards ML",
+          "market": "moneyline",
+          "side": "home",
+          "line": null,
+          "player": null,
+          "stat": null,
+          "threshold": null,
+          "price": 180,
+          "modelProb": 0.3438,
+          "impliedProb": 0.3571,
+          "rawEdge": -0.0133,
+          "adjustedEdge": -0.1733,
+          "qualifies": false,
+          "slateRank": 29
+        },
+        {
+          "label": "Toronto Raptors ML",
+          "market": "moneyline",
+          "side": "away",
+          "line": null,
+          "player": null,
+          "stat": null,
+          "threshold": null,
+          "price": -218,
+          "modelProb": 0.6562,
+          "impliedProb": 0.6855,
+          "rawEdge": -0.0294,
+          "adjustedEdge": -0.1894,
+          "qualifies": false,
+          "slateRank": 34
+        },
+        {
+          "label": "Washington Wizards +5.5",
+          "market": "spread",
+          "side": "home",
+          "line": null,
+          "player": null,
+          "stat": null,
+          "threshold": null,
+          "price": -115,
+          "modelProb": 0.4764,
+          "impliedProb": 0.5349,
+          "rawEdge": -0.0585,
+          "adjustedEdge": -0.2185,
+          "qualifies": false,
+          "slateRank": 48
+        },
+        {
+          "label": "Toronto Raptors -5.5",
+          "market": "spread",
+          "side": "away",
+          "line": null,
+          "player": null,
+          "stat": null,
+          "threshold": null,
+          "price": -105,
+          "modelProb": 0.5236,
+          "impliedProb": 0.5122,
+          "rawEdge": 0.0114,
+          "adjustedEdge": -0.1486,
+          "qualifies": false,
+          "slateRank": 21
+        },
+        {
+          "label": "Over 236.5",
+          "market": "total",
+          "side": "over",
+          "line": null,
+          "player": null,
+          "stat": null,
+          "threshold": null,
+          "price": -108,
+          "modelProb": 0.4366,
+          "impliedProb": 0.5192,
+          "rawEdge": -0.0826,
+          "adjustedEdge": -0.2426,
+          "qualifies": false,
+          "slateRank": 58
+        },
+        {
+          "label": "Under 236.5",
+          "market": "total",
+          "side": "under",
+          "line": null,
+          "player": null,
+          "stat": null,
+          "threshold": null,
+          "price": -112,
+          "modelProb": 0.5634,
+          "impliedProb": 0.5283,
+          "rawEdge": 0.035,
+          "adjustedEdge": -0.125,
+          "qualifies": false,
+          "slateRank": 12
+        }
+      ]
+    },
+    {
+      "gameId": "det-mia",
+      "espnId": "401909847",
+      "label": "Pistons @ Heat",
+      "tipoff": "8:00 PM ET",
+      "book": "DraftKings",
+      "away": "DET",
+      "home": "MIA",
+      "projectedAway": 117.91,
+      "projectedHome": 116.26,
+      "projectedTotal": 234.17,
+      "projectedMargin": -1.65,
+      "unshrunkMargin": -4.84,
+      "confidence": 5.7,
+      "penaltyTotal": 0.135,
+      "veto": null,
+      "odds": {
+        "moneyline": {
+          "home": -110,
+          "away": -110
+        },
+        "spread": {
+          "homeLine": 1.5,
+          "homePrice": -118,
+          "awayPrice": -102
+        },
+        "total": {
+          "line": 237.5,
+          "over": -108,
+          "under": -112
+        },
+        "opening": {
+          "moneyline": {
+            "home": -125,
+            "away": 105
+          },
+          "spreadHomeLine": -1.5
+        }
+      },
+      "markets": [
+        {
+          "label": "Miami Heat ML",
+          "market": "moneyline",
+          "side": "home",
+          "line": null,
+          "player": null,
+          "stat": null,
+          "threshold": null,
+          "price": -110,
+          "modelProb": 0.4586,
+          "impliedProb": 0.5238,
+          "rawEdge": -0.0652,
+          "adjustedEdge": -0.2002,
+          "qualifies": false,
+          "slateRank": 42
+        },
+        {
+          "label": "Detroit Pistons ML",
+          "market": "moneyline",
+          "side": "away",
+          "line": null,
+          "player": null,
+          "stat": null,
+          "threshold": null,
+          "price": -110,
+          "modelProb": 0.5414,
+          "impliedProb": 0.5238,
+          "rawEdge": 0.0176,
+          "adjustedEdge": -0.1174,
+          "qualifies": false,
+          "slateRank": 9
+        },
+        {
+          "label": "Miami Heat +1.5",
+          "market": "spread",
+          "side": "home",
+          "line": null,
+          "player": null,
+          "stat": null,
+          "threshold": null,
+          "price": -118,
+          "modelProb": 0.4851,
+          "impliedProb": 0.5413,
+          "rawEdge": -0.0562,
+          "adjustedEdge": -0.1912,
+          "qualifies": false,
+          "slateRank": 35
+        },
+        {
+          "label": "Detroit Pistons -1.5",
+          "market": "spread",
+          "side": "away",
+          "line": null,
+          "player": null,
+          "stat": null,
+          "threshold": null,
+          "price": -102,
+          "modelProb": 0.5149,
+          "impliedProb": 0.505,
+          "rawEdge": 0.0099,
+          "adjustedEdge": -0.1251,
+          "qualifies": false,
+          "slateRank": 14
+        },
+        {
+          "label": "Over 237.5",
+          "market": "total",
+          "side": "over",
+          "line": null,
+          "player": null,
+          "stat": null,
+          "threshold": null,
+          "price": -108,
+          "modelProb": 0.4272,
+          "impliedProb": 0.5192,
+          "rawEdge": -0.0921,
+          "adjustedEdge": -0.2271,
+          "qualifies": false,
+          "slateRank": 52
+        },
+        {
+          "label": "Under 237.5",
+          "market": "total",
+          "side": "under",
+          "line": null,
+          "player": null,
+          "stat": null,
+          "threshold": null,
+          "price": -112,
+          "modelProb": 0.5728,
+          "impliedProb": 0.5283,
+          "rawEdge": 0.0445,
+          "adjustedEdge": -0.0905,
+          "qualifies": false,
+          "slateRank": 6
+        }
+      ]
+    },
+    {
+      "gameId": "hou-sa",
+      "espnId": "401909096",
+      "label": "Rockets @ Spurs",
+      "tipoff": "9:30 PM ET",
+      "book": "DraftKings",
+      "away": "HOU",
+      "home": "SA",
+      "projectedAway": 112.49,
+      "projectedHome": 117.19,
+      "projectedTotal": 229.68,
+      "projectedMargin": 4.7,
+      "unshrunkMargin": 6.15,
+      "confidence": 4.2,
+      "penaltyTotal": 0.19,
+      "veto": null,
+      "odds": {
+        "moneyline": {
+          "home": -218,
+          "away": 180
+        },
+        "spread": {
+          "homeLine": -5.5,
+          "homePrice": -108,
+          "awayPrice": -112
+        },
+        "total": {
+          "line": 227.5,
+          "over": -105,
+          "under": -115
+        },
+        "opening": {
+          "moneyline": {
+            "home": -225,
+            "away": 185
+          },
+          "spreadHomeLine": -5.5
+        }
+      },
+      "markets": [
+        {
+          "label": "San Antonio Spurs ML",
+          "market": "moneyline",
+          "side": "home",
+          "line": null,
+          "player": null,
+          "stat": null,
+          "threshold": null,
+          "price": -218,
+          "modelProb": 0.6173,
+          "impliedProb": 0.6855,
+          "rawEdge": -0.0682,
+          "adjustedEdge": -0.2582,
+          "qualifies": false,
+          "slateRank": 60
+        },
+        {
+          "label": "Houston Rockets ML",
+          "market": "moneyline",
+          "side": "away",
+          "line": null,
+          "player": null,
+          "stat": null,
+          "threshold": null,
+          "price": 180,
+          "modelProb": 0.3827,
+          "impliedProb": 0.3571,
+          "rawEdge": 0.0255,
+          "adjustedEdge": -0.1645,
+          "qualifies": false,
+          "slateRank": 27
+        },
+        {
+          "label": "San Antonio Spurs -5.5",
+          "market": "spread",
+          "side": "home",
+          "line": null,
+          "player": null,
+          "stat": null,
+          "threshold": null,
+          "price": -108,
+          "modelProb": 0.4855,
+          "impliedProb": 0.5192,
+          "rawEdge": -0.0337,
+          "adjustedEdge": -0.2237,
+          "qualifies": false,
+          "slateRank": 49
+        },
+        {
+          "label": "Houston Rockets +5.5",
+          "market": "spread",
+          "side": "away",
+          "line": null,
+          "player": null,
+          "stat": null,
+          "threshold": null,
+          "price": -112,
+          "modelProb": 0.5144,
+          "impliedProb": 0.5283,
+          "rawEdge": -0.0139,
+          "adjustedEdge": -0.2039,
+          "qualifies": false,
+          "slateRank": 44
+        },
+        {
+          "label": "Over 227.5",
+          "market": "total",
+          "side": "over",
+          "line": null,
+          "player": null,
+          "stat": null,
+          "threshold": null,
+          "price": -105,
+          "modelProb": 0.5398,
+          "impliedProb": 0.5122,
+          "rawEdge": 0.0276,
+          "adjustedEdge": -0.1624,
+          "qualifies": false,
+          "slateRank": 26
+        },
+        {
+          "label": "Under 227.5",
+          "market": "total",
+          "side": "under",
+          "line": null,
+          "player": null,
+          "stat": null,
+          "threshold": null,
+          "price": -115,
+          "modelProb": 0.4602,
+          "impliedProb": 0.5349,
+          "rawEdge": -0.0747,
+          "adjustedEdge": -0.2647,
+          "qualifies": false,
+          "slateRank": 61
+        }
+      ]
+    },
+    {
+      "gameId": "no-utah",
+      "espnId": "401909849",
+      "label": "Pelicans @ Jazz",
+      "tipoff": "9:30 PM ET",
+      "book": "DraftKings",
+      "away": "NO",
+      "home": "UTAH",
+      "projectedAway": 118.58,
+      "projectedHome": 118.94,
+      "projectedTotal": 237.52,
+      "projectedMargin": 0.36,
+      "unshrunkMargin": -2.12,
+      "confidence": 3.6,
+      "penaltyTotal": 0.21,
+      "veto": null,
+      "odds": {
+        "moneyline": {
+          "home": -135,
+          "away": 114
+        },
+        "spread": {
+          "homeLine": -2.5,
+          "homePrice": -112,
+          "awayPrice": -108
+        },
+        "total": {
+          "line": 238.5,
+          "over": -115,
+          "under": -105
+        },
+        "opening": {
+          "moneyline": {
+            "home": -205,
+            "away": 170
+          },
+          "spreadHomeLine": -5.5
+        }
+      },
+      "markets": [
+        {
+          "label": "Utah Jazz ML",
+          "market": "moneyline",
+          "side": "home",
+          "line": null,
+          "player": null,
+          "stat": null,
+          "threshold": null,
+          "price": -135,
+          "modelProb": 0.5107,
+          "impliedProb": 0.5745,
+          "rawEdge": -0.0637,
+          "adjustedEdge": -0.2737,
+          "qualifies": false,
+          "slateRank": 65
+        },
+        {
+          "label": "New Orleans Pelicans ML",
+          "market": "moneyline",
+          "side": "away",
+          "line": null,
+          "player": null,
+          "stat": null,
+          "threshold": null,
+          "price": 114,
+          "modelProb": 0.4893,
+          "impliedProb": 0.4673,
+          "rawEdge": 0.022,
+          "adjustedEdge": -0.188,
+          "qualifies": false,
+          "slateRank": 33
+        },
+        {
+          "label": "Utah Jazz -2.5",
+          "market": "spread",
+          "side": "home",
+          "line": null,
+          "player": null,
+          "stat": null,
+          "threshold": null,
+          "price": -112,
+          "modelProb": 0.4558,
+          "impliedProb": 0.5283,
+          "rawEdge": -0.0725,
+          "adjustedEdge": -0.2825,
+          "qualifies": false,
+          "slateRank": 68
+        },
+        {
+          "label": "New Orleans Pelicans +2.5",
+          "market": "spread",
+          "side": "away",
+          "line": null,
+          "player": null,
+          "stat": null,
+          "threshold": null,
+          "price": -108,
+          "modelProb": 0.5442,
+          "impliedProb": 0.5192,
+          "rawEdge": 0.0249,
+          "adjustedEdge": -0.1851,
+          "qualifies": false,
+          "slateRank": 31
+        },
+        {
+          "label": "Over 238.5",
+          "market": "total",
+          "side": "over",
+          "line": null,
+          "player": null,
+          "stat": null,
+          "threshold": null,
+          "price": -115,
+          "modelProb": 0.4767,
+          "impliedProb": 0.5349,
+          "rawEdge": -0.0582,
+          "adjustedEdge": -0.2682,
+          "qualifies": false,
+          "slateRank": 62
+        },
+        {
+          "label": "Under 238.5",
+          "market": "total",
+          "side": "under",
+          "line": null,
+          "player": null,
+          "stat": null,
+          "threshold": null,
+          "price": -105,
+          "modelProb": 0.5233,
+          "impliedProb": 0.5122,
+          "rawEdge": 0.0111,
+          "adjustedEdge": -0.1989,
+          "qualifies": false,
+          "slateRank": 40
+        }
+      ]
+    },
+    {
+      "gameId": "mem-gs",
+      "espnId": "401909850",
+      "label": "Grizzlies @ Warriors",
+      "tipoff": "10:00 PM ET",
+      "book": "DraftKings",
+      "away": "MEM",
+      "home": "GS",
+      "projectedAway": 114.67,
+      "projectedHome": 118.94,
+      "projectedTotal": 233.61,
+      "projectedMargin": 4.27,
+      "unshrunkMargin": 7.18,
+      "confidence": 5,
+      "penaltyTotal": 0.16,
+      "veto": null,
+      "odds": {
+        "moneyline": {
+          "home": -155,
+          "away": 130
+        },
+        "spread": {
+          "homeLine": -3.5,
+          "homePrice": -110,
+          "awayPrice": -110
+        },
+        "total": {
+          "line": 235.5,
+          "over": -110,
+          "under": -110
+        },
+        "opening": {
+          "moneyline": {
+            "home": -155,
+            "away": 130
+          },
+          "spreadHomeLine": -3.5
+        }
+      },
+      "markets": [
+        {
+          "label": "Golden State Warriors ML",
+          "market": "moneyline",
+          "side": "home",
+          "line": null,
+          "player": null,
+          "stat": null,
+          "threshold": null,
+          "price": -155,
+          "modelProb": 0.6065,
+          "impliedProb": 0.6078,
+          "rawEdge": -0.0014,
+          "adjustedEdge": -0.1614,
+          "qualifies": false,
+          "slateRank": 25
+        },
+        {
+          "label": "Memphis Grizzlies ML",
+          "market": "moneyline",
+          "side": "away",
+          "line": null,
+          "player": null,
+          "stat": null,
+          "threshold": null,
+          "price": 130,
+          "modelProb": 0.3935,
+          "impliedProb": 0.4348,
+          "rawEdge": -0.0413,
+          "adjustedEdge": -0.2013,
+          "qualifies": false,
+          "slateRank": 43
+        },
+        {
+          "label": "Golden State Warriors -3.5",
+          "market": "spread",
+          "side": "home",
+          "line": null,
+          "player": null,
+          "stat": null,
+          "threshold": null,
+          "price": -110,
+          "modelProb": 0.5268,
+          "impliedProb": 0.5238,
+          "rawEdge": 0.0029,
+          "adjustedEdge": -0.1571,
+          "qualifies": false,
+          "slateRank": 24
+        },
+        {
+          "label": "Memphis Grizzlies +3.5",
+          "market": "spread",
+          "side": "away",
+          "line": null,
+          "player": null,
+          "stat": null,
+          "threshold": null,
+          "price": -110,
+          "modelProb": 0.4733,
+          "impliedProb": 0.5238,
+          "rawEdge": -0.0506,
+          "adjustedEdge": -0.2106,
+          "qualifies": false,
+          "slateRank": 47
+        },
+        {
+          "label": "Over 235.5",
+          "market": "total",
+          "side": "over",
+          "line": null,
+          "player": null,
+          "stat": null,
+          "threshold": null,
+          "price": -110,
+          "modelProb": 0.4589,
+          "impliedProb": 0.5238,
+          "rawEdge": -0.0649,
+          "adjustedEdge": -0.2249,
+          "qualifies": false,
+          "slateRank": 50
+        },
+        {
+          "label": "Under 235.5",
+          "market": "total",
+          "side": "under",
+          "line": null,
+          "player": null,
+          "stat": null,
+          "threshold": null,
+          "price": -110,
+          "modelProb": 0.5411,
+          "impliedProb": 0.5238,
+          "rawEdge": 0.0173,
+          "adjustedEdge": -0.1427,
+          "qualifies": false,
+          "slateRank": 19
+        }
+      ]
+    },
+    {
+      "gameId": "lac-lal",
+      "espnId": "401909851",
+      "label": "Clippers @ Lakers",
+      "tipoff": "10:00 PM ET",
+      "book": "DraftKings",
+      "away": "LAC",
+      "home": "LAL",
+      "projectedAway": 112.96,
+      "projectedHome": 117.66,
+      "projectedTotal": 230.62,
+      "projectedMargin": 4.7,
+      "unshrunkMargin": 2.36,
+      "confidence": 3.3,
+      "penaltyTotal": 0.22,
+      "veto": null,
+      "odds": {
+        "moneyline": {
+          "home": -395,
+          "away": 310
+        },
+        "spread": {
+          "homeLine": -9.5,
+          "homePrice": -108,
+          "awayPrice": -112
+        },
+        "total": {
+          "line": 228.5,
+          "over": -110,
+          "under": -110
+        },
+        "opening": {
+          "moneyline": {
+            "home": -380,
+            "away": 300
+          },
+          "spreadHomeLine": -9.5
+        }
+      },
+      "markets": [
+        {
+          "label": "Los Angeles Lakers ML",
+          "market": "moneyline",
+          "side": "home",
+          "line": null,
+          "player": null,
+          "stat": null,
+          "threshold": null,
+          "price": -395,
+          "modelProb": 0.6157,
+          "impliedProb": 0.798,
+          "rawEdge": -0.1823,
+          "adjustedEdge": -0.4023,
+          "qualifies": false,
+          "slateRank": 77
+        },
+        {
+          "label": "LA Clippers ML",
+          "market": "moneyline",
+          "side": "away",
+          "line": null,
+          "player": null,
+          "stat": null,
+          "threshold": null,
+          "price": 310,
+          "modelProb": 0.3843,
+          "impliedProb": 0.2439,
+          "rawEdge": 0.1404,
+          "adjustedEdge": -0.0796,
+          "qualifies": false,
+          "slateRank": 4
+        },
+        {
+          "label": "Los Angeles Lakers -9.5",
+          "market": "spread",
+          "side": "home",
+          "line": null,
+          "player": null,
+          "stat": null,
+          "threshold": null,
+          "price": -108,
+          "modelProb": 0.3825,
+          "impliedProb": 0.5192,
+          "rawEdge": -0.1367,
+          "adjustedEdge": -0.3567,
+          "qualifies": false,
+          "slateRank": 76
+        },
+        {
+          "label": "LA Clippers +9.5",
+          "market": "spread",
+          "side": "away",
+          "line": null,
+          "player": null,
+          "stat": null,
+          "threshold": null,
+          "price": -112,
+          "modelProb": 0.6175,
+          "impliedProb": 0.5283,
+          "rawEdge": 0.0892,
+          "adjustedEdge": -0.1308,
+          "qualifies": false,
+          "slateRank": 15
+        },
+        {
+          "label": "Over 228.5",
+          "market": "total",
+          "side": "over",
+          "line": null,
+          "player": null,
+          "stat": null,
+          "threshold": null,
+          "price": -110,
+          "modelProb": 0.5384,
+          "impliedProb": 0.5238,
+          "rawEdge": 0.0146,
+          "adjustedEdge": -0.2054,
+          "qualifies": false,
+          "slateRank": 45
+        },
+        {
+          "label": "Under 228.5",
+          "market": "total",
+          "side": "under",
+          "line": null,
+          "player": null,
+          "stat": null,
+          "threshold": null,
+          "price": -110,
+          "modelProb": 0.4616,
+          "impliedProb": 0.5238,
+          "rawEdge": -0.0622,
+          "adjustedEdge": -0.2822,
+          "qualifies": false,
+          "slateRank": 67
+        },
+        {
+          "label": "Luka Doncic Over 25.5 points",
+          "market": "prop",
+          "side": "over",
+          "line": 25.5,
+          "player": "Luka Doncic",
+          "stat": "points",
+          "threshold": null,
+          "price": -110,
+          "modelProb": 0.7264,
+          "impliedProb": 0.5238,
+          "rawEdge": 0.2026,
+          "adjustedEdge": -0.0174,
+          "qualifies": false,
+          "slateRank": 2
+        },
+        {
+          "label": "Luka Doncic Under 25.5 points",
+          "market": "prop",
+          "side": "under",
+          "line": 25.5,
+          "player": "Luka Doncic",
+          "stat": "points",
+          "threshold": null,
+          "price": -110,
+          "modelProb": 0.2736,
+          "impliedProb": 0.5238,
+          "rawEdge": -0.2502,
+          "adjustedEdge": -0.4702,
+          "qualifies": false,
+          "slateRank": 79
+        }
+      ]
+    },
+    {
+      "gameId": "por-sac",
+      "espnId": "401909852",
+      "label": "Trail Blazers @ Kings",
+      "tipoff": "10:00 PM ET",
+      "book": "DraftKings",
+      "away": "POR",
+      "home": "SAC",
+      "projectedAway": 118.45,
+      "projectedHome": 113.45,
+      "projectedTotal": 231.91,
+      "projectedMargin": -5,
+      "unshrunkMargin": -7.97,
+      "confidence": 5,
+      "penaltyTotal": 0.16,
+      "veto": null,
+      "odds": {
+        "moneyline": {
+          "home": 245,
+          "away": -305
+        },
+        "spread": {
+          "homeLine": 7.5,
+          "homePrice": -110,
+          "awayPrice": -110
+        },
+        "total": {
+          "line": 232.5,
+          "over": -108,
+          "under": -112
+        },
+        "opening": {
+          "moneyline": {
+            "home": 190,
+            "away": -230
+          },
+          "spreadHomeLine": 6.5
+        }
+      },
+      "markets": [
+        {
+          "label": "Sacramento Kings ML",
+          "market": "moneyline",
+          "side": "home",
+          "line": null,
+          "player": null,
+          "stat": null,
+          "threshold": null,
+          "price": 245,
+          "modelProb": 0.3743,
+          "impliedProb": 0.2899,
+          "rawEdge": 0.0844,
+          "adjustedEdge": -0.0756,
+          "qualifies": false,
+          "slateRank": 3
+        },
+        {
+          "label": "Portland Trail Blazers ML",
+          "market": "moneyline",
+          "side": "away",
+          "line": null,
+          "player": null,
+          "stat": null,
+          "threshold": null,
+          "price": -305,
+          "modelProb": 0.6257,
+          "impliedProb": 0.7531,
+          "rawEdge": -0.1274,
+          "adjustedEdge": -0.2874,
+          "qualifies": false,
+          "slateRank": 70
+        },
+        {
+          "label": "Sacramento Kings +7.5",
+          "market": "spread",
+          "side": "home",
+          "line": null,
+          "player": null,
+          "stat": null,
+          "threshold": null,
+          "price": -110,
+          "modelProb": 0.5606,
+          "impliedProb": 0.5238,
+          "rawEdge": 0.0368,
+          "adjustedEdge": -0.1232,
+          "qualifies": false,
+          "slateRank": 11
+        },
+        {
+          "label": "Portland Trail Blazers -7.5",
+          "market": "spread",
+          "side": "away",
+          "line": null,
+          "player": null,
+          "stat": null,
+          "threshold": null,
+          "price": -110,
+          "modelProb": 0.4394,
+          "impliedProb": 0.5238,
+          "rawEdge": -0.0844,
+          "adjustedEdge": -0.2444,
+          "qualifies": false,
+          "slateRank": 59
+        },
+        {
+          "label": "Over 232.5",
+          "market": "total",
+          "side": "over",
+          "line": null,
+          "player": null,
+          "stat": null,
+          "threshold": null,
+          "price": -108,
+          "modelProb": 0.4862,
+          "impliedProb": 0.5192,
+          "rawEdge": -0.033,
+          "adjustedEdge": -0.193,
+          "qualifies": false,
+          "slateRank": 37
+        },
+        {
+          "label": "Under 232.5",
+          "market": "total",
+          "side": "under",
+          "line": null,
+          "player": null,
+          "stat": null,
+          "threshold": null,
+          "price": -112,
+          "modelProb": 0.5138,
+          "impliedProb": 0.5283,
+          "rawEdge": -0.0145,
+          "adjustedEdge": -0.1745,
+          "qualifies": false,
+          "slateRank": 30
+        }
+      ]
+    }
+  ]
+}
