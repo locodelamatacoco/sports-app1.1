@@ -203,6 +203,48 @@ export const PROP_SETS = {
   // 2025-26 season figures. Current-season baselines are NOT used: every team
   // has played one or two games, which `espnPreseason`'s sample floors
   // correctly reject.
+  // Dimers flagged both of these with prices on the morning of 2026-10-23.
+  'POR@SAC': [
+    {
+      id: 'avdija-ast',
+      player: 'Deni Avdija',
+      team: 'POR',
+      stat: 'assists',
+      line: 4.5,
+      over: -125, // Dimers
+      under: 105, // inferred
+      baseline: { perGame: 6.8, minutes: 34, pace: 99.5 }, // 24.2 pts / 6.7 reb / 6.8 ast
+      projectedMinutes: 34,
+      minutesVolatility: 0.06,
+      matchupFactor: 1.0,
+      flags: { estimatedBaseline: 'minutes estimated', estimatedPrice: true },
+    },
+  ],
+
+  'TOR@WSH': [
+    {
+      id: 'kawhi-pts',
+      player: 'Kawhi Leonard',
+      team: 'TOR',
+      stat: 'points',
+      line: 23.5,
+      over: -116, // Dimers
+      under: -104, // inferred
+      // Sources conflict badly on his 2025-26 scoring: Basketball-Reference's
+      // leaders page says 27.9 while another stats site says 24.3. On a 23.5
+      // line that gap is decisive, so the conservative figure is used and the
+      // conflict is charged for rather than split quietly down the middle.
+      baseline: { perGame: 24.3, minutes: 34, pace: 99.5 },
+      projectedMinutes: 34,
+      minutesVolatility: 0.07,
+      matchupFactor: 1.02, // Washington had the league's worst defensive rating
+      flags: {
+        estimatedBaseline: 'sources disagree on his scoring average, 24.3 vs 27.9; the lower is used',
+        estimatedPrice: true,
+      },
+    },
+  ],
+
   'NY@BOS': [
     {
       id: 'anunoby-3pm',
