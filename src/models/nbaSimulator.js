@@ -110,6 +110,14 @@ export const MODEL_CONSTANTS = {
   // the edge gets charged for it and a wide enough gap vetoes the game.
   MAX_TRUSTED_MARGIN_DIVERGENCE: 4.0,
   MAX_TRUSTED_TOTAL_DIVERGENCE: 6.0,
+
+  // The same logic has to apply to props, and did not. A posted prop line sits
+  // close to the market's projection, so when OUR projection is far from the
+  // line the likely explanation is a bad line — stale, from another game, or a
+  // preview writer's suggestion rather than a book's number — not a mispriced
+  // market. Expressed as a fraction of the line because a 5-point gap means
+  // something different on a 25-point line than on a 5-assist one.
+  MAX_TRUSTED_PROP_DIVERGENCE_PCT: 0.15,
   DIVERGENCE_PENALTY_PER_POINT: 0.015,
   DIVERGENCE_VETO_MULTIPLE: 2.0,
 };
@@ -933,6 +941,23 @@ export function injuryPenalties(injuries) {
   return entries;
 }
 
+// A prop whose line sits far from our projection is reporting a problem with
+// the line, not an opportunity. Returns a reason string when the gap is wide
+// enough that the row should not be treated as a bet at all.
+export function propLineVeto(prop, projectedValue) {
+  if (projectedValue == null) return null;
+  const line = prop.threshold != null ? prop.threshold - 0.5 : prop.line;
+  if (line == null || line <= 0) return null;
+
+  const gap = Math.abs(projectedValue - line);
+  const pct = gap / line;
+  if (pct < MODEL_CONSTANTS.MAX_TRUSTED_PROP_DIVERGENCE_PCT) return null;
+  return (
+    `projection ${projectedValue.toFixed(1)} is ${gap.toFixed(1)} off the ${line} line ` +
+    `(${(100 * pct).toFixed(0)}%) — the line is the more likely error`
+  );
+}
+
 // Prop-specific penalties, layered on top of the game ledger.
 export function propPenalties(prop, simProp) {
   const ledger = [];
@@ -1175,6 +1200,9 @@ export function analyzeGame(game, { numSims = 10000, seed = 42, anchorWeight } =
       return;
     }
     const propLedger = [...ledger, ...propPenalties(prop, result)];
+    // A line far from our projection vetoes the row outright.
+    const lineVeto = propLineVeto(prop, result.simulatedMean);
+    const propVeto = veto ?? lineVeto;
     const describe = prop.threshold != null ? `${prop.threshold}+ ${prop.stat}` : `${prop.stat} ${prop.line}`;
 
     if (prop.threshold != null) {
@@ -1187,7 +1215,7 @@ export function analyzeGame(game, { numSims = 10000, seed = 42, anchorWeight } =
           modelProb: result.overProb,
           price: prop.price,
           penalties: propLedger,
-          veto,
+          veto: propVeto,
         }),
         prop,
         simulatedMean: result.simulatedMean,
@@ -1212,7 +1240,7 @@ export function analyzeGame(game, { numSims = 10000, seed = 42, anchorWeight } =
           price: prop.over,
           noVigProb: noVigOver,
           penalties: propLedger,
-          veto,
+          veto: propVeto,
         }),
         prop,
         simulatedMean: result.simulatedMean,
@@ -1229,7 +1257,7 @@ export function analyzeGame(game, { numSims = 10000, seed = 42, anchorWeight } =
           price: prop.under,
           noVigProb: noVigUnder,
           penalties: propLedger,
-          veto,
+          veto: propVeto,
         }),
         prop,
         simulatedMean: result.simulatedMean,

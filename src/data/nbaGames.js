@@ -260,34 +260,6 @@ export const PROP_SETS = {
       flags: {},
     },
     {
-      id: 'brunson-pts-205',
-      player: 'Jalen Brunson',
-      team: 'NY',
-      stat: 'points',
-      line: 20.5,
-      over: -110, // Sports Mole flagged the over; no book price published
-      under: -110,
-      baseline: { perGame: 28.4, minutes: 35, pace: 99.5 }, // led the league in scoring
-      projectedMinutes: 35,
-      minutesVolatility: 0.05,
-      matchupFactor: 0.96,
-      flags: { estimatedPrice: true, estimatedBaseline: 'minutes estimated' },
-    },
-    {
-      id: 'towns-reb',
-      player: 'Karl-Anthony Towns',
-      team: 'NY',
-      stat: 'rebounds',
-      line: 10.5,
-      over: -110, // Sports Mole flagged the over; no book price published
-      under: -110,
-      baseline: { perGame: 10.6, minutes: 32, pace: 99.5 }, // 4th in the NBA in rebounding
-      projectedMinutes: 32,
-      minutesVolatility: 0.08,
-      matchupFactor: 0.98,
-      flags: { estimatedPrice: true, estimatedBaseline: 'minutes estimated' },
-    },
-    {
       id: 'george-pts',
       player: 'Paul George',
       team: 'BOS',
@@ -302,22 +274,10 @@ export const PROP_SETS = {
     },
   ],
 
-  'LAC@LAL': [
-    {
-      id: 'doncic-pts',
-      player: 'Luka Doncic',
-      team: 'LAL',
-      stat: 'points',
-      line: 25.5,
-      over: -110, // Sports Mole flagged the over; no book price published
-      under: -110,
-      baseline: { perGame: 33.5, minutes: 35, pace: 98.3 }, // led the NBA in scoring
-      projectedMinutes: 35,
-      minutesVolatility: 0.06,
-      matchupFactor: 1.0,
-      flags: { estimatedPrice: true, estimatedBaseline: 'minutes estimated' },
-    },
-  ],
+  // Luka's points line could not be confirmed for this game: preview articles
+  // quoted 25.5, 30.5, 31.5 and 32.5, several of them for a Warriors game that
+  // is not on this slate. Nothing here until a book's own number is in hand.
+  'LAC@LAL': [],
 
   'MIN@MIA': [
     {
