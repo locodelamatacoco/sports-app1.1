@@ -328,6 +328,39 @@ export const PROP_SETS = {
 
   'POR@SAC': [
     {
+      id: 'lavine-pts',
+      player: 'Zach LaVine',
+      team: 'SAC',
+      stat: 'points',
+      line: 19.5,
+      over: -110,
+      under: -115,
+      theirProj: 24.38,
+      // 39 games, 19.2 points in 31.4 minutes. Worth noting against their
+      // projection of 24.38: that is 5 points above his own season average,
+      // so the screen's largest "gap" on this slate looks like their model
+      // being aggressive rather than the line being wrong.
+      baseline: { perGame: 19.2, minutes: 31.4, pace: 99.5 },
+      projectedMinutes: 31.4,
+      minutesVolatility: 0.07,
+      matchupFactor: 1.0,
+      flags: { smallSample: 'only 39 games played in 2025-26' },
+    },
+    {
+      id: 'acuff-pts',
+      player: 'Darius Acuff',
+      team: 'POR',
+      stat: 'points',
+      line: 16.5,
+      over: -120,
+      under: -105,
+      theirProj: 21.04,
+      // Nothing could be sourced on him at all — no 2025-26 NBA line, which
+      // fits a rookie. NO PLAY rather than a projection off their number.
+      baseline: null,
+      flags: {},
+    },
+    {
       id: 'avdija-pts',
       player: 'Deni Avdija',
       team: 'POR',
@@ -341,6 +374,48 @@ export const PROP_SETS = {
       minutesVolatility: 0.06,
       matchupFactor: 1.0,
       flags: { estimatedBaseline: 'minutes estimated' },
+    },
+  ],
+
+  'DAL@IND': [
+    {
+      id: 'siakam-pts',
+      player: 'Pascal Siakam',
+      team: 'IND',
+      stat: 'points',
+      line: 24.5,
+      over: -112,
+      under: -112,
+      theirProj: 21.18,
+      baseline: { perGame: 24.0, minutes: 30, pace: 99.5 }, // 15th in scoring
+      projectedMinutes: 30,
+      minutesVolatility: 0.06,
+      matchupFactor: 1.0,
+      flags: { estimatedBaseline: 'minutes partial across sources, 30 assumed' },
+    },
+  ],
+
+  'MEM@GS': [
+    {
+      id: 'jerome-pts',
+      player: 'Ty Jerome',
+      team: 'MEM',
+      stat: 'points',
+      line: 21.5,
+      over: -110,
+      under: -115,
+      theirProj: 24.83,
+      // 19.7 points in 22.6 minutes, but across only 15 games after a calf
+      // injury cost him the start of the season. A high per-minute rate off a
+      // thin sample is exactly the shape that misleads.
+      baseline: { perGame: 19.7, minutes: 22.6, pace: 99.5 },
+      projectedMinutes: 26,
+      minutesVolatility: 0.12,
+      matchupFactor: 1.0,
+      flags: {
+        smallSample: 'only 15 games played in 2025-26 after a calf injury',
+        estimatedBaseline: 'projected 26 min is a prior; he averaged 22.6',
+      },
     },
   ],
 
