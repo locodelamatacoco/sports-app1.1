@@ -326,6 +326,42 @@ export const PROP_SETS = {
     },
   ],
 
+  'POR@SAC': [
+    {
+      id: 'avdija-pts',
+      player: 'Deni Avdija',
+      team: 'POR',
+      stat: 'points',
+      line: 21.5,
+      over: -112,
+      under: -112,
+      theirProj: 23.46,
+      baseline: { perGame: 24.2, minutes: 34, pace: 99.5 }, // 24.2 / 6.7 / 6.8
+      projectedMinutes: 34,
+      minutesVolatility: 0.06,
+      matchupFactor: 1.0,
+      flags: { estimatedBaseline: 'minutes estimated' },
+    },
+  ],
+
+  'MIN@ORL': [
+    {
+      id: 'edwards-pts',
+      player: 'Anthony Edwards',
+      team: 'MIN',
+      stat: 'points',
+      line: 29.5,
+      over: -105,
+      under: -115,
+      theirProj: 30.48,
+      baseline: { perGame: 28.8, minutes: 35, pace: 99.5 },
+      projectedMinutes: 35,
+      minutesVolatility: 0.05,
+      matchupFactor: 1.0,
+      flags: { estimatedBaseline: 'minutes estimated' },
+    },
+  ],
+
   'LAC@LAL': [
     {
       id: 'doncic-pts',

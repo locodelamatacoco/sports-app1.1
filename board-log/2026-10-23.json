@@ -1,5 +1,5 @@
 {
-  "loggedAt": "2026-10-23T14:52:09.346Z",
+  "loggedAt": "2026-10-23T14:58:26.057Z",
   "publishedTop5": [
     {
       "rank": 1,
@@ -13,7 +13,7 @@
       "gameId": "por-sac",
       "label": "Sacramento Kings ML",
       "price": 340,
-      "adjustedEdge": -0.0778
+      "adjustedEdge": -0.0751
     },
     {
       "rank": 3,
@@ -121,7 +121,7 @@
           "rawEdge": -0.0114,
           "adjustedEdge": -0.2314,
           "qualifies": false,
-          "slateRank": 52
+          "slateRank": 55
         },
         {
           "label": "Chicago Bulls ML",
@@ -137,7 +137,7 @@
           "rawEdge": -0.0349,
           "adjustedEdge": -0.2549,
           "qualifies": false,
-          "slateRank": 61
+          "slateRank": 64
         },
         {
           "label": "Milwaukee Bucks -1.5",
@@ -153,7 +153,7 @@
           "rawEdge": -0.0007,
           "adjustedEdge": -0.2207,
           "qualifies": false,
-          "slateRank": 44
+          "slateRank": 49
         },
         {
           "label": "Chicago Bulls +1.5",
@@ -169,7 +169,7 @@
           "rawEdge": -0.0455,
           "adjustedEdge": -0.2655,
           "qualifies": false,
-          "slateRank": 64
+          "slateRank": 65
         },
         {
           "label": "Over 240.5",
@@ -185,7 +185,7 @@
           "rawEdge": -0.1293,
           "adjustedEdge": -0.3493,
           "qualifies": false,
-          "slateRank": 83
+          "slateRank": 87
         },
         {
           "label": "Under 240.5",
@@ -201,7 +201,7 @@
           "rawEdge": 0.0818,
           "adjustedEdge": -0.1382,
           "qualifies": false,
-          "slateRank": 17
+          "slateRank": 18
         }
       ]
     },
@@ -259,7 +259,7 @@
           "rawEdge": -0.0262,
           "adjustedEdge": -0.1979,
           "qualifies": false,
-          "slateRank": 36
+          "slateRank": 39
         },
         {
           "label": "New York Knicks ML",
@@ -275,7 +275,7 @@
           "rawEdge": -0.0152,
           "adjustedEdge": -0.1868,
           "qualifies": false,
-          "slateRank": 32
+          "slateRank": 34
         },
         {
           "label": "Boston Celtics -2.5",
@@ -291,7 +291,7 @@
           "rawEdge": -0.0337,
           "adjustedEdge": -0.2053,
           "qualifies": false,
-          "slateRank": 40
+          "slateRank": 42
         },
         {
           "label": "New York Knicks +2.5",
@@ -307,7 +307,7 @@
           "rawEdge": -0.0139,
           "adjustedEdge": -0.1855,
           "qualifies": false,
-          "slateRank": 29
+          "slateRank": 31
         },
         {
           "label": "Over 221.5",
@@ -339,7 +339,7 @@
           "rawEdge": -0.1079,
           "adjustedEdge": -0.2795,
           "qualifies": false,
-          "slateRank": 68
+          "slateRank": 70
         },
         {
           "label": "Jalen Brunson Over 24.5 points",
@@ -355,7 +355,7 @@
           "rawEdge": -0.0313,
           "adjustedEdge": -0.2229,
           "qualifies": false,
-          "slateRank": 47
+          "slateRank": 51
         },
         {
           "label": "Jalen Brunson Under 24.5 points",
@@ -371,7 +371,7 @@
           "rawEdge": -0.0243,
           "adjustedEdge": -0.216,
           "qualifies": false,
-          "slateRank": 43
+          "slateRank": 44
         },
         {
           "label": "OG Anunoby Over 15.5 points",
@@ -387,7 +387,7 @@
           "rawEdge": -0.1217,
           "adjustedEdge": -0.2933,
           "qualifies": false,
-          "slateRank": 74
+          "slateRank": 76
         },
         {
           "label": "OG Anunoby Under 15.5 points",
@@ -461,7 +461,7 @@
           "rawEdge": 0.0648,
           "adjustedEdge": -0.1197,
           "qualifies": false,
-          "slateRank": 8
+          "slateRank": 9
         },
         {
           "label": "Atlanta Hawks ML",
@@ -477,7 +477,7 @@
           "rawEdge": -0.1065,
           "adjustedEdge": -0.291,
           "qualifies": false,
-          "slateRank": 71
+          "slateRank": 73
         },
         {
           "label": "Charlotte Hornets +2.5",
@@ -493,7 +493,7 @@
           "rawEdge": 0.0597,
           "adjustedEdge": -0.1247,
           "qualifies": false,
-          "slateRank": 10
+          "slateRank": 12
         },
         {
           "label": "Atlanta Hawks -2.5",
@@ -509,7 +509,7 @@
           "rawEdge": -0.1074,
           "adjustedEdge": -0.2918,
           "qualifies": false,
-          "slateRank": 72
+          "slateRank": 74
         },
         {
           "label": "Over 226.5",
@@ -525,7 +525,7 @@
           "rawEdge": 0.0164,
           "adjustedEdge": -0.1681,
           "qualifies": false,
-          "slateRank": 23
+          "slateRank": 24
         },
         {
           "label": "Under 226.5",
@@ -541,7 +541,7 @@
           "rawEdge": -0.0634,
           "adjustedEdge": -0.2479,
           "qualifies": false,
-          "slateRank": 58
+          "slateRank": 60
         }
       ]
     },
@@ -599,7 +599,7 @@
           "rawEdge": -0.1516,
           "adjustedEdge": -0.3716,
           "qualifies": false,
-          "slateRank": 86
+          "slateRank": 90
         },
         {
           "label": "Dallas Mavericks ML",
@@ -631,7 +631,7 @@
           "rawEdge": -0.1364,
           "adjustedEdge": -0.3564,
           "qualifies": false,
-          "slateRank": 85
+          "slateRank": 89
         },
         {
           "label": "Dallas Mavericks +7.5",
@@ -663,7 +663,7 @@
           "rawEdge": -0.1203,
           "adjustedEdge": -0.3403,
           "qualifies": false,
-          "slateRank": 82
+          "slateRank": 85
         },
         {
           "label": "Under 240.5",
@@ -679,7 +679,7 @@
           "rawEdge": 0.0733,
           "adjustedEdge": -0.1467,
           "qualifies": false,
-          "slateRank": 19
+          "slateRank": 21
         }
       ]
     },
@@ -691,10 +691,10 @@
       "book": "DraftKings",
       "away": "MIN",
       "home": "ORL",
-      "projectedAway": 116.09,
-      "projectedHome": 116.74,
-      "projectedTotal": 232.83,
-      "projectedMargin": 0.64,
+      "projectedAway": 116.11,
+      "projectedHome": 116.77,
+      "projectedTotal": 232.88,
+      "projectedMargin": 0.66,
       "unshrunkMargin": -0.97,
       "confidence": 3.6,
       "penaltyTotal": 0.21,
@@ -732,12 +732,12 @@
           "stat": null,
           "threshold": null,
           "price": -112,
-          "modelProb": 0.5152,
+          "modelProb": 0.5188,
           "impliedProb": 0.5283,
-          "rawEdge": -0.0131,
-          "adjustedEdge": -0.2231,
+          "rawEdge": -0.0096,
+          "adjustedEdge": -0.2196,
           "qualifies": false,
-          "slateRank": 48
+          "slateRank": 47
         },
         {
           "label": "Minnesota Timberwolves ML",
@@ -748,12 +748,12 @@
           "stat": null,
           "threshold": null,
           "price": -108,
-          "modelProb": 0.4848,
+          "modelProb": 0.4813,
           "impliedProb": 0.5192,
-          "rawEdge": -0.0345,
-          "adjustedEdge": -0.2445,
+          "rawEdge": -0.038,
+          "adjustedEdge": -0.248,
           "qualifies": false,
-          "slateRank": 57
+          "slateRank": 61
         },
         {
           "label": "Orlando Magic -1.5",
@@ -764,10 +764,10 @@
           "stat": null,
           "threshold": null,
           "price": -105,
-          "modelProb": 0.4878,
+          "modelProb": 0.4919,
           "impliedProb": 0.5122,
-          "rawEdge": -0.0244,
-          "adjustedEdge": -0.2344,
+          "rawEdge": -0.0203,
+          "adjustedEdge": -0.2303,
           "qualifies": false,
           "slateRank": 54
         },
@@ -780,12 +780,12 @@
           "stat": null,
           "threshold": null,
           "price": -115,
-          "modelProb": 0.5122,
+          "modelProb": 0.5081,
           "impliedProb": 0.5349,
-          "rawEdge": -0.0227,
-          "adjustedEdge": -0.2327,
+          "rawEdge": -0.0268,
+          "adjustedEdge": -0.2368,
           "qualifies": false,
-          "slateRank": 53
+          "slateRank": 56
         },
         {
           "label": "Over 234.5",
@@ -796,12 +796,12 @@
           "stat": null,
           "threshold": null,
           "price": -108,
-          "modelProb": 0.4642,
+          "modelProb": 0.4626,
           "impliedProb": 0.5192,
-          "rawEdge": -0.0551,
-          "adjustedEdge": -0.2651,
+          "rawEdge": -0.0566,
+          "adjustedEdge": -0.2666,
           "qualifies": false,
-          "slateRank": 63
+          "slateRank": 66
         },
         {
           "label": "Under 234.5",
@@ -812,12 +812,44 @@
           "stat": null,
           "threshold": null,
           "price": -112,
-          "modelProb": 0.5358,
+          "modelProb": 0.5374,
           "impliedProb": 0.5283,
-          "rawEdge": 0.0075,
-          "adjustedEdge": -0.2025,
+          "rawEdge": 0.0091,
+          "adjustedEdge": -0.2009,
           "qualifies": false,
-          "slateRank": 39
+          "slateRank": 40
+        },
+        {
+          "label": "Anthony Edwards Over 29.5 points",
+          "market": "prop",
+          "side": "over",
+          "line": 29.5,
+          "player": "Anthony Edwards",
+          "stat": "points",
+          "threshold": null,
+          "price": -105,
+          "modelProb": 0.3843,
+          "impliedProb": 0.5122,
+          "rawEdge": -0.1279,
+          "adjustedEdge": -0.3479,
+          "qualifies": false,
+          "slateRank": 86
+        },
+        {
+          "label": "Anthony Edwards Under 29.5 points",
+          "market": "prop",
+          "side": "under",
+          "line": 29.5,
+          "player": "Anthony Edwards",
+          "stat": "points",
+          "threshold": null,
+          "price": -115,
+          "modelProb": 0.6157,
+          "impliedProb": 0.5349,
+          "rawEdge": 0.0808,
+          "adjustedEdge": -0.1392,
+          "qualifies": false,
+          "slateRank": 19
         }
       ]
     },
@@ -875,7 +907,7 @@
           "rawEdge": 0.0432,
           "adjustedEdge": -0.1668,
           "qualifies": false,
-          "slateRank": 22
+          "slateRank": 23
         },
         {
           "label": "Toronto Raptors ML",
@@ -891,7 +923,7 @@
           "rawEdge": -0.0857,
           "adjustedEdge": -0.2957,
           "qualifies": false,
-          "slateRank": 76
+          "slateRank": 78
         },
         {
           "label": "Washington Wizards +8.5",
@@ -907,7 +939,7 @@
           "rawEdge": 0.0204,
           "adjustedEdge": -0.1896,
           "qualifies": false,
-          "slateRank": 34
+          "slateRank": 36
         },
         {
           "label": "Toronto Raptors -8.5",
@@ -923,7 +955,7 @@
           "rawEdge": -0.0675,
           "adjustedEdge": -0.2775,
           "qualifies": false,
-          "slateRank": 67
+          "slateRank": 69
         },
         {
           "label": "Over 236.5",
@@ -939,7 +971,7 @@
           "rawEdge": -0.0948,
           "adjustedEdge": -0.3048,
           "qualifies": false,
-          "slateRank": 78
+          "slateRank": 80
         },
         {
           "label": "Under 236.5",
@@ -955,7 +987,7 @@
           "rawEdge": 0.0477,
           "adjustedEdge": -0.1623,
           "qualifies": false,
-          "slateRank": 21
+          "slateRank": 22
         }
       ]
     },
@@ -1013,7 +1045,7 @@
           "rawEdge": -0.0446,
           "adjustedEdge": -0.1796,
           "qualifies": false,
-          "slateRank": 28
+          "slateRank": 30
         },
         {
           "label": "Detroit Pistons ML",
@@ -1045,7 +1077,7 @@
           "rawEdge": -0.0413,
           "adjustedEdge": -0.1763,
           "qualifies": false,
-          "slateRank": 27
+          "slateRank": 28
         },
         {
           "label": "Detroit Pistons -1.5",
@@ -1061,7 +1093,7 @@
           "rawEdge": -0.0063,
           "adjustedEdge": -0.1413,
           "qualifies": false,
-          "slateRank": 18
+          "slateRank": 20
         },
         {
           "label": "Over 235.5",
@@ -1077,7 +1109,7 @@
           "rawEdge": -0.0617,
           "adjustedEdge": -0.1967,
           "qualifies": false,
-          "slateRank": 35
+          "slateRank": 37
         },
         {
           "label": "Under 235.5",
@@ -1093,7 +1125,7 @@
           "rawEdge": 0.0142,
           "adjustedEdge": -0.1208,
           "qualifies": false,
-          "slateRank": 9
+          "slateRank": 10
         },
         {
           "label": "Giannis Antetokounmpo Over 28.5 points",
@@ -1109,7 +1141,7 @@
           "rawEdge": -0.049,
           "adjustedEdge": -0.269,
           "qualifies": false,
-          "slateRank": 65
+          "slateRank": 67
         },
         {
           "label": "Giannis Antetokounmpo Under 28.5 points",
@@ -1125,7 +1157,7 @@
           "rawEdge": -0.0086,
           "adjustedEdge": -0.2286,
           "qualifies": false,
-          "slateRank": 51
+          "slateRank": 53
         },
         {
           "label": "Cade Cunningham Over 24.5 points",
@@ -1157,7 +1189,7 @@
           "rawEdge": -0.1368,
           "adjustedEdge": -0.2918,
           "qualifies": false,
-          "slateRank": 73
+          "slateRank": 75
         },
         {
           "label": "Bam Adebayo Over 16.5 points",
@@ -1173,7 +1205,7 @@
           "rawEdge": -0.1143,
           "adjustedEdge": -0.2993,
           "qualifies": false,
-          "slateRank": 77
+          "slateRank": 79
         },
         {
           "label": "Bam Adebayo Under 16.5 points",
@@ -1189,7 +1221,7 @@
           "rawEdge": 0.0588,
           "adjustedEdge": -0.1262,
           "qualifies": false,
-          "slateRank": 12
+          "slateRank": 13
         },
         {
           "label": "Andrew Wiggins Over 12.5 points",
@@ -1205,7 +1237,7 @@
           "rawEdge": -0.1364,
           "adjustedEdge": -0.3214,
           "qualifies": false,
-          "slateRank": 80
+          "slateRank": 83
         },
         {
           "label": "Andrew Wiggins Under 12.5 points",
@@ -1237,7 +1269,7 @@
           "rawEdge": -0.0747,
           "adjustedEdge": -0.2947,
           "qualifies": false,
-          "slateRank": 75
+          "slateRank": 77
         },
         {
           "label": "Pelle Larsson Under 9.5 points",
@@ -1253,7 +1285,7 @@
           "rawEdge": 0.0191,
           "adjustedEdge": -0.2009,
           "qualifies": false,
-          "slateRank": 38
+          "slateRank": 41
         }
       ]
     },
@@ -1265,13 +1297,13 @@
       "book": "DraftKings",
       "away": "HOU",
       "home": "SA",
-      "projectedAway": 112,
-      "projectedHome": 116.64,
-      "projectedTotal": 228.64,
-      "projectedMargin": 4.64,
+      "projectedAway": 112.12,
+      "projectedHome": 116.88,
+      "projectedTotal": 228.99,
+      "projectedMargin": 4.76,
       "unshrunkMargin": 6.15,
-      "confidence": 3.9,
-      "penaltyTotal": 0.1994,
+      "confidence": 4.2,
+      "penaltyTotal": 0.19,
       "veto": null,
       "odds": {
         "moneyline": {
@@ -1284,9 +1316,9 @@
           "awayPrice": -118
         },
         "total": {
-          "line": 224.5,
-          "over": -115,
-          "under": -105
+          "line": 225.5,
+          "over": -105,
+          "under": -115
         },
         "opening": {
           "moneyline": {
@@ -1306,12 +1338,12 @@
           "stat": null,
           "threshold": null,
           "price": -205,
-          "modelProb": 0.6167,
+          "modelProb": 0.619,
           "impliedProb": 0.6721,
-          "rawEdge": -0.0555,
-          "adjustedEdge": -0.2548,
+          "rawEdge": -0.0531,
+          "adjustedEdge": -0.2431,
           "qualifies": false,
-          "slateRank": 60
+          "slateRank": 58
         },
         {
           "label": "Houston Rockets ML",
@@ -1322,12 +1354,12 @@
           "stat": null,
           "threshold": null,
           "price": 170,
-          "modelProb": 0.3833,
+          "modelProb": 0.381,
           "impliedProb": 0.3704,
-          "rawEdge": 0.013,
-          "adjustedEdge": -0.1864,
+          "rawEdge": 0.0106,
+          "adjustedEdge": -0.1794,
           "qualifies": false,
-          "slateRank": 31
+          "slateRank": 29
         },
         {
           "label": "San Antonio Spurs -5.5",
@@ -1338,12 +1370,12 @@
           "stat": null,
           "threshold": null,
           "price": -102,
-          "modelProb": 0.4835,
+          "modelProb": 0.4874,
           "impliedProb": 0.505,
-          "rawEdge": -0.0215,
-          "adjustedEdge": -0.2208,
+          "rawEdge": -0.0176,
+          "adjustedEdge": -0.2076,
           "qualifies": false,
-          "slateRank": 45
+          "slateRank": 43
         },
         {
           "label": "Houston Rockets +5.5",
@@ -1354,44 +1386,44 @@
           "stat": null,
           "threshold": null,
           "price": -118,
-          "modelProb": 0.5165,
+          "modelProb": 0.5126,
           "impliedProb": 0.5413,
-          "rawEdge": -0.0248,
-          "adjustedEdge": -0.2241,
+          "rawEdge": -0.0287,
+          "adjustedEdge": -0.2187,
           "qualifies": false,
-          "slateRank": 50
+          "slateRank": 46
         },
         {
-          "label": "Over 224.5",
+          "label": "Over 225.5",
           "market": "total",
           "side": "over",
           "line": null,
           "player": null,
           "stat": null,
           "threshold": null,
-          "price": -115,
-          "modelProb": 0.5772,
-          "impliedProb": 0.5349,
-          "rawEdge": 0.0423,
-          "adjustedEdge": -0.157,
+          "price": -105,
+          "modelProb": 0.5653,
+          "impliedProb": 0.5122,
+          "rawEdge": 0.0531,
+          "adjustedEdge": -0.1369,
           "qualifies": false,
-          "slateRank": 20
+          "slateRank": 17
         },
         {
-          "label": "Under 224.5",
+          "label": "Under 225.5",
           "market": "total",
           "side": "under",
           "line": null,
           "player": null,
           "stat": null,
           "threshold": null,
-          "price": -105,
-          "modelProb": 0.4228,
-          "impliedProb": 0.5122,
-          "rawEdge": -0.0894,
-          "adjustedEdge": -0.2887,
+          "price": -115,
+          "modelProb": 0.4347,
+          "impliedProb": 0.5349,
+          "rawEdge": -0.1002,
+          "adjustedEdge": -0.2902,
           "qualifies": false,
-          "slateRank": 70
+          "slateRank": 72
         }
       ]
     },
@@ -1413,13 +1445,13 @@
       "veto": null,
       "odds": {
         "moneyline": {
-          "home": -110,
-          "away": -110
+          "home": -108,
+          "away": -112
         },
         "spread": {
           "homeLine": 1.5,
-          "homePrice": -120,
-          "awayPrice": 100
+          "homePrice": -118,
+          "awayPrice": -102
         },
         "total": {
           "line": 239.5,
@@ -1443,13 +1475,13 @@
           "player": null,
           "stat": null,
           "threshold": null,
-          "price": -110,
+          "price": -108,
           "modelProb": 0.4787,
-          "impliedProb": 0.5238,
-          "rawEdge": -0.0451,
-          "adjustedEdge": -0.2551,
+          "impliedProb": 0.5192,
+          "rawEdge": -0.0405,
+          "adjustedEdge": -0.2505,
           "qualifies": false,
-          "slateRank": 62
+          "slateRank": 63
         },
         {
           "label": "New Orleans Pelicans ML",
@@ -1459,13 +1491,13 @@
           "player": null,
           "stat": null,
           "threshold": null,
-          "price": -110,
+          "price": -112,
           "modelProb": 0.5213,
-          "impliedProb": 0.5238,
-          "rawEdge": -0.0025,
-          "adjustedEdge": -0.2125,
+          "impliedProb": 0.5283,
+          "rawEdge": -0.007,
+          "adjustedEdge": -0.217,
           "qualifies": false,
-          "slateRank": 41
+          "slateRank": 45
         },
         {
           "label": "Utah Jazz +1.5",
@@ -1475,11 +1507,11 @@
           "player": null,
           "stat": null,
           "threshold": null,
-          "price": -120,
+          "price": -118,
           "modelProb": 0.5054,
-          "impliedProb": 0.5455,
-          "rawEdge": -0.0401,
-          "adjustedEdge": -0.2501,
+          "impliedProb": 0.5413,
+          "rawEdge": -0.0359,
+          "adjustedEdge": -0.2459,
           "qualifies": false,
           "slateRank": 59
         },
@@ -1491,13 +1523,13 @@
           "player": null,
           "stat": null,
           "threshold": null,
-          "price": 100,
+          "price": -102,
           "modelProb": 0.4946,
-          "impliedProb": 0.5,
-          "rawEdge": -0.0054,
-          "adjustedEdge": -0.2154,
+          "impliedProb": 0.505,
+          "rawEdge": -0.0103,
+          "adjustedEdge": -0.2203,
           "qualifies": false,
-          "slateRank": 42
+          "slateRank": 48
         },
         {
           "label": "Over 239.5",
@@ -1513,7 +1545,7 @@
           "rawEdge": -0.0709,
           "adjustedEdge": -0.2809,
           "qualifies": false,
-          "slateRank": 69
+          "slateRank": 71
         },
         {
           "label": "Under 239.5",
@@ -1529,7 +1561,7 @@
           "rawEdge": 0.0239,
           "adjustedEdge": -0.1861,
           "qualifies": false,
-          "slateRank": 30
+          "slateRank": 32
         }
       ]
     },
@@ -1541,10 +1573,10 @@
       "book": "DraftKings",
       "away": "MEM",
       "home": "GS",
-      "projectedAway": 114.85,
-      "projectedHome": 119.47,
-      "projectedTotal": 234.32,
-      "projectedMargin": 4.62,
+      "projectedAway": 114.68,
+      "projectedHome": 119.28,
+      "projectedTotal": 233.96,
+      "projectedMargin": 4.6,
       "unshrunkMargin": 7.18,
       "confidence": 5,
       "penaltyTotal": 0.16,
@@ -1560,9 +1592,9 @@
           "awayPrice": -112
         },
         "total": {
-          "line": 237.5,
-          "over": -105,
-          "under": -115
+          "line": 236.5,
+          "over": -115,
+          "under": -105
         },
         "opening": {
           "moneyline": {
@@ -1582,12 +1614,12 @@
           "stat": null,
           "threshold": null,
           "price": -180,
-          "modelProb": 0.615,
+          "modelProb": 0.6157,
           "impliedProb": 0.6429,
-          "rawEdge": -0.0279,
-          "adjustedEdge": -0.1879,
+          "rawEdge": -0.0272,
+          "adjustedEdge": -0.1872,
           "qualifies": false,
-          "slateRank": 33
+          "slateRank": 35
         },
         {
           "label": "Memphis Grizzlies ML",
@@ -1598,12 +1630,12 @@
           "stat": null,
           "threshold": null,
           "price": 150,
-          "modelProb": 0.385,
+          "modelProb": 0.3843,
           "impliedProb": 0.4,
-          "rawEdge": -0.015,
-          "adjustedEdge": -0.175,
+          "rawEdge": -0.0157,
+          "adjustedEdge": -0.1757,
           "qualifies": false,
-          "slateRank": 26
+          "slateRank": 27
         },
         {
           "label": "Golden State Warriors -4.5",
@@ -1614,12 +1646,12 @@
           "stat": null,
           "threshold": null,
           "price": -108,
-          "modelProb": 0.5101,
+          "modelProb": 0.5084,
           "impliedProb": 0.5192,
-          "rawEdge": -0.0091,
-          "adjustedEdge": -0.1691,
+          "rawEdge": -0.0108,
+          "adjustedEdge": -0.1708,
           "qualifies": false,
-          "slateRank": 24
+          "slateRank": 25
         },
         {
           "label": "Memphis Grizzlies +4.5",
@@ -1630,44 +1662,44 @@
           "stat": null,
           "threshold": null,
           "price": -112,
-          "modelProb": 0.4899,
+          "modelProb": 0.4915,
           "impliedProb": 0.5283,
-          "rawEdge": -0.0384,
-          "adjustedEdge": -0.1984,
+          "rawEdge": -0.0368,
+          "adjustedEdge": -0.1968,
           "qualifies": false,
-          "slateRank": 37
+          "slateRank": 38
         },
         {
-          "label": "Over 237.5",
+          "label": "Over 236.5",
           "market": "total",
           "side": "over",
           "line": null,
           "player": null,
           "stat": null,
           "threshold": null,
-          "price": -105,
-          "modelProb": 0.4319,
-          "impliedProb": 0.5122,
-          "rawEdge": -0.0803,
-          "adjustedEdge": -0.2403,
+          "price": -115,
+          "modelProb": 0.4457,
+          "impliedProb": 0.5349,
+          "rawEdge": -0.0891,
+          "adjustedEdge": -0.2491,
           "qualifies": false,
-          "slateRank": 55
+          "slateRank": 62
         },
         {
-          "label": "Under 237.5",
+          "label": "Under 236.5",
           "market": "total",
           "side": "under",
           "line": null,
           "player": null,
           "stat": null,
           "threshold": null,
-          "price": -115,
-          "modelProb": 0.5681,
-          "impliedProb": 0.5349,
-          "rawEdge": 0.0332,
-          "adjustedEdge": -0.1268,
+          "price": -105,
+          "modelProb": 0.5543,
+          "impliedProb": 0.5122,
+          "rawEdge": 0.0421,
+          "adjustedEdge": -0.1179,
           "qualifies": false,
-          "slateRank": 13
+          "slateRank": 8
         }
       ]
     },
@@ -1725,7 +1757,7 @@
           "rawEdge": -0.1744,
           "adjustedEdge": -0.3944,
           "qualifies": false,
-          "slateRank": 88
+          "slateRank": 92
         },
         {
           "label": "LA Clippers ML",
@@ -1757,7 +1789,7 @@
           "rawEdge": -0.1306,
           "adjustedEdge": -0.3506,
           "qualifies": false,
-          "slateRank": 84
+          "slateRank": 88
         },
         {
           "label": "LA Clippers +9.5",
@@ -1789,7 +1821,7 @@
           "rawEdge": 0.0481,
           "adjustedEdge": -0.1719,
           "qualifies": false,
-          "slateRank": 25
+          "slateRank": 26
         },
         {
           "label": "Under 225.5",
@@ -1805,7 +1837,7 @@
           "rawEdge": -0.0952,
           "adjustedEdge": -0.3152,
           "qualifies": false,
-          "slateRank": 79
+          "slateRank": 82
         },
         {
           "label": "Luka Doncic Over 31.5 points",
@@ -1821,7 +1853,7 @@
           "rawEdge": -0.0551,
           "adjustedEdge": -0.2751,
           "qualifies": false,
-          "slateRank": 66
+          "slateRank": 68
         },
         {
           "label": "Luka Doncic Under 31.5 points",
@@ -1837,7 +1869,7 @@
           "rawEdge": -0.0036,
           "adjustedEdge": -0.2236,
           "qualifies": false,
-          "slateRank": 49
+          "slateRank": 52
         }
       ]
     },
@@ -1849,10 +1881,10 @@
       "book": "DraftKings",
       "away": "POR",
       "home": "SAC",
-      "projectedAway": 118.82,
-      "projectedHome": 113.08,
+      "projectedAway": 118.79,
+      "projectedHome": 113.11,
       "projectedTotal": 231.9,
-      "projectedMargin": -5.73,
+      "projectedMargin": -5.68,
       "unshrunkMargin": -7.97,
       "confidence": 3.7,
       "penaltyTotal": 0.2078,
@@ -1890,10 +1922,10 @@
           "stat": null,
           "threshold": null,
           "price": 340,
-          "modelProb": 0.3572,
+          "modelProb": 0.36,
           "impliedProb": 0.2273,
-          "rawEdge": 0.13,
-          "adjustedEdge": -0.0778,
+          "rawEdge": 0.1327,
+          "adjustedEdge": -0.0751,
           "qualifies": false,
           "slateRank": 2
         },
@@ -1906,12 +1938,12 @@
           "stat": null,
           "threshold": null,
           "price": -440,
-          "modelProb": 0.6428,
+          "modelProb": 0.64,
           "impliedProb": 0.8148,
-          "rawEdge": -0.172,
-          "adjustedEdge": -0.3798,
+          "rawEdge": -0.1748,
+          "adjustedEdge": -0.3826,
           "qualifies": false,
-          "slateRank": 87
+          "slateRank": 91
         },
         {
           "label": "Sacramento Kings +9.5",
@@ -1922,10 +1954,10 @@
           "stat": null,
           "threshold": null,
           "price": -105,
-          "modelProb": 0.595,
+          "modelProb": 0.5961,
           "impliedProb": 0.5122,
-          "rawEdge": 0.0828,
-          "adjustedEdge": -0.125,
+          "rawEdge": 0.0839,
+          "adjustedEdge": -0.1239,
           "qualifies": false,
           "slateRank": 11
         },
@@ -1938,12 +1970,12 @@
           "stat": null,
           "threshold": null,
           "price": -115,
-          "modelProb": 0.405,
+          "modelProb": 0.4039,
           "impliedProb": 0.5349,
-          "rawEdge": -0.1299,
-          "adjustedEdge": -0.3376,
+          "rawEdge": -0.131,
+          "adjustedEdge": -0.3388,
           "qualifies": false,
-          "slateRank": 81
+          "slateRank": 84
         },
         {
           "label": "Over 232.5",
@@ -1954,12 +1986,12 @@
           "stat": null,
           "threshold": null,
           "price": -108,
-          "modelProb": 0.4852,
+          "modelProb": 0.4855,
           "impliedProb": 0.5192,
-          "rawEdge": -0.0341,
-          "adjustedEdge": -0.2418,
+          "rawEdge": -0.0337,
+          "adjustedEdge": -0.2415,
           "qualifies": false,
-          "slateRank": 56
+          "slateRank": 57
         },
         {
           "label": "Under 232.5",
@@ -1970,12 +2002,44 @@
           "stat": null,
           "threshold": null,
           "price": -112,
-          "modelProb": 0.5148,
+          "modelProb": 0.5145,
           "impliedProb": 0.5283,
-          "rawEdge": -0.0135,
-          "adjustedEdge": -0.2213,
+          "rawEdge": -0.0138,
+          "adjustedEdge": -0.2216,
           "qualifies": false,
-          "slateRank": 46
+          "slateRank": 50
+        },
+        {
+          "label": "Deni Avdija Over 21.5 points",
+          "market": "prop",
+          "side": "over",
+          "line": 21.5,
+          "player": "Deni Avdija",
+          "stat": "points",
+          "threshold": null,
+          "price": -112,
+          "modelProb": 0.5622,
+          "impliedProb": 0.5283,
+          "rawEdge": 0.0338,
+          "adjustedEdge": -0.1862,
+          "qualifies": false,
+          "slateRank": 33
+        },
+        {
+          "label": "Deni Avdija Under 21.5 points",
+          "market": "prop",
+          "side": "under",
+          "line": 21.5,
+          "player": "Deni Avdija",
+          "stat": "points",
+          "threshold": null,
+          "price": -112,
+          "modelProb": 0.4379,
+          "impliedProb": 0.5283,
+          "rawEdge": -0.0905,
+          "adjustedEdge": -0.3105,
+          "qualifies": false,
+          "slateRank": 81
         }
       ]
     }
