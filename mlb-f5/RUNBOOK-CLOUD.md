@@ -253,3 +253,40 @@ ET — after probables are posted, before day games). Each firing: grade
 yesterday → append log → `./run_daily.sh` → post the brief (slate, ranked
 plays with PLAYABLE TO, watchlist, cohort tallies) → commit and push to
 `claude/mlb-f5-schedule-vyvplv`.
+
+## Container recycled — recovery
+
+The cloud container is ephemeral and has been reclaimed three times
+(9/01, 9/25, 10/25). The symptom is always the same: `mlb-f5/` is gone
+and `HEAD` sits on the default branch at some unrelated merge commit.
+Nothing is lost — the branch on the remote is the source of truth.
+
+```
+cd /home/user/sports-app1.1
+git status --short                  # MUST be empty before resetting
+git fetch origin claude/mlb-f5-schedule-vyvplv
+git checkout -B claude/mlb-f5-schedule-vyvplv \
+    origin/claude/mlb-f5-schedule-vyvplv
+```
+
+Check `git status` first and stop if it is dirty: the reset discards
+uncommitted work, and after a recycle there is never any worth keeping.
+
+**Then reinstall the deps, and check WHICH python gets them.** On 10/25 the
+rebuilt image shipped two interpreters: `python3` resolved to 3.11 while
+`pip3` installed into 3.13, so `pip3 install numpy requests` reported
+"Requirement already satisfied" while every script still died on
+`ModuleNotFoundError`. Install through the interpreter the pipeline
+actually runs, not through bare `pip3`:
+
+```
+python3 -c "import numpy, requests" || \
+    "$(command -v python3)" -m pip install numpy requests
+python3 -c "import numpy, requests; print('deps ok')"
+```
+
+`data/` is gitignored, so the day's snapshot does not survive a recycle.
+If a card was already posted for today, do NOT re-run the pipeline to
+reproduce it — re-fetching odds rewrites `model_run_<date>_v3.md` and
+destroys the record of what was actually bet into. Read the committed
+card instead; that is what happened on 9/25.
