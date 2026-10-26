@@ -419,6 +419,26 @@ export const PROP_SETS = {
     },
   ],
 
+  // 2026-10-26. Lines from the scoresandodds game page. Note the line moved:
+  // Edwards was 29.5 on 2026-10-23 and is 27.5 tonight.
+  'MIN@CLE': [
+    {
+      id: 'edwards-pts-1026',
+      player: 'Anthony Edwards',
+      team: 'MIN',
+      stat: 'points',
+      line: 27.5,
+      over: -133,
+      under: -123,
+      theirProj: 28.95,
+      baseline: { perGame: 28.8, minutes: 35, pace: 99.5 },
+      projectedMinutes: 35,
+      minutesVolatility: 0.05,
+      matchupFactor: 0.99, // Cleveland's defence was 4.1 net, mid-pack by rating
+      flags: { estimatedBaseline: 'minutes estimated' },
+    },
+  ],
+
   'MIN@ORL': [
     {
       id: 'edwards-pts',

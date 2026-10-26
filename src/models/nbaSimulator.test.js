@@ -18,6 +18,10 @@ import {
   priceLine,
   derivedMarkets,
   propLadder,
+  percentile,
+  probBetween,
+  distributionSummary,
+  propDistribution,
   MODEL_CONSTANTS,
   BET_RULES,
 } from './nbaSimulator';
@@ -659,5 +663,65 @@ describe('prop ladders for an adjustable line', () => {
     expect(propLadder(null, [10.5])).toEqual([]);
     expect(propLadder({ insufficientData: true }, [10.5])).toEqual([]);
     expect(propLadder({ dist: null, samples: 0 }, [10.5])).toEqual([]);
+  });
+});
+
+describe('reading the simulated distribution', () => {
+  const sim = simulateGame(okcSas, { numSims: 30000, seed: 77 });
+
+  test('percentiles are ordered and bracket the mean', () => {
+    const d = distributionSummary(sim);
+    expect(d.margin.p5).toBeLessThan(d.margin.p25);
+    expect(d.margin.p25).toBeLessThan(d.margin.median);
+    expect(d.margin.median).toBeLessThan(d.margin.p75);
+    expect(d.margin.p75).toBeLessThan(d.margin.p95);
+    expect(d.margin.median).toBeCloseTo(sim.means.margin, 0);
+  });
+
+  test('the 90% margin interval is as wide as the calibration implies', () => {
+    const d = distributionSummary(sim);
+    const width = d.marginRange90[1] - d.marginRange90[0];
+    // Two-sided 90% of a normal is about 3.29 SD, so with MARGIN_SD near 15.8
+    // the band should be roughly 50 points. A much narrower band would mean the
+    // model is quietly overconfident again.
+    expect(width).toBeGreaterThan(40);
+    expect(width).toBeLessThan(65);
+  });
+
+  test('a percentile matches the probability it is derived from', () => {
+    const d = distributionSummary(sim);
+    const below = probBetween(sim.dist.total, sim.numSims, -1e9, d.total.median);
+    expect(below).toBeGreaterThan(0.45);
+    expect(below).toBeLessThan(0.58);
+  });
+
+  test('probBetween partitions the distribution', () => {
+    const lo = probBetween(sim.dist.margin, sim.numSims, -1e9, -1);
+    const mid = probBetween(sim.dist.margin, sim.numSims, 0, 0);
+    const hi = probBetween(sim.dist.margin, sim.numSims, 1, 1e9);
+    expect(lo + mid + hi).toBeCloseTo(1, 10);
+  });
+
+  test('a prop carries its own percentile band', () => {
+    const rebounds = sim.propResults.find((r) => r.prop.id === 'wemby-reb');
+    const band = propDistribution(rebounds);
+    expect(band.p10).toBeLessThan(band.median);
+    expect(band.median).toBeLessThan(band.p90);
+    expect(band.mean).toBeCloseTo(rebounds.simulatedMean, 10);
+    // A rebounding line should not swing from 0 to 30.
+    expect(band.p90 - band.p10).toBeLessThan(15);
+  });
+
+  test('an unsimulated prop has no band rather than a fake one', () => {
+    expect(propDistribution(null)).toBeNull();
+    expect(propDistribution({ insufficientData: true })).toBeNull();
+  });
+
+  test('analyzeGame exposes the distribution alongside the projection', () => {
+    const a = analyzeGame(okcSas, { numSims: 8000, seed: 78 });
+    expect(a.distribution.numSims).toBe(8000);
+    expect(a.distribution.marginRange90).toHaveLength(2);
+    expect(a.distribution.coinFlipBand).toBeGreaterThan(0);
+    expect(a.distribution.coinFlipBand).toBeLessThan(0.35);
   });
 });

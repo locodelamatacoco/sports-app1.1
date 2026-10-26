@@ -827,6 +827,83 @@ export function propLadder(propResult, lines, { penaltyTotal = 0 } = {}) {
 }
 
 // ---------------------------------------------------------------------------
+// Reading the simulated distribution
+// ---------------------------------------------------------------------------
+
+// The value at a given percentile of a recorded distribution. The simulation
+// has always run tens of thousands of iterations; reporting only the mean threw
+// away everything the spread had to say about how wide an outcome range is.
+export function percentile(distribution, numSims, p) {
+  const target = p * numSims;
+  const values = [...distribution.keys()].sort((a, b) => a - b);
+  let cumulative = 0;
+  for (const value of values) {
+    cumulative += distribution.get(value);
+    if (cumulative >= target) return value;
+  }
+  return values[values.length - 1] ?? null;
+}
+
+// Probability the quantity lands in [lo, hi].
+export function probBetween(distribution, numSims, lo, hi) {
+  let count = 0;
+  distribution.forEach((n, value) => {
+    if (value >= lo && value <= hi) count += n;
+  });
+  return count / numSims;
+}
+
+// Everything the Monte Carlo run knows beyond the mean: where the middle of
+// the distribution sits, how wide the tails are, and how often the game turns
+// into the kind of blowout that changes what a prop is worth.
+export function distributionSummary(sim) {
+  const { dist, numSims } = sim;
+  const band = (d) => ({
+    p5: percentile(d, numSims, 0.05),
+    p25: percentile(d, numSims, 0.25),
+    median: percentile(d, numSims, 0.5),
+    p75: percentile(d, numSims, 0.75),
+    p95: percentile(d, numSims, 0.95),
+  });
+
+  const margin = band(dist.margin);
+  const total = band(dist.total);
+
+  return {
+    numSims,
+    margin,
+    total,
+    home: band(dist.home),
+    away: band(dist.away),
+    // The 90% interval is the honest headline: a projection quoted without it
+    // reads far more precise than the model actually is.
+    marginRange90: [margin.p5, margin.p95],
+    totalRange90: [total.p5, total.p95],
+    homeWin: sim.probs.homeWin,
+    blowout: sim.probs.blowout,
+    overtime: sim.probs.overtime,
+    // How often the game lands within a basket either way of the median.
+    coinFlipBand: probBetween(dist.margin, numSims, -3, 3),
+  };
+}
+
+// Percentile band for a simulated prop, so a prop projection carries the same
+// honesty about its range as a game projection.
+export function propDistribution(propResult) {
+  if (!propResult || propResult.insufficientData || !propResult.dist) return null;
+  const { dist, samples } = propResult;
+  return {
+    samples,
+    p10: percentile(dist, samples, 0.1),
+    p25: percentile(dist, samples, 0.25),
+    median: percentile(dist, samples, 0.5),
+    p75: percentile(dist, samples, 0.75),
+    p90: percentile(dist, samples, 0.9),
+    mean: propResult.simulatedMean,
+  };
+}
+
+// ---------------------------------------------------------------------------
 // Confidence dampener
 // ---------------------------------------------------------------------------
 
@@ -1281,6 +1358,7 @@ export function analyzeGame(game, { numSims = 10000, seed = 42, anchorWeight } =
     game,
     sim,
     projection: sim.projection,
+    distribution: distributionSummary(sim),
     penalties: ledger,
     penaltyTotal: sumPenalties(ledger),
     confidence,

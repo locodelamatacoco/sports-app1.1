@@ -147,6 +147,24 @@ What is still not covered: first-half and quarter lines (would need period
 modelling), and correlated multi-stat props such as triple-doubles, since props
 are simulated independently of one another.
 
+## Reading the simulation, not just its mean
+
+The engine has always run 40,000-60,000 simulations per game. For weeks it
+reported only the mean, which threw away everything the spread had to say —
+and a projection quoted without its range reads far more precise than the
+model is.
+
+`distributionSummary` returns percentile bands for margin, total and each
+team's score, plus the 90% interval, the chance the game lands within a basket
+either way, blowout frequency and overtime frequency. `propDistribution` does
+the same for a prop, and `percentile` / `probBetween` read any recorded
+distribution directly.
+
+The bands are the point. On a typical game the 90% margin interval runs about
+50 points wide and the total interval about 65. That is what a 15.8-point
+margin SD actually means, and it is the honest frame for any single-number
+projection the model prints.
+
 ## Adjustable lines: `propLadder`
 
 Where a book lets you move a prop line, the question is not "is the over good"
@@ -346,6 +364,16 @@ The scripts run the real `src/` modules through a `@babel/core` require hook
 tunnel through `HTTPS_PROXY` via CONNECT when one is set.
 
 ## Live record
+
+A note on two different numbers, because they diverged sharply and the
+difference matters. The **lean record** below measures whether the
+projection is right across the board. The **called-shot record** is how the
+rows published in chat actually did, and it has been worse: 6-10 and -4.51u
+over the first three logged slates. On 2026-10-23 the board went 17-15 and
++2.48u while the five rows highlighted went 2-4 and -2.15u — Cunningham over
+24.5, the row pushed hardest, scored 16. Selecting from the board has so far
+done worse than the board, which is the opposite of what a ranking is for.
+
 
 Logged before tip, graded after. The model has **passed on every market so
 far**, so the lean record measures whether the projection is right, not
