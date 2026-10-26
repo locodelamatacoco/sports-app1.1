@@ -1296,6 +1296,7 @@ export function analyzeGame(game, { numSims = 10000, seed = 42, anchorWeight } =
         }),
         prop,
         simulatedMean: result.simulatedMean,
+        distribution: propDistribution(result),
         expected: result.projected.expected,
       });
       return;
@@ -1321,6 +1322,7 @@ export function analyzeGame(game, { numSims = 10000, seed = 42, anchorWeight } =
         }),
         prop,
         simulatedMean: result.simulatedMean,
+        distribution: propDistribution(result),
         expected: result.projected.expected,
       },
       {
@@ -1338,6 +1340,7 @@ export function analyzeGame(game, { numSims = 10000, seed = 42, anchorWeight } =
         }),
         prop,
         simulatedMean: result.simulatedMean,
+        distribution: propDistribution(result),
         expected: result.projected.expected,
       }
     );

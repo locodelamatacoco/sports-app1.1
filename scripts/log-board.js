@@ -22,7 +22,9 @@ const { fetchNbaSlate } = require('../src/data/espnNba.js');
 const { analyzeSlate } = require('../src/models/nbaSimulator.js');
 
 const OUT_DIR = path.join(__dirname, '..', 'board-log');
-const NUM_SIMS = 40000;
+// The run the board is reported from. Matching what is quoted in chat means a
+// stored band can be checked against a published one.
+const NUM_SIMS = 60000;
 
 async function main() {
   // ESPN's default scoreboard can still be serving the previous slate, whose
@@ -57,6 +59,19 @@ async function main() {
     projectedMargin: +r.summary.predictedMargin.toFixed(2),
     unshrunkMargin: +r.projection.unshrunk.margin.toFixed(2),
     confidence: r.confidence,
+    // The simulated spread, not only its mean. A projection stored without its
+    // range cannot later be checked for the overconfidence the backtest found.
+    distribution: {
+      marginRange90: r.distribution.marginRange90,
+      totalRange90: r.distribution.totalRange90,
+      marginMedian: r.distribution.margin.median,
+      totalMedian: r.distribution.total.median,
+      marginQuartiles: [r.distribution.margin.p25, r.distribution.margin.p75],
+      totalQuartiles: [r.distribution.total.p25, r.distribution.total.p75],
+      coinFlipBand: +r.distribution.coinFlipBand.toFixed(4),
+      blowout: +r.distribution.blowout.toFixed(4),
+      overtime: +r.distribution.overtime.toFixed(4),
+    },
     penaltyTotal: +r.penaltyTotal.toFixed(4),
     veto: r.veto,
     odds: r.game.odds,
@@ -77,6 +92,11 @@ async function main() {
         rawEdge: +m.rawEdge.toFixed(4),
         adjustedEdge: +m.adjustedEdge.toFixed(4),
         qualifies: m.qualifies,
+        // Props carry their own band; game markets read theirs off the game.
+        simulatedMean: m.simulatedMean != null ? +m.simulatedMean.toFixed(2) : null,
+        propBand: m.distribution
+          ? [m.distribution.p10, m.distribution.median, m.distribution.p90]
+          : null,
       })),
   }));
 
