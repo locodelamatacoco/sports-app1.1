@@ -13,6 +13,7 @@ from typing import List, Optional
 
 from . import distribution as dist
 from . import odds as odds_math
+from . import simulation as sim
 
 # Minimum model-vs-market edge (in probability) required to flag a bet, plus the
 # hard EV floor.
@@ -107,10 +108,16 @@ def required_edge(book_odds: float) -> float:
 
 
 def _wager(market: str, side: str, label: str, model_prob: float, book_odds: float,
-           line: Optional[float] = None) -> Wager:
+           line: Optional[float] = None, push_prob: float = 0.0) -> Wager:
     implied = odds_math.american_to_prob(book_odds)
     edge = model_prob - implied
-    ev = odds_math.ev_per_dollar(model_prob, book_odds)
+    # A push returns the stake, so it scales expected value toward zero: the
+    # bet simply does not resolve that fraction of the time. Pricing every
+    # wager as if it must resolve overstates EV on exactly the numbers where
+    # pushes are common -- a spread of 3 pushes about 8% of the time, which is
+    # worth half a point of EV, and the gate was counting all of it.
+    # ``model_prob`` is already conditional on the bet resolving.
+    ev = odds_math.ev_per_dollar(model_prob, book_odds) * (1.0 - push_prob)
     min_edge = required_edge(book_odds)
     qualifies = (
         market in BET_RULES["MARKETS"]
@@ -169,7 +176,12 @@ def _best_spread_quote(quotes, pred_margin: float, sigma: float, side: str,
 
 
 def _cover_prob(pred_margin: float, line: float, sigma: float, side: str) -> float:
-    home = dist.home_cover_prob(pred_margin, line, sigma)
+    """Cover probability from the discrete margin distribution.
+
+    Conditional on the bet resolving: pushes are excluded here and charged
+    against expected value separately, in ``_wager``.
+    """
+    home = sim.home_cover_prob(pred_margin, line, sigma)
     return home if side == "home" else 1.0 - home
 
 
@@ -183,7 +195,7 @@ def analyze_game(game: dict, pred_margin: float, sigma: float) -> dict:
     home, away = game["home_team"], game["away_team"]
     spread_line = game.get("spread_line")  # + => home favored, home laying points
 
-    home_win = dist.home_win_prob(pred_margin, sigma)
+    home_win = sim.home_win_prob(pred_margin, sigma)
     away_win = 1.0 - home_win
 
     wagers: List[Wager] = []
@@ -221,13 +233,17 @@ def analyze_game(game: dict, pred_margin: float, sigma: float) -> dict:
         home_best = {"line": home_line, "odds": home_price}
         away_best = {"line": away_line, "odds": away_price}
         # nflverse spread_line is the home number; the away team gets +spread_line.
+        # Each side is struck at its own number, so each carries its own push
+        # probability -- a half-point line cannot push at all.
+        home_push = sim.push_prob(pred_margin, home_line, sigma)
+        away_push = sim.push_prob(pred_margin, away_line, sigma)
         wagers.append(
             _wager("spread", "home", _spread_label(home, -home_line), home_cover, home_price,
-                   line=home_line)
+                   line=home_line, push_prob=home_push)
         )
         wagers.append(
             _wager("spread", "away", _spread_label(away, away_line), away_cover, away_price,
-                   line=away_line)
+                   line=away_line, push_prob=away_push)
         )
 
     qualifying = sorted(

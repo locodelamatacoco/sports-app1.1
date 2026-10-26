@@ -158,3 +158,29 @@ def test_a_better_price_never_disqualifies_a_bet():
     b = next(x for x in better["wagers"] if x["market"] == "spread" and x["side"] == "home")
     assert b["edge"] > w["edge"]          # the better price is a bigger edge
     assert not (w["qualifies"] and not b["qualifies"])
+
+
+# --------------------------------------------------------------------------- #
+# Pushes
+# --------------------------------------------------------------------------- #
+def test_push_scales_ev_toward_zero():
+    """A push returns the stake, so the bet does not resolve that often."""
+    game = {"game_id": "T", "home_team": "KC", "away_team": "DEN",
+            "spread_line": 3.0, "home_spread_odds": -110, "away_spread_odds": -110}
+    out = edges.analyze_game(game, 6.0, 13.2)
+    home = next(w for w in out["wagers"] if w["market"] == "spread" and w["side"] == "home")
+    # Priced at a line of 3, which pushes often: EV must be strictly smaller in
+    # magnitude than the naive calculation that assumes the bet always settles.
+    from nfl_model import odds as odds_math
+    naive = odds_math.ev_per_dollar(home["model_prob"], home["book_odds"])
+    assert abs(home["ev"]) < abs(naive)
+
+
+def test_half_point_line_cannot_push():
+    game = {"game_id": "T", "home_team": "KC", "away_team": "DEN",
+            "spread_line": 3.5, "home_spread_odds": -110, "away_spread_odds": -110}
+    out = edges.analyze_game(game, 6.0, 13.2)
+    home = next(w for w in out["wagers"] if w["market"] == "spread" and w["side"] == "home")
+    from nfl_model import odds as odds_math
+    naive = odds_math.ev_per_dollar(home["model_prob"], home["book_odds"])
+    assert abs(home["ev"] - naive) < 1e-9
