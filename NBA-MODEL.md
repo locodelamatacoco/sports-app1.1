@@ -363,6 +363,63 @@ The scripts run the real `src/` modules through a `@babel/core` require hook
 (`scripts/_loader.cjs`) so they cannot drift from what the page uses, and they
 tunnel through `HTTPS_PROXY` via CONNECT when one is set.
 
+## This season's form, and the penalty that punished knowing more
+
+The model projected every game from the PRIOR season's ratings and charged
+itself a standing penalty for having no current-season data. That was honest
+when there was no pipeline for it, but it had a perverse consequence: the
+penalty never came off, so the model grew *less* confident as the season went
+on and more information became available, while the market — which does ingest
+those games — moved away from it.
+
+This season's standings are now blended into last season's ratings, weighted
+`n / (n + 10)` at n games played. Measured by `npm run fit-blend`, fitting on
+2025-26 and testing on 2024-25 — separate seasons, no shared state:
+
+| | straight-up | margin RMSE | calibration \|gap\| |
+|---|---|---|---|
+| prior-season only | 62.1% | 15.150 | 2.81 pts |
+| blended, old shrinkage | 65.7% | 14.447 | 5.81 pts |
+| blended, scaled shrinkage | **66.2%** | **14.188** | 2.89 pts |
+
+The middle row is the trap. Better ratings with the old shrinkage improve
+accuracy and *wreck* calibration, because `RATING_SHRINK_MARGIN` is a claim
+about how much the input ratings can be trusted — 0.555 was fitted for
+prior-season inputs and is simply the wrong number for better ones. Shrinkage
+and `MARGIN_SD` now scale with the blend weight, which recovers the
+calibration while keeping the accuracy.
+
+Two measurements worth keeping, because both are counter-intuitive:
+
+**The gate at 6 games is not caution, it is measurement.** At 1-5 games played
+the blend *loses* to prior-season ratings outright (margin RMSE 14.17 against
+13.88). Four games of scoring is noise. Below the gate the weight is zero and
+nothing changes, which is why this landed with no effect on the 2026-10-27
+board, where every team had played two or three.
+
+**A within-season train/test split flatters the blend badly.** Split that way
+the model reads 73.9% straight-up and claims 88.9% accuracy in its 67.5%
+probability bucket — numbers that would beat the market outright, and which
+are an artifact of both halves sharing the same accumulated team state. Across
+separate seasons the same setup reads 66.2%. The first set was nearly believed
+here; `scripts/fit-blend.js` tests across seasons so it cannot be.
+
+## The bar has never been cleared
+
+Across the five logged slates — 2026-10-20 through 10-27, 280 priced markets —
+**zero** have ever qualified as a bet. That is not a run of quiet nights; the
+`AdjustedEdge >= 5%` rule has never once been satisfied.
+
+The arithmetic says why. Every game carries a 13-22% penalty floor before any
+market is priced, so clearing +5% adjusted needs an 18-27% raw edge, and raw
+edges that large do not exist in a liquid NBA market — the widest seen so far
+is +12.3%. Blending this season's form legitimately removes about 6% of that
+floor once the gate opens, which helps, but does not by itself make the rule
+reachable. Either the threshold or the penalty scale is mis-set relative to
+real market pricing, and that is a deliberate open question rather than a bug
+to patch quietly: the honest options are a lower bar, a smaller penalty scale,
+or accepting that this model is a screen rather than a bet-selector.
+
 ## Live record
 
 A note on two different numbers, because they diverged sharply and the

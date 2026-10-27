@@ -66,6 +66,24 @@ export const MODEL_CONSTANTS = {
   // shrunk — it is a real, stable effect; only the rating difference regresses.
   RATING_SHRINK_MARGIN: 0.555,
   RATING_SHRINK_TOTAL: 0.325,
+
+  // Shrinkage is a statement about how much the INPUT ratings can be trusted,
+  // so it cannot be one number once the ratings improve. Blended ratings fit a
+  // slope of 0.899 to 0.938 depending on the window, against 0.514 to 0.555
+  // for prior-season ratings alone; the model interpolates between the two on
+  // the blend weight the ratings actually carry. 0.899 is the conservative end
+  // of that range on purpose — under-trusting the rating gap costs a little
+  // edge, over-trusting it prices games the model cannot actually read.
+  //
+  // Keeping 0.555 while the ratings got better was measurably wrong: on a
+  // held-out season it left 5.81 points of calibration error where scaling the
+  // slope leaves 2.89. Re-measure with `npm run fit-blend`.
+  RATING_SHRINK_MARGIN_BLENDED: 0.899,
+
+  // The margin residual tightens as the ratings improve, so the simulation's
+  // spread has to follow or every price comes out too wide. Measured on the
+  // same held-out season: 15.8 on prior-season ratings, 14.2 fully blended.
+  MARGIN_SD_BLENDED: 14.2,
   LEAGUE_MEAN_TOTAL: 231.2, // observed mean, 2025-26
 
   // Variance calibration. These two are the empirical anchors: NBA final
@@ -239,6 +257,16 @@ export function projectGame(game, { anchorWeight } = {}) {
   const homeEff = adjustedEfficiency(home.off, away.def, leagueAvgRating);
   const awayEff = adjustedEfficiency(away.off, home.def, leagueAvgRating);
 
+  // How much of the two teams' ratings comes from this season. Both sides are
+  // averaged because one well-sampled team does not make the matchup known.
+  const blendWeight =
+    ((game.home.blendWeight ?? 0) + (game.away.blendWeight ?? 0)) / 2;
+  const shrinkMargin =
+    C.RATING_SHRINK_MARGIN +
+    (C.RATING_SHRINK_MARGIN_BLENDED - C.RATING_SHRINK_MARGIN) * blendWeight;
+  const marginSd =
+    C.MARGIN_SD + (C.MARGIN_SD_BLENDED - C.MARGIN_SD) * blendWeight;
+
   const homeSchedule = scheduleAdjustment(game.context?.home) + C.HOME_COURT_POINTS / 2;
   const awaySchedule = scheduleAdjustment(game.context?.away) - C.HOME_COURT_POINTS / 2;
 
@@ -249,7 +277,7 @@ export function projectGame(game, { anchorWeight } = {}) {
   const unshrunkMargin = regHome - regAway;
   const homeCourtMargin = homeSchedule - awaySchedule;
   const rawMargin =
-    homeCourtMargin + C.RATING_SHRINK_MARGIN * (unshrunkMargin - homeCourtMargin);
+    homeCourtMargin + shrinkMargin * (unshrunkMargin - homeCourtMargin);
 
   // A posted total settles including overtime, so the projection has to carry
   // the expected overtime contribution or every Over reads ~0.7 points cheap.
@@ -258,8 +286,8 @@ export function projectGame(game, { anchorWeight } = {}) {
   const otPossessions = (expectedPossessions * C.OT_MINUTES) / C.REGULATION_MINUTES;
   const otTotalPoints = ((homeEff + awayEff) / 100) * otPossessions;
   const pTie =
-    Math.exp(-(rawMargin * rawMargin) / (2 * C.MARGIN_SD * C.MARGIN_SD)) /
-    (C.MARGIN_SD * Math.sqrt(2 * Math.PI));
+    Math.exp(-(rawMargin * rawMargin) / (2 * marginSd * marginSd)) /
+    (marginSd * Math.sqrt(2 * Math.PI));
   const pTieInOt = 1 / (C.OT_SCORE_SD * Math.SQRT2 * Math.sqrt(2 * Math.PI));
   const expectedOvertimePoints = (pTie * otTotalPoints) / (1 - pTieInOt);
 
@@ -321,6 +349,16 @@ export function projectGame(game, { anchorWeight } = {}) {
     },
     regulation,
     expectedOvertimePoints,
+    // The shrinkage and spread this projection was actually built with. The
+    // simulation has to draw from the same SD the projection assumed, or the
+    // prices disagree with the point estimate they came from.
+    blendWeight,
+    shrinkMargin,
+    marginSd,
+    currentSeasonGames: {
+      home: game.home.currentSeasonGames ?? 0,
+      away: game.away.currentSeasonGames ?? 0,
+    },
     unshrunk: { margin: unshrunkMargin, total: unshrunkTotal },
     raw: { homeScore: regHome, awayScore: regAway, margin: rawMargin, total: rawTotal },
     home: {
@@ -350,8 +388,13 @@ export function projectGame(game, { anchorWeight } = {}) {
 // simulated spread and total can't disagree about how volatile a game is.
 export function varianceComponents(projection) {
   const C = MODEL_CONSTANTS;
-  const teamVar = (C.TOTAL_SD ** 2 + C.MARGIN_SD ** 2) / 4;
-  const covTarget = (C.TOTAL_SD ** 2 - C.MARGIN_SD ** 2) / 4;
+  // Blended ratings earn a tighter margin residual, so the spread the
+  // simulation draws from is the projection's own, not the prior-season
+  // constant. Falling back to the constant keeps a hand-built projection
+  // (and every existing test) behaving exactly as before.
+  const marginSd = projection.marginSd ?? C.MARGIN_SD;
+  const teamVar = (C.TOTAL_SD ** 2 + marginSd ** 2) / 4;
+  const covTarget = (C.TOTAL_SD ** 2 - marginSd ** 2) / 4;
 
   // Points each team gains per extra possession.
   const effHome = projection.home.efficiency / 100;

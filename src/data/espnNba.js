@@ -15,7 +15,7 @@
 
 import axios from 'axios';
 import { ratingsFor, LEAGUE_AVG } from './nbaTeamRatings';
-import { fetchTeamRatings } from './espnRatings';
+import { fetchTeamRatings, blendSeasons } from './espnRatings';
 import { PROP_SETS, CURATED_CONTEXT, PROJECTED_STARTERS } from './nbaGames';
 
 export const ESPN_NBA_SCOREBOARD =
@@ -213,19 +213,28 @@ export function mapEvent(
       },
     },
     dataQuality: {
-      // The projection runs on prior-season ratings and there is no pipeline
-      // for current-season form, so this stays true even once games are
-      // played. Tying it to the record would silently drop the penalty after
-      // one game while the market — which does ingest those games — moves
-      // away from us, making the model look more confident on no new
-      // information.
-      noCurrentSeasonData: true,
-      gamesPlayedNotIngested:
-        hasPlayedGames(home) || hasPlayedGames(away)
-          ? `${[awayAbbr, homeAbbr]
-              .filter((_, i) => hasPlayedGames(i === 0 ? away : home))
-              .join(' and ')} have played games the model does not ingest`
-          : null,
+      // True only while the projection really is running on prior-season
+      // ratings alone. This used to be hardcoded true, on the grounds that
+      // tying it to the record would drop the penalty while the model still
+      // had no current-season data — correct at the time, but it meant the
+      // model grew LESS confident as the season went on and more information
+      // became available. Now that this season's form is blended in, the flag
+      // tracks the blend: charged when the ratings carry no current-season
+      // weight, dropped when they do.
+      noCurrentSeasonData: (homeTeam?.blendWeight ?? 0) === 0 && (awayTeam?.blendWeight ?? 0) === 0,
+      // Only the side whose ratings are still prior-season-only is behind the
+      // market; a blended team's games ARE ingested now.
+      gamesPlayedNotIngested: (() => {
+        const behind = [
+          [awayAbbr, away, awayTeam],
+          [homeAbbr, home, homeTeam],
+        ]
+          .filter(([, competitor, rating]) => hasPlayedGames(competitor) && (rating?.blendWeight ?? 0) === 0)
+          .map(([abbr]) => abbr);
+        return behind.length > 0
+          ? `${behind.join(' and ')} ${behind.length === 1 ? 'has' : 'have'} played games the model does not ingest`
+          : null;
+      })(),
       estimatedInputs: estimated,
       marketDisagreement: marketDisagreementFrom(competition.odds),
       lineMovedAgainst,
@@ -338,16 +347,34 @@ export async function fetchNbaSlate({
   signal,
   enrich = true,
   ratingsSeason = 2026,
+  currentSeason = 2027,
 } = {}) {
   const url = date ? `${ESPN_NBA_SCOREBOARD}?dates=${date}` : ESPN_NBA_SCOREBOARD;
 
-  // Ratings for all 30 teams come from the completed prior season's standings.
-  // A failure here is not fatal: the slate falls back to the curated table.
+  // Ratings start from the completed prior season's standings, then this
+  // season's form is blended in once there is enough of it to be worth more
+  // than noise. A failure on either side is not fatal: the slate falls back to
+  // prior-season ratings, and then to the curated table.
   let derived = null;
   try {
     derived = await fetchTeamRatings({ season: ratingsSeason, client, signal });
   } catch (err) {
     console.warn('ESPN standings unavailable, using curated ratings:', err?.message ?? err);
+  }
+
+  if (derived && currentSeason) {
+    try {
+      const current = await fetchTeamRatings({ season: currentSeason, client, signal });
+      derived = blendSeasons(derived, current);
+    } catch (err) {
+      console.warn(
+        'Current-season standings unavailable, using prior season alone:',
+        err?.message ?? err
+      );
+      derived = blendSeasons(derived, null);
+    }
+  } else if (derived) {
+    derived = blendSeasons(derived, null);
   }
 
   const { data } = await client.get(url, { signal });

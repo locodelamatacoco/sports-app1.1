@@ -725,3 +725,68 @@ describe('reading the simulated distribution', () => {
     expect(a.distribution.coinFlipBand).toBeLessThan(0.35);
   });
 });
+
+describe('shrinkage scales with how much of the rating is this season', () => {
+  // Same matchup, three levels of current-season evidence.
+  const withWeight = (w) => ({
+    ...CLEAN_GAME,
+    away: { ...CLEAN_GAME.away, blendWeight: w, currentSeasonGames: w ? 20 : 0 },
+    home: { ...CLEAN_GAME.home, blendWeight: w, currentSeasonGames: w ? 20 : 0 },
+  });
+
+  test('prior-season-only ratings get the prior-season constants', () => {
+    const p = projectGame(withWeight(0), { anchorWeight: 0 });
+    expect(p.blendWeight).toBe(0);
+    expect(p.shrinkMargin).toBeCloseTo(MODEL_CONSTANTS.RATING_SHRINK_MARGIN, 10);
+    expect(p.marginSd).toBeCloseTo(MODEL_CONSTANTS.MARGIN_SD, 10);
+  });
+
+  test('fully blended ratings get the blended constants', () => {
+    const p = projectGame(withWeight(1), { anchorWeight: 0 });
+    expect(p.shrinkMargin).toBeCloseTo(MODEL_CONSTANTS.RATING_SHRINK_MARGIN_BLENDED, 10);
+    expect(p.marginSd).toBeCloseTo(MODEL_CONSTANTS.MARGIN_SD_BLENDED, 10);
+  });
+
+  test('a half-weighted blend lands halfway between the two fits', () => {
+    const p = projectGame(withWeight(0.5), { anchorWeight: 0 });
+    const C = MODEL_CONSTANTS;
+    expect(p.shrinkMargin).toBeCloseTo(
+      (C.RATING_SHRINK_MARGIN + C.RATING_SHRINK_MARGIN_BLENDED) / 2,
+      10
+    );
+    expect(p.marginSd).toBeCloseTo((C.MARGIN_SD + C.MARGIN_SD_BLENDED) / 2, 10);
+  });
+
+  test('less shrinkage means a bigger projected gap, not a smaller one', () => {
+    // Shrinkage pulls the rating-driven margin toward home court alone, so
+    // trusting the ratings more has to widen the projection.
+    const weak = projectGame(withWeight(0), { anchorWeight: 0 });
+    const strong = projectGame(withWeight(1), { anchorWeight: 0 });
+    const homeCourt = MODEL_CONSTANTS.HOME_COURT_POINTS;
+    expect(Math.abs(strong.expectedMargin - homeCourt)).toBeGreaterThan(
+      Math.abs(weak.expectedMargin - homeCourt)
+    );
+    // The unshrunk margin is a property of the ratings and must not move.
+    expect(strong.unshrunk.margin).toBeCloseTo(weak.unshrunk.margin, 8);
+  });
+
+  test('the simulation draws from the projection it was handed', () => {
+    // A tighter margin SD has to reach the simulated spread, or prices come
+    // out wider than the point estimate they were built from.
+    const weak = varianceComponents(projectGame(withWeight(0), { anchorWeight: 0 }));
+    const strong = varianceComponents(projectGame(withWeight(1), { anchorWeight: 0 }));
+    expect(strong.teamSd).toBeLessThan(weak.teamSd);
+    expect(strong.correlation).toBeGreaterThan(weak.correlation);
+  });
+
+  test('a projection built by hand still gets the prior-season spread', () => {
+    // Nothing outside the data layer sets blendWeight, so the absence of it
+    // must mean "prior season only" rather than NaN.
+    const p = projectGame(CLEAN_GAME, { anchorWeight: 0 });
+    expect(p.blendWeight).toBe(0);
+    expect(varianceComponents({ ...p, marginSd: undefined }).teamSd).toBeCloseTo(
+      varianceComponents(p).teamSd,
+      10
+    );
+  });
+});

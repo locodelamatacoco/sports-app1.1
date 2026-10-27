@@ -179,8 +179,11 @@ describe('fetchNbaSlate', () => {
   test('requests today by default and maps the response', async () => {
     const client = { get: jest.fn().mockResolvedValue({ data: scoreboard }) };
     const slate = await fetchNbaSlate({ client, enrich: false });
-    // One standings call for ratings, then the scoreboard.
-    expect(client.get).toHaveBeenCalledTimes(2);
+    // Prior-season standings, current-season standings to blend in, then the
+    // scoreboard.
+    expect(client.get).toHaveBeenCalledTimes(3);
+    const standingsCalls = client.get.mock.calls.filter(([u]) => /standings/.test(u));
+    expect(standingsCalls.map(([u]) => u.match(/season=(\d+)/)[1])).toEqual(['2026', '2027']);
     const scoreboardCall = client.get.mock.calls.find(([u]) => /scoreboard/.test(u));
     expect(scoreboardCall[0]).not.toMatch(/dates=/);
     expect(slate.games).toHaveLength(3);
@@ -196,8 +199,8 @@ describe('fetchNbaSlate', () => {
   test('enrichment adds one summary request per game', async () => {
     const client = { get: jest.fn().mockResolvedValue({ data: scoreboard }) };
     const slate = await fetchNbaSlate({ client });
-    // Standings, scoreboard, then a summary for each of the three games.
-    expect(client.get).toHaveBeenCalledTimes(5);
+    // Two standings calls, scoreboard, then a summary for each of three games.
+    expect(client.get).toHaveBeenCalledTimes(6);
     const summaryCalls = client.get.mock.calls.filter(([url]) => /summary\?event=/.test(url));
     expect(summaryCalls).toHaveLength(3);
     expect(slate.games).toHaveLength(3);

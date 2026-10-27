@@ -25,7 +25,8 @@
     "eject": "react-scripts eject",
     "log-board": "node scripts/log-board.js",
     "grade-board": "node scripts/grade-board.js",
-    "backtest": "node scripts/backtest.js"
+    "backtest": "node scripts/backtest.js",
+    "fit-blend": "node scripts/fit-blend.js"
   },
   "eslintConfig": {
     "extends": [
