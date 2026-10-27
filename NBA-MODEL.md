@@ -404,6 +404,49 @@ are an artifact of both halves sharing the same accumulated team state. Across
 separate seasons the same setup reads 66.2%. The first set was nearly believed
 here; `scripts/fit-blend.js` tests across seasons so it cannot be.
 
+## Whole-player games: double-doubles and scoring marks
+
+Player baselines were the model's binding constraint. Lines could be read
+wholesale but baselines came one player at a time from search, so most of a
+board could never be priced. `espnSeasonRates.js` fixes that: every completed
+regular-season game already has a box score on the same feed the slate comes
+from, so the whole league's per-minute rates are a few requests away. On
+2026-10-27 that was 274 usable players from 52 games.
+
+A double-double is a JOINT event and cannot be assembled from separate
+per-stat probabilities, so `simulateGame` now draws every stat for a player
+inside ONE shared minutes draw, and counts the double-double as the single
+event it is. `projectPlayerGame` supplies the means; the sim reports
+`doubleDouble`, `tripleDouble`, `atLeastTen` per stat and `pointsAtLeast` at
+10/15/20/25/30/35/40.
+
+Worth recording that **the correlation turned out not to matter**. Joint and
+independent estimates differ by at most 0.6 points across tonight's leaders,
+because the only dependence the model carries is an 8% minutes wobble and a
+shared pace shock. The joint machinery is still the correct construction — and
+it is what makes the blowout effect reach the double-double odds — but anyone
+expecting the correlation to move these numbers should know it does not. Real
+points/rebounds correlation runs through role and game flow, which this model
+does not represent.
+
+### The 3-game sample is the live limitation
+
+Rates are taken at face value with no regression toward any prior, and in late
+October that face value is three games. The effect is large:
+
+| | DD @0% | @20% | @35% | @50% regression |
+|---|---|---|---|---|
+| Sabonis | 89% | 82% | 74% | 62% |
+| Towns | 66% | 54% | 45% | 34% |
+| Wembanyama | 54% | 43% | 35% | 27% |
+
+Regressing halfway to the league per-minute mean takes Sabonis from 16.2
+projected rebounds to 11.2. The *ordering* is robust across every column; the
+*levels* are not. Unlike the team-rating blend, whose weight was fitted
+(`npm run fit-blend`), this shrinkage is unfitted — doing it properly needs
+last season's per-player rates, which is ~1,230 box scores rather than 52. So
+the model reports face value and the bracket is stated rather than hidden.
+
 ## The bar has never been cleared
 
 Across the five logged slates — 2026-10-20 through 10-27, 280 priced markets —

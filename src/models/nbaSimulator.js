@@ -452,6 +452,64 @@ export function projectProp(prop, game, projection) {
   };
 }
 
+// ---------------------------------------------------------------------------
+// Whole-player games: double-doubles and scoring thresholds
+// ---------------------------------------------------------------------------
+
+// Stats that can plausibly reach 10 in a game. Steals and blocks are tracked
+// but a 10-steal game is close enough to never that including them in the
+// double-double test adds noise rather than accuracy.
+export const DOUBLE_DOUBLE_STATS = ['points', 'rebounds', 'assists'];
+
+// Scoring marks reported for every player, so "around 20-something" can be
+// answered without a posted line to price against.
+export const POINTS_THRESHOLDS = [10, 15, 20, 25, 30, 35, 40];
+
+// A double-double is a JOINT event, so it cannot be assembled from separate
+// per-stat probabilities: points and rebounds are correlated through the
+// minutes a player actually gets, and multiplying independent marginals
+// understates a big night and overstates a quiet one. This projects every stat
+// for one player off a single rate table so the simulation can draw them
+// together, inside one shared minutes draw.
+export function projectPlayerGame(entry, game, projection) {
+  const rate = entry.rate;
+  if (!rate || !rate.usableSample || !rate.perMinute) {
+    return { insufficientData: true, player: entry.player, means: null };
+  }
+  const minutes = entry.projectedMinutes ?? rate.minutesPerGame;
+  if (!minutes || !Number.isFinite(minutes)) {
+    return { insufficientData: true, player: entry.player, means: null };
+  }
+
+  const paceFactor =
+    projection.expectedPossessions / (entry.pace ?? MODEL_CONSTANTS.LEAGUE_AVG_PACE);
+  const usageFactor = entry.usageFactor ?? 1;
+  const matchupFactor = entry.matchupFactor ?? 1;
+
+  const perMinute = {};
+  const means = {};
+  for (const stat of Object.keys(rate.perMinute)) {
+    const r = rate.perMinute[stat];
+    if (r == null || !Number.isFinite(r)) continue;
+    perMinute[stat] = r;
+    means[stat] = r * minutes * usageFactor * matchupFactor * paceFactor;
+  }
+
+  return {
+    insufficientData: false,
+    player: entry.player,
+    team: entry.team ?? rate.team ?? null,
+    minutes,
+    perMinute,
+    means,
+    usageFactor,
+    matchupFactor,
+    paceFactor,
+    sampleNote: rate.sampleNote ?? null,
+    games: rate.games ?? null,
+  };
+}
+
 // Draw one realisation of a stat. Counting stats go through a Gamma-mixed
 // Poisson (integer outcomes, so "3+ threes" style thresholds and pushes on
 // whole-number lines price correctly); points-like stats use a Gamma.
@@ -492,6 +550,24 @@ export function simulateGame(game, { numSims = 10000, seed = 42, anchorWeight } 
   const awayOffset =
     projection.regulation.awayScore -
     (effAway * projection.expectedPossessions + projection.away.scheduleAdj);
+
+  // Whole-player entries, drawn jointly so a double-double is counted as the
+  // one event it is.
+  const players = (game.players ?? []).map((entry) => {
+    const projected = projectPlayerGame(entry, game, projection);
+    return {
+      entry,
+      projected,
+      samples: 0,
+      doubleDouble: 0,
+      tripleDouble: 0,
+      // Points thresholds worth reporting without needing a posted line.
+      pointsAtLeast: new Map(),
+      statTotals: {},
+      statAtLeastTen: {},
+      pointsDist: new Map(),
+    };
+  });
 
   const props = (game.props ?? []).map((prop) => ({
     prop,
@@ -609,6 +685,42 @@ export function simulateGame(game, { numSims = 10000, seed = 42, anchorWeight } 
 
     // Props share this simulation's pace and blowout state.
     const simPaceFactor = possessions / projection.expectedPossessions;
+
+    // One minutes draw per player, then every stat off it. This is what makes
+    // the stats correlated: a 40-minute night lifts points AND rebounds
+    // together, which is exactly the dependence a double-double lives on.
+    for (const slot of players) {
+      const pr = slot.projected;
+      if (pr.insufficientData) continue;
+      const e = slot.entry;
+
+      let minutes = pr.minutes * (1 + gaussianSample(rand, 0, e.minutesVolatility ?? 0.08));
+      if (isBlowout && !e.benchPlayer) minutes *= C.BLOWOUT_MINUTES_FACTOR;
+      minutes = clamp(minutes, 0, 46);
+      const scale = (minutes / pr.minutes) * simPaceFactor;
+
+      let tens = 0;
+      let points = 0;
+      for (const stat of Object.keys(pr.means)) {
+        const value = sampleStat(stat, pr.means[stat] * scale, rand);
+        slot.statTotals[stat] = (slot.statTotals[stat] ?? 0) + value;
+        if (value >= 10 && DOUBLE_DOUBLE_STATS.includes(stat)) {
+          tens += 1;
+          slot.statAtLeastTen[stat] = (slot.statAtLeastTen[stat] ?? 0) + 1;
+        }
+        if (stat === 'points') points = value;
+      }
+
+      slot.samples += 1;
+      if (tens >= 2) slot.doubleDouble += 1;
+      if (tens >= 3) slot.tripleDouble += 1;
+
+      const whole = Math.round(points);
+      slot.pointsDist.set(whole, (slot.pointsDist.get(whole) ?? 0) + 1);
+      for (const t of POINTS_THRESHOLDS) {
+        if (points >= t) slot.pointsAtLeast.set(t, (slot.pointsAtLeast.get(t) ?? 0) + 1);
+      }
+    }
     for (const entry of props) {
       const pr = entry.projected;
       if (pr.insufficientData) continue;
@@ -677,7 +789,47 @@ export function simulateGame(game, { numSims = 10000, seed = 42, anchorWeight } 
     };
   });
 
-  return { numSims, seed, projection, variance: v, probs, means, propResults, dist };
+  const playerResults = players.map((slot) => {
+    const pr = slot.projected;
+    if (pr.insufficientData || slot.samples === 0) {
+      return { ...pr, insufficientData: true, player: pr.player ?? slot.entry.player };
+    }
+    const n = slot.samples;
+    return {
+      player: pr.player,
+      team: pr.team,
+      minutes: pr.minutes,
+      games: pr.games,
+      sampleNote: pr.sampleNote,
+      insufficientData: false,
+      samples: n,
+      means: pr.means,
+      simulatedMeans: Object.fromEntries(
+        Object.entries(slot.statTotals).map(([stat, total]) => [stat, total / n])
+      ),
+      doubleDouble: slot.doubleDouble / n,
+      tripleDouble: slot.tripleDouble / n,
+      atLeastTen: Object.fromEntries(
+        DOUBLE_DOUBLE_STATS.map((stat) => [stat, (slot.statAtLeastTen[stat] ?? 0) / n])
+      ),
+      pointsAtLeast: Object.fromEntries(
+        POINTS_THRESHOLDS.map((t) => [t, (slot.pointsAtLeast.get(t) ?? 0) / n])
+      ),
+      pointsDist: slot.pointsDist,
+    };
+  });
+
+  return {
+    numSims,
+    seed,
+    projection,
+    variance: v,
+    probs,
+    means,
+    propResults,
+    playerResults,
+    dist,
+  };
 }
 
 // ---------------------------------------------------------------------------

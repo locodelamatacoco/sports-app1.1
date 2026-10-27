@@ -20,6 +20,9 @@ import {
   propLadder,
   percentile,
   probBetween,
+  projectPlayerGame,
+  DOUBLE_DOUBLE_STATS,
+  POINTS_THRESHOLDS,
   distributionSummary,
   propDistribution,
   MODEL_CONSTANTS,
@@ -787,6 +790,143 @@ describe('shrinkage scales with how much of the rating is this season', () => {
     expect(varianceComponents({ ...p, marginSd: undefined }).teamSd).toBeCloseTo(
       varianceComponents(p).teamSd,
       10
+    );
+  });
+});
+
+describe('whole-player games: double-doubles and scoring marks', () => {
+  // A big averaging a double-double, and a guard who scores without rebounding.
+  const rateFor = (perMinute, minutesPerGame, games = 3) => ({
+    player: 'Test Player',
+    team: 'HOM',
+    games,
+    totalMinutes: minutesPerGame * games,
+    minutesPerGame,
+    perMinute,
+    usableSample: true,
+    sampleNote: `${games} games this season`,
+  });
+
+  const bigRate = rateFor({ points: 18 / 36, rebounds: 12 / 36, assists: 5 / 36 }, 36);
+  const guardRate = rateFor({ points: 26 / 35, rebounds: 2.5 / 35, assists: 6 / 35 }, 35);
+
+  const gameWith = (players) => ({ ...CLEAN_GAME, players });
+
+  test('an unusable sample projects nothing rather than guessing', () => {
+    const thin = { ...bigRate, usableSample: false };
+    const p = projectPlayerGame({ player: 'Thin', rate: thin }, CLEAN_GAME, {
+      expectedPossessions: 100,
+    });
+    expect(p.insufficientData).toBe(true);
+    expect(p.means).toBeNull();
+  });
+
+  test('a missing rate table projects nothing', () => {
+    expect(projectPlayerGame({ player: 'Nobody' }, CLEAN_GAME, { expectedPossessions: 100 }).insufficientData).toBe(true);
+  });
+
+  test('means scale off minutes and the game pace', () => {
+    const projection = { expectedPossessions: 100 };
+    const base = projectPlayerGame({ player: 'B', rate: bigRate, pace: 100 }, CLEAN_GAME, projection);
+    expect(base.means.points).toBeCloseTo(18, 6);
+    expect(base.means.rebounds).toBeCloseTo(12, 6);
+
+    // Same player in a faster game must project more of everything.
+    const faster = projectPlayerGame({ player: 'B', rate: bigRate, pace: 90 }, CLEAN_GAME, projection);
+    expect(faster.means.points).toBeGreaterThan(base.means.points);
+    expect(faster.means.rebounds).toBeGreaterThan(base.means.rebounds);
+
+    // Fewer minutes, less of everything.
+    const short = projectPlayerGame(
+      { player: 'B', rate: bigRate, pace: 100, projectedMinutes: 18 },
+      CLEAN_GAME,
+      projection
+    );
+    expect(short.means.points).toBeCloseTo(9, 6);
+  });
+
+  test('a double-double average lands near a coin flip or better, a scorer does not', () => {
+    const sim = simulateGame(
+      gameWith([
+        { player: 'Big', rate: bigRate, pace: 100 },
+        { player: 'Guard', rate: guardRate, pace: 100 },
+      ]),
+      { numSims: 8000, seed: 7 }
+    );
+    const [big, guard] = sim.playerResults;
+    expect(big.player).toBe('Big');
+    expect(big.doubleDouble).toBeGreaterThan(0.4);
+    // 2.5 rebounds and 6 assists a night is not a double-double threat.
+    expect(guard.doubleDouble).toBeLessThan(0.15);
+    // But he is the scorer, and the points marks have to say so.
+    expect(guard.pointsAtLeast[20]).toBeGreaterThan(big.pointsAtLeast[20]);
+  });
+
+  test('a triple-double is rarer than a double-double, always', () => {
+    const sim = simulateGame(
+      gameWith([{ player: 'Big', rate: bigRate, pace: 100 }]),
+      { numSims: 8000, seed: 11 }
+    );
+    const [big] = sim.playerResults;
+    expect(big.tripleDouble).toBeLessThanOrEqual(big.doubleDouble);
+  });
+
+  test('points thresholds are monotone — a higher mark cannot be likelier', () => {
+    const sim = simulateGame(
+      gameWith([{ player: 'Guard', rate: guardRate, pace: 100 }]),
+      { numSims: 8000, seed: 13 }
+    );
+    const [guard] = sim.playerResults;
+    for (let i = 1; i < POINTS_THRESHOLDS.length; i += 1) {
+      expect(guard.pointsAtLeast[POINTS_THRESHOLDS[i]]).toBeLessThanOrEqual(
+        guard.pointsAtLeast[POINTS_THRESHOLDS[i - 1]]
+      );
+    }
+  });
+
+  test('the double-double test counts only stats that can plausibly reach ten', () => {
+    // Steals and blocks are tracked, but a 10-block game is close enough to
+    // never that including them would add noise, not accuracy.
+    expect(DOUBLE_DOUBLE_STATS).toEqual(['points', 'rebounds', 'assists']);
+    const withDefence = rateFor(
+      { points: 18 / 36, rebounds: 12 / 36, assists: 5 / 36, blocks: 2 / 36, steals: 1 / 36 },
+      36
+    );
+    const sim = simulateGame(gameWith([{ player: 'Big', rate: withDefence, pace: 100 }]), {
+      numSims: 4000,
+      seed: 17,
+    });
+    const [big] = sim.playerResults;
+    expect(Object.keys(big.atLeastTen).sort()).toEqual(['assists', 'points', 'rebounds']);
+    // The extra stats are still simulated and reported.
+    expect(big.simulatedMeans.blocks).toBeGreaterThan(0);
+  });
+
+  test('a game with no player entries is unaffected', () => {
+    const sim = simulateGame(CLEAN_GAME, { numSims: 500, seed: 3 });
+    expect(sim.playerResults).toEqual([]);
+  });
+
+  test('blowouts cost minutes, and that reaches the double-double odds', () => {
+    // Same player, two games: one competitive, one a near-certain rout. The
+    // rout has to lower his double-double chance through lost minutes.
+    const lopsided = {
+      ...CLEAN_GAME,
+      home: { ...CLEAN_GAME.home, ratings: { off: 128, def: 104, pace: 100 } },
+      away: { ...CLEAN_GAME.away, ratings: { off: 104, def: 128, pace: 100 } },
+      odds: null,
+    };
+    const even = simulateGame(gameWith([{ player: 'Big', rate: bigRate, pace: 100 }]), {
+      numSims: 8000,
+      seed: 5,
+    });
+    const rout = simulateGame(
+      { ...lopsided, players: [{ player: 'Big', rate: bigRate, pace: 100 }] },
+      { numSims: 8000, seed: 5 }
+    );
+    expect(rout.probs.blowout).toBeGreaterThan(even.probs.blowout);
+    expect(rout.playerResults[0].doubleDouble).toBeLessThan(
+      even.playerResults[0].doubleDouble
     );
   });
 });
