@@ -9,10 +9,14 @@
 // spread, total, and their alternates. Player props need box scores and are
 // counted as unsettled rather than guessed at.
 //
-// Reports two things separately, because they answer different questions:
+// Reports three things separately, because they answer different questions:
 //   - every priced market, which measures whether the model's lean is right
 //   - the bets that actually qualified, which is the only line that reflects
 //     what the model told you to do
+//   - the rows published in chat as the slate's Top 5, which is what someone
+//     reading along would actually have bet. That record has been the worst of
+//     the three, and computing it by hand every slate is how it drifted out of
+//     view; it is graded here so the question answers itself.
 
 require('./_loader.cjs');
 
@@ -122,6 +126,8 @@ async function main() {
 
   const leaned = tally();
   const qualifying = tally();
+  const called = tally();
+  const calledRows = [];
   const byKind = {};
   let unsettled = 0;
   let missingFinal = 0;
@@ -178,6 +184,26 @@ async function main() {
         const outcome = settleMarket(market, final.away, final.home, boxScores);
         if (outcome !== null) record(qualifying, outcome, market.price);
       }
+
+      // The published Top 5, matched back to the logged row by game and label.
+      // Stored at log time precisely so recalibrating the model cannot rewrite
+      // which rows were called.
+      for (const top of snap.publishedTop5 ?? []) {
+        if (top.gameId !== game.gameId) continue;
+        const market = game.markets.find((m) => m.label === top.label);
+        if (!market) continue;
+        const outcome = settleMarket(market, final.away, final.home, boxScores);
+        if (outcome === null) continue;
+        record(called, outcome, market.price);
+        calledRows.push({
+          date: snap.slateDate,
+          rank: top.rank,
+          label: `${game.away}@${game.home} ${top.label}`,
+          price: market.price,
+          adjustedEdge: market.adjustedEdge,
+          outcome,
+        });
+      }
     }
   }
 
@@ -199,6 +225,20 @@ async function main() {
   if (qualifying.n === 0) {
     console.log('  The model passed on every market in these slates.');
   }
+
+  console.log('\nCALLED SHOTS (the Top 5 rows published in chat)');
+  console.log('  What someone reading along would have bet, qualifying or not.');
+  show('called shots', called);
+  calledRows
+    .sort((a, b) => (a.date === b.date ? a.rank - b.rank : a.date < b.date ? -1 : 1))
+    .forEach((r) => {
+      // settleMarket returns a boolean, or 'push' — not a 'win'/'loss' string.
+      const mark = r.outcome === 'push' ? 'PUSH' : r.outcome ? 'WIN ' : 'LOSS';
+      console.log(
+        `    ${mark} ${r.date} #${r.rank} ${r.label} ` +
+          `(${r.price > 0 ? '+' : ''}${r.price}, adj ${(100 * r.adjustedEdge).toFixed(1)}%)`
+      );
+    });
 }
 
 main().catch((err) => {
