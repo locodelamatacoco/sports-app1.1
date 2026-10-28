@@ -20,12 +20,22 @@ const fs = require('fs');
 const path = require('path');
 const { fetchNbaSlate } = require('../src/data/espnNba.js');
 const { fetchSeasonRates } = require('../src/data/espnSeasonRates.js');
+const { fetchPlayerPriors, applyPriors, PLAYER_PRIOR_K } =
+  require('../src/data/espnPlayerPriors.js');
 const { analyzeSlate, POINTS_THRESHOLDS } = require('../src/models/nbaSimulator.js');
 
 const OUT_DIR = path.join(__dirname, '..', 'board-log');
 
 // Below this a player's minutes make the projection noise rather than a read.
 const MIN_MINUTES_TO_PROJECT = 18;
+
+// The completed season before this slate's, whose per-player averages are the
+// prior. A slate in the back half of a calendar year is in the season that
+// ends the following year.
+function ratingsSeasonFor(isoDate) {
+  const [y, m] = isoDate.split('-').map(Number);
+  return m >= 8 ? y : y - 1;
+}
 
 // Season-to-date box scores come from whole months; a slate in the first days
 // of a month still needs the previous one.
@@ -63,6 +73,22 @@ async function main() {
   } catch (err) {
     console.warn('Season player rates unavailable:', err?.message ?? err);
   }
+
+  // Early in a season a player's own games are the WRONG thing to project
+  // from: fitted over 524 appearances, this season alone scores RMSE 7.368 on
+  // points where a blend with last season scores 5.510. Without this the model
+  // read Mikal Bridges at 5.5 points against a posted 11.5 and called it an
+  // edge.
+  let priorCount = 0;
+  try {
+    const pool = Object.values(season.rates).filter((r) => r.minutesPerGame >= 12);
+    const priors = await fetchPlayerPriors({ players: pool, season: ratingsSeasonFor(isoDate) });
+    priorCount = Object.keys(priors).length;
+    season = { ...season, rates: applyPriors(season.rates, priors, PLAYER_PRIOR_K) };
+  } catch (err) {
+    console.warn('Player priors unavailable, using this season alone:', err?.message ?? err);
+  }
+
   const usable = Object.values(season.rates).filter((r) => r.usableSample);
 
   const withPlayers = slate.games.map((game) => {
@@ -218,7 +244,8 @@ async function main() {
   const qualifying = record.reduce((a, g) => a + g.markets.filter((m) => m.qualifies).length, 0);
   console.log(
     `Logged ${record.length} games, ${priced} priced markets, ${qualifying} qualifying, ` +
-      `${projected} player projections from ${season.games} box scores.`
+      `${projected} player projections from ${season.games} box scores ` +
+      `(${priorCount} blended with last season).`
   );
   console.log(path.relative(process.cwd(), file));
 }

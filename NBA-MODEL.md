@@ -429,7 +429,44 @@ expecting the correlation to move these numbers should know it does not. Real
 points/rebounds correlation runs through role and game flow, which this model
 does not represent.
 
-### The 3-game sample is the live limitation
+### Early-season rates need a prior, and the fit is emphatic
+
+The bracket below was the right worry and the wrong response: stating a range
+and reporting face value anyway left the model projecting from four games.
+Running the prop path properly against posted lines on 2026-10-28 showed what
+that costs. Mikal Bridges read 5.5 points a game against an 11.5 line — a 28%
+"edge" — and the rate was arithmetically perfect: 22 points in 122 minutes. The
+market was pricing a full prior and the model had none.
+
+`espnPlayerPriors.js` supplies one from last season's per-player averages, and
+`scripts/fit-player-blend.js` fits the weight over 524 causally predicted
+appearances — each game forecast from that player's earlier games plus their
+prior season, never itself:
+
+| weighting | points RMSE | rebounds | assists |
+|---|---|---|---|
+| this season alone | 7.368 | 3.014 | 2.261 |
+| **k=12 (in force)** | **5.510** | **2.425** | 1.843 |
+| prior season alone | 5.539 | 2.441 | 1.869 |
+
+Last season alone beats four games of this one. The blend is 25% better than
+what the model was doing, and the curve is flat from k=8 to k=24 so the
+constant is not perched on a spike.
+
+One correction to the framing that led here: this was called a systematic bias,
+and it was not. Across 68 priced props the mean of (estimate - posted line) was
+-0.13 unblended and -0.27 after, both near zero. The damage was per-player
+DISPERSION, not a mean offset — individual players were 6 to 8 points wrong in
+both directions and cancelled in aggregate. That is exactly what the RMSE fit
+measures and what a mean check would have missed.
+
+The remaining -0.78 points between the blended baseline and the simulated mean
+is the pace factor and the blowout-minutes haircut, which are modelling choices
+rather than error. A prior also mis-states a player whose role has changed:
+Darius Garland prices 5.3 points under his line largely because his prior
+season describes a different situation.
+
+### The 3-game sample was the live limitation
 
 Rates are taken at face value with no regression toward any prior, and in late
 October that face value is three games. The effect is large:

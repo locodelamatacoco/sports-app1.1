@@ -101,10 +101,21 @@ export function accumulateBoxScore(summary, accumulator = {}, { team = null } = 
 
         const entry = (accumulator[name] = accumulator[name] ?? {
           player: name,
+          // Needed to look a player's prior seasons up, which is the only
+          // independent prior available early in a season.
+          athleteId: athlete.athlete?.id ? String(athlete.athlete.id) : null,
           team: abbr,
           games: 0,
           minutes: 0,
+          perGame: [],
           ...Object.fromEntries(TRACKED_STATS.map((stat) => [stat, 0])),
+        });
+        entry.athleteId = entry.athleteId ?? (athlete.athlete?.id ? String(athlete.athlete.id) : null);
+        // One row per appearance, so a rate can be fitted causally rather than
+        // only read as a season total.
+        entry.perGame.push({
+          minutes,
+          ...Object.fromEntries(TRACKED_STATS.map((stat) => [stat, at(stats, stat) ?? 0])),
         });
         entry.games += 1;
         entry.minutes += minutes;
@@ -128,6 +139,8 @@ export function ratesFrom(accumulator) {
       entry.minutes >= MIN_MINUTES_FOR_RATE && entry.games >= MIN_GAMES_FOR_RATE;
     out[entry.player] = {
       player: entry.player,
+      athleteId: entry.athleteId ?? null,
+      perGame: entry.perGame ?? [],
       team: entry.team,
       games: entry.games,
       totalMinutes: entry.minutes,
