@@ -19,9 +19,21 @@ require('./_loader.cjs');
 const fs = require('fs');
 const path = require('path');
 const { fetchNbaSlate } = require('../src/data/espnNba.js');
-const { analyzeSlate } = require('../src/models/nbaSimulator.js');
+const { fetchSeasonRates } = require('../src/data/espnSeasonRates.js');
+const { analyzeSlate, POINTS_THRESHOLDS } = require('../src/models/nbaSimulator.js');
 
 const OUT_DIR = path.join(__dirname, '..', 'board-log');
+
+// Below this a player's minutes make the projection noise rather than a read.
+const MIN_MINUTES_TO_PROJECT = 18;
+
+// Season-to-date box scores come from whole months; a slate in the first days
+// of a month still needs the previous one.
+function monthsFor(isoDate) {
+  const [y, m] = isoDate.split('-').map(Number);
+  const prev = m === 1 ? `${y - 1}12` : `${y}${String(m - 1).padStart(2, '0')}`;
+  return [prev, `${y}${String(m).padStart(2, '0')}`];
+}
 // The run the board is reported from. Matching what is quoted in chat means a
 // stored band can be checked against a published one.
 const NUM_SIMS = 60000;
@@ -41,7 +53,33 @@ async function main() {
     return;
   }
 
-  const { results } = analyzeSlate(slate.games, { numSims: NUM_SIMS, seed: 2026 });
+  // Player projections are published in chat, so they have to be recorded or
+  // they cannot be graded later — the same reason the market lines are logged
+  // before tip-off. 28 double-double and scoring calls went out on 2026-10-27
+  // and none of them were written down anywhere.
+  let season = { games: 0, rates: {} };
+  try {
+    season = await fetchSeasonRates({ months: monthsFor(isoDate) });
+  } catch (err) {
+    console.warn('Season player rates unavailable:', err?.message ?? err);
+  }
+  const usable = Object.values(season.rates).filter((r) => r.usableSample);
+
+  const withPlayers = slate.games.map((game) => {
+    const codes = [game.away.code, game.home.code];
+    const players = usable
+      .filter((r) => codes.includes(r.team) && r.minutesPerGame >= MIN_MINUTES_TO_PROJECT)
+      .map((rate) => ({
+        player: rate.player,
+        team: rate.team,
+        rate,
+        pace: rate.team === game.home.code ? game.home.ratings.pace : game.away.ratings.pace,
+        minutesVolatility: 0.08,
+      }));
+    return { ...game, players };
+  });
+
+  const { results } = analyzeSlate(withPlayers, { numSims: NUM_SIMS, seed: 2026 });
 
   // Record the price alongside the model's read. Only priced markets are worth
   // logging: an unpriced row cannot be graded against anything.
@@ -75,6 +113,30 @@ async function main() {
     penaltyTotal: +r.penaltyTotal.toFixed(4),
     veto: r.veto,
     odds: r.game.odds,
+    // Every player projection published for this game, so the double-double
+    // and scoring calls are gradeable against a box score.
+    players: (r.sim.playerResults ?? [])
+      .filter((p) => !p.insufficientData)
+      .map((p) => ({
+        player: p.player,
+        team: p.team,
+        games: p.games,
+        projectedMinutes: +p.minutes.toFixed(1),
+        projected: {
+          points: +p.simulatedMeans.points.toFixed(2),
+          rebounds: +(p.simulatedMeans.rebounds ?? 0).toFixed(2),
+          assists: +(p.simulatedMeans.assists ?? 0).toFixed(2),
+        },
+        doubleDouble: +p.doubleDouble.toFixed(4),
+        tripleDouble: +p.tripleDouble.toFixed(4),
+        atLeastTen: Object.fromEntries(
+          Object.entries(p.atLeastTen).map(([k, v]) => [k, +v.toFixed(4)])
+        ),
+        pointsAtLeast: Object.fromEntries(
+          POINTS_THRESHOLDS.map((t) => [t, +p.pointsAtLeast[t].toFixed(4)])
+        ),
+      }))
+      .sort((a, b) => b.doubleDouble - a.doubleDouble),
     markets: [...r.markets, ...r.props, ...r.derived]
       .filter((m) => !m.insufficientData && m.priced !== false)
       .map((m) => ({
@@ -133,9 +195,13 @@ async function main() {
   const file = path.join(OUT_DIR, `${stamp}.json`);
   fs.writeFileSync(file, `${JSON.stringify(snapshot, null, 2)}\n`);
 
+  const projected = record.reduce((a, g) => a + g.players.length, 0);
   const priced = record.reduce((a, g) => a + g.markets.length, 0);
   const qualifying = record.reduce((a, g) => a + g.markets.filter((m) => m.qualifies).length, 0);
-  console.log(`Logged ${record.length} games, ${priced} priced markets, ${qualifying} qualifying.`);
+  console.log(
+    `Logged ${record.length} games, ${priced} priced markets, ${qualifying} qualifying, ` +
+      `${projected} player projections from ${season.games} box scores.`
+  );
   console.log(path.relative(process.cwd(), file));
 }
 

@@ -128,6 +128,10 @@ async function main() {
   const qualifying = tally();
   const called = tally();
   const calledRows = [];
+  // Player projections are probabilities, not bets, so they are scored by
+  // discrimination and Brier rather than units.
+  const playerBuckets = [];
+  let playerDnp = 0;
   const byKind = {};
   let unsettled = 0;
   let missingFinal = 0;
@@ -143,7 +147,7 @@ async function main() {
 
       // Only fetch a box score when the game actually has props logged.
       let boxScores = null;
-      if (game.markets.some((m) => m.market === 'prop')) {
+      if (game.markets.some((m) => m.market === 'prop') || (game.players ?? []).length > 0) {
         try {
           boxScores = await boxScoresFor(game.espnId);
         } catch (err) {
@@ -185,6 +189,30 @@ async function main() {
         if (outcome !== null) record(qualifying, outcome, market.price);
       }
 
+      // Player projections. A box score is needed, and a player who did not
+      // appear is void rather than a miss.
+      for (const p of game.players ?? []) {
+        if (!boxScores) break;
+        const line = boxScores[p.player];
+        if (!line || line.points == null) {
+          playerDnp += 1;
+          continue;
+        }
+        const tens = ['points', 'rebounds', 'assists'].filter(
+          (stat) => (line[stat] ?? 0) >= 10
+        ).length;
+        playerBuckets.push({
+          player: p.player,
+          game: `${game.away}@${game.home}`,
+          ddProb: p.doubleDouble,
+          ddHit: tens >= 2,
+          p20Prob: p.pointsAtLeast?.['20'] ?? p.pointsAtLeast?.[20] ?? null,
+          p20Hit: (line.points ?? 0) >= 20,
+          actual: line,
+          projected: p.projected,
+        });
+      }
+
       // The published Top 5, matched back to the logged row by game and label.
       // Stored at log time precisely so recalibrating the model cannot rewrite
       // which rows were called.
@@ -224,6 +252,33 @@ async function main() {
   show('qualifying', qualifying);
   if (qualifying.n === 0) {
     console.log('  The model passed on every market in these slates.');
+  }
+
+  if (playerBuckets.length > 0) {
+    console.log('\nPLAYER PROJECTIONS (probabilities, so scored not staked)');
+    console.log('  Brier: 0 is perfect, 0.25 is a coin flip on everything.');
+    if (playerDnp) console.log(`  ${playerDnp} projected player(s) did not appear — void`);
+
+    const score = (label, rows, probOf, hitOf) => {
+      const usable = rows.filter((r) => probOf(r) != null);
+      if (usable.length === 0) return;
+      const hits = usable.filter(hitOf).length;
+      const expected = usable.reduce((a, r) => a + probOf(r), 0);
+      const brier = usable.reduce((a, r) => a + (probOf(r) - (hitOf(r) ? 1 : 0)) ** 2, 0) / usable.length;
+      // Does a higher projected probability actually mean a likelier event?
+      const sorted = usable.slice().sort((a, b) => probOf(b) - probOf(a));
+      const topN = Math.max(1, Math.round(expected));
+      const topHits = sorted.slice(0, topN).filter(hitOf).length;
+      console.log(
+        `  ${label.padEnd(18)} ${hits}/${usable.length} hit  expected ${expected.toFixed(1)}  ` +
+          `Brier ${brier.toFixed(3)}  top ${topN} by model: ${topHits}/${topN}`
+      );
+      if (hits > expected * 1.15) console.log('      model UNDERconfident here');
+      else if (hits < expected * 0.85) console.log('      model OVERconfident here');
+    };
+
+    score('double-double', playerBuckets, (r) => r.ddProb, (r) => r.ddHit);
+    score('20+ points', playerBuckets, (r) => r.p20Prob, (r) => r.p20Hit);
   }
 
   console.log('\nCALLED SHOTS (the Top 5 rows published in chat)');
