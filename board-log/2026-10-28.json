@@ -1,7 +1,7 @@
 {
-  "loggedAt": "2026-10-28T16:00:42.712Z",
+  "loggedAt": "2026-10-28T16:03:34.029Z",
   "published": [],
-  "screenedOut": 0,
+  "screenedOut": 8,
   "slateDate": "2026-10-28",
   "numSims": 60000,
   "constants": {
@@ -572,6 +572,7 @@
           "rawEdge": -0.0166,
           "adjustedEdge": -0.1889,
           "qualifies": false,
+          "veto": null,
           "simulatedMean": null,
           "propBand": null,
           "slateRank": 28
@@ -590,6 +591,7 @@
           "rawEdge": -0.0249,
           "adjustedEdge": -0.1972,
           "qualifies": false,
+          "veto": null,
           "simulatedMean": null,
           "propBand": null,
           "slateRank": 35
@@ -608,6 +610,7 @@
           "rawEdge": -0.0097,
           "adjustedEdge": -0.182,
           "qualifies": false,
+          "veto": null,
           "simulatedMean": null,
           "propBand": null,
           "slateRank": 25
@@ -626,6 +629,7 @@
           "rawEdge": -0.0365,
           "adjustedEdge": -0.2088,
           "qualifies": false,
+          "veto": null,
           "simulatedMean": null,
           "propBand": null,
           "slateRank": 42
@@ -644,6 +648,7 @@
           "rawEdge": -0.1346,
           "adjustedEdge": -0.307,
           "qualifies": false,
+          "veto": null,
           "simulatedMean": null,
           "propBand": null,
           "slateRank": 65
@@ -662,6 +667,7 @@
           "rawEdge": 0.0871,
           "adjustedEdge": -0.0852,
           "qualifies": false,
+          "veto": null,
           "simulatedMean": null,
           "propBand": null,
           "slateRank": 3
@@ -1179,6 +1185,7 @@
           "rawEdge": -0.0429,
           "adjustedEdge": -0.2329,
           "qualifies": false,
+          "veto": null,
           "simulatedMean": null,
           "propBand": null,
           "slateRank": 50
@@ -1197,6 +1204,7 @@
           "rawEdge": 0.001,
           "adjustedEdge": -0.189,
           "qualifies": false,
+          "veto": "moneyline priced +310, past the +300 ceiling — a small probability cannot be estimated accurately enough to price it",
           "simulatedMean": null,
           "propBand": null,
           "slateRank": 29
@@ -1215,6 +1223,7 @@
           "rawEdge": -0.0018,
           "adjustedEdge": -0.1918,
           "qualifies": false,
+          "veto": null,
           "simulatedMean": null,
           "propBand": null,
           "slateRank": 31
@@ -1233,6 +1242,7 @@
           "rawEdge": -0.0453,
           "adjustedEdge": -0.2353,
           "qualifies": false,
+          "veto": null,
           "simulatedMean": null,
           "propBand": null,
           "slateRank": 51
@@ -1251,6 +1261,7 @@
           "rawEdge": -0.0756,
           "adjustedEdge": -0.2656,
           "qualifies": false,
+          "veto": null,
           "simulatedMean": null,
           "propBand": null,
           "slateRank": 62
@@ -1269,6 +1280,7 @@
           "rawEdge": 0.0285,
           "adjustedEdge": -0.1615,
           "qualifies": false,
+          "veto": null,
           "simulatedMean": null,
           "propBand": null,
           "slateRank": 18
@@ -1705,6 +1717,7 @@
           "rawEdge": -0.1187,
           "adjustedEdge": -0.3387,
           "qualifies": false,
+          "veto": "model total 16.2 pts off the posted total",
           "simulatedMean": null,
           "propBand": null,
           "slateRank": 70
@@ -1723,6 +1736,7 @@
           "rawEdge": 0.0766,
           "adjustedEdge": -0.1434,
           "qualifies": false,
+          "veto": "model total 16.2 pts off the posted total",
           "simulatedMean": null,
           "propBand": null,
           "slateRank": 13
@@ -1741,9 +1755,10 @@
           "rawEdge": -0.0935,
           "adjustedEdge": -0.3135,
           "qualifies": false,
+          "veto": "model total 16.2 pts off the posted total",
           "simulatedMean": null,
           "propBand": null,
-          "slateRank": 68
+          "slateRank": 69
         },
         {
           "label": "Charlotte Hornets +7.5",
@@ -1759,6 +1774,7 @@
           "rawEdge": 0.0464,
           "adjustedEdge": -0.1736,
           "qualifies": false,
+          "veto": "model total 16.2 pts off the posted total",
           "simulatedMean": null,
           "propBand": null,
           "slateRank": 23
@@ -1777,6 +1793,7 @@
           "rawEdge": 0.1625,
           "adjustedEdge": -0.0575,
           "qualifies": false,
+          "veto": "model total 16.2 pts off the posted total",
           "simulatedMean": null,
           "propBand": null,
           "slateRank": 1
@@ -1795,6 +1812,7 @@
           "rawEdge": -0.2095,
           "adjustedEdge": -0.4295,
           "qualifies": false,
+          "veto": "model total 16.2 pts off the posted total",
           "simulatedMean": null,
           "propBand": null,
           "slateRank": 72
@@ -2312,6 +2330,7 @@
           "rawEdge": -0.0149,
           "adjustedEdge": -0.2049,
           "qualifies": false,
+          "veto": null,
           "simulatedMean": null,
           "propBand": null,
           "slateRank": 38
@@ -2330,6 +2349,7 @@
           "rawEdge": -0.0283,
           "adjustedEdge": -0.2183,
           "qualifies": false,
+          "veto": null,
           "simulatedMean": null,
           "propBand": null,
           "slateRank": 44
@@ -2348,6 +2368,7 @@
           "rawEdge": -0.0327,
           "adjustedEdge": -0.2227,
           "qualifies": false,
+          "veto": null,
           "simulatedMean": null,
           "propBand": null,
           "slateRank": 45
@@ -2366,6 +2387,7 @@
           "rawEdge": -0.0149,
           "adjustedEdge": -0.2049,
           "qualifies": false,
+          "veto": null,
           "simulatedMean": null,
           "propBand": null,
           "slateRank": 39
@@ -2384,6 +2406,7 @@
           "rawEdge": -0.0753,
           "adjustedEdge": -0.2653,
           "qualifies": false,
+          "veto": null,
           "simulatedMean": null,
           "propBand": null,
           "slateRank": 61
@@ -2402,6 +2425,7 @@
           "rawEdge": 0.0278,
           "adjustedEdge": -0.1622,
           "qualifies": false,
+          "veto": null,
           "simulatedMean": null,
           "propBand": null,
           "slateRank": 19
@@ -2811,6 +2835,7 @@
           "rawEdge": -0.0676,
           "adjustedEdge": -0.2276,
           "qualifies": false,
+          "veto": null,
           "simulatedMean": null,
           "propBand": null,
           "slateRank": 49
@@ -2829,6 +2854,7 @@
           "rawEdge": 0.0254,
           "adjustedEdge": -0.1346,
           "qualifies": false,
+          "veto": null,
           "simulatedMean": null,
           "propBand": null,
           "slateRank": 11
@@ -2847,6 +2873,7 @@
           "rawEdge": -0.0382,
           "adjustedEdge": -0.1982,
           "qualifies": false,
+          "veto": null,
           "simulatedMean": null,
           "propBand": null,
           "slateRank": 36
@@ -2865,6 +2892,7 @@
           "rawEdge": -0.0094,
           "adjustedEdge": -0.1694,
           "qualifies": false,
+          "veto": null,
           "simulatedMean": null,
           "propBand": null,
           "slateRank": 22
@@ -2883,6 +2911,7 @@
           "rawEdge": 0.0458,
           "adjustedEdge": -0.1142,
           "qualifies": false,
+          "veto": null,
           "simulatedMean": null,
           "propBand": null,
           "slateRank": 6
@@ -2901,6 +2930,7 @@
           "rawEdge": -0.0933,
           "adjustedEdge": -0.2533,
           "qualifies": false,
+          "veto": null,
           "simulatedMean": null,
           "propBand": null,
           "slateRank": 57
@@ -3337,6 +3367,7 @@
           "rawEdge": 0.0502,
           "adjustedEdge": -0.0798,
           "qualifies": false,
+          "veto": null,
           "simulatedMean": null,
           "propBand": null,
           "slateRank": 2
@@ -3355,6 +3386,7 @@
           "rawEdge": -0.0934,
           "adjustedEdge": -0.2234,
           "qualifies": false,
+          "veto": null,
           "simulatedMean": null,
           "propBand": null,
           "slateRank": 47
@@ -3373,9 +3405,10 @@
           "rawEdge": 0.0071,
           "adjustedEdge": -0.1229,
           "qualifies": false,
+          "veto": null,
           "simulatedMean": null,
           "propBand": null,
-          "slateRank": 10
+          "slateRank": 9
         },
         {
           "label": "New York Knicks -7.5",
@@ -3391,6 +3424,7 @@
           "rawEdge": -0.0541,
           "adjustedEdge": -0.1841,
           "qualifies": false,
+          "veto": null,
           "simulatedMean": null,
           "propBand": null,
           "slateRank": 26
@@ -3409,6 +3443,7 @@
           "rawEdge": -0.0287,
           "adjustedEdge": -0.1587,
           "qualifies": false,
+          "veto": null,
           "simulatedMean": null,
           "propBand": null,
           "slateRank": 17
@@ -3427,6 +3462,7 @@
           "rawEdge": -0.0184,
           "adjustedEdge": -0.1484,
           "qualifies": false,
+          "veto": null,
           "simulatedMean": null,
           "propBand": null,
           "slateRank": 14
@@ -3890,6 +3926,7 @@
           "rawEdge": 0.079,
           "adjustedEdge": -0.111,
           "qualifies": false,
+          "veto": null,
           "simulatedMean": null,
           "propBand": null,
           "slateRank": 5
@@ -3908,6 +3945,7 @@
           "rawEdge": -0.122,
           "adjustedEdge": -0.312,
           "qualifies": false,
+          "veto": null,
           "simulatedMean": null,
           "propBand": null,
           "slateRank": 67
@@ -3926,6 +3964,7 @@
           "rawEdge": 0.0223,
           "adjustedEdge": -0.1677,
           "qualifies": false,
+          "veto": null,
           "simulatedMean": null,
           "propBand": null,
           "slateRank": 21
@@ -3944,6 +3983,7 @@
           "rawEdge": -0.0694,
           "adjustedEdge": -0.2594,
           "qualifies": false,
+          "veto": null,
           "simulatedMean": null,
           "propBand": null,
           "slateRank": 58
@@ -3962,6 +4002,7 @@
           "rawEdge": 0.0269,
           "adjustedEdge": -0.1631,
           "qualifies": false,
+          "veto": null,
           "simulatedMean": null,
           "propBand": null,
           "slateRank": 20
@@ -3980,6 +4021,7 @@
           "rawEdge": -0.074,
           "adjustedEdge": -0.264,
           "qualifies": false,
+          "veto": null,
           "simulatedMean": null,
           "propBand": null,
           "slateRank": 60
@@ -4443,6 +4485,7 @@
           "rawEdge": -0.0276,
           "adjustedEdge": -0.2076,
           "qualifies": false,
+          "veto": null,
           "simulatedMean": null,
           "propBand": null,
           "slateRank": 41
@@ -4461,6 +4504,7 @@
           "rawEdge": -0.0153,
           "adjustedEdge": -0.1953,
           "qualifies": false,
+          "veto": null,
           "simulatedMean": null,
           "propBand": null,
           "slateRank": 34
@@ -4479,6 +4523,7 @@
           "rawEdge": -0.0146,
           "adjustedEdge": -0.1946,
           "qualifies": false,
+          "veto": null,
           "simulatedMean": null,
           "propBand": null,
           "slateRank": 33
@@ -4497,6 +4542,7 @@
           "rawEdge": -0.0325,
           "adjustedEdge": -0.2125,
           "qualifies": false,
+          "veto": null,
           "simulatedMean": null,
           "propBand": null,
           "slateRank": 43
@@ -4515,6 +4561,7 @@
           "rawEdge": 0.0256,
           "adjustedEdge": -0.1544,
           "qualifies": false,
+          "veto": null,
           "simulatedMean": null,
           "propBand": null,
           "slateRank": 16
@@ -4533,6 +4580,7 @@
           "rawEdge": -0.0731,
           "adjustedEdge": -0.2531,
           "qualifies": false,
+          "veto": null,
           "simulatedMean": null,
           "propBand": null,
           "slateRank": 56
@@ -4969,6 +5017,7 @@
           "rawEdge": 0.0199,
           "adjustedEdge": -0.1401,
           "qualifies": false,
+          "veto": null,
           "simulatedMean": null,
           "propBand": null,
           "slateRank": 12
@@ -4987,6 +5036,7 @@
           "rawEdge": -0.0631,
           "adjustedEdge": -0.2231,
           "qualifies": false,
+          "veto": null,
           "simulatedMean": null,
           "propBand": null,
           "slateRank": 46
@@ -5005,6 +5055,7 @@
           "rawEdge": -0.0184,
           "adjustedEdge": -0.1784,
           "qualifies": false,
+          "veto": null,
           "simulatedMean": null,
           "propBand": null,
           "slateRank": 24
@@ -5023,6 +5074,7 @@
           "rawEdge": -0.0292,
           "adjustedEdge": -0.1892,
           "qualifies": false,
+          "veto": null,
           "simulatedMean": null,
           "propBand": null,
           "slateRank": 30
@@ -5041,6 +5093,7 @@
           "rawEdge": -0.0916,
           "adjustedEdge": -0.2516,
           "qualifies": false,
+          "veto": null,
           "simulatedMean": null,
           "propBand": null,
           "slateRank": 54
@@ -5059,6 +5112,7 @@
           "rawEdge": 0.0445,
           "adjustedEdge": -0.1155,
           "qualifies": false,
+          "veto": null,
           "simulatedMean": null,
           "propBand": null,
           "slateRank": 8
@@ -5495,6 +5549,7 @@
           "rawEdge": 0.0777,
           "adjustedEdge": -0.1145,
           "qualifies": false,
+          "veto": "moneyline priced +470, past the +300 ceiling — a small probability cannot be estimated accurately enough to price it",
           "simulatedMean": null,
           "propBand": null,
           "slateRank": 7
@@ -5513,6 +5568,7 @@
           "rawEdge": -0.1198,
           "adjustedEdge": -0.3119,
           "qualifies": false,
+          "veto": null,
           "simulatedMean": null,
           "propBand": null,
           "slateRank": 66
@@ -5531,6 +5587,7 @@
           "rawEdge": 0.0421,
           "adjustedEdge": -0.15,
           "qualifies": false,
+          "veto": null,
           "simulatedMean": null,
           "propBand": null,
           "slateRank": 15
@@ -5549,6 +5606,7 @@
           "rawEdge": -0.0892,
           "adjustedEdge": -0.2814,
           "qualifies": false,
+          "veto": null,
           "simulatedMean": null,
           "propBand": null,
           "slateRank": 64
@@ -5567,6 +5625,7 @@
           "rawEdge": 0.0065,
           "adjustedEdge": -0.1857,
           "qualifies": false,
+          "veto": null,
           "simulatedMean": null,
           "propBand": null,
           "slateRank": 27
@@ -5585,6 +5644,7 @@
           "rawEdge": -0.054,
           "adjustedEdge": -0.2461,
           "qualifies": false,
+          "veto": null,
           "simulatedMean": null,
           "propBand": null,
           "slateRank": 53
@@ -6075,6 +6135,7 @@
           "rawEdge": -0.0134,
           "adjustedEdge": -0.2234,
           "qualifies": false,
+          "veto": null,
           "simulatedMean": null,
           "propBand": null,
           "slateRank": 48
@@ -6093,6 +6154,7 @@
           "rawEdge": -0.0284,
           "adjustedEdge": -0.2384,
           "qualifies": false,
+          "veto": null,
           "simulatedMean": null,
           "propBand": null,
           "slateRank": 52
@@ -6111,6 +6173,7 @@
           "rawEdge": -0.0502,
           "adjustedEdge": -0.2602,
           "qualifies": false,
+          "veto": null,
           "simulatedMean": null,
           "propBand": null,
           "slateRank": 59
@@ -6129,6 +6192,7 @@
           "rawEdge": 0.0031,
           "adjustedEdge": -0.2069,
           "qualifies": false,
+          "veto": null,
           "simulatedMean": null,
           "propBand": null,
           "slateRank": 40
@@ -6147,6 +6211,7 @@
           "rawEdge": 0.0091,
           "adjustedEdge": -0.2009,
           "qualifies": false,
+          "veto": null,
           "simulatedMean": null,
           "propBand": null,
           "slateRank": 37
@@ -6165,6 +6230,7 @@
           "rawEdge": -0.0567,
           "adjustedEdge": -0.2667,
           "qualifies": false,
+          "veto": null,
           "simulatedMean": null,
           "propBand": null,
           "slateRank": 63
@@ -6212,13 +6278,13 @@
       "veto": null,
       "odds": {
         "moneyline": {
-          "home": 164,
-          "away": -198
+          "home": 160,
+          "away": -192
         },
         "spread": {
           "homeLine": 4.5,
-          "homePrice": -105,
-          "awayPrice": -115
+          "homePrice": -110,
+          "awayPrice": -110
         },
         "total": {
           "line": 229.5,
@@ -6649,12 +6715,13 @@
           "player": null,
           "stat": null,
           "threshold": null,
-          "price": 164,
+          "price": 160,
           "modelProb": 0.4834,
-          "impliedProb": 0.3788,
-          "rawEdge": 0.1046,
-          "adjustedEdge": -0.0938,
+          "impliedProb": 0.3846,
+          "rawEdge": 0.0988,
+          "adjustedEdge": -0.0997,
           "qualifies": false,
+          "veto": null,
           "simulatedMean": null,
           "propBand": null,
           "slateRank": 4
@@ -6667,12 +6734,13 @@
           "player": null,
           "stat": null,
           "threshold": null,
-          "price": -198,
+          "price": -192,
           "modelProb": 0.5166,
-          "impliedProb": 0.6644,
-          "rawEdge": -0.1478,
-          "adjustedEdge": -0.3463,
+          "impliedProb": 0.6575,
+          "rawEdge": -0.141,
+          "adjustedEdge": -0.3394,
           "qualifies": false,
+          "veto": null,
           "simulatedMean": null,
           "propBand": null,
           "slateRank": 71
@@ -6685,15 +6753,16 @@
           "player": null,
           "stat": null,
           "threshold": null,
-          "price": -105,
+          "price": -110,
           "modelProb": 0.5906,
-          "impliedProb": 0.5122,
-          "rawEdge": 0.0784,
-          "adjustedEdge": -0.1201,
+          "impliedProb": 0.5238,
+          "rawEdge": 0.0668,
+          "adjustedEdge": -0.1317,
           "qualifies": false,
+          "veto": null,
           "simulatedMean": null,
           "propBand": null,
-          "slateRank": 9
+          "slateRank": 10
         },
         {
           "label": "Los Angeles Lakers -4.5",
@@ -6703,15 +6772,16 @@
           "player": null,
           "stat": null,
           "threshold": null,
-          "price": -115,
+          "price": -110,
           "modelProb": 0.4094,
-          "impliedProb": 0.5349,
-          "rawEdge": -0.1255,
-          "adjustedEdge": -0.3239,
+          "impliedProb": 0.5238,
+          "rawEdge": -0.1144,
+          "adjustedEdge": -0.3129,
           "qualifies": false,
+          "veto": null,
           "simulatedMean": null,
           "propBand": null,
-          "slateRank": 69
+          "slateRank": 68
         },
         {
           "label": "Over 229.5",
@@ -6727,6 +6797,7 @@
           "rawEdge": 0.0061,
           "adjustedEdge": -0.1923,
           "qualifies": false,
+          "veto": null,
           "simulatedMean": null,
           "propBand": null,
           "slateRank": 32
@@ -6745,6 +6816,7 @@
           "rawEdge": -0.0538,
           "adjustedEdge": -0.2522,
           "qualifies": false,
+          "veto": null,
           "simulatedMean": null,
           "propBand": null,
           "slateRank": 55

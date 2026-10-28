@@ -154,6 +154,10 @@ async function main() {
         rawEdge: +m.rawEdge.toFixed(4),
         adjustedEdge: +m.adjustedEdge.toFixed(4),
         qualifies: m.qualifies,
+        // Why a row is off the board, recorded per market. The slate-level
+        // counter read this field before anything wrote it, so every log said
+        // nothing had been screened out while the ceiling was in fact firing.
+        veto: m.veto ?? null,
         // Props carry their own band; game markets read theirs off the game.
         simulatedMean: m.simulatedMean != null ? +m.simulatedMean.toFixed(2) : null,
         propBand: m.distribution
@@ -195,10 +199,7 @@ async function main() {
     // The screen behind the output: every surviving row the model leans on.
     // Its record IS the "leans" line in the grader, which is the honest
     // measure of the projection as opposed to a selection from it.
-    screenedOut: record.reduce(
-      (a, g) => a + g.markets.filter((m) => m.veto).length,
-      0
-    ),
+    screenedOut: record.reduce((a, g) => a + g.markets.filter((m) => m.veto).length, 0),
     slateDate: slate.date ?? isoDate,
     numSims: NUM_SIMS,
     // Grading later has to know what the model believed at the time, or an
