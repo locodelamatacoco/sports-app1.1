@@ -14,6 +14,7 @@ import {
   propPenalties,
   sumPenalties,
   divergenceVeto,
+  priceVeto,
   confidenceFromPenalties,
   priceLine,
   derivedMarkets,
@@ -928,5 +929,74 @@ describe('whole-player games: double-doubles and scoring marks', () => {
     expect(rout.playerResults[0].doubleDouble).toBeLessThan(
       even.playerResults[0].doubleDouble
     );
+  });
+});
+
+
+describe('the long-moneyline-dog ceiling', () => {
+  test('a dog at or past the ceiling is vetoed, a shorter one is not', () => {
+    expect(priceVeto('moneyline', 300)).toMatch(/past the \+300 ceiling/);
+    expect(priceVeto('moneyline', 525)).toMatch(/moneyline priced \+525/);
+    expect(priceVeto('moneyline', 299)).toBeNull();
+    expect(priceVeto('moneyline', 150)).toBeNull();
+  });
+
+  test('favourites are never caught by it', () => {
+    // A negative price is a favourite; the rule is about small probabilities.
+    expect(priceVeto('moneyline', -575)).toBeNull();
+    expect(priceVeto('moneyline', -110)).toBeNull();
+  });
+
+  test('it applies only to moneylines', () => {
+    // A spread or prop at +400 is a different animal: its probability is not
+    // small, the price is. Only the moneyline ceiling is evidenced.
+    expect(priceVeto('spread', 400)).toBeNull();
+    expect(priceVeto('total', 400)).toBeNull();
+    expect(priceVeto('prop', 400)).toBeNull();
+    expect(priceVeto('moneyline', null)).toBeNull();
+  });
+
+  test('a long dog is vetoed by the ceiling, not merely by divergence', () => {
+    // A lopsided game would trip the margin-divergence veto first and mask the
+    // rule under test, so the line is derived from the model's OWN projection:
+    // the model and the market agree on the game, and the only thing wrong
+    // with the row is that a small probability cannot be priced.
+    const mismatch = {
+      ...CLEAN_GAME,
+      away: { ...CLEAN_GAME.away, ratings: { off: 106, def: 124, pace: 100 } },
+      home: { ...CLEAN_GAME.home, ratings: { off: 124, def: 106, pace: 100 } },
+      odds: null,
+    };
+    const fair = projectGame(mismatch, { anchorWeight: 0 });
+    const line = Math.round(fair.expectedMargin * 2) / 2; // nearest half point
+
+    const result = analyzeGame(
+      {
+        ...mismatch,
+        odds: {
+          moneyline: { away: 900, home: -1500 },
+          spread: { homeLine: -line, homePrice: -110, awayPrice: -110 },
+          total: { line: Math.round(fair.expectedTotal * 2) / 2, over: -110, under: -110 },
+        },
+      },
+      { numSims: 4000, seed: 23 }
+    );
+
+    const dog = result.markets.find((m) => m.market === 'moneyline' && m.price > 0);
+    expect(dog).toBeDefined();
+    expect(dog.price).toBe(900);
+    expect(dog.veto).toMatch(/ceiling/);
+    expect(dog.qualifies).toBe(false);
+
+    // The favourite side of the same market is untouched by the rule.
+    const fav = result.markets.find((m) => m.market === 'moneyline' && m.price < 0);
+    expect(priceVeto('moneyline', fav.price)).toBeNull();
+  });
+
+  test('the clean game still produces a playable row', () => {
+    // The guard that matters: these rules must gate bets, not silence the model.
+    const result = analyzeGame(CLEAN_GAME, { numSims: 4000, seed: 29 });
+    const playable = [...result.markets, ...result.derived].filter((m) => !m.veto);
+    expect(playable.length).toBeGreaterThan(0);
   });
 });

@@ -159,6 +159,29 @@ export const BET_RULES = {
   MIN_CONFIDENCE: 6.0, // 0-10 scale; below this nothing qualifies
   MAX_TOTAL_PENALTY: 0.22, // keep the ledger from running away
   COIN_FLIP_BAND: [0.47, 0.53],
+
+  // Long moneyline dogs are never recommended.
+  //
+  // Across six logged slates they went 0-7 for -7.00u, and the structural
+  // reason matches: at +400 the break-even is 20%, so a 3-point error in a
+  // small probability is a 15% relative error that flips the sign of the edge.
+  // The model's absolute probability error is nowhere near small enough to
+  // price them, and it is most confident about upsets exactly where it is
+  // least reliable. Favourites and short dogs went 11-11 and +4.29u.
+  //
+  // This one rule accounts for the whole moneyline leak and most of the
+  // published-row damage: of the 15 rows published as best bets, the five it
+  // removes were all losses.
+  MAX_MONEYLINE_PRICE: 300,
+
+  // There is deliberately NO ceiling on raw edge, though the first cut of this
+  // work added one. Rows above a 10% raw edge do grade badly (4-6, -13.3% ROI)
+  // and the top of an edge ranking really is adversely selected — but once the
+  // long dogs above are removed, the remaining big-edge rows went 4-3 and
+  // +1.67u. The effect was the longshots, which carry large edges by
+  // construction, not edge size itself. A ceiling would have cut a profitable
+  // subset, so the counterfactual that was built to justify the rule is what
+  // rejected it.
 };
 
 export const PENALTIES = {
@@ -1252,6 +1275,17 @@ export function propPenalties(prop, simProp) {
   return ledger;
 }
 
+// A moneyline priced longer than the ceiling is never a recommendation. The
+// edge on a small probability is not estimable to the accuracy the price needs.
+export function priceVeto(market, price) {
+  if (market !== 'moneyline' || price == null) return null;
+  if (price < BET_RULES.MAX_MONEYLINE_PRICE) return null;
+  return (
+    `moneyline priced +${price}, past the +${BET_RULES.MAX_MONEYLINE_PRICE} ceiling — ` +
+    'a small probability cannot be estimated accurately enough to price it'
+  );
+}
+
 // Divergence past the veto multiple takes the whole game off the board: the
 // model and the market cannot both be describing the same game, and we are
 // the side without a trading desk.
@@ -1306,8 +1340,13 @@ function marketRow({
   const adjustedEdge = rawEdge - penaltyTotal;
   const confidence = confidenceFromPenalties(penalties);
 
+  // Hard rules, applied before any edge arithmetic can promote a row. These
+  // are vetoes rather than penalties on purpose: a penalty just moves a row
+  // down a ranking it should not be on at all.
+  const effectiveVeto = veto ?? priceVeto(market, price);
+
   const qualifies =
-    !veto &&
+    !effectiveVeto &&
     adjustedEdge >= BET_RULES.MIN_ADJUSTED_EDGE &&
     confidence >= BET_RULES.MIN_CONFIDENCE;
 
@@ -1332,7 +1371,7 @@ function marketRow({
     confidence,
     penalties,
     qualifies,
-    veto,
+    veto: effectiveVeto,
     recommendation: qualifies
       ? 'BET'
       : veto

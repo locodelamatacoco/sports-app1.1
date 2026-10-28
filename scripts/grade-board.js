@@ -216,7 +216,7 @@ async function main() {
       // The published Top 5, matched back to the logged row by game and label.
       // Stored at log time precisely so recalibrating the model cannot rewrite
       // which rows were called.
-      for (const top of snap.publishedTop5 ?? []) {
+      for (const top of snap.published ?? snap.publishedTop5 ?? []) {
         if (top.gameId !== game.gameId) continue;
         const market = game.markets.find((m) => m.label === top.label);
         if (!market) continue;
@@ -281,8 +281,10 @@ async function main() {
     score('20+ points', playerBuckets, (r) => r.p20Prob, (r) => r.p20Hit);
   }
 
-  console.log('\nCALLED SHOTS (the Top 5 rows published in chat)');
-  console.log('  What someone reading along would have bet, qualifying or not.');
+  console.log('\nCALLED SHOTS (rows published in chat as bets)');
+  console.log('  What someone reading along would have bet. Slates up to and');
+  console.log('  including 2026-10-28 published a Top 5 ranked by adjusted edge,');
+  console.log('  which went 4-11; later slates publish only rows clearing BET_RULES.');
   show('called shots', called);
   calledRows
     .sort((a, b) => (a.date === b.date ? a.rank - b.rank : a.date < b.date ? -1 : 1))

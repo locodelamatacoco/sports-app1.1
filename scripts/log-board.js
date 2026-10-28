@@ -162,10 +162,12 @@ async function main() {
       })),
   }));
 
-  // Rank every priced market across the slate exactly as the published Top 5
-  // was derived, and store the rank. Re-deriving it later from stored edges
-  // fails as soon as the model is recalibrated, which is precisely what
-  // happened to the first logged slate.
+  // Rank by adjusted edge for ANALYSIS ONLY. This was the published Top 5
+  // selector and it does not work: over six slates the top five went 4-11 for
+  // -6.23u while ranks 6-40 went 25-17 for +9.73u, and both ranking signals
+  // correlate with unit profit at roughly zero (raw edge -0.05, confidence
+  // -0.10). The rank is still stored so `npm run diagnose` can keep testing
+  // whether that stays true, but nothing is published off it.
   const ranked = record
     .flatMap((g) => g.markets.map((m) => ({ gameId: g.gameId, label: m.label, m })))
     .sort((a, b) => b.m.adjustedEdge - a.m.adjustedEdge);
@@ -173,15 +175,30 @@ async function main() {
     entry.m.slateRank = index + 1;
   });
 
+  // What is actually published as a bet: rows that clear BET_RULES, and
+  // nothing else. A ranking the model cannot justify is not a recommendation.
+  const published = record.flatMap((g) =>
+    g.markets
+      .filter((m) => m.qualifies)
+      .map((m) => ({
+        rank: m.slateRank,
+        gameId: g.gameId,
+        label: m.label,
+        price: m.price,
+        adjustedEdge: m.adjustedEdge,
+      }))
+  );
+
   const snapshot = {
     loggedAt: new Date().toISOString(),
-    publishedTop5: ranked.slice(0, 5).map((e) => ({
-      rank: e.m.slateRank,
-      gameId: e.gameId,
-      label: e.label,
-      price: e.m.price,
-      adjustedEdge: e.m.adjustedEdge,
-    })),
+    published,
+    // The screen behind the output: every surviving row the model leans on.
+    // Its record IS the "leans" line in the grader, which is the honest
+    // measure of the projection as opposed to a selection from it.
+    screenedOut: record.reduce(
+      (a, g) => a + g.markets.filter((m) => m.veto).length,
+      0
+    ),
     slateDate: slate.date ?? isoDate,
     numSims: NUM_SIMS,
     // Grading later has to know what the model believed at the time, or an

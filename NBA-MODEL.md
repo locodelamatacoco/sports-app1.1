@@ -447,6 +447,43 @@ projected rebounds to 11.2. The *ordering* is robust across every column; the
 last season's per-player rates, which is ~1,230 box scores rather than 52. So
 the model reports face value and the bracket is stated rather than hidden.
 
+## What the record says, and what changed because of it
+
+Six graded slates, 96 decided leans. `npm run diagnose` re-derives all of this.
+
+**The selector was the problem, not the projection.** The board's leans went
+49-47; the Top 5 published off those same leans went 4-11 for -6.23u. Ranks
+6-40 went 25-17 for +9.73u. The top of an edge ranking is adversely selected:
+the largest edges sit exactly where the model disagrees most with the market,
+which is where it is likeliest to be the one that is wrong. Both ranking
+signals correlate with unit profit at about zero — raw edge -0.05, confidence
+-0.10 — so **nothing is published off a ranking any more**. `log-board` records
+`published` as the rows clearing `BET_RULES` and nothing else, and keeps the
+rank for `diagnose` to keep testing.
+
+**One rule earned its place.** Moneylines at +300 or longer went 0-7 for
+-7.00u, and the mechanism matches the record: at +400 the break-even is 20%, so
+a 3-point error in a small probability is a 15% relative error that flips the
+sign of the edge. `BET_RULES.MAX_MONEYLINE_PRICE` vetoes them. On the existing
+record that single rule turns the leans from +2.91u into **+9.91u (11.1% ROI)**
+and the published rows from 4-11/-6.23u into 4-6/-1.23u.
+
+**One rule was rejected by its own test.** The first cut of this work also
+added a ceiling on raw edge, since rows above 10% graded 4-6 at -13.3% ROI. But
+once the long dogs — which carry large edges by construction — were removed,
+the remaining big-edge rows went 4-3 for +1.67u. The ceiling would have cut a
+profitable subset. The counterfactual built to justify the rule is what killed
+it, and it is documented in `BET_RULES` so it does not get re-added from the
+bucket table alone.
+
+**Market types, for posture rather than rules:** totals 17-13 (+2.46u), props
+8-6 (+1.30u), spreads 13-10 (+1.86u), moneylines 11-18 (-2.71u, all of it in
+the long dogs).
+
+With 96 graded rows a ten-row bucket swings about 2u on noise, so every split
+above is a hypothesis. The two things acted on have a mechanism as well as a
+record; that is the bar.
+
 ## The bar has never been cleared
 
 Across the five logged slates — 2026-10-20 through 10-27, 280 priced markets —
