@@ -1,4 +1,4 @@
-import { normalizeName, indexByName, marketsFromRow, propsFromLines } from './propLines';
+import { normalizeName, indexByName, marketsFromRow, propsFromLines, ruledOutFrom } from './propLines';
 
 describe('matching a line-page name to a box-score name', () => {
   test('suffixes, punctuation, accents and case do not block a match', () => {
@@ -104,5 +104,54 @@ describe('building props for a slate', () => {
       [7.5, -120, null],
       [8.5, null, -136],
     ]);
+  });
+});
+
+describe('players ruled out', () => {
+  const games = [
+    {
+      id: 'a-b',
+      away: { code: 'AAA', ratings: { pace: 100 } },
+      home: { code: 'BBB', ratings: { pace: 98 } },
+      injuries: [
+        { player: 'Scratched Guard Jr.', team: 'AAA', status: 'Out' },
+        { player: 'Doubtful Wing', team: 'AAA', status: 'Doubtful' },
+        { player: 'Questionable Big', team: 'BBB', status: 'Questionable' },
+      ],
+    },
+  ];
+  const rate = (team) => ({
+    team,
+    games: 4,
+    minutesPerGame: 30,
+    perMinute: { points: 0.5, rebounds: 0.2 },
+    usableSample: true,
+  });
+  const rates = {
+    'Scratched Guard': rate('AAA'),
+    'Doubtful Wing': rate('AAA'),
+    'Questionable Big': rate('BBB'),
+  };
+  const line = (player) => ({
+    player,
+    stat: 'points',
+    over: { line: 14.5, price: -110 },
+    under: { line: 14.5, price: -110 },
+  });
+
+  test('out and doubtful are ruled out; questionable is not', () => {
+    const out = ruledOutFrom(games);
+    expect(out.has(normalizeName('Scratched Guard'))).toBe(true);
+    expect(out.has(normalizeName('Doubtful Wing'))).toBe(true);
+    expect(out.has(normalizeName('Questionable Big'))).toBe(false);
+  });
+
+  test('a stale line on a scratched player is not priced', () => {
+    const { priced, excluded } = propsFromLines(
+      ['Scratched Guard', 'Doubtful Wing', 'Questionable Big'].map(line),
+      { games, rates }
+    );
+    expect(priced).toBe(1);
+    expect(excluded.ruledOut).toEqual(['Scratched Guard', 'Doubtful Wing']);
   });
 });

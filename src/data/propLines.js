@@ -62,10 +62,31 @@ export function marketsFromRow(row) {
   return out;
 }
 
+// Players ruled out or doubtful for any game on the slate, by normalised name.
+// Questionable players stay in: they are a risk the dampener already prices,
+// not an absence.
+export function ruledOutFrom(games) {
+  const out = new Set();
+  for (const game of games ?? []) {
+    for (const i of game.injuries ?? []) {
+      if (/^(out|doubtful)$/i.test(i.status ?? '')) out.add(normalizeName(i.player));
+    }
+  }
+  return out;
+}
+
 export function propsFromLines(lines, { games, rates, minutesVolatility = 0.08 } = {}) {
   const index = indexByName(rates);
+  const ruledOut = ruledOutFrom(games);
   const byGame = new Map();
-  const excluded = { unmatched: [], ambiguous: [], notPlaying: [], thinSample: [], noBaseline: [] };
+  const excluded = {
+    unmatched: [],
+    ambiguous: [],
+    notPlaying: [],
+    ruledOut: [],
+    thinSample: [],
+    noBaseline: [],
+  };
   let priced = 0;
 
   for (const row of lines ?? []) {
@@ -79,6 +100,12 @@ export function propsFromLines(lines, { games, rates, minutesVolatility = 0.08 }
       continue;
     }
     const { name, rate } = hit;
+    // A line can outlive a scratch. Pricing a player who will not play turns
+    // into a void at best and a stale read at worst.
+    if (ruledOut.has(normalizeName(name))) {
+      excluded.ruledOut.push(row.player);
+      continue;
+    }
     const game = (games ?? []).find(
       (g) => g.away?.code === rate.team || g.home?.code === rate.team
     );

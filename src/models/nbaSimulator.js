@@ -1254,10 +1254,18 @@ export function injuryPenalties(injuries) {
   );
   if (reserveRaw > 0) {
     const amount = Math.min(reserveRaw, PENALTIES.INJURY_RESERVE_CAP);
-    const names = reserves.map((i) => `${i.player} (${i.team})`).join(', ');
+    // Each player's own status, because "unavailable" alone reads as ruled out
+    // and a day-to-day reserve is not. That ambiguity caused a misreport on
+    // 2026-10-29, when a day-to-day Jordan Poole was taken for a scratch.
+    const names = reserves
+      .map((i) => `${i.player} (${i.team}, ${String(i.status ?? 'unknown').toLowerCase()})`)
+      .join(', ');
+    const anyDoubt = reserves.some((i) => !isOut(i.status));
     entries.push({
       amount,
-      reason: `${reserves.length} reserve${reserves.length === 1 ? '' : 's'} unavailable: ${names}`,
+      reason:
+        `${reserves.length} reserve${reserves.length === 1 ? '' : 's'} ` +
+        `${anyDoubt ? 'out or in doubt' : 'out'}: ${names}`,
     });
   }
 

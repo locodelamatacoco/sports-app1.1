@@ -1,5 +1,5 @@
 {
-  "loggedAt": "2026-10-29T14:38:30.221Z",
+  "loggedAt": "2026-10-29T14:44:28.964Z",
   "published": [],
   "screenedOut": 69,
   "slateDate": "2026-10-29",
@@ -13,6 +13,7 @@
       "unmatched": [],
       "ambiguous": [],
       "notPlaying": [],
+      "ruledOut": [],
       "thinSample": [
         "Meleek Thomas (2 games)",
         "Meleek Thomas (2 games)"
@@ -1602,7 +1603,7 @@
             6,
             10
           ],
-          "slateRank": 110
+          "slateRank": 109
         },
         {
           "label": "Dyson Daniels Under 6.5 rebounds",
@@ -3548,8 +3549,8 @@
       "veto": null,
       "odds": {
         "moneyline": {
-          "home": -278,
-          "away": 225
+          "home": -290,
+          "away": 235
         },
         "spread": {
           "homeLine": -7.5,
@@ -4066,16 +4067,16 @@
           "player": null,
           "stat": null,
           "threshold": null,
-          "price": -278,
+          "price": -290,
           "modelProb": 0.643,
-          "impliedProb": 0.7354,
-          "rawEdge": -0.0924,
-          "adjustedEdge": -0.2524,
+          "impliedProb": 0.7436,
+          "rawEdge": -0.1006,
+          "adjustedEdge": -0.2606,
           "qualifies": false,
           "veto": "moneylines are off the board — the model's margins are compressed against the market and no more accurate than it, so a moneyline edge is the vig on the book's number",
           "simulatedMean": null,
           "propBand": null,
-          "slateRank": 108
+          "slateRank": 110
         },
         {
           "label": "Memphis Grizzlies ML",
@@ -4085,11 +4086,11 @@
           "player": null,
           "stat": null,
           "threshold": null,
-          "price": 225,
+          "price": 235,
           "modelProb": 0.357,
-          "impliedProb": 0.3077,
-          "rawEdge": 0.0493,
-          "adjustedEdge": -0.1107,
+          "impliedProb": 0.2985,
+          "rawEdge": 0.0585,
+          "adjustedEdge": -0.1015,
           "qualifies": false,
           "veto": "moneylines are off the board — the model's margins are compressed against the market and no more accurate than it, so a moneyline edge is the vig on the book's number",
           "simulatedMean": null,
@@ -4469,7 +4470,7 @@
             13,
             18
           ],
-          "slateRank": 109
+          "slateRank": 108
         },
         {
           "label": "Cedric Coward Under 13.5 points",

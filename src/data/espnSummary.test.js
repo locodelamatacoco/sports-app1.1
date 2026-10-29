@@ -127,7 +127,19 @@ describe('injuryPenalties', () => {
     );
     expect(many).toHaveLength(1);
     expect(many[0].amount).toBe(PENALTIES.INJURY_RESERVE_CAP);
-    expect(many[0].reason).toMatch(/12 reserves unavailable/);
+    expect(many[0].reason).toMatch(/12 reserves out:/);
+  });
+
+  test('each reserve carries its own status, so day-to-day never reads as out', () => {
+    // On 2026-10-29 "6 reserves unavailable" was read as six scratches when
+    // one of them, Jordan Poole, was day-to-day.
+    const [entry] = injuryPenalties([
+      { team: 'NO', player: 'Jordan Poole', status: 'Day-To-Day', starter: false },
+      { team: 'NO', player: 'Yves Missi', status: 'Out', starter: false },
+    ]);
+    expect(entry.reason).toMatch(/2 reserves out or in doubt/);
+    expect(entry.reason).toMatch(/Jordan Poole \(NO, day-to-day\)/);
+    expect(entry.reason).toMatch(/Yves Missi \(NO, out\)/);
   });
 
   test('an empty report costs nothing', () => {
@@ -151,7 +163,7 @@ describe('the ledger prefers live injuries over the curated note', () => {
 
     expect(injuryCost(flat)).toBe(PENALTIES.INJURY_NEWS_UNCERTAINTY);
     expect(injuryCost(live)).toBeLessThan(injuryCost(flat));
-    expect(live.map((e) => e.reason).join(' ')).toMatch(/reserves unavailable/);
+    expect(live.map((e) => e.reason).join(' ')).toMatch(/reserves (out|out or in doubt):/);
   });
 
   test('a ruled-out starter is charged the full rate', () => {

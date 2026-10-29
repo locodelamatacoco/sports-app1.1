@@ -20,7 +20,7 @@ const fs = require('fs');
 const path = require('path');
 const { fetchNbaSlate } = require('../src/data/espnNba.js');
 const { fetchSeasonRates } = require('../src/data/espnSeasonRates.js');
-const { propsFromLines } = require('../src/data/propLines.js');
+const { propsFromLines, ruledOutFrom, normalizeName } = require('../src/data/propLines.js');
 const { fetchPlayerPriors, applyPriors, PLAYER_PRIOR_K } =
   require('../src/data/espnPlayerPriors.js');
 const { analyzeSlate, POINTS_THRESHOLDS } = require('../src/models/nbaSimulator.js');
@@ -110,10 +110,17 @@ async function main() {
     };
   }
 
+  // A player ruled out or doubtful is not projected; one listed questionable
+  // or day-to-day still is, since that is a risk the dampener prices rather
+  // than an absence. This list used to come from the rate table alone, so a
+  // scratched regular with a usable sample would have been projected.
+  const ruledOut = ruledOutFrom(slate.games);
+
   const withPlayers = slate.games.map((game) => {
     const codes = [game.away.code, game.home.code];
     const players = usable
       .filter((r) => codes.includes(r.team) && r.minutesPerGame >= MIN_MINUTES_TO_PROJECT)
+      .filter((r) => !ruledOut.has(normalizeName(r.player)))
       .map((rate) => ({
         player: rate.player,
         team: rate.team,
@@ -268,6 +275,7 @@ async function main() {
       `Prop lines: ${linesMeta.rows} posted rows -> ${linesMeta.priced} priced markets` +
         (x.unmatched.length ? `; no box-score match: ${x.unmatched.join(', ')}` : '') +
         (x.notPlaying.length ? `; team not on the slate: ${x.notPlaying.join(', ')}` : '') +
+        (x.ruledOut.length ? `; ruled out: ${x.ruledOut.join(', ')}` : '') +
         (x.thinSample.length ? `; sample under the floor: ${x.thinSample.join(', ')}` : '')
     );
   }
