@@ -410,17 +410,99 @@ describe('divergence guard', () => {
 });
 
 describe('bet selection', () => {
-  test('a clean game with a mispriced moneyline does produce a bet', () => {
-    const analysis = analyzeGame(CLEAN_GAME, { numSims: 20000, seed: 21 });
+  // The guard against a mute model. It used to rest on a mispriced moneyline;
+  // with moneylines off the board, the one route left to a qualifying bet is a
+  // player prop, so that is what has to keep working.
+  test('a clean game with a mispriced prop does produce a bet', () => {
+    const game = {
+      ...CLEAN_GAME,
+      props: [
+        {
+          player: 'Clean Scorer',
+          stat: 'points',
+          line: 17.5,
+          over: -110,
+          under: -110,
+          baseline: { perGame: 20, minutes: 34, pace: 100 },
+          projectedMinutes: 34,
+          minutesVolatility: 0.05,
+          flags: {},
+        },
+      ],
+    };
+    const analysis = analyzeGame(game, { numSims: 20000, seed: 21 });
     expect(analysis.penalties).toHaveLength(0);
     expect(analysis.confidence).toBe(9.5);
     expect(analysis.veto).toBeNull();
 
     const pick = analysis.bestBet;
     expect(pick).not.toBeNull();
-    expect(pick.label).toMatch(/Home Team ML/);
+    expect(pick.label).toMatch(/Clean Scorer Over 17.5/);
     expect(pick.adjustedEdge).toBeGreaterThanOrEqual(BET_RULES.MIN_ADJUSTED_EDGE);
     expect(pick.adjustedEdge).toBeCloseTo(pick.rawEdge, 10); // nothing to dampen
+  });
+
+  test('the same clean game will not recommend its mispriced moneyline', () => {
+    const analysis = analyzeGame(CLEAN_GAME, { numSims: 20000, seed: 21 });
+    const home = analysis.markets.find((m) => /Home Team ML/.test(m.label));
+    // The edge is still computed and reported; it is simply not a bet.
+    expect(home.rawEdge).toBeGreaterThan(BET_RULES.MIN_ADJUSTED_EDGE);
+    expect(home.veto).toMatch(/moneylines are off the board/);
+    expect(home.qualifies).toBe(false);
+  });
+
+  // Recorded rather than discovered again. With moneylines off, game markets
+  // can barely reach the bar even with ZERO penalties: the 35% market anchor
+  // and the per-point divergence charge cap a spread near 3.7%, and a total
+  // only clears 5% at the knife-edge of a six-point disagreement in an
+  // otherwise perfect game (5.1-5.4% at 60k sims). Real games carry a 13-22%
+  // penalty floor, which is why the bar was never cleared in six slates — it
+  // was only ever reachable through moneylines, which carry no edge.
+  //
+  // An earlier version of this test claimed no total could qualify. At 8,000
+  // sims one did, at 5.17%: the claim had been read off a single 20,000-sim
+  // run that happened to land on 5.00%. The bounds below allow for that.
+  const cleanSweep = (kind) => {
+    const fair = projectGame({ ...CLEAN_GAME, odds: null }, { anchorWeight: 0 });
+    const half = (x) => Math.round(x * 2) / 2;
+    const rows = [];
+    for (const offset of [2, 4, 6, 8]) {
+      const odds = {
+        moneyline: { away: -120, home: 100 },
+        spread: {
+          homeLine: -half(fair.expectedMargin - (kind === 'spread' ? offset : 0)),
+          homePrice: -110,
+          awayPrice: -110,
+        },
+        total: {
+          line: half(fair.expectedTotal - (kind === 'total' ? offset : 0)),
+          over: -110,
+          under: -110,
+        },
+      };
+      const a = analyzeGame({ ...CLEAN_GAME, odds }, { numSims: 8000, seed: 21 });
+      rows.push(...[...a.markets, ...a.derived].filter((m) => m.market === kind && m.priced !== false));
+    }
+    return rows;
+  };
+
+  test('no spread qualifies even in a perfectly clean game', () => {
+    const rows = cleanSweep('spread');
+    expect(rows.length).toBeGreaterThan(0);
+    for (const m of rows) expect(m.qualifies).toBe(false);
+    // Well clear of the bar, so this is not a sim-noise artefact.
+    expect(Math.max(...rows.map((m) => m.adjustedEdge))).toBeLessThan(
+      BET_RULES.MIN_ADJUSTED_EDGE - 0.005
+    );
+  });
+
+  test('a total reaches the bar only at the edge, with nothing in reserve', () => {
+    const rows = cleanSweep('total');
+    const best = Math.max(...rows.map((m) => m.adjustedEdge));
+    // Close to the bar either side, never comfortably over it: the smallest
+    // real-world penalty removes it.
+    expect(best).toBeGreaterThan(BET_RULES.MIN_ADJUSTED_EDGE - 0.02);
+    expect(best).toBeLessThan(BET_RULES.MIN_ADJUSTED_EDGE + 0.015);
   });
 
   test('every qualifying bet clears both the edge and confidence gates', () => {
@@ -934,6 +1016,17 @@ describe('whole-player games: double-doubles and scoring marks', () => {
 
 
 describe('the long-moneyline-dog ceiling', () => {
+  // The ceiling still governs moneylines if they are ever re-enabled, so it is
+  // tested with them on. The blanket ban is tested separately below.
+  let allowed;
+  beforeEach(() => {
+    allowed = BET_RULES.ALLOW_MONEYLINE;
+    BET_RULES.ALLOW_MONEYLINE = true;
+  });
+  afterEach(() => {
+    BET_RULES.ALLOW_MONEYLINE = allowed;
+  });
+
   test('a dog at or past the ceiling is vetoed, a shorter one is not', () => {
     expect(priceVeto('moneyline', 300)).toMatch(/past the \+300 ceiling/);
     expect(priceVeto('moneyline', 525)).toMatch(/moneyline priced \+525/);
@@ -998,5 +1091,34 @@ describe('the long-moneyline-dog ceiling', () => {
     const result = analyzeGame(CLEAN_GAME, { numSims: 4000, seed: 29 });
     const playable = [...result.markets, ...result.derived].filter((m) => !m.veto);
     expect(playable.length).toBeGreaterThan(0);
+  });
+});
+
+
+describe('moneylines off the board', () => {
+  test('the ban is in force', () => {
+    expect(BET_RULES.ALLOW_MONEYLINE).toBe(false);
+  });
+
+  test('every moneyline is vetoed, favourite or dog, short or long', () => {
+    for (const price of [-575, -150, -110, 100, 160, 299, 300, 900]) {
+      expect(priceVeto('moneyline', price)).toMatch(/moneylines are off the board/);
+    }
+  });
+
+  test('other markets are untouched by it', () => {
+    expect(priceVeto('spread', -110)).toBeNull();
+    expect(priceVeto('total', -110)).toBeNull();
+    expect(priceVeto('prop', 150)).toBeNull();
+  });
+
+  test('a moneyline row keeps its edge for reporting while refusing to qualify', () => {
+    const result = analyzeGame(CLEAN_GAME, { numSims: 4000, seed: 31 });
+    const mls = result.markets.filter((m) => m.market === 'moneyline');
+    expect(mls.length).toBe(2);
+    for (const m of mls) {
+      expect(Number.isFinite(m.rawEdge)).toBe(true);
+      expect(m.qualifies).toBe(false);
+    }
   });
 });

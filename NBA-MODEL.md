@@ -521,6 +521,54 @@ With 96 graded rows a ten-row bucket swings about 2u on noise, so every split
 above is a hypothesis. The two things acted on have a mechanism as well as a
 record; that is the bar.
 
+## Moneylines are off the board
+
+The +300 ceiling was not enough. Short dogs then went 0-5 on 2026-10-28 and the
+moneyline book stood at 11-26, -28.9%, against 46-37 for everything else. The
+cause was traced before anything was changed, and the first hypothesis was
+wrong.
+
+**Not the conversion.** `MARGIN_SD` was fitted on the unanchored projection
+while production anchors 35% toward the market, so it was suspected of being
+too wide — which would pull probabilities toward 50% and flatter every dog.
+Measured around the anchored projection over 51 logged games it is 16.54,
+slightly *wider* than the 15.8 in force. The arithmetic is sound.
+
+**The margins are compressed.** The market's margins average 5.58 points from
+zero and the model's 4.41: a 1.17-point gap at t = 4.32. Shrinkage pulls the
+model toward even, so on 78% of its disagreements with the market it is on the
+underdog's side.
+
+**And the compression is not information.** The model's margin MAE is 0.19
+points worse than the market's (t 0.63). Undoing the compression — rescaling by
+the 1.25 measured from model-vs-market spread, chosen without looking at a
+single outcome — moves the model off the dogs and makes moneylines grade
+*worse*: -6.1% to -7.1%, and -15.4% at 1.5. No factor turns them positive.
+
+With no margin advantage over the book, a moneyline is the book's own number
+plus the vig. `BET_RULES.ALLOW_MONEYLINE` is false. Spreads survive the same
+compression because near-even prices do not amplify it; moneyline prices do.
+`npm run diagnose` reports the re-enable condition every night: the model's
+margins must be shown more accurate than the market's.
+
+### What that ban revealed about the 5% bar
+
+Banning moneylines broke the test that guards against a mute model, and that
+test was right to break. In a perfectly clean game — zero penalties,
+confidence 9.5 — **no spread can reach 5%** (the best is about 3.7%), and a
+total clears it only at the knife-edge of a six-point disagreement, 5.1-5.4%.
+The 35% market anchor and the per-point divergence charge cap game-market edge
+below the bar by construction.
+
+So the bar was never reachable through spreads or totals in a real game, which
+carries a 13-22% penalty floor. It was only ever reachable through moneylines,
+which carry no edge. That is the whole explanation for zero qualifying bets in
+six slates, and it means the threshold as specified is appropriate for none of
+the game markets. Props still clear it — a clean scorer projecting 20 against a
+17.5 line qualifies at 5.6% — and props plus the player model are the strongest
+components on the record. Whether the game-market bar should move is a
+decision, not a fix, and is left as one.
+
 ## The bar has never been cleared
 
 Across the five logged slates — 2026-10-20 through 10-27, 280 priced markets —

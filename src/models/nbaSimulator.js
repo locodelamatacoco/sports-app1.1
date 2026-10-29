@@ -174,6 +174,34 @@ export const BET_RULES = {
   // removes were all losses.
   MAX_MONEYLINE_PRICE: 300,
 
+  // Moneylines are not recommended at all.
+  //
+  // The +300 ceiling above was not enough: short dogs then went 0-5 on
+  // 2026-10-28 and 7-16 overall, and the whole moneyline book stands at 11-26
+  // for -28.9% while spreads, totals and props are 46-37. The cause was traced
+  // rather than assumed, and the first hypothesis was wrong:
+  //
+  //   - NOT the conversion. MARGIN_SD was suspected of being too wide for the
+  //     anchored projection, which would push probabilities toward 50% and
+  //     flatter dogs. Measured around the anchored projection it is 16.54,
+  //     slightly WIDER than the 15.8 in force. The arithmetic is sound.
+  //   - The margins are COMPRESSED. Across 51 logged games the market's
+  //     margins average 5.58 points from zero and the model's 4.41, a gap of
+  //     1.17 at t = 4.32. Shrinkage pulls the model toward even, so on 78% of
+  //     its disagreements with the market it is on the underdog's side.
+  //   - And the compression is not information. The model's margin MAE is 0.19
+  //     points WORSE than the market's (t 0.63), so its disagreements carry no
+  //     demonstrated value. Rescaling the margins to undo the compression —
+  //     by the 1.25 measured from model-vs-market spread, without looking at
+  //     results — moves the model off the dogs and makes moneylines grade
+  //     worse, -6.1% to -7.1%; no factor from 1.0 to 1.5 turns them positive.
+  //
+  // With no margin advantage over the book, a moneyline is the book's own
+  // number plus the vig. Spreads survive the same compression at near-even
+  // prices; moneylines amplify it through the price. Re-test when
+  // `npm run diagnose` shows the model's margin beating the market's.
+  ALLOW_MONEYLINE: false,
+
   // There is deliberately NO ceiling on raw edge, though the first cut of this
   // work added one. Rows above a 10% raw edge do grade badly (4-6, -13.3% ROI)
   // and the top of an edge ranking really is adversely selected — but once the
@@ -1279,6 +1307,12 @@ export function propPenalties(prop, simProp) {
 // edge on a small probability is not estimable to the accuracy the price needs.
 export function priceVeto(market, price) {
   if (market !== 'moneyline' || price == null) return null;
+  if (!BET_RULES.ALLOW_MONEYLINE) {
+    return (
+      'moneylines are off the board — the model\'s margins are compressed against the ' +
+      'market and no more accurate than it, so a moneyline edge is the vig on the book\'s number'
+    );
+  }
   if (price < BET_RULES.MAX_MONEYLINE_PRICE) return null;
   return (
     `moneyline priced +${price}, past the +${BET_RULES.MAX_MONEYLINE_PRICE} ceiling — ` +

@@ -132,6 +132,35 @@ const DIR=path.join(__dirname,'..','board-log');
   show('surviving screen', keep);
   console.log(`  the ceiling is worth ${(-cut.reduce((a,r)=>a+r.units,0)).toFixed(2)}u on this record`);
 
+  // The condition for re-enabling moneylines (BET_RULES.ALLOW_MONEYLINE):
+  // the model's margins must be at least as extreme as the market's AND more
+  // accurate. Until both hold, a moneyline edge is the vig on the book's number.
+  const mg = [];
+  for (const s of snaps) for (const g of s.games) {
+    const f = finals.get(String(g.espnId));
+    const line = g.odds?.spread?.homeLine;
+    if (!f || line == null || g.projectedMargin == null) continue;
+    mg.push({ actual: f.h - f.a, market: -line, model: g.projectedMargin });
+  }
+  if (mg.length >= 10) {
+    const avg = (v) => v.reduce((a, b) => a + b, 0) / v.length;
+    const sdOf = (v) => {
+      const m = avg(v);
+      return Math.sqrt(v.reduce((a, b) => a + (b - m) ** 2, 0) / (v.length - 1));
+    };
+    const comp = mg.map((r) => Math.abs(r.market) - Math.abs(r.model));
+    const acc = mg.map((r) => Math.abs(r.model - r.actual) - Math.abs(r.market - r.actual));
+    const tComp = avg(comp) / (sdOf(comp) / Math.sqrt(mg.length));
+    const tAcc = avg(acc) / (sdOf(acc) / Math.sqrt(mg.length));
+    const dogSide = mg.filter((r) => Math.abs(r.model) < Math.abs(r.market)).length;
+    console.log(`\nMARGIN vs MARKET (${mg.length} games) — the test for re-enabling moneylines`);
+    console.log(`  compression: market ${avg(comp).toFixed(2)} pts more extreme (t ${tComp.toFixed(2)})`);
+    console.log(`  on the underdog side of the disagreement: ${dogSide}/${mg.length} (${((100 * dogSide) / mg.length).toFixed(0)}%)`);
+    console.log(`  model MAE minus market MAE: ${avg(acc) >= 0 ? '+' : ''}${avg(acc).toFixed(2)} pts (t ${tAcc.toFixed(2)})`);
+    const ready = avg(acc) < 0 && tAcc < -1.645 && tComp < 1.645;
+    console.log(`  moneylines: ${ready ? 'CONDITION MET — worth re-testing ALLOW_MONEYLINE' : 'stay off (model margins not shown better than the market\'s)'}`);
+  }
+
   if (decided.length < 150) {
     console.log(
       `\nCAUTION: ${decided.length} graded rows. A 10-row bucket swings ~2u on noise;` +
