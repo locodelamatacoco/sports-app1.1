@@ -1,0 +1,5604 @@
+{
+  "loggedAt": "2026-10-29T14:38:30.221Z",
+  "published": [],
+  "screenedOut": 69,
+  "slateDate": "2026-10-29",
+  "numSims": 60000,
+  "propLines": {
+    "file": "board-log/lines/2026-10-29.json",
+    "source": "scoresandodds.com/nba/props (points) and /nba/props/rebounds",
+    "rows": 84,
+    "priced": 117,
+    "excluded": {
+      "unmatched": [],
+      "ambiguous": [],
+      "notPlaying": [],
+      "thinSample": [
+        "Meleek Thomas (2 games)",
+        "Meleek Thomas (2 games)"
+      ],
+      "noBaseline": []
+    }
+  },
+  "constants": {
+    "LEAGUE_AVG_RATING": 114.4,
+    "LEAGUE_AVG_PACE": 99.5,
+    "LEAGUE_PACE_SD": 2.2,
+    "HOME_COURT_POINTS": 1.74,
+    "RATING_SHRINK_MARGIN": 0.555,
+    "RATING_SHRINK_TOTAL": 0.325,
+    "RATING_SHRINK_MARGIN_BLENDED": 0.899,
+    "MARGIN_SD_BLENDED": 14.2,
+    "LEAGUE_MEAN_TOTAL": 231.2,
+    "MARGIN_SD": 15.8,
+    "TOTAL_SD": 19.7,
+    "POSSESSION_SD": 3.2,
+    "OT_MINUTES": 5,
+    "OT_SCORE_SD": 4.2,
+    "REGULATION_MINUTES": 48,
+    "MAX_OT_PERIODS": 4,
+    "REST_POINTS_PER_DAY": 0.35,
+    "MAX_REST_POINTS": 1,
+    "BACK_TO_BACK_POINTS": -1.1,
+    "BLOWOUT_MARGIN": 18,
+    "BLOWOUT_MINUTES_FACTOR": 0.86,
+    "MARKET_ANCHOR_WEIGHT": 0.35,
+    "MAX_TRUSTED_MARGIN_DIVERGENCE": 4,
+    "MAX_TRUSTED_TOTAL_DIVERGENCE": 6,
+    "MAX_TRUSTED_PROP_DIVERGENCE_PCT": 0.15,
+    "DIVERGENCE_PENALTY_PER_POINT": 0.015,
+    "DIVERGENCE_VETO_MULTIPLE": 2
+  },
+  "games": [
+    {
+      "gameId": "cle-atl",
+      "espnId": "401909893",
+      "label": "Cavaliers @ Hawks",
+      "tipoff": "8:00 PM ET",
+      "book": "DraftKings",
+      "away": "CLE",
+      "home": "ATL",
+      "projectedAway": 116.73,
+      "projectedHome": 117.88,
+      "projectedTotal": 234.61,
+      "projectedMargin": 1.14,
+      "unshrunkMargin": 0.05,
+      "confidence": 4.2,
+      "distribution": {
+        "marginRange90": [
+          -25,
+          27
+        ],
+        "totalRange90": [
+          202,
+          268
+        ],
+        "marginMedian": 2,
+        "totalMedian": 234,
+        "marginQuartiles": [
+          -10,
+          12
+        ],
+        "totalQuartiles": [
+          221,
+          248
+        ],
+        "coinFlipBand": 0.1598,
+        "blowout": 0.2719,
+        "overtime": 0.0273
+      },
+      "penaltyTotal": 0.19,
+      "veto": null,
+      "odds": {
+        "moneyline": {
+          "home": -115,
+          "away": -105
+        },
+        "spread": {
+          "homeLine": -1.5,
+          "homePrice": -105,
+          "awayPrice": -115
+        },
+        "total": {
+          "line": 237.5,
+          "over": -115,
+          "under": -105
+        },
+        "opening": {
+          "moneyline": {
+            "home": -110,
+            "away": -110
+          },
+          "spreadHomeLine": -1.5
+        }
+      },
+      "players": [
+        {
+          "player": "Jalen Johnson",
+          "team": "ATL",
+          "games": 5,
+          "projectedMinutes": 34.7,
+          "projected": {
+            "points": 20.62,
+            "rebounds": 9.61,
+            "assists": 7.82
+          },
+          "doubleDouble": 0.6059,
+          "tripleDouble": 0.1428,
+          "atLeastTen": {
+            "points": 0.9781,
+            "rebounds": 0.4813,
+            "assists": 0.2782
+          },
+          "pointsAtLeast": {
+            "10": 0.9781,
+            "15": 0.8091,
+            "20": 0.4957,
+            "25": 0.2269,
+            "30": 0.0823,
+            "35": 0.0249,
+            "40": 0.0065
+          }
+        },
+        {
+          "player": "Evan Mobley",
+          "team": "CLE",
+          "games": 4,
+          "projectedMinutes": 32.6,
+          "projected": {
+            "points": 18.06,
+            "rebounds": 8.95,
+            "assists": 3.31
+          },
+          "doubleDouble": 0.3948,
+          "tripleDouble": 0.0031,
+          "atLeastTen": {
+            "points": 0.9508,
+            "rebounds": 0.4077,
+            "assists": 0.007
+          },
+          "pointsAtLeast": {
+            "10": 0.9508,
+            "15": 0.6814,
+            "20": 0.3281,
+            "25": 0.1127,
+            "30": 0.0311,
+            "35": 0.007,
+            "40": 0.0014
+          }
+        },
+        {
+          "player": "Jarrett Allen",
+          "team": "CLE",
+          "games": 4,
+          "projectedMinutes": 27.3,
+          "projected": {
+            "points": 14.42,
+            "rebounds": 8.33,
+            "assists": 1.57
+          },
+          "doubleDouble": 0.2905,
+          "tripleDouble": 0,
+          "atLeastTen": {
+            "points": 0.8444,
+            "rebounds": 0.3342,
+            "assists": 0.0001
+          },
+          "pointsAtLeast": {
+            "10": 0.8444,
+            "15": 0.4033,
+            "20": 0.113,
+            "25": 0.0209,
+            "30": 0.003,
+            "35": 0.0002,
+            "40": 0.0001
+          }
+        },
+        {
+          "player": "James Harden",
+          "team": "CLE",
+          "games": 4,
+          "projectedMinutes": 34.8,
+          "projected": {
+            "points": 20.94,
+            "rebounds": 4.57,
+            "assists": 7.44
+          },
+          "doubleDouble": 0.2575,
+          "tripleDouble": 0.0087,
+          "atLeastTen": {
+            "points": 0.9796,
+            "rebounds": 0.0312,
+            "assists": 0.2391
+          },
+          "pointsAtLeast": {
+            "10": 0.9796,
+            "15": 0.8175,
+            "20": 0.5129,
+            "25": 0.2442,
+            "30": 0.092,
+            "35": 0.0297,
+            "40": 0.0085
+          }
+        },
+        {
+          "player": "Onyeka Okongwu",
+          "team": "ATL",
+          "games": 5,
+          "projectedMinutes": 29.9,
+          "projected": {
+            "points": 12.86,
+            "rebounds": 6.68,
+            "assists": 2.95
+          },
+          "doubleDouble": 0.1287,
+          "tripleDouble": 0.0009,
+          "atLeastTen": {
+            "points": 0.746,
+            "rebounds": 0.1621,
+            "assists": 0.004
+          },
+          "pointsAtLeast": {
+            "10": 0.746,
+            "15": 0.2695,
+            "20": 0.0527,
+            "25": 0.0065,
+            "30": 0.0007,
+            "35": 0.0001,
+            "40": 0
+          }
+        },
+        {
+          "player": "Dyson Daniels",
+          "team": "ATL",
+          "games": 5,
+          "projectedMinutes": 31.8,
+          "projected": {
+            "points": 11.47,
+            "rebounds": 5.96,
+            "assists": 5.19
+          },
+          "doubleDouble": 0.1085,
+          "tripleDouble": 0.0055,
+          "atLeastTen": {
+            "points": 0.6273,
+            "rebounds": 0.104,
+            "assists": 0.0602
+          },
+          "pointsAtLeast": {
+            "10": 0.6273,
+            "15": 0.1557,
+            "20": 0.0206,
+            "25": 0.0018,
+            "30": 0.0001,
+            "35": 0,
+            "40": 0
+          }
+        },
+        {
+          "player": "Donovan Mitchell",
+          "team": "CLE",
+          "games": 4,
+          "projectedMinutes": 33.8,
+          "projected": {
+            "points": 26.3,
+            "rebounds": 4.75,
+            "assists": 5.41
+          },
+          "doubleDouble": 0.1069,
+          "tripleDouble": 0.0038,
+          "atLeastTen": {
+            "points": 0.9957,
+            "rebounds": 0.0382,
+            "assists": 0.0727
+          },
+          "pointsAtLeast": {
+            "10": 0.9957,
+            "15": 0.943,
+            "20": 0.7705,
+            "25": 0.5188,
+            "30": 0.2922,
+            "35": 0.1406,
+            "40": 0.0608
+          }
+        },
+        {
+          "player": "Peyton Watson",
+          "team": "CLE",
+          "games": 4,
+          "projectedMinutes": 30.1,
+          "projected": {
+            "points": 14,
+            "rebounds": 4.65,
+            "assists": 2.08
+          },
+          "doubleDouble": 0.0303,
+          "tripleDouble": 0.0001,
+          "atLeastTen": {
+            "points": 0.8226,
+            "rebounds": 0.0347,
+            "assists": 0.0004
+          },
+          "pointsAtLeast": {
+            "10": 0.8226,
+            "15": 0.3684,
+            "20": 0.0932,
+            "25": 0.0164,
+            "30": 0.0018,
+            "35": 0.0002,
+            "40": 0
+          }
+        },
+        {
+          "player": "Jock Landale",
+          "team": "ATL",
+          "games": 5,
+          "projectedMinutes": 21,
+          "projected": {
+            "points": 9.21,
+            "rebounds": 5.2,
+            "assists": 1.94
+          },
+          "doubleDouble": 0.0239,
+          "tripleDouble": 0,
+          "atLeastTen": {
+            "points": 0.3514,
+            "rebounds": 0.0583,
+            "assists": 0.0005
+          },
+          "pointsAtLeast": {
+            "10": 0.3514,
+            "15": 0.036,
+            "20": 0.0015,
+            "25": 0,
+            "30": 0,
+            "35": 0,
+            "40": 0
+          }
+        },
+        {
+          "player": "Jaylon Tyson",
+          "team": "CLE",
+          "games": 4,
+          "projectedMinutes": 25.5,
+          "projected": {
+            "points": 11.72,
+            "rebounds": 4.39,
+            "assists": 2.45
+          },
+          "doubleDouble": 0.0193,
+          "tripleDouble": 0.0001,
+          "atLeastTen": {
+            "points": 0.6485,
+            "rebounds": 0.0258,
+            "assists": 0.0014
+          },
+          "pointsAtLeast": {
+            "10": 0.6485,
+            "15": 0.1746,
+            "20": 0.0246,
+            "25": 0.0024,
+            "30": 0.0002,
+            "35": 0,
+            "40": 0
+          }
+        },
+        {
+          "player": "Nickeil Alexander-Walker",
+          "team": "ATL",
+          "games": 5,
+          "projectedMinutes": 32.4,
+          "projected": {
+            "points": 19.54,
+            "rebounds": 3.26,
+            "assists": 3.39
+          },
+          "doubleDouble": 0.0132,
+          "tripleDouble": 0.0001,
+          "atLeastTen": {
+            "points": 0.9691,
+            "rebounds": 0.006,
+            "assists": 0.0076
+          },
+          "pointsAtLeast": {
+            "10": 0.9691,
+            "15": 0.7606,
+            "20": 0.4257,
+            "25": 0.1759,
+            "30": 0.0574,
+            "35": 0.0155,
+            "40": 0.004
+          }
+        },
+        {
+          "player": "CJ McCollum",
+          "team": "ATL",
+          "games": 5,
+          "projectedMinutes": 28.5,
+          "projected": {
+            "points": 17.23,
+            "rebounds": 2.64,
+            "assists": 3.09
+          },
+          "doubleDouble": 0.0065,
+          "tripleDouble": 0,
+          "atLeastTen": {
+            "points": 0.9374,
+            "rebounds": 0.0018,
+            "assists": 0.0049
+          },
+          "pointsAtLeast": {
+            "10": 0.9374,
+            "15": 0.6279,
+            "20": 0.2729,
+            "25": 0.0844,
+            "30": 0.0207,
+            "35": 0.0041,
+            "40": 0.0008
+          }
+        },
+        {
+          "player": "Kingston Flemings",
+          "team": "ATL",
+          "games": 5,
+          "projectedMinutes": 20.2,
+          "projected": {
+            "points": 6.87,
+            "rebounds": 3.25,
+            "assists": 4.2
+          },
+          "doubleDouble": 0.0034,
+          "tripleDouble": 0,
+          "atLeastTen": {
+            "points": 0.084,
+            "rebounds": 0.0054,
+            "assists": 0.0224
+          },
+          "pointsAtLeast": {
+            "10": 0.084,
+            "15": 0.0017,
+            "20": 0,
+            "25": 0,
+            "30": 0,
+            "35": 0,
+            "40": 0
+          }
+        },
+        {
+          "player": "Aaron Wiggins",
+          "team": "ATL",
+          "games": 5,
+          "projectedMinutes": 23.3,
+          "projected": {
+            "points": 10.32,
+            "rebounds": 3.05,
+            "assists": 1.67
+          },
+          "doubleDouble": 0.0023,
+          "tripleDouble": 0,
+          "atLeastTen": {
+            "points": 0.4934,
+            "rebounds": 0.004,
+            "assists": 0.0002
+          },
+          "pointsAtLeast": {
+            "10": 0.4934,
+            "15": 0.0849,
+            "20": 0.0067,
+            "25": 0.0004,
+            "30": 0.0001,
+            "35": 0,
+            "40": 0
+          }
+        },
+        {
+          "player": "Luguentz Dort",
+          "team": "ATL",
+          "games": 5,
+          "projectedMinutes": 25.7,
+          "projected": {
+            "points": 8.05,
+            "rebounds": 3.34,
+            "assists": 1.35
+          },
+          "doubleDouble": 0.0017,
+          "tripleDouble": 0,
+          "atLeastTen": {
+            "points": 0.2018,
+            "rebounds": 0.0062,
+            "assists": 0
+          },
+          "pointsAtLeast": {
+            "10": 0.2018,
+            "15": 0.0109,
+            "20": 0.0004,
+            "25": 0,
+            "30": 0,
+            "35": 0,
+            "40": 0
+          }
+        },
+        {
+          "player": "Sam Merrill",
+          "team": "CLE",
+          "games": 4,
+          "projectedMinutes": 25.9,
+          "projected": {
+            "points": 10.96,
+            "rebounds": 2.63,
+            "assists": 2.22
+          },
+          "doubleDouble": 0.0017,
+          "tripleDouble": 0,
+          "atLeastTen": {
+            "points": 0.5712,
+            "rebounds": 0.0016,
+            "assists": 0.0009
+          },
+          "pointsAtLeast": {
+            "10": 0.5712,
+            "15": 0.1202,
+            "20": 0.0125,
+            "25": 0.0008,
+            "30": 0.0001,
+            "35": 0,
+            "40": 0
+          }
+        }
+      ],
+      "markets": [
+        {
+          "label": "Atlanta Hawks ML",
+          "market": "moneyline",
+          "side": "home",
+          "line": null,
+          "player": null,
+          "stat": null,
+          "threshold": null,
+          "price": -115,
+          "modelProb": 0.5284,
+          "impliedProb": 0.5349,
+          "rawEdge": -0.0065,
+          "adjustedEdge": -0.1965,
+          "qualifies": false,
+          "veto": "moneylines are off the board — the model's margins are compressed against the market and no more accurate than it, so a moneyline edge is the vig on the book's number",
+          "simulatedMean": null,
+          "propBand": null,
+          "slateRank": 69
+        },
+        {
+          "label": "Cleveland Cavaliers ML",
+          "market": "moneyline",
+          "side": "away",
+          "line": null,
+          "player": null,
+          "stat": null,
+          "threshold": null,
+          "price": -105,
+          "modelProb": 0.4716,
+          "impliedProb": 0.5122,
+          "rawEdge": -0.0406,
+          "adjustedEdge": -0.2306,
+          "qualifies": false,
+          "veto": "moneylines are off the board — the model's margins are compressed against the market and no more accurate than it, so a moneyline edge is the vig on the book's number",
+          "simulatedMean": null,
+          "propBand": null,
+          "slateRank": 96
+        },
+        {
+          "label": "Atlanta Hawks -1.5",
+          "market": "spread",
+          "side": "home",
+          "line": null,
+          "player": null,
+          "stat": null,
+          "threshold": null,
+          "price": -105,
+          "modelProb": 0.502,
+          "impliedProb": 0.5122,
+          "rawEdge": -0.0101,
+          "adjustedEdge": -0.2001,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": null,
+          "propBand": null,
+          "slateRank": 72
+        },
+        {
+          "label": "Cleveland Cavaliers +1.5",
+          "market": "spread",
+          "side": "away",
+          "line": null,
+          "player": null,
+          "stat": null,
+          "threshold": null,
+          "price": -115,
+          "modelProb": 0.498,
+          "impliedProb": 0.5349,
+          "rawEdge": -0.0369,
+          "adjustedEdge": -0.2269,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": null,
+          "propBand": null,
+          "slateRank": 89
+        },
+        {
+          "label": "Over 237.5",
+          "market": "total",
+          "side": "over",
+          "line": null,
+          "player": null,
+          "stat": null,
+          "threshold": null,
+          "price": -115,
+          "modelProb": 0.4382,
+          "impliedProb": 0.5349,
+          "rawEdge": -0.0967,
+          "adjustedEdge": -0.2867,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": null,
+          "propBand": null,
+          "slateRank": 128
+        },
+        {
+          "label": "Under 237.5",
+          "market": "total",
+          "side": "under",
+          "line": null,
+          "player": null,
+          "stat": null,
+          "threshold": null,
+          "price": -105,
+          "modelProb": 0.5618,
+          "impliedProb": 0.5122,
+          "rawEdge": 0.0496,
+          "adjustedEdge": -0.1404,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": null,
+          "propBand": null,
+          "slateRank": 40
+        },
+        {
+          "label": "Donovan Mitchell Over 23.5 points",
+          "market": "prop",
+          "side": "over",
+          "line": 23.5,
+          "player": "Donovan Mitchell",
+          "stat": "points",
+          "threshold": null,
+          "price": -110,
+          "modelProb": 0.5979,
+          "impliedProb": 0.5238,
+          "rawEdge": 0.0741,
+          "adjustedEdge": -0.1459,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 26.28,
+          "propBand": [
+            17,
+            25,
+            37
+          ],
+          "slateRank": 43
+        },
+        {
+          "label": "Donovan Mitchell Under 24.5 points",
+          "market": "prop",
+          "side": "under",
+          "line": 24.5,
+          "player": "Donovan Mitchell",
+          "stat": "points",
+          "threshold": null,
+          "price": -125,
+          "modelProb": 0.4505,
+          "impliedProb": 0.5556,
+          "rawEdge": -0.1051,
+          "adjustedEdge": -0.3251,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 26.35,
+          "propBand": [
+            17,
+            25,
+            37
+          ],
+          "slateRank": 141
+        },
+        {
+          "label": "Jalen Johnson Over 21.5 points",
+          "market": "prop",
+          "side": "over",
+          "line": 21.5,
+          "player": "Jalen Johnson",
+          "stat": "points",
+          "threshold": null,
+          "price": -105,
+          "modelProb": 0.3991,
+          "impliedProb": 0.5122,
+          "rawEdge": -0.1131,
+          "adjustedEdge": -0.3331,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 20.62,
+          "propBand": [
+            13,
+            20,
+            29
+          ],
+          "slateRank": 143
+        },
+        {
+          "label": "Jalen Johnson Under 22.5 points",
+          "market": "prop",
+          "side": "under",
+          "line": 22.5,
+          "player": "Jalen Johnson",
+          "stat": "points",
+          "threshold": null,
+          "price": -123,
+          "modelProb": 0.6531,
+          "impliedProb": 0.5516,
+          "rawEdge": 0.1015,
+          "adjustedEdge": -0.1185,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 20.66,
+          "propBand": [
+            13,
+            20,
+            29
+          ],
+          "slateRank": 26
+        },
+        {
+          "label": "Nickeil Alexander-Walker Over 17.5 points",
+          "market": "prop",
+          "side": "over",
+          "line": 17.5,
+          "player": "Nickeil Alexander-Walker",
+          "stat": "points",
+          "threshold": null,
+          "price": -123,
+          "modelProb": 0.594,
+          "impliedProb": 0.5516,
+          "rawEdge": 0.0424,
+          "adjustedEdge": -0.1776,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 19.54,
+          "propBand": [
+            12,
+            19,
+            28
+          ],
+          "slateRank": 55
+        },
+        {
+          "label": "Nickeil Alexander-Walker Under 18.5 points",
+          "market": "prop",
+          "side": "under",
+          "line": 18.5,
+          "player": "Nickeil Alexander-Walker",
+          "stat": "points",
+          "threshold": null,
+          "price": -128,
+          "modelProb": 0.4729,
+          "impliedProb": 0.5614,
+          "rawEdge": -0.0885,
+          "adjustedEdge": -0.3085,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 19.59,
+          "propBand": [
+            12,
+            19,
+            28
+          ],
+          "slateRank": 134
+        },
+        {
+          "label": "James Harden Over 16.5 points",
+          "market": "prop",
+          "side": "over",
+          "line": 16.5,
+          "player": "James Harden",
+          "stat": "points",
+          "threshold": null,
+          "price": -120,
+          "modelProb": 0.7356,
+          "impliedProb": 0.5455,
+          "rawEdge": 0.1901,
+          "adjustedEdge": -0.0299,
+          "qualifies": false,
+          "veto": "projection 21.0 is 4.5 off the 16.5 line (27%) — the line is the more likely error",
+          "simulatedMean": 20.96,
+          "propBand": [
+            13,
+            20,
+            30
+          ],
+          "slateRank": 10
+        },
+        {
+          "label": "James Harden Under 17.5 points",
+          "market": "prop",
+          "side": "under",
+          "line": 17.5,
+          "player": "James Harden",
+          "stat": "points",
+          "threshold": null,
+          "price": -114,
+          "modelProb": 0.3233,
+          "impliedProb": 0.5327,
+          "rawEdge": -0.2094,
+          "adjustedEdge": -0.4294,
+          "qualifies": false,
+          "veto": "projection 21.0 is 3.5 off the 17.5 line (20%) — the line is the more likely error",
+          "simulatedMean": 20.97,
+          "propBand": [
+            13,
+            20,
+            30
+          ],
+          "slateRank": 163
+        },
+        {
+          "label": "Evan Mobley Over 16.5 points",
+          "market": "prop",
+          "side": "over",
+          "line": 16.5,
+          "player": "Evan Mobley",
+          "stat": "points",
+          "threshold": null,
+          "price": -112,
+          "modelProb": 0.571,
+          "impliedProb": 0.5283,
+          "rawEdge": 0.0427,
+          "adjustedEdge": -0.1773,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 18.07,
+          "propBand": [
+            11,
+            17,
+            25
+          ],
+          "slateRank": 53
+        },
+        {
+          "label": "Evan Mobley Under 17.5 points",
+          "market": "prop",
+          "side": "under",
+          "line": 17.5,
+          "player": "Evan Mobley",
+          "stat": "points",
+          "threshold": null,
+          "price": -120,
+          "modelProb": 0.5021,
+          "impliedProb": 0.5455,
+          "rawEdge": -0.0433,
+          "adjustedEdge": -0.2633,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 18.1,
+          "propBand": [
+            11,
+            17,
+            26
+          ],
+          "slateRank": 111
+        },
+        {
+          "label": "CJ McCollum Over 15.5 points",
+          "market": "prop",
+          "side": "over",
+          "line": 15.5,
+          "player": "CJ McCollum",
+          "stat": "points",
+          "threshold": null,
+          "price": -120,
+          "modelProb": 0.5874,
+          "impliedProb": 0.5455,
+          "rawEdge": 0.0419,
+          "adjustedEdge": -0.1781,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 17.23,
+          "propBand": [
+            11,
+            17,
+            24
+          ],
+          "slateRank": 57
+        },
+        {
+          "label": "CJ McCollum Under 16.5 points",
+          "market": "prop",
+          "side": "under",
+          "line": 16.5,
+          "player": "CJ McCollum",
+          "stat": "points",
+          "threshold": null,
+          "price": -124,
+          "modelProb": 0.4901,
+          "impliedProb": 0.5536,
+          "rawEdge": -0.0635,
+          "adjustedEdge": -0.2835,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 17.22,
+          "propBand": [
+            11,
+            17,
+            24
+          ],
+          "slateRank": 124
+        },
+        {
+          "label": "Peyton Watson Over 13.5 points",
+          "market": "prop",
+          "side": "over",
+          "line": 13.5,
+          "player": "Peyton Watson",
+          "stat": "points",
+          "threshold": null,
+          "price": -123,
+          "modelProb": 0.5017,
+          "impliedProb": 0.5516,
+          "rawEdge": -0.0499,
+          "adjustedEdge": -0.2699,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 14.02,
+          "propBand": [
+            9,
+            14,
+            20
+          ],
+          "slateRank": 115
+        },
+        {
+          "label": "Peyton Watson Under 14.5 points",
+          "market": "prop",
+          "side": "under",
+          "line": 14.5,
+          "player": "Peyton Watson",
+          "stat": "points",
+          "threshold": null,
+          "price": -105,
+          "modelProb": 0.5856,
+          "impliedProb": 0.5122,
+          "rawEdge": 0.0734,
+          "adjustedEdge": -0.1466,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 14.03,
+          "propBand": [
+            9,
+            14,
+            20
+          ],
+          "slateRank": 44
+        },
+        {
+          "label": "Jarrett Allen Over 12.5 points",
+          "market": "prop",
+          "side": "over",
+          "line": 12.5,
+          "player": "Jarrett Allen",
+          "stat": "points",
+          "threshold": null,
+          "price": -132,
+          "modelProb": 0.6334,
+          "impliedProb": 0.569,
+          "rawEdge": 0.0644,
+          "adjustedEdge": -0.1556,
+          "qualifies": false,
+          "veto": "projection 14.4 is 1.9 off the 12.5 line (15%) — the line is the more likely error",
+          "simulatedMean": 14.43,
+          "propBand": [
+            9,
+            14,
+            20
+          ],
+          "slateRank": 47
+        },
+        {
+          "label": "Jarrett Allen Under 13.5 points",
+          "market": "prop",
+          "side": "under",
+          "line": 13.5,
+          "player": "Jarrett Allen",
+          "stat": "points",
+          "threshold": null,
+          "price": -105,
+          "modelProb": 0.4634,
+          "impliedProb": 0.5122,
+          "rawEdge": -0.0488,
+          "adjustedEdge": -0.2688,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 14.39,
+          "propBand": [
+            9,
+            14,
+            20
+          ],
+          "slateRank": 114
+        },
+        {
+          "label": "Aaron Wiggins Over 11.5 points",
+          "market": "prop",
+          "side": "over",
+          "line": 11.5,
+          "player": "Aaron Wiggins",
+          "stat": "points",
+          "threshold": null,
+          "price": -120,
+          "modelProb": 0.3188,
+          "impliedProb": 0.5455,
+          "rawEdge": -0.2267,
+          "adjustedEdge": -0.4467,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 10.32,
+          "propBand": [
+            6,
+            10,
+            15
+          ],
+          "slateRank": 167
+        },
+        {
+          "label": "Aaron Wiggins Under 11.5 points",
+          "market": "prop",
+          "side": "under",
+          "line": 11.5,
+          "player": "Aaron Wiggins",
+          "stat": "points",
+          "threshold": null,
+          "price": -105,
+          "modelProb": 0.6812,
+          "impliedProb": 0.5122,
+          "rawEdge": 0.169,
+          "adjustedEdge": -0.051,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 10.32,
+          "propBand": [
+            6,
+            10,
+            15
+          ],
+          "slateRank": 17
+        },
+        {
+          "label": "Onyeka Okongwu Over 11.5 points",
+          "market": "prop",
+          "side": "over",
+          "line": 11.5,
+          "player": "Onyeka Okongwu",
+          "stat": "points",
+          "threshold": null,
+          "price": -105,
+          "modelProb": 0.5947,
+          "impliedProb": 0.5122,
+          "rawEdge": 0.0825,
+          "adjustedEdge": -0.1375,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 12.85,
+          "propBand": [
+            8,
+            12,
+            18
+          ],
+          "slateRank": 36
+        },
+        {
+          "label": "Onyeka Okongwu Under 11.5 points",
+          "market": "prop",
+          "side": "under",
+          "line": 11.5,
+          "player": "Onyeka Okongwu",
+          "stat": "points",
+          "threshold": null,
+          "price": -112,
+          "modelProb": 0.4053,
+          "impliedProb": 0.5283,
+          "rawEdge": -0.123,
+          "adjustedEdge": -0.343,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 12.85,
+          "propBand": [
+            8,
+            12,
+            18
+          ],
+          "slateRank": 146
+        },
+        {
+          "label": "Dyson Daniels Over 10.5 points",
+          "market": "prop",
+          "side": "over",
+          "line": 10.5,
+          "player": "Dyson Daniels",
+          "stat": "points",
+          "threshold": null,
+          "price": -135,
+          "modelProb": 0.5657,
+          "impliedProb": 0.5745,
+          "rawEdge": -0.0087,
+          "adjustedEdge": -0.2287,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 11.46,
+          "propBand": [
+            7,
+            11,
+            16
+          ],
+          "slateRank": 91
+        },
+        {
+          "label": "Dyson Daniels Under 11.5 points",
+          "market": "prop",
+          "side": "under",
+          "line": 11.5,
+          "player": "Dyson Daniels",
+          "stat": "points",
+          "threshold": null,
+          "price": -120,
+          "modelProb": 0.5512,
+          "impliedProb": 0.5455,
+          "rawEdge": 0.0058,
+          "adjustedEdge": -0.2142,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 11.44,
+          "propBand": [
+            7,
+            11,
+            16
+          ],
+          "slateRank": 82
+        },
+        {
+          "label": "Jaylon Tyson Over 8.5 points",
+          "market": "prop",
+          "side": "over",
+          "line": 8.5,
+          "player": "Jaylon Tyson",
+          "stat": "points",
+          "threshold": null,
+          "price": 100,
+          "modelProb": 0.8096,
+          "impliedProb": 0.5,
+          "rawEdge": 0.3096,
+          "adjustedEdge": 0.0896,
+          "qualifies": false,
+          "veto": "projection 11.7 is 3.2 off the 8.5 line (38%) — the line is the more likely error",
+          "simulatedMean": 11.71,
+          "propBand": [
+            7,
+            11,
+            17
+          ],
+          "slateRank": 3
+        },
+        {
+          "label": "Jaylon Tyson Under 8.5 points",
+          "market": "prop",
+          "side": "under",
+          "line": 8.5,
+          "player": "Jaylon Tyson",
+          "stat": "points",
+          "threshold": null,
+          "price": -125,
+          "modelProb": 0.1904,
+          "impliedProb": 0.5556,
+          "rawEdge": -0.3651,
+          "adjustedEdge": -0.5851,
+          "qualifies": false,
+          "veto": "projection 11.7 is 3.2 off the 8.5 line (38%) — the line is the more likely error",
+          "simulatedMean": 11.71,
+          "propBand": [
+            7,
+            11,
+            17
+          ],
+          "slateRank": 175
+        },
+        {
+          "label": "Sam Merrill Over 8.5 points",
+          "market": "prop",
+          "side": "over",
+          "line": 8.5,
+          "player": "Sam Merrill",
+          "stat": "points",
+          "threshold": null,
+          "price": 102,
+          "modelProb": 0.7509,
+          "impliedProb": 0.495,
+          "rawEdge": 0.2558,
+          "adjustedEdge": 0.0358,
+          "qualifies": false,
+          "veto": "projection 11.0 is 2.5 off the 8.5 line (29%) — the line is the more likely error",
+          "simulatedMean": 10.98,
+          "propBand": [
+            7,
+            11,
+            16
+          ],
+          "slateRank": 6
+        },
+        {
+          "label": "Sam Merrill Under 8.5 points",
+          "market": "prop",
+          "side": "under",
+          "line": 8.5,
+          "player": "Sam Merrill",
+          "stat": "points",
+          "threshold": null,
+          "price": -130,
+          "modelProb": 0.2491,
+          "impliedProb": 0.5652,
+          "rawEdge": -0.3161,
+          "adjustedEdge": -0.5361,
+          "qualifies": false,
+          "veto": "projection 11.0 is 2.5 off the 8.5 line (29%) — the line is the more likely error",
+          "simulatedMean": 10.98,
+          "propBand": [
+            7,
+            11,
+            16
+          ],
+          "slateRank": 172
+        },
+        {
+          "label": "Jock Landale Over 7.5 points",
+          "market": "prop",
+          "side": "over",
+          "line": 7.5,
+          "player": "Jock Landale",
+          "stat": "points",
+          "threshold": null,
+          "price": -110,
+          "modelProb": 0.7049,
+          "impliedProb": 0.5238,
+          "rawEdge": 0.1811,
+          "adjustedEdge": -0.0389,
+          "qualifies": false,
+          "veto": "projection 9.2 is 1.7 off the 7.5 line (23%) — the line is the more likely error",
+          "simulatedMean": 9.24,
+          "propBand": [
+            6,
+            9,
+            13
+          ],
+          "slateRank": 13
+        },
+        {
+          "label": "Jock Landale Under 7.5 points",
+          "market": "prop",
+          "side": "under",
+          "line": 7.5,
+          "player": "Jock Landale",
+          "stat": "points",
+          "threshold": null,
+          "price": -115,
+          "modelProb": 0.2951,
+          "impliedProb": 0.5349,
+          "rawEdge": -0.2398,
+          "adjustedEdge": -0.4598,
+          "qualifies": false,
+          "veto": "projection 9.2 is 1.7 off the 7.5 line (23%) — the line is the more likely error",
+          "simulatedMean": 9.24,
+          "propBand": [
+            6,
+            9,
+            13
+          ],
+          "slateRank": 170
+        },
+        {
+          "label": "Luguentz Dort Over 6.5 points",
+          "market": "prop",
+          "side": "over",
+          "line": 6.5,
+          "player": "Luguentz Dort",
+          "stat": "points",
+          "threshold": null,
+          "price": -125,
+          "modelProb": 0.7121,
+          "impliedProb": 0.5556,
+          "rawEdge": 0.1565,
+          "adjustedEdge": -0.0635,
+          "qualifies": false,
+          "veto": "projection 8.1 is 1.6 off the 6.5 line (24%) — the line is the more likely error",
+          "simulatedMean": 8.06,
+          "propBand": [
+            5,
+            8,
+            11
+          ],
+          "slateRank": 19
+        },
+        {
+          "label": "Luguentz Dort Under 6.5 points",
+          "market": "prop",
+          "side": "under",
+          "line": 6.5,
+          "player": "Luguentz Dort",
+          "stat": "points",
+          "threshold": null,
+          "price": 100,
+          "modelProb": 0.2879,
+          "impliedProb": 0.5,
+          "rawEdge": -0.2121,
+          "adjustedEdge": -0.4321,
+          "qualifies": false,
+          "veto": "projection 8.1 is 1.6 off the 6.5 line (24%) — the line is the more likely error",
+          "simulatedMean": 8.06,
+          "propBand": [
+            5,
+            8,
+            11
+          ],
+          "slateRank": 164
+        },
+        {
+          "label": "Mario Hezonja Over 5.5 points",
+          "market": "prop",
+          "side": "over",
+          "line": 5.5,
+          "player": "Mario Hezonja",
+          "stat": "points",
+          "threshold": null,
+          "price": -110,
+          "modelProb": 0.6654,
+          "impliedProb": 0.5238,
+          "rawEdge": 0.1416,
+          "adjustedEdge": -0.0784,
+          "qualifies": false,
+          "veto": "projection 6.5 is 1.0 off the 5.5 line (19%) — the line is the more likely error",
+          "simulatedMean": 6.53,
+          "propBand": [
+            4,
+            6,
+            9
+          ],
+          "slateRank": 22
+        },
+        {
+          "label": "Mario Hezonja Under 5.5 points",
+          "market": "prop",
+          "side": "under",
+          "line": 5.5,
+          "player": "Mario Hezonja",
+          "stat": "points",
+          "threshold": null,
+          "price": -115,
+          "modelProb": 0.3346,
+          "impliedProb": 0.5349,
+          "rawEdge": -0.2003,
+          "adjustedEdge": -0.4203,
+          "qualifies": false,
+          "veto": "projection 6.5 is 1.0 off the 5.5 line (19%) — the line is the more likely error",
+          "simulatedMean": 6.53,
+          "propBand": [
+            4,
+            6,
+            9
+          ],
+          "slateRank": 159
+        },
+        {
+          "label": "Jalen Johnson Over 9.5 rebounds",
+          "market": "prop",
+          "side": "over",
+          "line": 9.5,
+          "player": "Jalen Johnson",
+          "stat": "rebounds",
+          "threshold": null,
+          "price": -124,
+          "modelProb": 0.4882,
+          "impliedProb": 0.5536,
+          "rawEdge": -0.0654,
+          "adjustedEdge": -0.2854,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 9.64,
+          "propBand": [
+            5,
+            9,
+            14
+          ],
+          "slateRank": 127
+        },
+        {
+          "label": "Jalen Johnson Under 10.5 rebounds",
+          "market": "prop",
+          "side": "under",
+          "line": 10.5,
+          "player": "Jalen Johnson",
+          "stat": "rebounds",
+          "threshold": null,
+          "price": -150,
+          "modelProb": 0.6247,
+          "impliedProb": 0.6,
+          "rawEdge": 0.0247,
+          "adjustedEdge": -0.1953,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 9.63,
+          "propBand": [
+            5,
+            9,
+            14
+          ],
+          "slateRank": 66
+        },
+        {
+          "label": "Evan Mobley Over 8.5 rebounds",
+          "market": "prop",
+          "side": "over",
+          "line": 8.5,
+          "player": "Evan Mobley",
+          "stat": "rebounds",
+          "threshold": null,
+          "price": -140,
+          "modelProb": 0.5233,
+          "impliedProb": 0.5833,
+          "rawEdge": -0.06,
+          "adjustedEdge": -0.28,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 8.95,
+          "propBand": [
+            5,
+            9,
+            13
+          ],
+          "slateRank": 122
+        },
+        {
+          "label": "Evan Mobley Under 9.5 rebounds",
+          "market": "prop",
+          "side": "under",
+          "line": 9.5,
+          "player": "Evan Mobley",
+          "stat": "rebounds",
+          "threshold": null,
+          "price": -140,
+          "modelProb": 0.5926,
+          "impliedProb": 0.5833,
+          "rawEdge": 0.0093,
+          "adjustedEdge": -0.2107,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 8.95,
+          "propBand": [
+            5,
+            9,
+            13
+          ],
+          "slateRank": 79
+        },
+        {
+          "label": "Jarrett Allen Over 8.5 rebounds",
+          "market": "prop",
+          "side": "over",
+          "line": 8.5,
+          "player": "Jarrett Allen",
+          "stat": "rebounds",
+          "threshold": null,
+          "price": -111,
+          "modelProb": 0.4485,
+          "impliedProb": 0.5261,
+          "rawEdge": -0.0775,
+          "adjustedEdge": -0.2975,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 8.34,
+          "propBand": [
+            4,
+            8,
+            13
+          ],
+          "slateRank": 131
+        },
+        {
+          "label": "Jarrett Allen Under 8.5 rebounds",
+          "market": "prop",
+          "side": "under",
+          "line": 8.5,
+          "player": "Jarrett Allen",
+          "stat": "rebounds",
+          "threshold": null,
+          "price": -105,
+          "modelProb": 0.5515,
+          "impliedProb": 0.5122,
+          "rawEdge": 0.0393,
+          "adjustedEdge": -0.1807,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 8.34,
+          "propBand": [
+            4,
+            8,
+            13
+          ],
+          "slateRank": 60
+        },
+        {
+          "label": "Onyeka Okongwu Over 6.5 rebounds",
+          "market": "prop",
+          "side": "over",
+          "line": 6.5,
+          "player": "Onyeka Okongwu",
+          "stat": "rebounds",
+          "threshold": null,
+          "price": -106,
+          "modelProb": 0.4908,
+          "impliedProb": 0.5146,
+          "rawEdge": -0.0237,
+          "adjustedEdge": -0.2437,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 6.69,
+          "propBand": [
+            3,
+            6,
+            11
+          ],
+          "slateRank": 102
+        },
+        {
+          "label": "Onyeka Okongwu Under 6.5 rebounds",
+          "market": "prop",
+          "side": "under",
+          "line": 6.5,
+          "player": "Onyeka Okongwu",
+          "stat": "rebounds",
+          "threshold": null,
+          "price": -105,
+          "modelProb": 0.5092,
+          "impliedProb": 0.5122,
+          "rawEdge": -0.003,
+          "adjustedEdge": -0.223,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 6.69,
+          "propBand": [
+            3,
+            6,
+            11
+          ],
+          "slateRank": 86
+        },
+        {
+          "label": "Dyson Daniels Over 5.5 rebounds",
+          "market": "prop",
+          "side": "over",
+          "line": 5.5,
+          "player": "Dyson Daniels",
+          "stat": "rebounds",
+          "threshold": null,
+          "price": -135,
+          "modelProb": 0.5345,
+          "impliedProb": 0.5745,
+          "rawEdge": -0.0399,
+          "adjustedEdge": -0.2599,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 5.98,
+          "propBand": [
+            3,
+            6,
+            10
+          ],
+          "slateRank": 110
+        },
+        {
+          "label": "Dyson Daniels Under 6.5 rebounds",
+          "market": "prop",
+          "side": "under",
+          "line": 6.5,
+          "player": "Dyson Daniels",
+          "stat": "rebounds",
+          "threshold": null,
+          "price": -148,
+          "modelProb": 0.6159,
+          "impliedProb": 0.5968,
+          "rawEdge": 0.0191,
+          "adjustedEdge": -0.2009,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 5.94,
+          "propBand": [
+            3,
+            6,
+            10
+          ],
+          "slateRank": 74
+        },
+        {
+          "label": "Jock Landale Over 4.5 rebounds",
+          "market": "prop",
+          "side": "over",
+          "line": 4.5,
+          "player": "Jock Landale",
+          "stat": "rebounds",
+          "threshold": null,
+          "price": -130,
+          "modelProb": 0.5731,
+          "impliedProb": 0.5652,
+          "rawEdge": 0.0078,
+          "adjustedEdge": -0.2122,
+          "qualifies": false,
+          "veto": "projection 5.2 is 0.7 off the 4.5 line (16%) — the line is the more likely error",
+          "simulatedMean": 5.2,
+          "propBand": [
+            2,
+            5,
+            9
+          ],
+          "slateRank": 81
+        },
+        {
+          "label": "Jock Landale Under 4.5 rebounds",
+          "market": "prop",
+          "side": "under",
+          "line": 4.5,
+          "player": "Jock Landale",
+          "stat": "rebounds",
+          "threshold": null,
+          "price": 102,
+          "modelProb": 0.4269,
+          "impliedProb": 0.495,
+          "rawEdge": -0.0681,
+          "adjustedEdge": -0.2881,
+          "qualifies": false,
+          "veto": "projection 5.2 is 0.7 off the 4.5 line (16%) — the line is the more likely error",
+          "simulatedMean": 5.2,
+          "propBand": [
+            2,
+            5,
+            9
+          ],
+          "slateRank": 129
+        },
+        {
+          "label": "Peyton Watson Over 4.5 rebounds",
+          "market": "prop",
+          "side": "over",
+          "line": 4.5,
+          "player": "Peyton Watson",
+          "stat": "rebounds",
+          "threshold": null,
+          "price": -120,
+          "modelProb": 0.4872,
+          "impliedProb": 0.5455,
+          "rawEdge": -0.0583,
+          "adjustedEdge": -0.2783,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 4.67,
+          "propBand": [
+            2,
+            4,
+            8
+          ],
+          "slateRank": 120
+        },
+        {
+          "label": "Peyton Watson Under 4.5 rebounds",
+          "market": "prop",
+          "side": "under",
+          "line": 4.5,
+          "player": "Peyton Watson",
+          "stat": "rebounds",
+          "threshold": null,
+          "price": 108,
+          "modelProb": 0.5128,
+          "impliedProb": 0.4808,
+          "rawEdge": 0.032,
+          "adjustedEdge": -0.188,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 4.67,
+          "propBand": [
+            2,
+            4,
+            8
+          ],
+          "slateRank": 62
+        },
+        {
+          "label": "Donovan Mitchell Over 4.5 rebounds",
+          "market": "prop",
+          "side": "over",
+          "line": 4.5,
+          "player": "Donovan Mitchell",
+          "stat": "rebounds",
+          "threshold": null,
+          "price": -112,
+          "modelProb": 0.5009,
+          "impliedProb": 0.5283,
+          "rawEdge": -0.0274,
+          "adjustedEdge": -0.2474,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 4.76,
+          "propBand": [
+            2,
+            5,
+            8
+          ],
+          "slateRank": 105
+        },
+        {
+          "label": "Donovan Mitchell Under 4.5 rebounds",
+          "market": "prop",
+          "side": "under",
+          "line": 4.5,
+          "player": "Donovan Mitchell",
+          "stat": "rebounds",
+          "threshold": null,
+          "price": 105,
+          "modelProb": 0.4991,
+          "impliedProb": 0.4878,
+          "rawEdge": 0.0113,
+          "adjustedEdge": -0.2087,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 4.76,
+          "propBand": [
+            2,
+            5,
+            8
+          ],
+          "slateRank": 76
+        },
+        {
+          "label": "James Harden Over 4.5 rebounds",
+          "market": "prop",
+          "side": "over",
+          "line": 4.5,
+          "player": "James Harden",
+          "stat": "rebounds",
+          "threshold": null,
+          "price": 102,
+          "modelProb": 0.4715,
+          "impliedProb": 0.495,
+          "rawEdge": -0.0236,
+          "adjustedEdge": -0.2436,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 4.57,
+          "propBand": [
+            2,
+            4,
+            8
+          ],
+          "slateRank": 101
+        },
+        {
+          "label": "James Harden Under 4.5 rebounds",
+          "market": "prop",
+          "side": "under",
+          "line": 4.5,
+          "player": "James Harden",
+          "stat": "rebounds",
+          "threshold": null,
+          "price": -120,
+          "modelProb": 0.5285,
+          "impliedProb": 0.5455,
+          "rawEdge": -0.0169,
+          "adjustedEdge": -0.2369,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 4.57,
+          "propBand": [
+            2,
+            4,
+            8
+          ],
+          "slateRank": 98
+        },
+        {
+          "label": "Jaylon Tyson Over 3.5 rebounds",
+          "market": "prop",
+          "side": "over",
+          "line": 3.5,
+          "player": "Jaylon Tyson",
+          "stat": "rebounds",
+          "threshold": null,
+          "price": -110,
+          "modelProb": 0.6143,
+          "impliedProb": 0.5238,
+          "rawEdge": 0.0905,
+          "adjustedEdge": -0.1295,
+          "qualifies": false,
+          "veto": "projection 4.4 is 0.9 off the 3.5 line (26%) — the line is the more likely error",
+          "simulatedMean": 4.4,
+          "propBand": [
+            2,
+            4,
+            7
+          ],
+          "slateRank": 34
+        },
+        {
+          "label": "Jaylon Tyson Under 3.5 rebounds",
+          "market": "prop",
+          "side": "under",
+          "line": 3.5,
+          "player": "Jaylon Tyson",
+          "stat": "rebounds",
+          "threshold": null,
+          "price": -115,
+          "modelProb": 0.3857,
+          "impliedProb": 0.5349,
+          "rawEdge": -0.1492,
+          "adjustedEdge": -0.3692,
+          "qualifies": false,
+          "veto": "projection 4.4 is 0.9 off the 3.5 line (26%) — the line is the more likely error",
+          "simulatedMean": 4.4,
+          "propBand": [
+            2,
+            4,
+            7
+          ],
+          "slateRank": 153
+        },
+        {
+          "label": "Nickeil Alexander-Walker Over 2.5 rebounds",
+          "market": "prop",
+          "side": "over",
+          "line": 2.5,
+          "player": "Nickeil Alexander-Walker",
+          "stat": "rebounds",
+          "threshold": null,
+          "price": -160,
+          "modelProb": 0.6079,
+          "impliedProb": 0.6154,
+          "rawEdge": -0.0075,
+          "adjustedEdge": -0.2275,
+          "qualifies": false,
+          "veto": "projection 3.3 is 0.8 off the 2.5 line (31%) — the line is the more likely error",
+          "simulatedMean": 3.27,
+          "propBand": [
+            1,
+            3,
+            6
+          ],
+          "slateRank": 90
+        },
+        {
+          "label": "Nickeil Alexander-Walker Under 3.5 rebounds",
+          "market": "prop",
+          "side": "under",
+          "line": 3.5,
+          "player": "Nickeil Alexander-Walker",
+          "stat": "rebounds",
+          "threshold": null,
+          "price": -145,
+          "modelProb": 0.5948,
+          "impliedProb": 0.5918,
+          "rawEdge": 0.0029,
+          "adjustedEdge": -0.2171,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 3.26,
+          "propBand": [
+            1,
+            3,
+            6
+          ],
+          "slateRank": 83
+        },
+        {
+          "label": "Aaron Wiggins Over 2.5 rebounds",
+          "market": "prop",
+          "side": "over",
+          "line": 2.5,
+          "player": "Aaron Wiggins",
+          "stat": "rebounds",
+          "threshold": null,
+          "price": -160,
+          "modelProb": 0.5655,
+          "impliedProb": 0.6154,
+          "rawEdge": -0.0499,
+          "adjustedEdge": -0.2699,
+          "qualifies": false,
+          "veto": "projection 3.1 is 0.6 off the 2.5 line (22%) — the line is the more likely error",
+          "simulatedMean": 3.05,
+          "propBand": [
+            1,
+            3,
+            6
+          ],
+          "slateRank": 116
+        },
+        {
+          "label": "Aaron Wiggins Under 2.5 rebounds",
+          "market": "prop",
+          "side": "under",
+          "line": 2.5,
+          "player": "Aaron Wiggins",
+          "stat": "rebounds",
+          "threshold": null,
+          "price": 125,
+          "modelProb": 0.4345,
+          "impliedProb": 0.4444,
+          "rawEdge": -0.01,
+          "adjustedEdge": -0.23,
+          "qualifies": false,
+          "veto": "projection 3.1 is 0.6 off the 2.5 line (22%) — the line is the more likely error",
+          "simulatedMean": 3.05,
+          "propBand": [
+            1,
+            3,
+            6
+          ],
+          "slateRank": 95
+        },
+        {
+          "label": "Mario Hezonja Over 2.5 rebounds",
+          "market": "prop",
+          "side": "over",
+          "line": 2.5,
+          "player": "Mario Hezonja",
+          "stat": "rebounds",
+          "threshold": null,
+          "price": -145,
+          "modelProb": 0.6345,
+          "impliedProb": 0.5918,
+          "rawEdge": 0.0427,
+          "adjustedEdge": -0.1773,
+          "qualifies": false,
+          "veto": "projection 3.4 is 0.9 off the 2.5 line (36%) — the line is the more likely error",
+          "simulatedMean": 3.4,
+          "propBand": [
+            1,
+            3,
+            6
+          ],
+          "slateRank": 54
+        },
+        {
+          "label": "Mario Hezonja Under 2.5 rebounds",
+          "market": "prop",
+          "side": "under",
+          "line": 2.5,
+          "player": "Mario Hezonja",
+          "stat": "rebounds",
+          "threshold": null,
+          "price": 115,
+          "modelProb": 0.3655,
+          "impliedProb": 0.4651,
+          "rawEdge": -0.0996,
+          "adjustedEdge": -0.3196,
+          "qualifies": false,
+          "veto": "projection 3.4 is 0.9 off the 2.5 line (36%) — the line is the more likely error",
+          "simulatedMean": 3.4,
+          "propBand": [
+            1,
+            3,
+            6
+          ],
+          "slateRank": 139
+        },
+        {
+          "label": "Luguentz Dort Over 2.5 rebounds",
+          "market": "prop",
+          "side": "over",
+          "line": 2.5,
+          "player": "Luguentz Dort",
+          "stat": "rebounds",
+          "threshold": null,
+          "price": -120,
+          "modelProb": 0.6228,
+          "impliedProb": 0.5455,
+          "rawEdge": 0.0774,
+          "adjustedEdge": -0.1426,
+          "qualifies": false,
+          "veto": "projection 3.3 is 0.8 off the 2.5 line (33%) — the line is the more likely error",
+          "simulatedMean": 3.33,
+          "propBand": [
+            1,
+            3,
+            6
+          ],
+          "slateRank": 41
+        },
+        {
+          "label": "Luguentz Dort Under 2.5 rebounds",
+          "market": "prop",
+          "side": "under",
+          "line": 2.5,
+          "player": "Luguentz Dort",
+          "stat": "rebounds",
+          "threshold": null,
+          "price": -105,
+          "modelProb": 0.3772,
+          "impliedProb": 0.5122,
+          "rawEdge": -0.135,
+          "adjustedEdge": -0.355,
+          "qualifies": false,
+          "veto": "projection 3.3 is 0.8 off the 2.5 line (33%) — the line is the more likely error",
+          "simulatedMean": 3.33,
+          "propBand": [
+            1,
+            3,
+            6
+          ],
+          "slateRank": 149
+        },
+        {
+          "label": "CJ McCollum Under 2.5 rebounds",
+          "market": "prop",
+          "side": "under",
+          "line": 2.5,
+          "player": "CJ McCollum",
+          "stat": "rebounds",
+          "threshold": null,
+          "price": -120,
+          "modelProb": 0.5245,
+          "impliedProb": 0.5455,
+          "rawEdge": -0.0209,
+          "adjustedEdge": -0.2409,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 2.63,
+          "propBand": [
+            1,
+            2,
+            5
+          ],
+          "slateRank": 100
+        },
+        {
+          "label": "Sam Merrill Over 2.5 rebounds",
+          "market": "prop",
+          "side": "over",
+          "line": 2.5,
+          "player": "Sam Merrill",
+          "stat": "rebounds",
+          "threshold": null,
+          "price": 135,
+          "modelProb": 0.4751,
+          "impliedProb": 0.4255,
+          "rawEdge": 0.0496,
+          "adjustedEdge": -0.1704,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 2.63,
+          "propBand": [
+            1,
+            2,
+            5
+          ],
+          "slateRank": 50
+        },
+        {
+          "label": "Sam Merrill Under 2.5 rebounds",
+          "market": "prop",
+          "side": "under",
+          "line": 2.5,
+          "player": "Sam Merrill",
+          "stat": "rebounds",
+          "threshold": null,
+          "price": -170,
+          "modelProb": 0.5249,
+          "impliedProb": 0.6296,
+          "rawEdge": -0.1047,
+          "adjustedEdge": -0.3247,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 2.63,
+          "propBand": [
+            1,
+            2,
+            5
+          ],
+          "slateRank": 140
+        }
+      ]
+    },
+    {
+      "gameId": "sac-no",
+      "espnId": "401909894",
+      "label": "Kings @ Pelicans",
+      "tipoff": "8:00 PM ET",
+      "book": "DraftKings",
+      "away": "SAC",
+      "home": "NO",
+      "projectedAway": 114.25,
+      "projectedHome": 119.7,
+      "projectedTotal": 233.95,
+      "projectedMargin": 5.45,
+      "unshrunkMargin": 7.41,
+      "confidence": 5,
+      "distribution": {
+        "marginRange90": [
+          -21,
+          32
+        ],
+        "totalRange90": [
+          201,
+          267
+        ],
+        "marginMedian": 6,
+        "totalMedian": 234,
+        "marginQuartiles": [
+          -5,
+          16
+        ],
+        "totalQuartiles": [
+          220,
+          247
+        ],
+        "coinFlipBand": 0.1489,
+        "blowout": 0.2967,
+        "overtime": 0.0246
+      },
+      "penaltyTotal": 0.16,
+      "veto": null,
+      "odds": {
+        "moneyline": {
+          "home": -238,
+          "away": 195
+        },
+        "spread": {
+          "homeLine": -6.5,
+          "homePrice": -102,
+          "awayPrice": -118
+        },
+        "total": {
+          "line": 235.5,
+          "over": -115,
+          "under": -105
+        },
+        "opening": {
+          "moneyline": {
+            "home": -192,
+            "away": 160
+          },
+          "spreadHomeLine": -5.5
+        }
+      },
+      "players": [
+        {
+          "player": "Domantas Sabonis",
+          "team": "SAC",
+          "games": 4,
+          "projectedMinutes": 31.3,
+          "projected": {
+            "points": 15.96,
+            "rebounds": 12.07,
+            "assists": 4.61
+          },
+          "doubleDouble": 0.6724,
+          "tripleDouble": 0.0255,
+          "atLeastTen": {
+            "points": 0.9029,
+            "rebounds": 0.7274,
+            "assists": 0.0353
+          },
+          "pointsAtLeast": {
+            "10": 0.9029,
+            "15": 0.5353,
+            "20": 0.1939,
+            "25": 0.0488,
+            "30": 0.0102,
+            "35": 0.0014,
+            "40": 0.0003
+          }
+        },
+        {
+          "player": "Dejounte Murray",
+          "team": "NO",
+          "games": 4,
+          "projectedMinutes": 28.9,
+          "projected": {
+            "points": 16.3,
+            "rebounds": 5.26,
+            "assists": 6.05
+          },
+          "doubleDouble": 0.156,
+          "tripleDouble": 0.0079,
+          "atLeastTen": {
+            "points": 0.9127,
+            "rebounds": 0.0611,
+            "assists": 0.1138
+          },
+          "pointsAtLeast": {
+            "10": 0.9127,
+            "15": 0.5598,
+            "20": 0.2173,
+            "25": 0.0583,
+            "30": 0.0125,
+            "35": 0.0022,
+            "40": 0.0003
+          }
+        },
+        {
+          "player": "Derik Queen",
+          "team": "NO",
+          "games": 4,
+          "projectedMinutes": 24.8,
+          "projected": {
+            "points": 11.39,
+            "rebounds": 7.36,
+            "assists": 3
+          },
+          "doubleDouble": 0.1526,
+          "tripleDouble": 0.0009,
+          "atLeastTen": {
+            "points": 0.6177,
+            "rebounds": 0.2272,
+            "assists": 0.0042
+          },
+          "pointsAtLeast": {
+            "10": 0.6177,
+            "15": 0.1511,
+            "20": 0.0192,
+            "25": 0.0017,
+            "30": 0.0001,
+            "35": 0,
+            "40": 0
+          }
+        },
+        {
+          "player": "Precious Achiuwa",
+          "team": "SAC",
+          "games": 4,
+          "projectedMinutes": 24.7,
+          "projected": {
+            "points": 9.94,
+            "rebounds": 6.16,
+            "assists": 1.2
+          },
+          "doubleDouble": 0.0607,
+          "tripleDouble": 0,
+          "atLeastTen": {
+            "points": 0.4475,
+            "rebounds": 0.1182,
+            "assists": 0.0001
+          },
+          "pointsAtLeast": {
+            "10": 0.4475,
+            "15": 0.0651,
+            "20": 0.0046,
+            "25": 0.0002,
+            "30": 0,
+            "35": 0,
+            "40": 0
+          }
+        },
+        {
+          "player": "Trey Murphy III",
+          "team": "NO",
+          "games": 4,
+          "projectedMinutes": 34.8,
+          "projected": {
+            "points": 18.43,
+            "rebounds": 5.1,
+            "assists": 3.38
+          },
+          "doubleDouble": 0.0575,
+          "tripleDouble": 0.0004,
+          "atLeastTen": {
+            "points": 0.9572,
+            "rebounds": 0.0524,
+            "assists": 0.0073
+          },
+          "pointsAtLeast": {
+            "10": 0.9572,
+            "15": 0.7017,
+            "20": 0.3507,
+            "25": 0.1303,
+            "30": 0.0368,
+            "35": 0.0084,
+            "40": 0.0017
+          }
+        },
+        {
+          "player": "Zion Williamson",
+          "team": "NO",
+          "games": 4,
+          "projectedMinutes": 30.4,
+          "projected": {
+            "points": 20.3,
+            "rebounds": 4.97,
+            "assists": 2.86
+          },
+          "doubleDouble": 0.0493,
+          "tripleDouble": 0.0002,
+          "atLeastTen": {
+            "points": 0.975,
+            "rebounds": 0.0473,
+            "assists": 0.0031
+          },
+          "pointsAtLeast": {
+            "10": 0.975,
+            "15": 0.7946,
+            "20": 0.4755,
+            "25": 0.2117,
+            "30": 0.0745,
+            "35": 0.0228,
+            "40": 0.0058
+          }
+        },
+        {
+          "player": "Darius Acuff Jr.",
+          "team": "SAC",
+          "games": 4,
+          "projectedMinutes": 35.3,
+          "projected": {
+            "points": 20.57,
+            "rebounds": 2.65,
+            "assists": 4.56
+          },
+          "doubleDouble": 0.035,
+          "tripleDouble": 0,
+          "atLeastTen": {
+            "points": 0.9775,
+            "rebounds": 0.0016,
+            "assists": 0.0338
+          },
+          "pointsAtLeast": {
+            "10": 0.9775,
+            "15": 0.8042,
+            "20": 0.4923,
+            "25": 0.2251,
+            "30": 0.0819,
+            "35": 0.0249,
+            "40": 0.0065
+          }
+        },
+        {
+          "player": "Saddiq Bey",
+          "team": "NO",
+          "games": 4,
+          "projectedMinutes": 29.5,
+          "projected": {
+            "points": 16.06,
+            "rebounds": 4.68,
+            "assists": 2.2
+          },
+          "doubleDouble": 0.0347,
+          "tripleDouble": 0,
+          "atLeastTen": {
+            "points": 0.9073,
+            "rebounds": 0.0363,
+            "assists": 0.0008
+          },
+          "pointsAtLeast": {
+            "10": 0.9073,
+            "15": 0.5411,
+            "20": 0.2004,
+            "25": 0.0518,
+            "30": 0.0107,
+            "35": 0.0018,
+            "40": 0.0003
+          }
+        },
+        {
+          "player": "Bennedict Mathurin",
+          "team": "NO",
+          "games": 4,
+          "projectedMinutes": 26.7,
+          "projected": {
+            "points": 14.04,
+            "rebounds": 4.41,
+            "assists": 2.3
+          },
+          "doubleDouble": 0.0241,
+          "tripleDouble": 0.0001,
+          "atLeastTen": {
+            "points": 0.8246,
+            "rebounds": 0.0271,
+            "assists": 0.001
+          },
+          "pointsAtLeast": {
+            "10": 0.8246,
+            "15": 0.3727,
+            "20": 0.0954,
+            "25": 0.0162,
+            "30": 0.0022,
+            "35": 0.0003,
+            "40": 0
+          }
+        },
+        {
+          "player": "De'Andre Hunter",
+          "team": "SAC",
+          "games": 4,
+          "projectedMinutes": 26.3,
+          "projected": {
+            "points": 12.33,
+            "rebounds": 4.2,
+            "assists": 1.74
+          },
+          "doubleDouble": 0.0162,
+          "tripleDouble": 0,
+          "atLeastTen": {
+            "points": 0.7044,
+            "rebounds": 0.0209,
+            "assists": 0.0003
+          },
+          "pointsAtLeast": {
+            "10": 0.7044,
+            "15": 0.2259,
+            "20": 0.0372,
+            "25": 0.0041,
+            "30": 0.0003,
+            "35": 0,
+            "40": 0
+          }
+        },
+        {
+          "player": "Jeremiah Fears",
+          "team": "NO",
+          "games": 4,
+          "projectedMinutes": 25.1,
+          "projected": {
+            "points": 12.33,
+            "rebounds": 3.44,
+            "assists": 2.83
+          },
+          "doubleDouble": 0.0081,
+          "tripleDouble": 0,
+          "atLeastTen": {
+            "points": 0.7055,
+            "rebounds": 0.0076,
+            "assists": 0.0028
+          },
+          "pointsAtLeast": {
+            "10": 0.7055,
+            "15": 0.2248,
+            "20": 0.0381,
+            "25": 0.0043,
+            "30": 0.0005,
+            "35": 0,
+            "40": 0
+          }
+        },
+        {
+          "player": "Zach LaVine",
+          "team": "SAC",
+          "games": 4,
+          "projectedMinutes": 32.5,
+          "projected": {
+            "points": 20.19,
+            "rebounds": 2.86,
+            "assists": 2.42
+          },
+          "doubleDouble": 0.0037,
+          "tripleDouble": 0,
+          "atLeastTen": {
+            "points": 0.9733,
+            "rebounds": 0.0026,
+            "assists": 0.0011
+          },
+          "pointsAtLeast": {
+            "10": 0.9733,
+            "15": 0.7875,
+            "20": 0.4668,
+            "25": 0.2079,
+            "30": 0.0724,
+            "35": 0.022,
+            "40": 0.0054
+          }
+        },
+        {
+          "player": "Jordan Poole",
+          "team": "NO",
+          "games": 4,
+          "projectedMinutes": 21.9,
+          "projected": {
+            "points": 10.81,
+            "rebounds": 1.97,
+            "assists": 3.03
+          },
+          "doubleDouble": 0.0031,
+          "tripleDouble": 0,
+          "atLeastTen": {
+            "points": 0.5533,
+            "rebounds": 0.0004,
+            "assists": 0.0048
+          },
+          "pointsAtLeast": {
+            "10": 0.5533,
+            "15": 0.1136,
+            "20": 0.0118,
+            "25": 0.0009,
+            "30": 0.0001,
+            "35": 0,
+            "40": 0
+          }
+        },
+        {
+          "player": "Malik Monk",
+          "team": "SAC",
+          "games": 3,
+          "projectedMinutes": 20.1,
+          "projected": {
+            "points": 9.68,
+            "rebounds": 1.84,
+            "assists": 3.15
+          },
+          "doubleDouble": 0.0026,
+          "tripleDouble": 0,
+          "atLeastTen": {
+            "points": 0.4112,
+            "rebounds": 0.0003,
+            "assists": 0.0048
+          },
+          "pointsAtLeast": {
+            "10": 0.4112,
+            "15": 0.0544,
+            "20": 0.0037,
+            "25": 0.0001,
+            "30": 0,
+            "35": 0,
+            "40": 0
+          }
+        },
+        {
+          "player": "Daeqwon Plowden",
+          "team": "SAC",
+          "games": 4,
+          "projectedMinutes": 23.9,
+          "projected": {
+            "points": 7.91,
+            "rebounds": 2.56,
+            "assists": 1.02
+          },
+          "doubleDouble": 0.0005,
+          "tripleDouble": 0,
+          "atLeastTen": {
+            "points": 0.1878,
+            "rebounds": 0.0018,
+            "assists": 0
+          },
+          "pointsAtLeast": {
+            "10": 0.1878,
+            "15": 0.0093,
+            "20": 0.0003,
+            "25": 0,
+            "30": 0,
+            "35": 0,
+            "40": 0
+          }
+        },
+        {
+          "player": "Herbert Jones",
+          "team": "NO",
+          "games": 4,
+          "projectedMinutes": 25.7,
+          "projected": {
+            "points": 7.02,
+            "rebounds": 2.92,
+            "assists": 1.91
+          },
+          "doubleDouble": 0.0003,
+          "tripleDouble": 0,
+          "atLeastTen": {
+            "points": 0.0958,
+            "rebounds": 0.003,
+            "assists": 0.0003
+          },
+          "pointsAtLeast": {
+            "10": 0.0958,
+            "15": 0.0021,
+            "20": 0.0001,
+            "25": 0,
+            "30": 0,
+            "35": 0,
+            "40": 0
+          }
+        }
+      ],
+      "markets": [
+        {
+          "label": "New Orleans Pelicans ML",
+          "market": "moneyline",
+          "side": "home",
+          "line": null,
+          "player": null,
+          "stat": null,
+          "threshold": null,
+          "price": -238,
+          "modelProb": 0.6353,
+          "impliedProb": 0.7041,
+          "rawEdge": -0.0689,
+          "adjustedEdge": -0.2289,
+          "qualifies": false,
+          "veto": "moneylines are off the board — the model's margins are compressed against the market and no more accurate than it, so a moneyline edge is the vig on the book's number",
+          "simulatedMean": null,
+          "propBand": null,
+          "slateRank": 93
+        },
+        {
+          "label": "Sacramento Kings ML",
+          "market": "moneyline",
+          "side": "away",
+          "line": null,
+          "player": null,
+          "stat": null,
+          "threshold": null,
+          "price": 195,
+          "modelProb": 0.3647,
+          "impliedProb": 0.339,
+          "rawEdge": 0.0258,
+          "adjustedEdge": -0.1342,
+          "qualifies": false,
+          "veto": "moneylines are off the board — the model's margins are compressed against the market and no more accurate than it, so a moneyline edge is the vig on the book's number",
+          "simulatedMean": null,
+          "propBand": null,
+          "slateRank": 35
+        },
+        {
+          "label": "New Orleans Pelicans -6.5",
+          "market": "spread",
+          "side": "home",
+          "line": null,
+          "player": null,
+          "stat": null,
+          "threshold": null,
+          "price": -102,
+          "modelProb": 0.4788,
+          "impliedProb": 0.505,
+          "rawEdge": -0.0262,
+          "adjustedEdge": -0.1862,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": null,
+          "propBand": null,
+          "slateRank": 61
+        },
+        {
+          "label": "Sacramento Kings +6.5",
+          "market": "spread",
+          "side": "away",
+          "line": null,
+          "player": null,
+          "stat": null,
+          "threshold": null,
+          "price": -118,
+          "modelProb": 0.5212,
+          "impliedProb": 0.5413,
+          "rawEdge": -0.0201,
+          "adjustedEdge": -0.1801,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": null,
+          "propBand": null,
+          "slateRank": 59
+        },
+        {
+          "label": "Over 235.5",
+          "market": "total",
+          "side": "over",
+          "line": null,
+          "player": null,
+          "stat": null,
+          "threshold": null,
+          "price": -115,
+          "modelProb": 0.4659,
+          "impliedProb": 0.5349,
+          "rawEdge": -0.0689,
+          "adjustedEdge": -0.2289,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": null,
+          "propBand": null,
+          "slateRank": 94
+        },
+        {
+          "label": "Under 235.5",
+          "market": "total",
+          "side": "under",
+          "line": null,
+          "player": null,
+          "stat": null,
+          "threshold": null,
+          "price": -105,
+          "modelProb": 0.5341,
+          "impliedProb": 0.5122,
+          "rawEdge": 0.0219,
+          "adjustedEdge": -0.1381,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": null,
+          "propBand": null,
+          "slateRank": 38
+        },
+        {
+          "label": "Darius Acuff Jr. Over 21.5 points",
+          "market": "prop",
+          "side": "over",
+          "line": 21.5,
+          "player": "Darius Acuff Jr.",
+          "stat": "points",
+          "threshold": null,
+          "price": -125,
+          "modelProb": 0.3998,
+          "impliedProb": 0.5556,
+          "rawEdge": -0.1557,
+          "adjustedEdge": -0.3757,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 20.61,
+          "propBand": [
+            13,
+            20,
+            29
+          ],
+          "slateRank": 155
+        },
+        {
+          "label": "Darius Acuff Jr. Under 22.5 points",
+          "market": "prop",
+          "side": "under",
+          "line": 22.5,
+          "player": "Darius Acuff Jr.",
+          "stat": "points",
+          "threshold": null,
+          "price": -112,
+          "modelProb": 0.655,
+          "impliedProb": 0.5283,
+          "rawEdge": 0.1267,
+          "adjustedEdge": -0.0933,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 20.62,
+          "propBand": [
+            13,
+            20,
+            29
+          ],
+          "slateRank": 23
+        },
+        {
+          "label": "Zach LaVine Over 21.5 points",
+          "market": "prop",
+          "side": "over",
+          "line": 21.5,
+          "player": "Zach LaVine",
+          "stat": "points",
+          "threshold": null,
+          "price": -110,
+          "modelProb": 0.3743,
+          "impliedProb": 0.5238,
+          "rawEdge": -0.1496,
+          "adjustedEdge": -0.3696,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 20.19,
+          "propBand": [
+            13,
+            19,
+            29
+          ],
+          "slateRank": 154
+        },
+        {
+          "label": "Zach LaVine Under 22.5 points",
+          "market": "prop",
+          "side": "under",
+          "line": 22.5,
+          "player": "Zach LaVine",
+          "stat": "points",
+          "threshold": null,
+          "price": -105,
+          "modelProb": 0.68,
+          "impliedProb": 0.5122,
+          "rawEdge": 0.1678,
+          "adjustedEdge": -0.0522,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 20.23,
+          "propBand": [
+            13,
+            20,
+            29
+          ],
+          "slateRank": 18
+        },
+        {
+          "label": "Zion Williamson Over 20.5 points",
+          "market": "prop",
+          "side": "over",
+          "line": 20.5,
+          "player": "Zion Williamson",
+          "stat": "points",
+          "threshold": null,
+          "price": -112,
+          "modelProb": 0.4434,
+          "impliedProb": 0.5283,
+          "rawEdge": -0.0849,
+          "adjustedEdge": -0.3049,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 20.31,
+          "propBand": [
+            13,
+            20,
+            29
+          ],
+          "slateRank": 133
+        },
+        {
+          "label": "Zion Williamson Under 21.5 points",
+          "market": "prop",
+          "side": "under",
+          "line": 21.5,
+          "player": "Zion Williamson",
+          "stat": "points",
+          "threshold": null,
+          "price": -125,
+          "modelProb": 0.615,
+          "impliedProb": 0.5556,
+          "rawEdge": 0.0595,
+          "adjustedEdge": -0.1605,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 20.35,
+          "propBand": [
+            13,
+            20,
+            29
+          ],
+          "slateRank": 48
+        },
+        {
+          "label": "Domantas Sabonis Over 17.5 points",
+          "market": "prop",
+          "side": "over",
+          "line": 17.5,
+          "player": "Domantas Sabonis",
+          "stat": "points",
+          "threshold": null,
+          "price": -112,
+          "modelProb": 0.3363,
+          "impliedProb": 0.5283,
+          "rawEdge": -0.192,
+          "adjustedEdge": -0.412,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 15.9,
+          "propBand": [
+            10,
+            15,
+            22
+          ],
+          "slateRank": 157
+        },
+        {
+          "label": "Domantas Sabonis Under 17.5 points",
+          "market": "prop",
+          "side": "under",
+          "line": 17.5,
+          "player": "Domantas Sabonis",
+          "stat": "points",
+          "threshold": null,
+          "price": -106,
+          "modelProb": 0.6637,
+          "impliedProb": 0.5146,
+          "rawEdge": 0.1491,
+          "adjustedEdge": -0.0709,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 15.9,
+          "propBand": [
+            10,
+            15,
+            22
+          ],
+          "slateRank": 20
+        },
+        {
+          "label": "Trey Murphy III Over 17.5 points",
+          "market": "prop",
+          "side": "over",
+          "line": 17.5,
+          "player": "Trey Murphy III",
+          "stat": "points",
+          "threshold": null,
+          "price": -116,
+          "modelProb": 0.5251,
+          "impliedProb": 0.537,
+          "rawEdge": -0.012,
+          "adjustedEdge": -0.232,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 18.49,
+          "propBand": [
+            12,
+            18,
+            26
+          ],
+          "slateRank": 97
+        },
+        {
+          "label": "Trey Murphy III Under 18.5 points",
+          "market": "prop",
+          "side": "under",
+          "line": 18.5,
+          "player": "Trey Murphy III",
+          "stat": "points",
+          "threshold": null,
+          "price": -125,
+          "modelProb": 0.5502,
+          "impliedProb": 0.5556,
+          "rawEdge": -0.0053,
+          "adjustedEdge": -0.2253,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 18.46,
+          "propBand": [
+            12,
+            18,
+            26
+          ],
+          "slateRank": 88
+        },
+        {
+          "label": "Dejounte Murray Over 17.5 points",
+          "market": "prop",
+          "side": "over",
+          "line": 17.5,
+          "player": "Dejounte Murray",
+          "stat": "points",
+          "threshold": null,
+          "price": -104,
+          "modelProb": 0.3658,
+          "impliedProb": 0.5098,
+          "rawEdge": -0.144,
+          "adjustedEdge": -0.364,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 16.28,
+          "propBand": [
+            10,
+            16,
+            23
+          ],
+          "slateRank": 152
+        },
+        {
+          "label": "Dejounte Murray Under 17.5 points",
+          "market": "prop",
+          "side": "under",
+          "line": 17.5,
+          "player": "Dejounte Murray",
+          "stat": "points",
+          "threshold": null,
+          "price": -114,
+          "modelProb": 0.6342,
+          "impliedProb": 0.5327,
+          "rawEdge": 0.1015,
+          "adjustedEdge": -0.1185,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 16.28,
+          "propBand": [
+            10,
+            16,
+            23
+          ],
+          "slateRank": 27
+        },
+        {
+          "label": "Jeremiah Fears Over 11.5 points",
+          "market": "prop",
+          "side": "over",
+          "line": 11.5,
+          "player": "Jeremiah Fears",
+          "stat": "points",
+          "threshold": null,
+          "price": -110,
+          "modelProb": 0.5483,
+          "impliedProb": 0.5238,
+          "rawEdge": 0.0244,
+          "adjustedEdge": -0.1956,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 12.38,
+          "propBand": [
+            8,
+            12,
+            17
+          ],
+          "slateRank": 67
+        },
+        {
+          "label": "Jeremiah Fears Under 11.5 points",
+          "market": "prop",
+          "side": "under",
+          "line": 11.5,
+          "player": "Jeremiah Fears",
+          "stat": "points",
+          "threshold": null,
+          "price": -104,
+          "modelProb": 0.4517,
+          "impliedProb": 0.5098,
+          "rawEdge": -0.0581,
+          "adjustedEdge": -0.2781,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 12.38,
+          "propBand": [
+            8,
+            12,
+            17
+          ],
+          "slateRank": 119
+        },
+        {
+          "label": "De'Andre Hunter Over 11.5 points",
+          "market": "prop",
+          "side": "over",
+          "line": 11.5,
+          "player": "De'Andre Hunter",
+          "stat": "points",
+          "threshold": null,
+          "price": -120,
+          "modelProb": 0.544,
+          "impliedProb": 0.5455,
+          "rawEdge": -0.0014,
+          "adjustedEdge": -0.2214,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 12.33,
+          "propBand": [
+            8,
+            12,
+            17
+          ],
+          "slateRank": 85
+        },
+        {
+          "label": "De'Andre Hunter Under 12.5 points",
+          "market": "prop",
+          "side": "under",
+          "line": 12.5,
+          "player": "De'Andre Hunter",
+          "stat": "points",
+          "threshold": null,
+          "price": -125,
+          "modelProb": 0.5653,
+          "impliedProb": 0.5556,
+          "rawEdge": 0.0097,
+          "adjustedEdge": -0.2103,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 12.3,
+          "propBand": [
+            8,
+            12,
+            17
+          ],
+          "slateRank": 78
+        },
+        {
+          "label": "Precious Achiuwa Over 10.5 points",
+          "market": "prop",
+          "side": "over",
+          "line": 10.5,
+          "player": "Precious Achiuwa",
+          "stat": "points",
+          "threshold": null,
+          "price": -112,
+          "modelProb": 0.3885,
+          "impliedProb": 0.5283,
+          "rawEdge": -0.1398,
+          "adjustedEdge": -0.3598,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 9.97,
+          "propBand": [
+            6,
+            10,
+            14
+          ],
+          "slateRank": 151
+        },
+        {
+          "label": "Precious Achiuwa Under 10.5 points",
+          "market": "prop",
+          "side": "under",
+          "line": 10.5,
+          "player": "Precious Achiuwa",
+          "stat": "points",
+          "threshold": null,
+          "price": -105,
+          "modelProb": 0.6115,
+          "impliedProb": 0.5122,
+          "rawEdge": 0.0993,
+          "adjustedEdge": -0.1207,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 9.97,
+          "propBand": [
+            6,
+            10,
+            14
+          ],
+          "slateRank": 29
+        },
+        {
+          "label": "Domantas Sabonis Over 13.5 rebounds",
+          "market": "prop",
+          "side": "over",
+          "line": 13.5,
+          "player": "Domantas Sabonis",
+          "stat": "rebounds",
+          "threshold": null,
+          "price": -135,
+          "modelProb": 0.3378,
+          "impliedProb": 0.5745,
+          "rawEdge": -0.2367,
+          "adjustedEdge": -0.4567,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 12.03,
+          "propBand": [
+            7,
+            12,
+            17
+          ],
+          "slateRank": 169
+        },
+        {
+          "label": "Domantas Sabonis Under 14.5 rebounds",
+          "market": "prop",
+          "side": "under",
+          "line": 14.5,
+          "player": "Domantas Sabonis",
+          "stat": "rebounds",
+          "threshold": null,
+          "price": -126,
+          "modelProb": 0.7435,
+          "impliedProb": 0.5575,
+          "rawEdge": 0.186,
+          "adjustedEdge": -0.034,
+          "qualifies": false,
+          "veto": "projection 12.1 is 2.4 off the 14.5 line (17%) — the line is the more likely error",
+          "simulatedMean": 12.07,
+          "propBand": [
+            7,
+            12,
+            17
+          ],
+          "slateRank": 12
+        },
+        {
+          "label": "Precious Achiuwa Over 7.5 rebounds",
+          "market": "prop",
+          "side": "over",
+          "line": 7.5,
+          "player": "Precious Achiuwa",
+          "stat": "rebounds",
+          "threshold": null,
+          "price": 102,
+          "modelProb": 0.2924,
+          "impliedProb": 0.495,
+          "rawEdge": -0.2026,
+          "adjustedEdge": -0.4226,
+          "qualifies": false,
+          "veto": "projection 6.2 is 1.3 off the 7.5 line (18%) — the line is the more likely error",
+          "simulatedMean": 6.18,
+          "propBand": [
+            3,
+            6,
+            10
+          ],
+          "slateRank": 160
+        },
+        {
+          "label": "Precious Achiuwa Under 8.5 rebounds",
+          "market": "prop",
+          "side": "under",
+          "line": 8.5,
+          "player": "Precious Achiuwa",
+          "stat": "rebounds",
+          "threshold": null,
+          "price": -152,
+          "modelProb": 0.8061,
+          "impliedProb": 0.6032,
+          "rawEdge": 0.2029,
+          "adjustedEdge": -0.0171,
+          "qualifies": false,
+          "veto": "projection 6.2 is 2.3 off the 8.5 line (27%) — the line is the more likely error",
+          "simulatedMean": 6.17,
+          "propBand": [
+            3,
+            6,
+            10
+          ],
+          "slateRank": 9
+        },
+        {
+          "label": "Dejounte Murray Over 5.5 rebounds",
+          "market": "prop",
+          "side": "over",
+          "line": 5.5,
+          "player": "Dejounte Murray",
+          "stat": "rebounds",
+          "threshold": null,
+          "price": 105,
+          "modelProb": 0.4234,
+          "impliedProb": 0.4878,
+          "rawEdge": -0.0644,
+          "adjustedEdge": -0.2844,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 5.26,
+          "propBand": [
+            2,
+            5,
+            9
+          ],
+          "slateRank": 126
+        },
+        {
+          "label": "Dejounte Murray Under 5.5 rebounds",
+          "market": "prop",
+          "side": "under",
+          "line": 5.5,
+          "player": "Dejounte Murray",
+          "stat": "rebounds",
+          "threshold": null,
+          "price": -112,
+          "modelProb": 0.5766,
+          "impliedProb": 0.5283,
+          "rawEdge": 0.0483,
+          "adjustedEdge": -0.1717,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 5.26,
+          "propBand": [
+            2,
+            5,
+            9
+          ],
+          "slateRank": 51
+        },
+        {
+          "label": "Zion Williamson Over 4.5 rebounds",
+          "market": "prop",
+          "side": "over",
+          "line": 4.5,
+          "player": "Zion Williamson",
+          "stat": "rebounds",
+          "threshold": null,
+          "price": -130,
+          "modelProb": 0.5366,
+          "impliedProb": 0.5652,
+          "rawEdge": -0.0286,
+          "adjustedEdge": -0.2486,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 4.99,
+          "propBand": [
+            2,
+            5,
+            8
+          ],
+          "slateRank": 106
+        },
+        {
+          "label": "Zion Williamson Under 5.5 rebounds",
+          "market": "prop",
+          "side": "under",
+          "line": 5.5,
+          "player": "Zion Williamson",
+          "stat": "rebounds",
+          "threshold": null,
+          "price": -149,
+          "modelProb": 0.6217,
+          "impliedProb": 0.5984,
+          "rawEdge": 0.0233,
+          "adjustedEdge": -0.1967,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 4.98,
+          "propBand": [
+            2,
+            5,
+            8
+          ],
+          "slateRank": 70
+        },
+        {
+          "label": "De'Andre Hunter Over 4.5 rebounds",
+          "market": "prop",
+          "side": "over",
+          "line": 4.5,
+          "player": "De'Andre Hunter",
+          "stat": "rebounds",
+          "threshold": null,
+          "price": -110,
+          "modelProb": 0.4052,
+          "impliedProb": 0.5238,
+          "rawEdge": -0.1186,
+          "adjustedEdge": -0.3386,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 4.2,
+          "propBand": [
+            1,
+            4,
+            7
+          ],
+          "slateRank": 144
+        },
+        {
+          "label": "De'Andre Hunter Under 4.5 rebounds",
+          "market": "prop",
+          "side": "under",
+          "line": 4.5,
+          "player": "De'Andre Hunter",
+          "stat": "rebounds",
+          "threshold": null,
+          "price": 102,
+          "modelProb": 0.5948,
+          "impliedProb": 0.495,
+          "rawEdge": 0.0998,
+          "adjustedEdge": -0.1202,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 4.2,
+          "propBand": [
+            1,
+            4,
+            7
+          ],
+          "slateRank": 28
+        },
+        {
+          "label": "Trey Murphy III Over 4.5 rebounds",
+          "market": "prop",
+          "side": "over",
+          "line": 4.5,
+          "player": "Trey Murphy III",
+          "stat": "rebounds",
+          "threshold": null,
+          "price": -115,
+          "modelProb": 0.5591,
+          "impliedProb": 0.5349,
+          "rawEdge": 0.0242,
+          "adjustedEdge": -0.1958,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 5.11,
+          "propBand": [
+            2,
+            5,
+            8
+          ],
+          "slateRank": 68
+        },
+        {
+          "label": "Trey Murphy III Under 4.5 rebounds",
+          "market": "prop",
+          "side": "under",
+          "line": 4.5,
+          "player": "Trey Murphy III",
+          "stat": "rebounds",
+          "threshold": null,
+          "price": 100,
+          "modelProb": 0.4409,
+          "impliedProb": 0.5,
+          "rawEdge": -0.0591,
+          "adjustedEdge": -0.2791,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 5.11,
+          "propBand": [
+            2,
+            5,
+            8
+          ],
+          "slateRank": 121
+        },
+        {
+          "label": "Zach LaVine Over 3.5 rebounds",
+          "market": "prop",
+          "side": "over",
+          "line": 3.5,
+          "player": "Zach LaVine",
+          "stat": "rebounds",
+          "threshold": null,
+          "price": 130,
+          "modelProb": 0.3218,
+          "impliedProb": 0.4348,
+          "rawEdge": -0.1129,
+          "adjustedEdge": -0.3329,
+          "qualifies": false,
+          "veto": "projection 2.8 is 0.7 off the 3.5 line (19%) — the line is the more likely error",
+          "simulatedMean": 2.85,
+          "propBand": [
+            1,
+            3,
+            5
+          ],
+          "slateRank": 142
+        },
+        {
+          "label": "Zach LaVine Under 3.5 rebounds",
+          "market": "prop",
+          "side": "under",
+          "line": 3.5,
+          "player": "Zach LaVine",
+          "stat": "rebounds",
+          "threshold": null,
+          "price": -148,
+          "modelProb": 0.6782,
+          "impliedProb": 0.5968,
+          "rawEdge": 0.0814,
+          "adjustedEdge": -0.1386,
+          "qualifies": false,
+          "veto": "projection 2.8 is 0.7 off the 3.5 line (19%) — the line is the more likely error",
+          "simulatedMean": 2.85,
+          "propBand": [
+            1,
+            3,
+            5
+          ],
+          "slateRank": 39
+        },
+        {
+          "label": "Jeremiah Fears Under 3.5 rebounds",
+          "market": "prop",
+          "side": "under",
+          "line": 3.5,
+          "player": "Jeremiah Fears",
+          "stat": "rebounds",
+          "threshold": null,
+          "price": -192,
+          "modelProb": 0.5587,
+          "impliedProb": 0.6575,
+          "rawEdge": -0.0988,
+          "adjustedEdge": -0.3188,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 3.45,
+          "propBand": [
+            1,
+            3,
+            6
+          ],
+          "slateRank": 138
+        },
+        {
+          "label": "Darius Acuff Jr. Under 2.5 rebounds",
+          "market": "prop",
+          "side": "under",
+          "line": 2.5,
+          "player": "Darius Acuff Jr.",
+          "stat": "rebounds",
+          "threshold": null,
+          "price": 130,
+          "modelProb": 0.5267,
+          "impliedProb": 0.4348,
+          "rawEdge": 0.0919,
+          "adjustedEdge": -0.1281,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 2.63,
+          "propBand": [
+            1,
+            2,
+            5
+          ],
+          "slateRank": 32
+        }
+      ]
+    },
+    {
+      "gameId": "mem-por",
+      "espnId": "401909895",
+      "label": "Grizzlies @ Trail Blazers",
+      "tipoff": "10:00 PM ET",
+      "book": "DraftKings",
+      "away": "MEM",
+      "home": "POR",
+      "projectedAway": 113.41,
+      "projectedHome": 119.23,
+      "projectedTotal": 232.64,
+      "projectedMargin": 5.81,
+      "unshrunkMargin": 7.46,
+      "confidence": 5,
+      "distribution": {
+        "marginRange90": [
+          -20,
+          32
+        ],
+        "totalRange90": [
+          200,
+          266
+        ],
+        "marginMedian": 6,
+        "totalMedian": 232,
+        "marginQuartiles": [
+          -5,
+          16
+        ],
+        "totalQuartiles": [
+          219,
+          246
+        ],
+        "coinFlipBand": 0.1502,
+        "blowout": 0.2993,
+        "overtime": 0.0239
+      },
+      "penaltyTotal": 0.16,
+      "veto": null,
+      "odds": {
+        "moneyline": {
+          "home": -278,
+          "away": 225
+        },
+        "spread": {
+          "homeLine": -7.5,
+          "homePrice": -110,
+          "awayPrice": -110
+        },
+        "total": {
+          "line": 232.5,
+          "over": -112,
+          "under": -108
+        },
+        "opening": {
+          "moneyline": {
+            "home": -285,
+            "away": 230
+          },
+          "spreadHomeLine": -7.5
+        }
+      },
+      "players": [
+        {
+          "player": "Cameron Boozer",
+          "team": "MEM",
+          "games": 4,
+          "projectedMinutes": 33,
+          "projected": {
+            "points": 14.14,
+            "rebounds": 10.05,
+            "assists": 4.56
+          },
+          "doubleDouble": 0.4665,
+          "tripleDouble": 0.0168,
+          "atLeastTen": {
+            "points": 0.8289,
+            "rebounds": 0.5324,
+            "assists": 0.0332
+          },
+          "pointsAtLeast": {
+            "10": 0.8289,
+            "15": 0.3804,
+            "20": 0.0989,
+            "25": 0.0178,
+            "30": 0.0024,
+            "35": 0.0004,
+            "40": 0.0001
+          }
+        },
+        {
+          "player": "Donovan Clingan",
+          "team": "POR",
+          "games": 3,
+          "projectedMinutes": 26.3,
+          "projected": {
+            "points": 11.04,
+            "rebounds": 10.66,
+            "assists": 1.99
+          },
+          "doubleDouble": 0.3606,
+          "tripleDouble": 0.0003,
+          "atLeastTen": {
+            "points": 0.5776,
+            "rebounds": 0.5965,
+            "assists": 0.0004
+          },
+          "pointsAtLeast": {
+            "10": 0.5776,
+            "15": 0.1289,
+            "20": 0.0149,
+            "25": 0.0014,
+            "30": 0.0001,
+            "35": 0,
+            "40": 0
+          }
+        },
+        {
+          "player": "Zach Edey",
+          "team": "MEM",
+          "games": 3,
+          "projectedMinutes": 24.9,
+          "projected": {
+            "points": 11.42,
+            "rebounds": 9.87,
+            "assists": 1.19
+          },
+          "doubleDouble": 0.333,
+          "tripleDouble": 0,
+          "atLeastTen": {
+            "points": 0.6187,
+            "rebounds": 0.5118,
+            "assists": 0.0001
+          },
+          "pointsAtLeast": {
+            "10": 0.6187,
+            "15": 0.1519,
+            "20": 0.0192,
+            "25": 0.0017,
+            "30": 0.0001,
+            "35": 0,
+            "40": 0
+          }
+        },
+        {
+          "player": "Deni Avdija",
+          "team": "POR",
+          "games": 3,
+          "projectedMinutes": 32.9,
+          "projected": {
+            "points": 22.82,
+            "rebounds": 6.65,
+            "assists": 6.37
+          },
+          "doubleDouble": 0.2701,
+          "tripleDouble": 0.0257,
+          "atLeastTen": {
+            "points": 0.9886,
+            "rebounds": 0.1587,
+            "assists": 0.1392
+          },
+          "pointsAtLeast": {
+            "10": 0.9886,
+            "15": 0.876,
+            "20": 0.6187,
+            "25": 0.3417,
+            "30": 0.1534,
+            "35": 0.0573,
+            "40": 0.0198
+          }
+        },
+        {
+          "player": "Ja Morant",
+          "team": "POR",
+          "games": 3,
+          "projectedMinutes": 28.2,
+          "projected": {
+            "points": 18.09,
+            "rebounds": 3.04,
+            "assists": 7.4
+          },
+          "doubleDouble": 0.2278,
+          "tripleDouble": 0.0011,
+          "atLeastTen": {
+            "points": 0.9505,
+            "rebounds": 0.0038,
+            "assists": 0.2346
+          },
+          "pointsAtLeast": {
+            "10": 0.9505,
+            "15": 0.682,
+            "20": 0.3315,
+            "25": 0.1131,
+            "30": 0.0313,
+            "35": 0.0072,
+            "40": 0.0017
+          }
+        },
+        {
+          "player": "Cedric Coward",
+          "team": "MEM",
+          "games": 3,
+          "projectedMinutes": 26.7,
+          "projected": {
+            "points": 13.04,
+            "rebounds": 6.31,
+            "assists": 2.55
+          },
+          "doubleDouble": 0.1055,
+          "tripleDouble": 0.0003,
+          "atLeastTen": {
+            "points": 0.76,
+            "rebounds": 0.1299,
+            "assists": 0.0016
+          },
+          "pointsAtLeast": {
+            "10": 0.76,
+            "15": 0.284,
+            "20": 0.0577,
+            "25": 0.0086,
+            "30": 0.0012,
+            "35": 0.0001,
+            "40": 0
+          }
+        },
+        {
+          "player": "Ty Jerome",
+          "team": "MEM",
+          "games": 4,
+          "projectedMinutes": 24.8,
+          "projected": {
+            "points": 21.19,
+            "rebounds": 2.87,
+            "assists": 5.72
+          },
+          "doubleDouble": 0.0908,
+          "tripleDouble": 0.0003,
+          "atLeastTen": {
+            "points": 0.9812,
+            "rebounds": 0.0025,
+            "assists": 0.09
+          },
+          "pointsAtLeast": {
+            "10": 0.9812,
+            "15": 0.8295,
+            "20": 0.5291,
+            "25": 0.2572,
+            "30": 0.0991,
+            "35": 0.0322,
+            "40": 0.0099
+          }
+        },
+        {
+          "player": "Jrue Holiday",
+          "team": "POR",
+          "games": 3,
+          "projectedMinutes": 28.7,
+          "projected": {
+            "points": 15.19,
+            "rebounds": 4.08,
+            "assists": 5.4
+          },
+          "doubleDouble": 0.0808,
+          "tripleDouble": 0.0014,
+          "atLeastTen": {
+            "points": 0.8765,
+            "rebounds": 0.0179,
+            "assists": 0.0727
+          },
+          "pointsAtLeast": {
+            "10": 0.8765,
+            "15": 0.4705,
+            "20": 0.1504,
+            "25": 0.0333,
+            "30": 0.006,
+            "35": 0.0008,
+            "40": 0.0001
+          }
+        },
+        {
+          "player": "Damian Lillard",
+          "team": "POR",
+          "games": 3,
+          "projectedMinutes": 29.3,
+          "projected": {
+            "points": 20.78,
+            "rebounds": 4.16,
+            "assists": 3.83
+          },
+          "doubleDouble": 0.0325,
+          "tripleDouble": 0.0003,
+          "atLeastTen": {
+            "points": 0.9785,
+            "rebounds": 0.0198,
+            "assists": 0.0135
+          },
+          "pointsAtLeast": {
+            "10": 0.9785,
+            "15": 0.8131,
+            "20": 0.5029,
+            "25": 0.2358,
+            "30": 0.0882,
+            "35": 0.0274,
+            "40": 0.0076
+          }
+        },
+        {
+          "player": "Toumani Camara",
+          "team": "POR",
+          "games": 3,
+          "projectedMinutes": 31.6,
+          "projected": {
+            "points": 13.75,
+            "rebounds": 4.11,
+            "assists": 2.23
+          },
+          "doubleDouble": 0.0168,
+          "tripleDouble": 0,
+          "atLeastTen": {
+            "points": 0.8106,
+            "rebounds": 0.0186,
+            "assists": 0.0008
+          },
+          "pointsAtLeast": {
+            "10": 0.8106,
+            "15": 0.345,
+            "20": 0.083,
+            "25": 0.0133,
+            "30": 0.0017,
+            "35": 0.0001,
+            "40": 0
+          }
+        },
+        {
+          "player": "Cam Spencer",
+          "team": "MEM",
+          "games": 4,
+          "projectedMinutes": 22,
+          "projected": {
+            "points": 10.14,
+            "rebounds": 2.61,
+            "assists": 4.42
+          },
+          "doubleDouble": 0.0163,
+          "tripleDouble": 0,
+          "atLeastTen": {
+            "points": 0.4723,
+            "rebounds": 0.0017,
+            "assists": 0.0288
+          },
+          "pointsAtLeast": {
+            "10": 0.4723,
+            "15": 0.0746,
+            "20": 0.0056,
+            "25": 0.0003,
+            "30": 0,
+            "35": 0,
+            "40": 0
+          }
+        },
+        {
+          "player": "Isaiah Stewart",
+          "team": "MEM",
+          "games": 3,
+          "projectedMinutes": 21.7,
+          "projected": {
+            "points": 8.97,
+            "rebounds": 4.53,
+            "assists": 0.95
+          },
+          "doubleDouble": 0.0107,
+          "tripleDouble": 0,
+          "atLeastTen": {
+            "points": 0.3191,
+            "rebounds": 0.0295,
+            "assists": 0
+          },
+          "pointsAtLeast": {
+            "10": 0.3191,
+            "15": 0.0298,
+            "20": 0.0015,
+            "25": 0,
+            "30": 0,
+            "35": 0,
+            "40": 0
+          }
+        },
+        {
+          "player": "GG Jackson",
+          "team": "MEM",
+          "games": 4,
+          "projectedMinutes": 19.8,
+          "projected": {
+            "points": 9.82,
+            "rebounds": 4.13,
+            "assists": 1.23
+          },
+          "doubleDouble": 0.0097,
+          "tripleDouble": 0,
+          "atLeastTen": {
+            "points": 0.4308,
+            "rebounds": 0.0192,
+            "assists": 0.0001
+          },
+          "pointsAtLeast": {
+            "10": 0.4308,
+            "15": 0.0598,
+            "20": 0.0044,
+            "25": 0.0002,
+            "30": 0,
+            "35": 0,
+            "40": 0
+          }
+        },
+        {
+          "player": "Scotty Pippen Jr.",
+          "team": "MEM",
+          "games": 4,
+          "projectedMinutes": 20.1,
+          "projected": {
+            "points": 9.92,
+            "rebounds": 2.28,
+            "assists": 3.98
+          },
+          "doubleDouble": 0.0092,
+          "tripleDouble": 0,
+          "atLeastTen": {
+            "points": 0.4436,
+            "rebounds": 0.0009,
+            "assists": 0.0178
+          },
+          "pointsAtLeast": {
+            "10": 0.4436,
+            "15": 0.065,
+            "20": 0.0045,
+            "25": 0.0003,
+            "30": 0,
+            "35": 0,
+            "40": 0
+          }
+        },
+        {
+          "player": "Jaylen Wells",
+          "team": "MEM",
+          "games": 4,
+          "projectedMinutes": 27,
+          "projected": {
+            "points": 12.49,
+            "rebounds": 3.43,
+            "assists": 1.51
+          },
+          "doubleDouble": 0.0057,
+          "tripleDouble": 0,
+          "atLeastTen": {
+            "points": 0.7174,
+            "rebounds": 0.0075,
+            "assists": 0.0001
+          },
+          "pointsAtLeast": {
+            "10": 0.7174,
+            "15": 0.2388,
+            "20": 0.0427,
+            "25": 0.0055,
+            "30": 0.0005,
+            "35": 0.0001,
+            "40": 0
+          }
+        },
+        {
+          "player": "Jerami Grant",
+          "team": "MEM",
+          "games": 4,
+          "projectedMinutes": 28.3,
+          "projected": {
+            "points": 15.46,
+            "rebounds": 3.17,
+            "assists": 2.07
+          },
+          "doubleDouble": 0.0052,
+          "tripleDouble": 0,
+          "atLeastTen": {
+            "points": 0.8866,
+            "rebounds": 0.0052,
+            "assists": 0.0005
+          },
+          "pointsAtLeast": {
+            "10": 0.8866,
+            "15": 0.4932,
+            "20": 0.1673,
+            "25": 0.0381,
+            "30": 0.0075,
+            "35": 0.0012,
+            "40": 0.0002
+          }
+        },
+        {
+          "player": "Scoot Henderson",
+          "team": "POR",
+          "games": 3,
+          "projectedMinutes": 23.7,
+          "projected": {
+            "points": 12.04,
+            "rebounds": 2.37,
+            "assists": 3.18
+          },
+          "doubleDouble": 0.0046,
+          "tripleDouble": 0,
+          "atLeastTen": {
+            "points": 0.6806,
+            "rebounds": 0.0009,
+            "assists": 0.0053
+          },
+          "pointsAtLeast": {
+            "10": 0.6806,
+            "15": 0.2014,
+            "20": 0.0314,
+            "25": 0.0032,
+            "30": 0.0002,
+            "35": 0,
+            "40": 0
+          }
+        },
+        {
+          "player": "Sidy Cissoko",
+          "team": "POR",
+          "games": 3,
+          "projectedMinutes": 20,
+          "projected": {
+            "points": 5.4,
+            "rebounds": 2.46,
+            "assists": 1.63
+          },
+          "doubleDouble": 0,
+          "tripleDouble": 0,
+          "atLeastTen": {
+            "points": 0.0112,
+            "rebounds": 0.0011,
+            "assists": 0.0001
+          },
+          "pointsAtLeast": {
+            "10": 0.0112,
+            "15": 0,
+            "20": 0,
+            "25": 0,
+            "30": 0,
+            "35": 0,
+            "40": 0
+          }
+        }
+      ],
+      "markets": [
+        {
+          "label": "Portland Trail Blazers ML",
+          "market": "moneyline",
+          "side": "home",
+          "line": null,
+          "player": null,
+          "stat": null,
+          "threshold": null,
+          "price": -278,
+          "modelProb": 0.643,
+          "impliedProb": 0.7354,
+          "rawEdge": -0.0924,
+          "adjustedEdge": -0.2524,
+          "qualifies": false,
+          "veto": "moneylines are off the board — the model's margins are compressed against the market and no more accurate than it, so a moneyline edge is the vig on the book's number",
+          "simulatedMean": null,
+          "propBand": null,
+          "slateRank": 108
+        },
+        {
+          "label": "Memphis Grizzlies ML",
+          "market": "moneyline",
+          "side": "away",
+          "line": null,
+          "player": null,
+          "stat": null,
+          "threshold": null,
+          "price": 225,
+          "modelProb": 0.357,
+          "impliedProb": 0.3077,
+          "rawEdge": 0.0493,
+          "adjustedEdge": -0.1107,
+          "qualifies": false,
+          "veto": "moneylines are off the board — the model's margins are compressed against the market and no more accurate than it, so a moneyline edge is the vig on the book's number",
+          "simulatedMean": null,
+          "propBand": null,
+          "slateRank": 25
+        },
+        {
+          "label": "Portland Trail Blazers -7.5",
+          "market": "spread",
+          "side": "home",
+          "line": null,
+          "player": null,
+          "stat": null,
+          "threshold": null,
+          "price": -110,
+          "modelProb": 0.4606,
+          "impliedProb": 0.5238,
+          "rawEdge": -0.0632,
+          "adjustedEdge": -0.2232,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": null,
+          "propBand": null,
+          "slateRank": 87
+        },
+        {
+          "label": "Memphis Grizzlies +7.5",
+          "market": "spread",
+          "side": "away",
+          "line": null,
+          "player": null,
+          "stat": null,
+          "threshold": null,
+          "price": -110,
+          "modelProb": 0.5394,
+          "impliedProb": 0.5238,
+          "rawEdge": 0.0156,
+          "adjustedEdge": -0.1444,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": null,
+          "propBand": null,
+          "slateRank": 42
+        },
+        {
+          "label": "Over 232.5",
+          "market": "total",
+          "side": "over",
+          "line": null,
+          "player": null,
+          "stat": null,
+          "threshold": null,
+          "price": -112,
+          "modelProb": 0.4987,
+          "impliedProb": 0.5283,
+          "rawEdge": -0.0296,
+          "adjustedEdge": -0.1896,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": null,
+          "propBand": null,
+          "slateRank": 63
+        },
+        {
+          "label": "Under 232.5",
+          "market": "total",
+          "side": "under",
+          "line": null,
+          "player": null,
+          "stat": null,
+          "threshold": null,
+          "price": -108,
+          "modelProb": 0.5013,
+          "impliedProb": 0.5192,
+          "rawEdge": -0.0179,
+          "adjustedEdge": -0.1779,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": null,
+          "propBand": null,
+          "slateRank": 56
+        },
+        {
+          "label": "Ty Jerome Over 23.5 points",
+          "market": "prop",
+          "side": "over",
+          "line": 23.5,
+          "player": "Ty Jerome",
+          "stat": "points",
+          "threshold": null,
+          "price": -115,
+          "modelProb": 0.3264,
+          "impliedProb": 0.5349,
+          "rawEdge": -0.2085,
+          "adjustedEdge": -0.4285,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 21.17,
+          "propBand": [
+            13,
+            20,
+            30
+          ],
+          "slateRank": 161
+        },
+        {
+          "label": "Ty Jerome Under 24.5 points",
+          "market": "prop",
+          "side": "under",
+          "line": 24.5,
+          "player": "Ty Jerome",
+          "stat": "points",
+          "threshold": null,
+          "price": -119,
+          "modelProb": 0.7227,
+          "impliedProb": 0.5434,
+          "rawEdge": 0.1793,
+          "adjustedEdge": -0.0407,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 21.21,
+          "propBand": [
+            13,
+            20,
+            30
+          ],
+          "slateRank": 15
+        },
+        {
+          "label": "Deni Avdija Over 22.5 points",
+          "market": "prop",
+          "side": "over",
+          "line": 22.5,
+          "player": "Deni Avdija",
+          "stat": "points",
+          "threshold": null,
+          "price": -120,
+          "modelProb": 0.4731,
+          "impliedProb": 0.5455,
+          "rawEdge": -0.0723,
+          "adjustedEdge": -0.2923,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 22.83,
+          "propBand": [
+            14,
+            22,
+            32
+          ],
+          "slateRank": 130
+        },
+        {
+          "label": "Deni Avdija Under 23.5 points",
+          "market": "prop",
+          "side": "under",
+          "line": 23.5,
+          "player": "Deni Avdija",
+          "stat": "points",
+          "threshold": null,
+          "price": -123,
+          "modelProb": 0.5819,
+          "impliedProb": 0.5516,
+          "rawEdge": 0.0303,
+          "adjustedEdge": -0.1897,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 22.83,
+          "propBand": [
+            14,
+            22,
+            32
+          ],
+          "slateRank": 64
+        },
+        {
+          "label": "Damian Lillard Over 20.5 points",
+          "market": "prop",
+          "side": "over",
+          "line": 20.5,
+          "player": "Damian Lillard",
+          "stat": "points",
+          "threshold": null,
+          "price": -110,
+          "modelProb": 0.466,
+          "impliedProb": 0.5238,
+          "rawEdge": -0.0578,
+          "adjustedEdge": -0.2778,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 20.69,
+          "propBand": [
+            13,
+            20,
+            29
+          ],
+          "slateRank": 118
+        },
+        {
+          "label": "Damian Lillard Under 20.5 points",
+          "market": "prop",
+          "side": "under",
+          "line": 20.5,
+          "player": "Damian Lillard",
+          "stat": "points",
+          "threshold": null,
+          "price": -110,
+          "modelProb": 0.534,
+          "impliedProb": 0.5238,
+          "rawEdge": 0.0102,
+          "adjustedEdge": -0.2098,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 20.69,
+          "propBand": [
+            13,
+            20,
+            29
+          ],
+          "slateRank": 77
+        },
+        {
+          "label": "Scoot Henderson Over 8.5 points",
+          "market": "prop",
+          "side": "over",
+          "line": 8.5,
+          "player": "Scoot Henderson",
+          "stat": "points",
+          "threshold": null,
+          "price": -130,
+          "modelProb": 0.8332,
+          "impliedProb": 0.5652,
+          "rawEdge": 0.268,
+          "adjustedEdge": 0.048,
+          "qualifies": false,
+          "veto": "projection 12.1 is 3.6 off the 8.5 line (42%) — the line is the more likely error",
+          "simulatedMean": 12.08,
+          "propBand": [
+            8,
+            12,
+            17
+          ],
+          "slateRank": 5
+        },
+        {
+          "label": "Scoot Henderson Under 8.5 points",
+          "market": "prop",
+          "side": "under",
+          "line": 8.5,
+          "player": "Scoot Henderson",
+          "stat": "points",
+          "threshold": null,
+          "price": 100,
+          "modelProb": 0.1668,
+          "impliedProb": 0.5,
+          "rawEdge": -0.3332,
+          "adjustedEdge": -0.5532,
+          "qualifies": false,
+          "veto": "projection 12.1 is 3.6 off the 8.5 line (42%) — the line is the more likely error",
+          "simulatedMean": 12.08,
+          "propBand": [
+            8,
+            12,
+            17
+          ],
+          "slateRank": 174
+        },
+        {
+          "label": "Ja Morant Over 17.5 points",
+          "market": "prop",
+          "side": "over",
+          "line": 17.5,
+          "player": "Ja Morant",
+          "stat": "points",
+          "threshold": null,
+          "price": -108,
+          "modelProb": 0.4948,
+          "impliedProb": 0.5192,
+          "rawEdge": -0.0245,
+          "adjustedEdge": -0.2445,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 18.06,
+          "propBand": [
+            11,
+            17,
+            25
+          ],
+          "slateRank": 103
+        },
+        {
+          "label": "Ja Morant Under 18.5 points",
+          "market": "prop",
+          "side": "under",
+          "line": 18.5,
+          "player": "Ja Morant",
+          "stat": "points",
+          "threshold": null,
+          "price": -120,
+          "modelProb": 0.575,
+          "impliedProb": 0.5455,
+          "rawEdge": 0.0296,
+          "adjustedEdge": -0.1904,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 18.05,
+          "propBand": [
+            11,
+            17,
+            26
+          ],
+          "slateRank": 65
+        },
+        {
+          "label": "Cameron Boozer Over 15.5 points",
+          "market": "prop",
+          "side": "over",
+          "line": 15.5,
+          "player": "Cameron Boozer",
+          "stat": "points",
+          "threshold": null,
+          "price": -115,
+          "modelProb": 0.3392,
+          "impliedProb": 0.5349,
+          "rawEdge": -0.1957,
+          "adjustedEdge": -0.4157,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 14.13,
+          "propBand": [
+            9,
+            14,
+            20
+          ],
+          "slateRank": 158
+        },
+        {
+          "label": "Cameron Boozer Under 16.5 points",
+          "market": "prop",
+          "side": "under",
+          "line": 16.5,
+          "player": "Cameron Boozer",
+          "stat": "points",
+          "threshold": null,
+          "price": -125,
+          "modelProb": 0.7347,
+          "impliedProb": 0.5556,
+          "rawEdge": 0.1791,
+          "adjustedEdge": -0.0409,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 14.13,
+          "propBand": [
+            9,
+            14,
+            20
+          ],
+          "slateRank": 16
+        },
+        {
+          "label": "Cedric Coward Over 12.5 points",
+          "market": "prop",
+          "side": "over",
+          "line": 12.5,
+          "player": "Cedric Coward",
+          "stat": "points",
+          "threshold": null,
+          "price": -120,
+          "modelProb": 0.5081,
+          "impliedProb": 0.5455,
+          "rawEdge": -0.0374,
+          "adjustedEdge": -0.2574,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 13.04,
+          "propBand": [
+            8,
+            13,
+            18
+          ],
+          "slateRank": 109
+        },
+        {
+          "label": "Cedric Coward Under 13.5 points",
+          "market": "prop",
+          "side": "under",
+          "line": 13.5,
+          "player": "Cedric Coward",
+          "stat": "points",
+          "threshold": null,
+          "price": -132,
+          "modelProb": 0.5888,
+          "impliedProb": 0.569,
+          "rawEdge": 0.0198,
+          "adjustedEdge": -0.2002,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 13.05,
+          "propBand": [
+            8,
+            13,
+            18
+          ],
+          "slateRank": 73
+        },
+        {
+          "label": "Jrue Holiday Over 12.5 points",
+          "market": "prop",
+          "side": "over",
+          "line": 12.5,
+          "player": "Jrue Holiday",
+          "stat": "points",
+          "threshold": null,
+          "price": -104,
+          "modelProb": 0.6905,
+          "impliedProb": 0.5098,
+          "rawEdge": 0.1807,
+          "adjustedEdge": -0.0393,
+          "qualifies": false,
+          "veto": "projection 15.2 is 2.7 off the 12.5 line (22%) — the line is the more likely error",
+          "simulatedMean": 15.2,
+          "propBand": [
+            10,
+            15,
+            22
+          ],
+          "slateRank": 14
+        },
+        {
+          "label": "Jrue Holiday Under 12.5 points",
+          "market": "prop",
+          "side": "under",
+          "line": 12.5,
+          "player": "Jrue Holiday",
+          "stat": "points",
+          "threshold": null,
+          "price": -120,
+          "modelProb": 0.3095,
+          "impliedProb": 0.5455,
+          "rawEdge": -0.236,
+          "adjustedEdge": -0.456,
+          "qualifies": false,
+          "veto": "projection 15.2 is 2.7 off the 12.5 line (22%) — the line is the more likely error",
+          "simulatedMean": 15.2,
+          "propBand": [
+            10,
+            15,
+            22
+          ],
+          "slateRank": 168
+        },
+        {
+          "label": "Toumani Camara Over 10.5 points",
+          "market": "prop",
+          "side": "over",
+          "line": 10.5,
+          "player": "Toumani Camara",
+          "stat": "points",
+          "threshold": null,
+          "price": -120,
+          "modelProb": 0.7675,
+          "impliedProb": 0.5455,
+          "rawEdge": 0.222,
+          "adjustedEdge": 0.002,
+          "qualifies": false,
+          "veto": "projection 13.7 is 3.2 off the 10.5 line (31%) — the line is the more likely error",
+          "simulatedMean": 13.75,
+          "propBand": [
+            9,
+            13,
+            19
+          ],
+          "slateRank": 7
+        },
+        {
+          "label": "Toumani Camara Under 11.5 points",
+          "market": "prop",
+          "side": "under",
+          "line": 11.5,
+          "player": "Toumani Camara",
+          "stat": "points",
+          "threshold": null,
+          "price": -119,
+          "modelProb": 0.3254,
+          "impliedProb": 0.5434,
+          "rawEdge": -0.218,
+          "adjustedEdge": -0.438,
+          "qualifies": false,
+          "veto": "projection 13.8 is 2.3 off the 11.5 line (20%) — the line is the more likely error",
+          "simulatedMean": 13.78,
+          "propBand": [
+            9,
+            13,
+            20
+          ],
+          "slateRank": 165
+        },
+        {
+          "label": "Jaylen Wells Over 10.5 points",
+          "market": "prop",
+          "side": "over",
+          "line": 10.5,
+          "player": "Jaylen Wells",
+          "stat": "points",
+          "threshold": null,
+          "price": -120,
+          "modelProb": 0.6661,
+          "impliedProb": 0.5455,
+          "rawEdge": 0.1206,
+          "adjustedEdge": -0.0994,
+          "qualifies": false,
+          "veto": "projection 12.5 is 2.0 off the 10.5 line (19%) — the line is the more likely error",
+          "simulatedMean": 12.48,
+          "propBand": [
+            8,
+            12,
+            18
+          ],
+          "slateRank": 24
+        },
+        {
+          "label": "Jaylen Wells Under 11.5 points",
+          "market": "prop",
+          "side": "under",
+          "line": 11.5,
+          "player": "Jaylen Wells",
+          "stat": "points",
+          "threshold": null,
+          "price": -115,
+          "modelProb": 0.4419,
+          "impliedProb": 0.5349,
+          "rawEdge": -0.093,
+          "adjustedEdge": -0.313,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 12.47,
+          "propBand": [
+            8,
+            12,
+            18
+          ],
+          "slateRank": 136
+        },
+        {
+          "label": "Jerami Grant Over 9.5 points",
+          "market": "prop",
+          "side": "over",
+          "line": 9.5,
+          "player": "Jerami Grant",
+          "stat": "points",
+          "threshold": null,
+          "price": -115,
+          "modelProb": 0.9131,
+          "impliedProb": 0.5349,
+          "rawEdge": 0.3782,
+          "adjustedEdge": 0.1582,
+          "qualifies": false,
+          "veto": "projection 15.5 is 6.0 off the 9.5 line (63%) — the line is the more likely error",
+          "simulatedMean": 15.48,
+          "propBand": [
+            10,
+            15,
+            22
+          ],
+          "slateRank": 2
+        },
+        {
+          "label": "Jerami Grant Under 10.5 points",
+          "market": "prop",
+          "side": "under",
+          "line": 10.5,
+          "player": "Jerami Grant",
+          "stat": "points",
+          "threshold": null,
+          "price": -130,
+          "modelProb": 0.1422,
+          "impliedProb": 0.5652,
+          "rawEdge": -0.423,
+          "adjustedEdge": -0.643,
+          "qualifies": false,
+          "veto": "projection 15.5 is 5.0 off the 10.5 line (47%) — the line is the more likely error",
+          "simulatedMean": 15.48,
+          "propBand": [
+            10,
+            15,
+            22
+          ],
+          "slateRank": 176
+        },
+        {
+          "label": "Donovan Clingan Over 9.5 points",
+          "market": "prop",
+          "side": "over",
+          "line": 9.5,
+          "player": "Donovan Clingan",
+          "stat": "points",
+          "threshold": null,
+          "price": -120,
+          "modelProb": 0.6392,
+          "impliedProb": 0.5455,
+          "rawEdge": 0.0938,
+          "adjustedEdge": -0.1262,
+          "qualifies": false,
+          "veto": "projection 11.0 is 1.5 off the 9.5 line (16%) — the line is the more likely error",
+          "simulatedMean": 11.04,
+          "propBand": [
+            7,
+            11,
+            16
+          ],
+          "slateRank": 31
+        },
+        {
+          "label": "Donovan Clingan Under 9.5 points",
+          "market": "prop",
+          "side": "under",
+          "line": 9.5,
+          "player": "Donovan Clingan",
+          "stat": "points",
+          "threshold": null,
+          "price": 102,
+          "modelProb": 0.3608,
+          "impliedProb": 0.495,
+          "rawEdge": -0.1343,
+          "adjustedEdge": -0.3543,
+          "qualifies": false,
+          "veto": "projection 11.0 is 1.5 off the 9.5 line (16%) — the line is the more likely error",
+          "simulatedMean": 11.04,
+          "propBand": [
+            7,
+            11,
+            16
+          ],
+          "slateRank": 148
+        },
+        {
+          "label": "Zach Edey Over 7.5 points",
+          "market": "prop",
+          "side": "over",
+          "line": 7.5,
+          "player": "Zach Edey",
+          "stat": "points",
+          "threshold": null,
+          "price": -136,
+          "modelProb": 0.8761,
+          "impliedProb": 0.5763,
+          "rawEdge": 0.2998,
+          "adjustedEdge": 0.0798,
+          "qualifies": false,
+          "veto": "projection 11.4 is 3.9 off the 7.5 line (52%) — the line is the more likely error",
+          "simulatedMean": 11.42,
+          "propBand": [
+            7,
+            11,
+            16
+          ],
+          "slateRank": 4
+        },
+        {
+          "label": "Zach Edey Under 8.5 points",
+          "market": "prop",
+          "side": "under",
+          "line": 8.5,
+          "player": "Zach Edey",
+          "stat": "points",
+          "threshold": null,
+          "price": -112,
+          "modelProb": 0.2105,
+          "impliedProb": 0.5283,
+          "rawEdge": -0.3178,
+          "adjustedEdge": -0.5378,
+          "qualifies": false,
+          "veto": "projection 11.4 is 2.9 off the 8.5 line (34%) — the line is the more likely error",
+          "simulatedMean": 11.43,
+          "propBand": [
+            7,
+            11,
+            16
+          ],
+          "slateRank": 173
+        },
+        {
+          "label": "Robert Williams III Over 6.5 points",
+          "market": "prop",
+          "side": "over",
+          "line": 6.5,
+          "player": "Robert Williams III",
+          "stat": "points",
+          "threshold": null,
+          "price": -110,
+          "modelProb": 0.5457,
+          "impliedProb": 0.5238,
+          "rawEdge": 0.0219,
+          "adjustedEdge": -0.1981,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 6.98,
+          "propBand": [
+            4,
+            7,
+            10
+          ],
+          "slateRank": 71
+        },
+        {
+          "label": "Robert Williams III Under 7.5 points",
+          "market": "prop",
+          "side": "under",
+          "line": 7.5,
+          "player": "Robert Williams III",
+          "stat": "points",
+          "threshold": null,
+          "price": -120,
+          "modelProb": 0.6372,
+          "impliedProb": 0.5455,
+          "rawEdge": 0.0918,
+          "adjustedEdge": -0.1282,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 6.97,
+          "propBand": [
+            4,
+            7,
+            10
+          ],
+          "slateRank": 33
+        },
+        {
+          "label": "Sidy Cissoko Over 4.5 points",
+          "market": "prop",
+          "side": "over",
+          "line": 4.5,
+          "player": "Sidy Cissoko",
+          "stat": "points",
+          "threshold": null,
+          "price": -135,
+          "modelProb": 0.6725,
+          "impliedProb": 0.5745,
+          "rawEdge": 0.0981,
+          "adjustedEdge": -0.1219,
+          "qualifies": false,
+          "veto": "projection 5.4 is 0.9 off the 4.5 line (20%) — the line is the more likely error",
+          "simulatedMean": 5.39,
+          "propBand": [
+            3,
+            5,
+            8
+          ],
+          "slateRank": 30
+        },
+        {
+          "label": "Sidy Cissoko Under 4.5 points",
+          "market": "prop",
+          "side": "under",
+          "line": 4.5,
+          "player": "Sidy Cissoko",
+          "stat": "points",
+          "threshold": null,
+          "price": 105,
+          "modelProb": 0.3275,
+          "impliedProb": 0.4878,
+          "rawEdge": -0.1604,
+          "adjustedEdge": -0.3804,
+          "qualifies": false,
+          "veto": "projection 5.4 is 0.9 off the 4.5 line (20%) — the line is the more likely error",
+          "simulatedMean": 5.39,
+          "propBand": [
+            3,
+            5,
+            8
+          ],
+          "slateRank": 156
+        },
+        {
+          "label": "Isaiah Stewart Over 4.5 points",
+          "market": "prop",
+          "side": "over",
+          "line": 4.5,
+          "player": "Isaiah Stewart",
+          "stat": "points",
+          "threshold": null,
+          "price": -125,
+          "modelProb": 0.9725,
+          "impliedProb": 0.5556,
+          "rawEdge": 0.4169,
+          "adjustedEdge": 0.1969,
+          "qualifies": false,
+          "veto": "projection 9.0 is 4.5 off the 4.5 line (99%) — the line is the more likely error",
+          "simulatedMean": 8.97,
+          "propBand": [
+            6,
+            9,
+            13
+          ],
+          "slateRank": 1
+        },
+        {
+          "label": "Isaiah Stewart Under 4.5 points",
+          "market": "prop",
+          "side": "under",
+          "line": 4.5,
+          "player": "Isaiah Stewart",
+          "stat": "points",
+          "threshold": null,
+          "price": 100,
+          "modelProb": 0.0275,
+          "impliedProb": 0.5,
+          "rawEdge": -0.4725,
+          "adjustedEdge": -0.6925,
+          "qualifies": false,
+          "veto": "projection 9.0 is 4.5 off the 4.5 line (99%) — the line is the more likely error",
+          "simulatedMean": 8.97,
+          "propBand": [
+            6,
+            9,
+            13
+          ],
+          "slateRank": 177
+        },
+        {
+          "label": "Donovan Clingan Over 10.5 rebounds",
+          "market": "prop",
+          "side": "over",
+          "line": 10.5,
+          "player": "Donovan Clingan",
+          "stat": "rebounds",
+          "threshold": null,
+          "price": -115,
+          "modelProb": 0.4888,
+          "impliedProb": 0.5349,
+          "rawEdge": -0.0461,
+          "adjustedEdge": -0.2661,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 10.67,
+          "propBand": [
+            6,
+            10,
+            16
+          ],
+          "slateRank": 112
+        },
+        {
+          "label": "Donovan Clingan Under 10.5 rebounds",
+          "market": "prop",
+          "side": "under",
+          "line": 10.5,
+          "player": "Donovan Clingan",
+          "stat": "rebounds",
+          "threshold": null,
+          "price": -105,
+          "modelProb": 0.5112,
+          "impliedProb": 0.5122,
+          "rawEdge": -0.001,
+          "adjustedEdge": -0.221,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 10.67,
+          "propBand": [
+            6,
+            10,
+            16
+          ],
+          "slateRank": 84
+        },
+        {
+          "label": "Cameron Boozer Over 7.5 rebounds",
+          "market": "prop",
+          "side": "over",
+          "line": 7.5,
+          "player": "Cameron Boozer",
+          "stat": "rebounds",
+          "threshold": null,
+          "price": -120,
+          "modelProb": 0.7485,
+          "impliedProb": 0.5455,
+          "rawEdge": 0.203,
+          "adjustedEdge": -0.017,
+          "qualifies": false,
+          "veto": "projection 10.0 is 2.5 off the 7.5 line (34%) — the line is the more likely error",
+          "simulatedMean": 10.05,
+          "propBand": [
+            6,
+            10,
+            15
+          ],
+          "slateRank": 8
+        },
+        {
+          "label": "Cameron Boozer Under 8.5 rebounds",
+          "market": "prop",
+          "side": "under",
+          "line": 8.5,
+          "player": "Cameron Boozer",
+          "stat": "rebounds",
+          "threshold": null,
+          "price": -136,
+          "modelProb": 0.3581,
+          "impliedProb": 0.5763,
+          "rawEdge": -0.2182,
+          "adjustedEdge": -0.4382,
+          "qualifies": false,
+          "veto": "projection 10.0 is 1.5 off the 8.5 line (18%) — the line is the more likely error",
+          "simulatedMean": 10.05,
+          "propBand": [
+            6,
+            10,
+            15
+          ],
+          "slateRank": 166
+        },
+        {
+          "label": "Zach Edey Over 7.5 rebounds",
+          "market": "prop",
+          "side": "over",
+          "line": 7.5,
+          "player": "Zach Edey",
+          "stat": "rebounds",
+          "threshold": null,
+          "price": -118,
+          "modelProb": 0.7282,
+          "impliedProb": 0.5413,
+          "rawEdge": 0.187,
+          "adjustedEdge": -0.033,
+          "qualifies": false,
+          "veto": "projection 9.8 is 2.3 off the 7.5 line (31%) — the line is the more likely error",
+          "simulatedMean": 9.82,
+          "propBand": [
+            5,
+            10,
+            15
+          ],
+          "slateRank": 11
+        },
+        {
+          "label": "Zach Edey Under 8.5 rebounds",
+          "market": "prop",
+          "side": "under",
+          "line": 8.5,
+          "player": "Zach Edey",
+          "stat": "rebounds",
+          "threshold": null,
+          "price": -175,
+          "modelProb": 0.3779,
+          "impliedProb": 0.6364,
+          "rawEdge": -0.2584,
+          "adjustedEdge": -0.4784,
+          "qualifies": false,
+          "veto": "projection 9.8 is 1.3 off the 8.5 line (16%) — the line is the more likely error",
+          "simulatedMean": 9.83,
+          "propBand": [
+            5,
+            10,
+            14
+          ],
+          "slateRank": 171
+        },
+        {
+          "label": "Robert Williams III Over 6.5 rebounds",
+          "market": "prop",
+          "side": "over",
+          "line": 6.5,
+          "player": "Robert Williams III",
+          "stat": "rebounds",
+          "threshold": null,
+          "price": -140,
+          "modelProb": 0.5363,
+          "impliedProb": 0.5833,
+          "rawEdge": -0.0471,
+          "adjustedEdge": -0.2671,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 7.02,
+          "propBand": [
+            3,
+            7,
+            11
+          ],
+          "slateRank": 113
+        },
+        {
+          "label": "Robert Williams III Under 7.5 rebounds",
+          "market": "prop",
+          "side": "under",
+          "line": 7.5,
+          "player": "Robert Williams III",
+          "stat": "rebounds",
+          "threshold": null,
+          "price": -112,
+          "modelProb": 0.5958,
+          "impliedProb": 0.5283,
+          "rawEdge": 0.0674,
+          "adjustedEdge": -0.1526,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 7.02,
+          "propBand": [
+            3,
+            7,
+            11
+          ],
+          "slateRank": 45
+        },
+        {
+          "label": "Deni Avdija Over 6.5 rebounds",
+          "market": "prop",
+          "side": "over",
+          "line": 6.5,
+          "player": "Deni Avdija",
+          "stat": "rebounds",
+          "threshold": null,
+          "price": -115,
+          "modelProb": 0.4828,
+          "impliedProb": 0.5349,
+          "rawEdge": -0.0521,
+          "adjustedEdge": -0.2721,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 6.64,
+          "propBand": [
+            3,
+            6,
+            11
+          ],
+          "slateRank": 117
+        },
+        {
+          "label": "Deni Avdija Under 6.5 rebounds",
+          "market": "prop",
+          "side": "under",
+          "line": 6.5,
+          "player": "Deni Avdija",
+          "stat": "rebounds",
+          "threshold": null,
+          "price": 100,
+          "modelProb": 0.5172,
+          "impliedProb": 0.5,
+          "rawEdge": 0.0172,
+          "adjustedEdge": -0.2028,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 6.64,
+          "propBand": [
+            3,
+            6,
+            11
+          ],
+          "slateRank": 75
+        },
+        {
+          "label": "Cedric Coward Over 5.5 rebounds",
+          "market": "prop",
+          "side": "over",
+          "line": 5.5,
+          "player": "Cedric Coward",
+          "stat": "rebounds",
+          "threshold": null,
+          "price": -155,
+          "modelProb": 0.5806,
+          "impliedProb": 0.6078,
+          "rawEdge": -0.0272,
+          "adjustedEdge": -0.2472,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 6.31,
+          "propBand": [
+            3,
+            6,
+            10
+          ],
+          "slateRank": 104
+        },
+        {
+          "label": "Cedric Coward Under 6.5 rebounds",
+          "market": "prop",
+          "side": "under",
+          "line": 6.5,
+          "player": "Cedric Coward",
+          "stat": "rebounds",
+          "threshold": null,
+          "price": -144,
+          "modelProb": 0.5611,
+          "impliedProb": 0.5902,
+          "rawEdge": -0.029,
+          "adjustedEdge": -0.249,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 6.32,
+          "propBand": [
+            3,
+            6,
+            10
+          ],
+          "slateRank": 107
+        },
+        {
+          "label": "Scoot Henderson Over 1.5 rebounds",
+          "market": "prop",
+          "side": "over",
+          "line": 1.5,
+          "player": "Scoot Henderson",
+          "stat": "rebounds",
+          "threshold": null,
+          "price": -145,
+          "modelProb": 0.6575,
+          "impliedProb": 0.5918,
+          "rawEdge": 0.0656,
+          "adjustedEdge": -0.1544,
+          "qualifies": false,
+          "veto": "projection 2.4 is 0.9 off the 1.5 line (58%) — the line is the more likely error",
+          "simulatedMean": 2.37,
+          "propBand": [
+            0,
+            2,
+            5
+          ],
+          "slateRank": 46
+        },
+        {
+          "label": "Scoot Henderson Under 1.5 rebounds",
+          "market": "prop",
+          "side": "under",
+          "line": 1.5,
+          "player": "Scoot Henderson",
+          "stat": "rebounds",
+          "threshold": null,
+          "price": 115,
+          "modelProb": 0.3425,
+          "impliedProb": 0.4651,
+          "rawEdge": -0.1226,
+          "adjustedEdge": -0.3426,
+          "qualifies": false,
+          "veto": "projection 2.4 is 0.9 off the 1.5 line (58%) — the line is the more likely error",
+          "simulatedMean": 2.37,
+          "propBand": [
+            0,
+            2,
+            5
+          ],
+          "slateRank": 145
+        },
+        {
+          "label": "Toumani Camara Over 3.5 rebounds",
+          "market": "prop",
+          "side": "over",
+          "line": 3.5,
+          "player": "Toumani Camara",
+          "stat": "rebounds",
+          "threshold": null,
+          "price": -140,
+          "modelProb": 0.5643,
+          "impliedProb": 0.5833,
+          "rawEdge": -0.019,
+          "adjustedEdge": -0.239,
+          "qualifies": false,
+          "veto": "projection 4.1 is 0.6 off the 3.5 line (18%) — the line is the more likely error",
+          "simulatedMean": 4.12,
+          "propBand": [
+            1,
+            4,
+            7
+          ],
+          "slateRank": 99
+        },
+        {
+          "label": "Toumani Camara Under 3.5 rebounds",
+          "market": "prop",
+          "side": "under",
+          "line": 3.5,
+          "player": "Toumani Camara",
+          "stat": "rebounds",
+          "threshold": null,
+          "price": 125,
+          "modelProb": 0.4357,
+          "impliedProb": 0.4444,
+          "rawEdge": -0.0087,
+          "adjustedEdge": -0.2287,
+          "qualifies": false,
+          "veto": "projection 4.1 is 0.6 off the 3.5 line (18%) — the line is the more likely error",
+          "simulatedMean": 4.12,
+          "propBand": [
+            1,
+            4,
+            7
+          ],
+          "slateRank": 92
+        },
+        {
+          "label": "Damian Lillard Over 3.5 rebounds",
+          "market": "prop",
+          "side": "over",
+          "line": 3.5,
+          "player": "Damian Lillard",
+          "stat": "rebounds",
+          "threshold": null,
+          "price": -114,
+          "modelProb": 0.5742,
+          "impliedProb": 0.5327,
+          "rawEdge": 0.0414,
+          "adjustedEdge": -0.1786,
+          "qualifies": false,
+          "veto": "projection 4.2 is 0.7 off the 3.5 line (19%) — the line is the more likely error",
+          "simulatedMean": 4.16,
+          "propBand": [
+            1,
+            4,
+            7
+          ],
+          "slateRank": 58
+        },
+        {
+          "label": "Damian Lillard Under 3.5 rebounds",
+          "market": "prop",
+          "side": "under",
+          "line": 3.5,
+          "player": "Damian Lillard",
+          "stat": "rebounds",
+          "threshold": null,
+          "price": -104,
+          "modelProb": 0.4259,
+          "impliedProb": 0.5098,
+          "rawEdge": -0.084,
+          "adjustedEdge": -0.304,
+          "qualifies": false,
+          "veto": "projection 4.2 is 0.7 off the 3.5 line (19%) — the line is the more likely error",
+          "simulatedMean": 4.16,
+          "propBand": [
+            1,
+            4,
+            7
+          ],
+          "slateRank": 132
+        },
+        {
+          "label": "Jrue Holiday Over 3.5 rebounds",
+          "market": "prop",
+          "side": "over",
+          "line": 3.5,
+          "player": "Jrue Holiday",
+          "stat": "rebounds",
+          "threshold": null,
+          "price": -105,
+          "modelProb": 0.5579,
+          "impliedProb": 0.5122,
+          "rawEdge": 0.0457,
+          "adjustedEdge": -0.1743,
+          "qualifies": false,
+          "veto": "projection 4.1 is 0.6 off the 3.5 line (16%) — the line is the more likely error",
+          "simulatedMean": 4.06,
+          "propBand": [
+            1,
+            4,
+            7
+          ],
+          "slateRank": 52
+        },
+        {
+          "label": "Jrue Holiday Under 3.5 rebounds",
+          "market": "prop",
+          "side": "under",
+          "line": 3.5,
+          "player": "Jrue Holiday",
+          "stat": "rebounds",
+          "threshold": null,
+          "price": -115,
+          "modelProb": 0.4421,
+          "impliedProb": 0.5349,
+          "rawEdge": -0.0928,
+          "adjustedEdge": -0.3128,
+          "qualifies": false,
+          "veto": "projection 4.1 is 0.6 off the 3.5 line (16%) — the line is the more likely error",
+          "simulatedMean": 4.06,
+          "propBand": [
+            1,
+            4,
+            7
+          ],
+          "slateRank": 135
+        },
+        {
+          "label": "Isaiah Stewart Over 3.5 rebounds",
+          "market": "prop",
+          "side": "over",
+          "line": 3.5,
+          "player": "Isaiah Stewart",
+          "stat": "rebounds",
+          "threshold": null,
+          "price": 105,
+          "modelProb": 0.634,
+          "impliedProb": 0.4878,
+          "rawEdge": 0.1462,
+          "adjustedEdge": -0.0738,
+          "qualifies": false,
+          "veto": "projection 4.5 is 1.0 off the 3.5 line (30%) — the line is the more likely error",
+          "simulatedMean": 4.54,
+          "propBand": [
+            2,
+            4,
+            8
+          ],
+          "slateRank": 21
+        },
+        {
+          "label": "Isaiah Stewart Under 3.5 rebounds",
+          "market": "prop",
+          "side": "under",
+          "line": 3.5,
+          "player": "Isaiah Stewart",
+          "stat": "rebounds",
+          "threshold": null,
+          "price": -135,
+          "modelProb": 0.366,
+          "impliedProb": 0.5745,
+          "rawEdge": -0.2085,
+          "adjustedEdge": -0.4285,
+          "qualifies": false,
+          "veto": "projection 4.5 is 1.0 off the 3.5 line (30%) — the line is the more likely error",
+          "simulatedMean": 4.54,
+          "propBand": [
+            2,
+            4,
+            8
+          ],
+          "slateRank": 162
+        },
+        {
+          "label": "Ty Jerome Over 3.5 rebounds",
+          "market": "prop",
+          "side": "over",
+          "line": 3.5,
+          "player": "Ty Jerome",
+          "stat": "rebounds",
+          "threshold": null,
+          "price": 122,
+          "modelProb": 0.3273,
+          "impliedProb": 0.4505,
+          "rawEdge": -0.1232,
+          "adjustedEdge": -0.3432,
+          "qualifies": false,
+          "veto": "projection 2.9 is 0.6 off the 3.5 line (18%) — the line is the more likely error",
+          "simulatedMean": 2.87,
+          "propBand": [
+            1,
+            3,
+            5
+          ],
+          "slateRank": 147
+        },
+        {
+          "label": "Ty Jerome Under 3.5 rebounds",
+          "market": "prop",
+          "side": "under",
+          "line": 3.5,
+          "player": "Ty Jerome",
+          "stat": "rebounds",
+          "threshold": null,
+          "price": -144,
+          "modelProb": 0.6727,
+          "impliedProb": 0.5902,
+          "rawEdge": 0.0825,
+          "adjustedEdge": -0.1375,
+          "qualifies": false,
+          "veto": "projection 2.9 is 0.6 off the 3.5 line (18%) — the line is the more likely error",
+          "simulatedMean": 2.87,
+          "propBand": [
+            1,
+            3,
+            5
+          ],
+          "slateRank": 37
+        },
+        {
+          "label": "Ja Morant Over 3.5 rebounds",
+          "market": "prop",
+          "side": "over",
+          "line": 3.5,
+          "player": "Ja Morant",
+          "stat": "rebounds",
+          "threshold": null,
+          "price": 120,
+          "modelProb": 0.3605,
+          "impliedProb": 0.4545,
+          "rawEdge": -0.0941,
+          "adjustedEdge": -0.3141,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 3.04,
+          "propBand": [
+            1,
+            3,
+            6
+          ],
+          "slateRank": 137
+        },
+        {
+          "label": "Ja Morant Under 3.5 rebounds",
+          "market": "prop",
+          "side": "under",
+          "line": 3.5,
+          "player": "Ja Morant",
+          "stat": "rebounds",
+          "threshold": null,
+          "price": -140,
+          "modelProb": 0.6395,
+          "impliedProb": 0.5833,
+          "rawEdge": 0.0562,
+          "adjustedEdge": -0.1638,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 3.04,
+          "propBand": [
+            1,
+            3,
+            6
+          ],
+          "slateRank": 49
+        },
+        {
+          "label": "Jaylen Wells Under 3.5 rebounds",
+          "market": "prop",
+          "side": "under",
+          "line": 3.5,
+          "player": "Jaylen Wells",
+          "stat": "rebounds",
+          "threshold": null,
+          "price": -165,
+          "modelProb": 0.5621,
+          "impliedProb": 0.6226,
+          "rawEdge": -0.0606,
+          "adjustedEdge": -0.2806,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 3.42,
+          "propBand": [
+            1,
+            3,
+            6
+          ],
+          "slateRank": 123
+        },
+        {
+          "label": "Sidy Cissoko Over 2.5 rebounds",
+          "market": "prop",
+          "side": "over",
+          "line": 2.5,
+          "player": "Sidy Cissoko",
+          "stat": "rebounds",
+          "threshold": null,
+          "price": 100,
+          "modelProb": 0.436,
+          "impliedProb": 0.5,
+          "rawEdge": -0.064,
+          "adjustedEdge": -0.284,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 2.47,
+          "propBand": [
+            0,
+            2,
+            5
+          ],
+          "slateRank": 125
+        },
+        {
+          "label": "Sidy Cissoko Under 2.5 rebounds",
+          "market": "prop",
+          "side": "under",
+          "line": 2.5,
+          "player": "Sidy Cissoko",
+          "stat": "rebounds",
+          "threshold": null,
+          "price": -125,
+          "modelProb": 0.564,
+          "impliedProb": 0.5556,
+          "rawEdge": 0.0084,
+          "adjustedEdge": -0.2116,
+          "qualifies": false,
+          "veto": null,
+          "simulatedMean": 2.47,
+          "propBand": [
+            0,
+            2,
+            5
+          ],
+          "slateRank": 80
+        },
+        {
+          "label": "Jerami Grant Under 2.5 rebounds",
+          "market": "prop",
+          "side": "under",
+          "line": 2.5,
+          "player": "Jerami Grant",
+          "stat": "rebounds",
+          "threshold": null,
+          "price": -120,
+          "modelProb": 0.4083,
+          "impliedProb": 0.5455,
+          "rawEdge": -0.1372,
+          "adjustedEdge": -0.3572,
+          "qualifies": false,
+          "veto": "projection 3.2 is 0.7 off the 2.5 line (27%) — the line is the more likely error",
+          "simulatedMean": 3.18,
+          "propBand": [
+            1,
+            3,
+            6
+          ],
+          "slateRank": 150
+        }
+      ]
+    }
+  ]
+}

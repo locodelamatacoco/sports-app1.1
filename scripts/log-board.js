@@ -20,6 +20,7 @@ const fs = require('fs');
 const path = require('path');
 const { fetchNbaSlate } = require('../src/data/espnNba.js');
 const { fetchSeasonRates } = require('../src/data/espnSeasonRates.js');
+const { propsFromLines } = require('../src/data/propLines.js');
 const { fetchPlayerPriors, applyPriors, PLAYER_PRIOR_K } =
   require('../src/data/espnPlayerPriors.js');
 const { analyzeSlate, POINTS_THRESHOLDS } = require('../src/models/nbaSimulator.js');
@@ -91,6 +92,24 @@ async function main() {
 
   const usable = Object.values(season.rates).filter((r) => r.usableSample);
 
+  // Posted prop lines, if tonight's have been captured. They are a committed
+  // input — board-log/lines/<date>.json — so the board they produced can be
+  // rebuilt and every prop read published from it can be graded.
+  const linesFile = path.join(OUT_DIR, 'lines', `${isoDate}.json`);
+  let propBuild = { byGame: new Map(), priced: 0, excluded: null };
+  let linesMeta = null;
+  if (fs.existsSync(linesFile)) {
+    const doc = JSON.parse(fs.readFileSync(linesFile, 'utf8'));
+    propBuild = propsFromLines(doc.lines, { games: slate.games, rates: season.rates });
+    linesMeta = {
+      file: path.relative(path.join(__dirname, '..'), linesFile),
+      source: doc.source ?? null,
+      rows: doc.lines.length,
+      priced: propBuild.priced,
+      excluded: propBuild.excluded,
+    };
+  }
+
   const withPlayers = slate.games.map((game) => {
     const codes = [game.away.code, game.home.code];
     const players = usable
@@ -102,7 +121,7 @@ async function main() {
         pace: rate.team === game.home.code ? game.home.ratings.pace : game.away.ratings.pace,
         minutesVolatility: 0.08,
       }));
-    return { ...game, players };
+    return { ...game, players, props: propBuild.byGame.get(game.id) ?? game.props ?? [] };
   });
 
   const { results } = analyzeSlate(withPlayers, { numSims: NUM_SIMS, seed: 2026 });
@@ -228,6 +247,7 @@ async function main() {
     screenedOut: record.reduce((a, g) => a + g.markets.filter((m) => m.veto).length, 0),
     slateDate: slate.date ?? isoDate,
     numSims: NUM_SIMS,
+    propLines: linesMeta,
     // Grading later has to know what the model believed at the time, or an
     // improvement to the model will silently rewrite its own history.
     constants: require('../src/models/nbaSimulator.js').MODEL_CONSTANTS,
@@ -242,12 +262,102 @@ async function main() {
   const projected = record.reduce((a, g) => a + g.players.length, 0);
   const priced = record.reduce((a, g) => a + g.markets.length, 0);
   const qualifying = record.reduce((a, g) => a + g.markets.filter((m) => m.qualifies).length, 0);
+  if (linesMeta) {
+    const x = linesMeta.excluded;
+    console.log(
+      `Prop lines: ${linesMeta.rows} posted rows -> ${linesMeta.priced} priced markets` +
+        (x.unmatched.length ? `; no box-score match: ${x.unmatched.join(', ')}` : '') +
+        (x.notPlaying.length ? `; team not on the slate: ${x.notPlaying.join(', ')}` : '') +
+        (x.thinSample.length ? `; sample under the floor: ${x.thinSample.join(', ')}` : '')
+    );
+  }
   console.log(
     `Logged ${record.length} games, ${priced} priced markets, ${qualifying} qualifying, ` +
       `${projected} player projections from ${season.games} box scores ` +
       `(${priorCount} blended with last season).`
   );
   console.log(path.relative(process.cwd(), file));
+
+  // The nightly report, printed from the SAME run that wrote the log so the
+  // two can never disagree. `node scripts/log-board.js <date> --report`.
+  if (process.argv.includes('--report')) printReport(results, record, snapshot);
+}
+
+function printReport(results, record, snapshot) {
+  const pct = (x) => (x == null ? '   -' : `${(100 * x).toFixed(1)}%`);
+  const sgn = (x) => `${x >= 0 ? '+' : ''}${(100 * x).toFixed(1)}%`;
+  console.log('\n================ GAME BETS ================');
+  for (const r of results) {
+    const g = r.game;
+    const d = r.distribution;
+    const p = r.sim.probs;
+    const team = (t) =>
+      `${t.code} ${t.record ?? ''}  off ${t.ratings.off.toFixed(1)} def ${t.ratings.def.toFixed(1)} ` +
+      `pace ${t.ratings.pace.toFixed(1)}  PPG ${t.pointsFor?.toFixed(1) ?? '-'} / allowed ` +
+      `${t.pointsAgainst?.toFixed(1) ?? '-'}  (this season ${((t.blendWeight ?? 0) * 100).toFixed(0)}% of rating)`;
+    console.log(`\n${g.label}  ${g.tipoff}  [${g.book}]`);
+    console.log(`  ${team(g.away)}`);
+    console.log(`  ${team(g.home)}`);
+    console.log(
+      `  PREDICTED ${g.away.code} ${r.summary.predictedScore.away.toFixed(1)} - ` +
+        `${g.home.code} ${r.summary.predictedScore.home.toFixed(1)}  ` +
+        `(margin ${r.summary.predictedMargin >= 0 ? '+' : ''}${r.summary.predictedMargin.toFixed(1)} home, ` +
+        `total ${r.summary.predictedTotal.toFixed(1)})`
+    );
+    console.log(
+      `  SIM ${d.numSims}: margin 50% [${d.margin.p25}, ${d.margin.p75}] 90% [${d.marginRange90.join(', ')}] | ` +
+        `total 90% [${d.totalRange90.join(', ')}] | within 3: ${pct(d.coinFlipBand)} | ` +
+        `blowout ${pct(d.blowout)} | OT ${pct(d.overtime)}`
+    );
+    console.log(
+      `  P(win) ${g.away.code} ${pct(p.awayWin)} / ${g.home.code} ${pct(p.homeWin)}  ` +
+        `cover home ${pct(p.homeCover)} away ${pct(p.awayCover)}  over ${pct(p.over)} under ${pct(p.under)}`
+    );
+    for (const m of r.markets) {
+      console.log(
+        `    ${m.label.padEnd(30)} ${String(m.price).padStart(5)}  model ${pct(m.settleProb)} ` +
+          `mkt ${pct(m.implied)}  raw ${sgn(m.rawEdge)}  adj ${sgn(m.adjustedEdge)}` +
+          (m.veto ? `  VETO: ${m.veto.slice(0, 48)}` : '')
+      );
+    }
+    console.log(`  CONFIDENCE ${r.confidence}/10  penalties ${sgn(-r.penaltyTotal)}${r.veto ? `  GAME VETO: ${r.veto}` : ''}`);
+    for (const pen of r.penalties) console.log(`    -${(100 * pen.amount).toFixed(1)}%  ${pen.reason}`);
+    const best = [...r.markets, ...r.derived].filter((m) => !m.veto && m.priced !== false)
+      .sort((a, b) => b.adjustedEdge - a.adjustedEdge)[0];
+    console.log(`  BEST BET: ${r.bestBet ? r.bestBet.label : `none qualifies (closest: ${best?.label} ${sgn(best?.adjustedEdge ?? 0)})`}`);
+  }
+
+  console.log('\n================ PLAYER PROPS ================');
+  const props = results.flatMap((r) =>
+    r.props.filter((m) => !m.insufficientData).map((m) => ({ ...m, game: r.game, conf: r.confidence }))
+  );
+  props
+    .sort((a, b) => b.adjustedEdge - a.adjustedEdge)
+    .forEach((m) => {
+      const band = m.distribution ? `[${m.distribution.p10}-${m.distribution.p90}]` : '';
+      console.log(
+        `  ${m.label.padEnd(40)} ${String(m.price).padStart(5)}  proj ${m.simulatedMean.toFixed(1).padStart(5)} ${band.padEnd(9)} ` +
+          `model ${pct(m.settleProb)} mkt ${pct(m.implied)}  raw ${sgn(m.rawEdge)}  adj ${sgn(m.adjustedEdge)}  ` +
+          `${m.qualifies ? 'BET' : m.veto ? `VETO ${m.veto.slice(0, 40)}` : 'no play'}`
+      );
+    });
+
+  console.log('\n================ TOP 5 BY ADJUSTED EDGE ================');
+  const all = results.flatMap((r) =>
+    [...r.markets, ...r.props, ...r.derived]
+      .filter((m) => !m.insufficientData && m.priced !== false && !m.veto)
+      .map((m) => ({ ...m, game: r.game.label }))
+  );
+  all
+    .sort((a, b) => b.adjustedEdge - a.adjustedEdge)
+    .slice(0, 5)
+    .forEach((m, i) =>
+      console.log(
+        `  ${i + 1}. ${m.label.padEnd(38)} ${String(m.price).padStart(5)}  raw ${sgn(m.rawEdge)}  adj ${sgn(m.adjustedEdge)}  ` +
+          `conf ${m.confidence}  ${m.qualifies ? 'BET' : 'no play'}  (${m.game})`
+      )
+    );
+  console.log(`\n  qualifying across the slate: ${all.filter((m) => m.qualifies).length}`);
 }
 
 main().catch((err) => {

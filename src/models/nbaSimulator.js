@@ -1570,11 +1570,18 @@ export function analyzeGame(game, { numSims = 10000, seed = 42, anchorWeight } =
       return;
     }
 
-    const [noVigOver, noVigUnder] = removeVig([
-      americanToProb(prop.over),
-      americanToProb(prop.under),
-    ]);
-    propRows.push(
+    // A side the book did not post at this line is not a market. Books often
+    // post the best over and the best under at DIFFERENT lines, so each is
+    // priced as its own one-sided row rather than paired with an invented
+    // -110 on the other side. Without a pair there is no vig to remove, so
+    // the row is judged against its posted price alone.
+    const hasOver = prop.over != null;
+    const hasUnder = prop.under != null;
+    const [noVigOver, noVigUnder] =
+      hasOver && hasUnder
+        ? removeVig([americanToProb(prop.over), americanToProb(prop.under)])
+        : [null, null];
+    if (hasOver) propRows.push(
       {
         ...marketRow({
           label: `${prop.player} Over ${prop.line} ${prop.stat}`,
@@ -1592,7 +1599,9 @@ export function analyzeGame(game, { numSims = 10000, seed = 42, anchorWeight } =
         simulatedMean: result.simulatedMean,
         distribution: propDistribution(result),
         expected: result.projected.expected,
-      },
+      }
+    );
+    if (hasUnder) propRows.push(
       {
         ...marketRow({
           label: `${prop.player} Under ${prop.line} ${prop.stat}`,
