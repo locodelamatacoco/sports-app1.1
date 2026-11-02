@@ -6,6 +6,7 @@ and runs it through the same gate the model uses:
 
     python scripts/check_price.py SEA -3 -118
     python scripts/check_price.py SEA -3 -118  SEA -3.5 +102  CHI +3 -102
+    python scripts/check_price.py --ladder SEA     # every nearby line, worst price that bets
 
 Each check is TEAM LINE PRICE, the line written the way the book shows it for
 that team (-3 = laying three). It uses the projections from the last model run
@@ -23,7 +24,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from nfl_model import edges, simulation as sim  # noqa: E402
+from nfl_model import edges, ladder, simulation as sim  # noqa: E402
 from nfl_model import odds as odds_math  # noqa: E402
 
 EDGES_PATH = ROOT / "output" / "nfl_edges.json"
@@ -71,13 +72,30 @@ def parse_checks(tokens):
 def main(argv=None) -> None:
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("checks", nargs="+", help="TEAM LINE PRICE [TEAM LINE PRICE ...]")
+    ap.add_argument("checks", nargs="*", help="TEAM LINE PRICE [TEAM LINE PRICE ...]")
+    ap.add_argument("--ladder", metavar="TEAM", action="append", default=[],
+                    help="show the price ladder for this team's game")
     ap.add_argument("--edges", default=str(EDGES_PATH))
     args = ap.parse_args(argv)
 
     payload = json.loads(Path(args.edges).read_text())
     sigma = float(payload["model"]["sigma"])
     print(f"Projections from the run at {payload.get('generatedAt', '?')}\n")
+    if not args.checks and not args.ladder:
+        raise SystemExit("Give TEAM LINE PRICE checks, or --ladder TEAM.")
+    for team in args.ladder:
+        game = find_game(payload["games"], team)
+        rungs = ladder.game_ladder(game["home"], game["away"],
+                                   float(game["projectedMargin"]), sigma,
+                                   float(game["market"]["spreadLine"]))
+        print(f"-- {game['away']} @ {game['home']}: projected {game['home']} "
+              f"{float(game['projectedMargin']):+.2f}, market {game['home']} "
+              f"{-float(game['market']['spreadLine']):+g}. Bets at the price shown or better:")
+        for side in ("home", "away"):
+            print(f"   {game[side]:<4} {ladder.format_rungs(rungs[side])}")
+        print()
+    if not args.checks:
+        return
     print(f"{'price':<18}{'cover':>7}{'push':>7}{'edge':>8}{'needs':>7}{'EV':>8}   verdict")
 
     shown = set()

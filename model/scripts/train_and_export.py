@@ -228,7 +228,30 @@ def _print_slate(payload: dict) -> None:
         else:
             bet = "— pass (no qualifying edge)"
         print(f"{g['away']+' @ '+g['home']:<15}{proj:>7}  {spread_s:>8}  {hml_s:>8}  {bet}")
+    _print_ladder(payload)
     _print_sims(payload)
+
+
+def _print_ladder(payload: dict) -> None:
+    """For every game, the worst price at each nearby line that still bets.
+
+    Any number on any screen can be judged against this without re-running:
+    if the book's price at that line is at or better than the rung, it bets.
+    """
+    from nfl_model import ladder
+    sigma = float(payload["model"]["sigma"])
+    print("\nPRICE LADDER — take a line at the price shown or better (within 2 pts of market)")
+    print("-" * 85)
+    for g in payload["games"]:
+        line = g["market"]["spreadLine"]
+        if line is None:
+            continue
+        rungs = ladder.game_ladder(g["home"], g["away"], float(g["projectedMargin"]),
+                                   sigma, float(line))
+        for side in ("home", "away"):
+            text = ladder.format_rungs(rungs[side])
+            if not text.startswith("no bet"):
+                print(f"{g['away']+' @ '+g['home']:<13}{g[side]:<5}{text}")
 
 
 def _print_sims(payload: dict) -> None:
