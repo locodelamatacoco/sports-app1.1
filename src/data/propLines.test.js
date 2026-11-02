@@ -1,4 +1,4 @@
-import { normalizeName, indexByName, marketsFromRow, propsFromLines, ruledOutFrom } from './propLines';
+import { normalizeName, indexByName, marketsFromRow, propsFromLines, ruledOutFrom, bestPricesFromBooks } from './propLines';
 
 describe('matching a line-page name to a box-score name', () => {
   test('suffixes, punctuation, accents and case do not block a match', () => {
@@ -153,5 +153,43 @@ describe('players ruled out', () => {
     );
     expect(priced).toBe(1);
     expect(excluded.ruledOut).toEqual(['Scratched Guard', 'Doubtful Wing']);
+  });
+});
+
+describe('shopping a line across books', () => {
+  const books = {
+    DraftKings: { over: { line: 22.5, price: -115 }, under: { line: 22.5, price: -105 } },
+    FanDuel: { over: { line: 22.5, price: 105 }, under: { line: 22.5, price: -125 } },
+    BetMGM: { over: { line: 21.5, price: -135 }, under: { line: 21.5, price: 110 } },
+  };
+
+  test('each side at each line keeps its best price and names the book', () => {
+    const best = bestPricesFromBooks(books);
+    const at = (side, line) => best.find((b) => b.side === side && b.line === line);
+    expect(at('over', 22.5)).toEqual({ side: 'over', line: 22.5, price: 105, book: 'FanDuel' });
+    expect(at('under', 22.5)).toEqual({ side: 'under', line: 22.5, price: -105, book: 'DraftKings' });
+    expect(at('under', 21.5).book).toBe('BetMGM');
+  });
+
+  test('a multi-book row becomes one market per line, best price per side', () => {
+    expect(marketsFromRow({ books })).toEqual([
+      { line: 21.5, over: -135, under: 110, overBook: 'BetMGM', underBook: 'BetMGM' },
+      { line: 22.5, over: 105, under: -105, overBook: 'FanDuel', underBook: 'DraftKings' },
+    ]);
+  });
+
+  test('a book missing a side or a line contributes nothing for it', () => {
+    expect(
+      bestPricesFromBooks({ A: { over: { line: 10.5, price: -110 } }, B: { under: { line: null, price: -110 } } })
+    ).toEqual([{ side: 'over', line: 10.5, price: -110, book: 'A' }]);
+  });
+
+  test('the book travels onto the priced prop', () => {
+    const games = [{ id: 'a-b', away: { code: 'AAA', ratings: { pace: 100 } }, home: { code: 'BBB', ratings: { pace: 100 } } }];
+    const rates = { Shopper: { team: 'AAA', games: 4, minutesPerGame: 34, perMinute: { points: 0.65 }, usableSample: true } };
+    const { byGame } = propsFromLines([{ player: 'Shopper', stat: 'points', books }], { games, rates });
+    const at225 = byGame.get('a-b').find((p) => p.line === 22.5);
+    expect(at225.overBook).toBe('FanDuel');
+    expect(at225.underBook).toBe('DraftKings');
   });
 });

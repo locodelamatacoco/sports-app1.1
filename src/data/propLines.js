@@ -77,8 +77,46 @@ export function indexByName(rates) {
   return index;
 }
 
+// A row can carry prices from several books:
+//   { player, stat, books: { DraftKings: { over: {line, price}, under: {...} }, ... } }
+// Line shopping is the cheapest edge there is — +105 against -115 on the same
+// line is about four points of implied probability — so each (line, side)
+// keeps the BEST price across books, and the book it came from, so a read can
+// actually be acted on. A row without `books` is a single source, as before.
+export function bestPricesFromBooks(books) {
+  const best = new Map(); // `${side}:${line}` -> { side, line, price, book }
+  for (const [book, sides] of Object.entries(books ?? {})) {
+    for (const side of ['over', 'under']) {
+      const q = sides?.[side];
+      if (q?.line == null || q?.price == null) continue;
+      const key = `${side}:${q.line}`;
+      const cur = best.get(key);
+      // In American odds a higher number always pays more: -105 beats -115,
+      // +105 beats -105.
+      if (!cur || q.price > cur.price) {
+        best.set(key, { side, line: q.line, price: q.price, book });
+      }
+    }
+  }
+  return [...best.values()];
+}
+
+// Collapse a multi-book row into markets: each line gets its best over and
+// best under, two-sided when both exist at that line.
+function marketsFromBooks(books) {
+  const byLine = new Map();
+  for (const q of bestPricesFromBooks(books)) {
+    const m = byLine.get(q.line) ?? { line: q.line, over: null, under: null, overBook: null, underBook: null };
+    m[q.side] = q.price;
+    m[`${q.side}Book`] = q.book;
+    byLine.set(q.line, m);
+  }
+  return [...byLine.values()].sort((a, b) => a.line - b.line);
+}
+
 // Split one posted row into the markets it actually represents.
 export function marketsFromRow(row) {
+  if (row.books) return marketsFromBooks(row.books);
   const over = row.over?.line != null && row.over?.price != null ? row.over : null;
   const under = row.under?.line != null && row.under?.price != null ? row.under : null;
   if (over && under && over.line === under.line) {
@@ -162,6 +200,9 @@ export function propsFromLines(lines, { games, rates } = {}) {
         line: market.line,
         over: market.over,
         under: market.under,
+        // Where each price is on offer, when the source names books.
+        overBook: market.overBook ?? row.over?.book ?? null,
+        underBook: market.underBook ?? row.under?.book ?? null,
         baseline: base.baseline,
         projectedMinutes: base.projectedMinutes,
         // No minutesVolatility: the simulation draws from the fitted spread for

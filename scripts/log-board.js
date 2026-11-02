@@ -200,6 +200,8 @@ async function main() {
         player: m.prop?.player ?? null,
         stat: m.prop?.stat ?? null,
         threshold: m.prop?.threshold ?? null,
+        // The book offering this price, when the line source names one.
+        book: m.side === 'over' ? m.prop?.overBook ?? null : m.side === 'under' ? m.prop?.underBook ?? null : null,
         price: m.price,
         modelProb: +m.settleProb.toFixed(4),
         impliedProb: +m.implied.toFixed(4),
@@ -344,7 +346,7 @@ function printReport(results, record, snapshot) {
     .forEach((m) => {
       const band = m.distribution ? `[${m.distribution.p10}-${m.distribution.p90}]` : '';
       console.log(
-        `  ${m.label.padEnd(40)} ${String(m.price).padStart(5)}  proj ${m.simulatedMean.toFixed(1).padStart(5)} ${band.padEnd(9)} ` +
+        `  ${m.label.padEnd(40)} ${String(m.price).padStart(5)}${(m.side === 'over' ? m.prop?.overBook : m.prop?.underBook) ? ` @${(m.side === 'over' ? m.prop.overBook : m.prop.underBook).slice(0, 10)}` : ''}  proj ${m.simulatedMean.toFixed(1).padStart(5)} ${band.padEnd(9)} ` +
           `model ${pct(m.settleProb)} mkt ${pct(m.implied)}  raw ${sgn(m.rawEdge)}  adj ${sgn(m.adjustedEdge)}  ` +
           `${m.qualifies ? 'BET' : m.veto ? `VETO ${m.veto.slice(0, 40)}` : 'no play'}`
       );
