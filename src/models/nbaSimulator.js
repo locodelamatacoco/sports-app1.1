@@ -118,6 +118,21 @@ export const MODEL_CONSTANTS = {
   BLOWOUT_MARGIN: 18,
   BLOWOUT_MINUTES_FACTOR: 0.86,
 
+  // How far a player's minutes swing around their projection, as a multiple
+  // of the spread MEASURED for players in that role (MINUTES_SPREAD_BY_ROLE).
+  //
+  // Every player used to draw minutes with one 8% SD. Real night-to-night
+  // variation runs ~10% for 35-minute starters, ~30% for 18-minute reserves and
+  // over 50% at the end of the bench, so the model treated bench minutes as
+  // nearly fixed — which is how players it gave 1.8% to reach 20 points got
+  // there 10.2% of the time. Fitted walk-forward, the best scale is 1.40: MORE
+  // than the minutes spread alone, because the draw also has to carry the
+  // model's uncertainty about the player's rate, which a four-to-eight game
+  // sample leaves wide. 1.40 with a 0.40 points spread wins on the full season
+  // and on each half separately, and cuts log loss 12.8% against the old flat
+  // 8%. Re-fit with `npm run fit-player-variance`.
+  MINUTES_SPREAD_SCALE: 1.4,
+
   // Market anchoring. The closing line is the best single predictor of an NBA
   // game, so the projection is regressed partway toward it instead of being
   // trusted outright. Set to 0 to see the unanchored model.
@@ -144,7 +159,11 @@ export const MODEL_CONSTANTS = {
 // continuous (points-like) stats; `phi` is the quasi-Poisson variance
 // inflation for counting stats (variance = phi * mean).
 export const STAT_SHAPES = {
-  points: { kind: 'continuous', cv: 0.29 },
+  // Fitted walk-forward over 1,559 appearances (scripts/fit-player-variance.js)
+  // jointly with the minutes spread below. 0.29 described a player whose rate
+  // is known; the projection only ever has an estimate, and 0.40 is what makes
+  // its probabilities come true. Both halves of the season pick it alone.
+  points: { kind: 'continuous', cv: 0.40 },
   rebounds: { kind: 'count', phi: 1.18 },
   assists: { kind: 'count', phi: 1.22 },
   threes: { kind: 'count', phi: 1.05 },
@@ -152,6 +171,35 @@ export const STAT_SHAPES = {
   steals: { kind: 'count', phi: 1.1 },
   pra: { kind: 'continuous', cv: 0.24 },
 };
+
+// Night-to-night spread of a player's minutes, by role, measured from this
+// season's box scores as (projected minutes, coefficient of variation). The
+// simulation interpolates and scales it by MINUTES_SPREAD_SCALE.
+export const MINUTES_SPREAD_BY_ROLE = [
+  [12, 0.549],
+  [18.5, 0.296],
+  [25, 0.19],
+  [30.5, 0.149],
+  [38, 0.099],
+];
+
+// The measured spread for a role, before scaling.
+export function roleMinutesSpread(minutes) {
+  const t = MINUTES_SPREAD_BY_ROLE;
+  if (!Number.isFinite(minutes) || minutes <= t[0][0]) return t[0][1];
+  for (let i = 1; i < t.length; i += 1) {
+    const [x1, y1] = t[i];
+    const [x0, y0] = t[i - 1];
+    if (minutes <= x1) return y0 + ((y1 - y0) * (minutes - x0)) / (x1 - x0);
+  }
+  return t[t.length - 1][1];
+}
+
+// The spread the simulation draws minutes from when an entry does not set its
+// own. Never below the old flat 8%.
+export function minutesSpreadFor(minutes) {
+  return Math.max(0.08, MODEL_CONSTANTS.MINUTES_SPREAD_SCALE * roleMinutesSpread(minutes));
+}
 
 // Edge thresholds and the uncertainty penalty schedule, in probability points.
 export const BET_RULES = {
@@ -342,10 +390,19 @@ export function projectGame(game, { anchorWeight } = {}) {
   const pTieInOt = 1 / (C.OT_SCORE_SD * Math.SQRT2 * Math.sqrt(2 * Math.PI));
   const expectedOvertimePoints = (pTie * otTotalPoints) / (1 - pTieInOt);
 
-  // Totals regress toward the league mean rather than toward zero.
+  // Totals regress toward the league mean rather than toward zero — and it has
+  // to be the league mean the RATINGS describe. Two-thirds of a total
+  // projection is this target, so a fixed last-season constant pulled every
+  // total back to last season's scoring even once this season's form was in
+  // the ratings. Walked forward over two full seasons, taking the target from
+  // the blended league scale cuts total bias from -2.21 to -0.12 (2025-26)
+  // and from +0.73 to -0.18 (2024-25), in whichever direction scoring moved.
+  // Twice the league's points per game is its mean total, overtime included.
+  const leagueMeanTotal =
+    game.leagueContext?.pointsFor != null ? 2 * game.leagueContext.pointsFor : C.LEAGUE_MEAN_TOTAL;
   const unshrunkTotal = regHome + regAway + expectedOvertimePoints;
   const rawTotal =
-    C.LEAGUE_MEAN_TOTAL + C.RATING_SHRINK_TOTAL * (unshrunkTotal - C.LEAGUE_MEAN_TOTAL);
+    leagueMeanTotal + C.RATING_SHRINK_TOTAL * (unshrunkTotal - leagueMeanTotal);
 
   // What the book's numbers say. A home line of -4.5 means the market
   // projects the home side to win by 4.5.
@@ -406,6 +463,7 @@ export function projectGame(game, { anchorWeight } = {}) {
     blendWeight,
     shrinkMargin,
     marginSd,
+    leagueMeanTotal,
     currentSeasonGames: {
       home: game.home.currentSeasonGames ?? 0,
       away: game.away.currentSeasonGames ?? 0,
@@ -745,7 +803,7 @@ export function simulateGame(game, { numSims = 10000, seed = 42, anchorWeight } 
       if (pr.insufficientData) continue;
       const e = slot.entry;
 
-      let minutes = pr.minutes * (1 + gaussianSample(rand, 0, e.minutesVolatility ?? 0.08));
+      let minutes = pr.minutes * (1 + gaussianSample(rand, 0, e.minutesVolatility ?? minutesSpreadFor(pr.minutes)));
       if (isBlowout && !e.benchPlayer) minutes *= C.BLOWOUT_MINUTES_FACTOR;
       minutes = clamp(minutes, 0, 46);
       const scale = (minutes / pr.minutes) * simPaceFactor;
@@ -777,7 +835,7 @@ export function simulateGame(game, { numSims = 10000, seed = 42, anchorWeight } 
       if (pr.insufficientData) continue;
       const p = entry.prop;
 
-      let minutes = pr.minutes * (1 + gaussianSample(rand, 0, p.minutesVolatility ?? 0.05));
+      let minutes = pr.minutes * (1 + gaussianSample(rand, 0, p.minutesVolatility ?? minutesSpreadFor(pr.minutes)));
       if (isBlowout && !p.benchPlayer) minutes *= C.BLOWOUT_MINUTES_FACTOR;
       minutes = clamp(minutes, 0, 46);
 
@@ -1303,7 +1361,17 @@ export function propPenalties(prop, simProp) {
   if (f.streaky) add(PENALTIES.STREAKY_PLAYER, `${prop.player}: streaky production`);
   if (f.injuryReturn)
     add(PENALTIES.INJURY_NEWS_UNCERTAINTY, `${prop.player}: ${f.injuryReturn}`);
-  if ((prop.minutesVolatility ?? 0) >= 0.08)
+  // The spread every player's minutes have is priced into the distribution
+  // now, so it is not charged again. What is charged is minutes that swing
+  // unusually for the role — flagged by the data layer from the player's own
+  // games. A hand-set minutesVolatility (the curated slates) keeps the original
+  // >= 0.08 rule it was written against.
+  //
+  // The live pipeline used to pass 0.08 for EVERY player, which charged every
+  // prop the full 5% whoever the player was.
+  if (f.volatileMinutes)
+    add(PENALTIES.MINUTES_VOLATILITY, `${prop.player}: ${f.volatileMinutes}`);
+  else if ((prop.minutesVolatility ?? 0) >= 0.08)
     add(PENALTIES.MINUTES_VOLATILITY, `${prop.player}: volatile minutes`);
   if (f.estimatedPrice)
     add(PENALTIES.ESTIMATED_INPUT, `${prop.player}: one side of the price inferred`);

@@ -521,6 +521,54 @@ With 96 graded rows a ten-row bucket swings about 2u on noise, so every split
 above is a hypothesis. The two things acted on have a mechanism as well as a
 record; that is the bar.
 
+## Player distributions were too narrow, and two penalties double-counted
+
+**Minutes.** Every player's minutes were drawn with one 8% spread. Measured
+from this season's box scores, real night-to-night variation is about 10% for
+35-minute starters, 30% for 18-minute reserves and over 50% at the end of the
+bench — so the model treated bench minutes as nearly fixed, which is how players
+it gave a 1.8% chance of 20 points got there 10.2% of the time.
+`scripts/fit-player-variance.js` scores candidates walk-forward over 1,559
+appearances (each predicted from the player's earlier games plus last season)
+on the probability of reaching 10/15/20/25/30 points and of a double-double.
+The winner is the measured role curve scaled by **1.40**, with a points spread
+of **0.40** (was 0.29): log loss falls 12.8%, and each half of the season picks
+the same pair on its own. The scale exceeds 1 because the draw also has to
+carry the model's uncertainty about the player's RATE, not just their minutes.
+
+**The minutes penalty.** The spec's "minutes volatility -5%" fired whenever a
+prop's `minutesVolatility` was 0.08 or more — a threshold written for the
+hand-set values on the original slate. The live prop pipeline passed 0.08 for
+EVERY player, so every prop was docked 5% whoever the player was. The spread is
+now priced in the distribution, and the penalty fires only when a player's own
+minutes swing at least 1.5 times the norm for their role.
+
+**A consequence worth knowing.** With honest spreads, a clean prop can no
+longer reach 5% through its line alone: the line has to sit far enough off the
+projection to carry the edge that it also trips the 15% divergence veto, and no
+half-point line fits between the two. The earlier "props can still qualify" was
+partly the narrow distribution's own overconfidence. A real prop edge now has
+to arrive as a stale price on a sound line.
+
+## Totals regress to the league the ratings describe
+
+Two-thirds of a total projection is its shrinkage target, and that target was
+fixed at last season's league mean. Once this season's form entered the
+ratings, the target kept pulling every total back to last season's scoring.
+It now comes from the blended league scale (`2 x leagueContext.pointsFor`).
+Walked forward over two full seasons (`scripts/fit-total-target.js`): total bias
+-2.21 to -0.12 in 2025-26 and +0.73 to -0.18 in 2024-25, RMSE slightly better
+in both. One backtest assertion had passed only because the old constant was
+the test season's own mean; it now checks that the remaining bias is exactly
+the season-to-season drift a prior-season-only projection cannot know.
+
+**Still compressed, deliberately left alone.** The model's totals vary about
+half as much as the market's (SD 3.9 against 7.2), so every total lean is
+toward the average: over on low-posted games, under on high. That is the same
+shape as the moneyline compression, but here the record does not show it losing
+— toward-average unders are 15-8, overs 7-8 — so there is a mechanism and no
+record, which is not enough to act on.
+
 ## Moneylines are off the board
 
 The +300 ceiling was not enough. Short dogs then went 0-5 on 2026-10-28 and the

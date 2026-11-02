@@ -410,9 +410,13 @@ describe('divergence guard', () => {
 });
 
 describe('bet selection', () => {
-  // The guard against a mute model. It used to rest on a mispriced moneyline;
-  // with moneylines off the board, the one route left to a qualifying bet is a
-  // player prop, so that is what has to keep working.
+  // The guard against a mute model. It rested first on a mispriced moneyline,
+  // then on a prop whose LINE sat below the projection. Neither survives
+  // honest modelling: moneylines are off the board, and with the fitted
+  // player spread a line far enough off the projection to carry a 5% edge is
+  // also far enough off to trip the 15% divergence veto (see the next test).
+  // What is left — and what a real prop edge most plausibly looks like — is a
+  // stale PRICE on a sound line.
   test('a clean game with a mispriced prop does produce a bet', () => {
     const game = {
       ...CLEAN_GAME,
@@ -420,9 +424,11 @@ describe('bet selection', () => {
         {
           player: 'Clean Scorer',
           stat: 'points',
-          line: 17.5,
-          over: -110,
-          under: -110,
+          line: 19.5,
+          // Implied 36.4% against a model ~43%: a stale price, and the only
+          // route the fitted model leaves to a clean qualifying prop.
+          over: 175,
+          under: -220,
           baseline: { perGame: 20, minutes: 34, pace: 100 },
           projectedMinutes: 34,
           minutesVolatility: 0.05,
@@ -437,9 +443,41 @@ describe('bet selection', () => {
 
     const pick = analysis.bestBet;
     expect(pick).not.toBeNull();
-    expect(pick.label).toMatch(/Clean Scorer Over 17.5/);
+    expect(pick.label).toMatch(/Clean Scorer Over 19.5/);
+    expect(pick.veto).toBeNull();
     expect(pick.adjustedEdge).toBeGreaterThanOrEqual(BET_RULES.MIN_ADJUSTED_EDGE);
     expect(pick.adjustedEdge).toBeCloseTo(pick.rawEdge, 10); // nothing to dampen
+  });
+
+  // Recorded so it is not rediscovered, and so loosening the divergence veto
+  // to manufacture prop bets fails on purpose. With the fitted spread, a clean
+  // 20-point scorer at -110 needs the line near 16.9 or lower to carry 5%, and
+  // the 15% veto needs it at 16.8 or higher: no half-point line fits. Before
+  // the spread was fitted, the too-narrow distribution put a qualifying line
+  // at 17.5 — an edge that was partly the model's own overconfidence.
+  test('no half-point line alone carries a clean prop over the bar', () => {
+    for (const line of [18.5, 17.5, 17, 16.5, 16]) {
+      const game = {
+        ...CLEAN_GAME,
+        props: [
+          {
+            player: 'Clean Scorer',
+            stat: 'points',
+            line,
+            over: -110,
+            under: -110,
+            baseline: { perGame: 20, minutes: 34, pace: 100 },
+            projectedMinutes: 34,
+            minutesVolatility: 0.05,
+            flags: {},
+          },
+        ],
+      };
+      const over = analyzeGame(game, { numSims: 20000, seed: 21 }).props.find(
+        (p) => p.side === 'over'
+      );
+      expect(over.qualifies).toBe(false);
+    }
   });
 
   test('the same clean game will not recommend its mispriced moneyline', () => {
@@ -718,8 +756,11 @@ describe('prop ladders for an adjustable line', () => {
     for (let i = 1; i < rungs.length; i++) {
       expect(rungs[i].overProb).toBeLessThan(rungs[i - 1].overProb);
     }
-    expect(rungs[0].overProb).toBeGreaterThan(0.9);
-    expect(rungs[rungs.length - 1].overProb).toBeLessThan(0.15);
+    // Bounds for a ~19-point scorer under the FITTED spread. They were 0.9 and
+    // 0.15 under the old one, which the walk-forward fit showed was too narrow:
+    // it is the tails that were wrong, so it is the tails that moved.
+    expect(rungs[0].overProb).toBeGreaterThan(0.85);
+    expect(rungs[rungs.length - 1].overProb).toBeLessThan(0.2);
   });
 
   test('over and under are complementary at every rung', () => {
@@ -1120,5 +1161,34 @@ describe('moneylines off the board', () => {
       expect(Number.isFinite(m.rawEdge)).toBe(true);
       expect(m.qualifies).toBe(false);
     }
+  });
+});
+
+describe('the total shrinks toward the league the ratings describe', () => {
+  test('without a league context the fixed constant is the target', () => {
+    const p = projectGame({ ...CLEAN_GAME, leagueContext: undefined }, { anchorWeight: 0 });
+    expect(p.leagueMeanTotal).toBe(MODEL_CONSTANTS.LEAGUE_MEAN_TOTAL);
+  });
+
+  test('a league context sets the target at twice its points per game', () => {
+    const p = projectGame(
+      { ...CLEAN_GAME, leagueContext: { pointsFor: 113.7, pace: 100.2, rating: (113.7 / 100.2) * 100 } },
+      { anchorWeight: 0 }
+    );
+    expect(p.leagueMeanTotal).toBeCloseTo(227.4, 8);
+  });
+
+  test('a lower-scoring league lowers the projected total, nothing else equal', () => {
+    // Same teams and the same matchup scale; only the target moves. Two-thirds
+    // of the total is the target, so this is not a rounding effect.
+    const ctx = (pf) => ({ pointsFor: pf, pace: 100.2, rating: (115.6 / 100.2) * 100 });
+    const high = projectGame({ ...CLEAN_GAME, leagueContext: ctx(115.6) }, { anchorWeight: 0 });
+    const low = projectGame({ ...CLEAN_GAME, leagueContext: ctx(113.7) }, { anchorWeight: 0 });
+    expect(high.expectedTotal - low.expectedTotal).toBeCloseTo(
+      2 * (115.6 - 113.7) * (1 - MODEL_CONSTANTS.RATING_SHRINK_TOTAL),
+      1
+    );
+    // The margin is untouched by where the total regresses to.
+    expect(low.expectedMargin).toBeCloseTo(high.expectedMargin, 8);
   });
 });

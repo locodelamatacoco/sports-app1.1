@@ -89,11 +89,26 @@ describe('out-of-sample backtest over the 2025-26 season', () => {
     expect(result.skipped).toBe(0);
   });
 
-  test('the projection is unbiased on margin and total', () => {
+  test('the projection is unbiased on margin', () => {
     // A non-zero bias means the model systematically favours one side, which
     // is what HOME_COURT_POINTS was doing before it was measured.
     expect(Math.abs(result.margin.mean)).toBeLessThan(0.35);
-    expect(Math.abs(result.total.mean)).toBeLessThan(1.5);
+  });
+
+  test('the only total bias left is the scoring change between seasons', () => {
+    // Totals regress toward the league mean the ratings describe — here the
+    // PRIOR season's, since this backtest runs on prior-season ratings alone.
+    // That projection cannot know the new season scores 3.5 points more, so it
+    // carries that drift, scaled by the share of the total that is the target.
+    // This bound used to be a flat |bias| < 1.5, which passed only because the
+    // old fixed target, 231.2, was this test season's OWN observed mean.
+    // In production the season blend removes the drift once teams pass six
+    // games; that is validated walk-forward in scripts/fit-total-target.js.
+    const target = 2 * prior.league.pointsFor;
+    const drift = target - result.observedTotal;
+    const explained = (1 - MODEL_CONSTANTS.RATING_SHRINK_TOTAL) * drift;
+    expect(Math.abs(drift)).toBeGreaterThan(2); // the seasons really did differ
+    expect(Math.abs(result.total.mean - explained)).toBeLessThan(1.0);
   });
 
   test('the variance constants match the residuals they are meant to describe', () => {

@@ -28,7 +28,9 @@
     "backtest": "node scripts/backtest.js",
     "fit-blend": "node scripts/fit-blend.js",
     "diagnose": "node scripts/diagnose.js",
-    "fit-player-blend": "node scripts/fit-player-blend.js"
+    "fit-player-blend": "node scripts/fit-player-blend.js",
+    "fit-player-variance": "node scripts/fit-player-variance.js",
+    "fit-total-target": "node scripts/fit-total-target.js"
   },
   "eslintConfig": {
     "extends": [

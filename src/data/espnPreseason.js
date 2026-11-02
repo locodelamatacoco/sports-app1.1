@@ -83,6 +83,10 @@ export function preseasonGamesFrom(scoreboard) {
 
 // Fold one game's box score into a running per-player accumulator.
 export function accumulateBoxScore(summary, accumulator = {}, { team = null } = {}) {
+  // The game's date rides on every per-game row. Walk-forward fits depend on
+  // appearances being in order, and that should be checkable, not assumed
+  // from the order the scoreboard happened to list them.
+  const gameDate = summary?.header?.competitions?.[0]?.date ?? null;
   for (const teamBlock of summary?.boxscore?.players ?? []) {
     const abbr = teamBlock.team?.abbreviation;
     if (team && abbr !== team) continue;
@@ -114,6 +118,7 @@ export function accumulateBoxScore(summary, accumulator = {}, { team = null } = 
         // One row per appearance, so a rate can be fitted causally rather than
         // only read as a season total.
         entry.perGame.push({
+          date: gameDate,
           minutes,
           ...Object.fromEntries(TRACKED_STATS.map((stat) => [stat, at(stats, stat) ?? 0])),
         });

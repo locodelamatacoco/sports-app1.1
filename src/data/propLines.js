@@ -22,6 +22,34 @@
 //     Pairing them, or inventing a -110 for the missing side, misprices both.
 
 import { seasonBaseline } from './espnSeasonRates';
+import { roleMinutesSpread } from '../models/nbaSimulator';
+
+// A player's minutes swing is unusual when it runs this far past the norm for
+// their role. Every player has some spread and the simulation now prices it;
+// this flags the ones whose own games say they are less predictable still.
+export const VOLATILE_MINUTES_MULTIPLE = 1.5;
+const MIN_GAMES_FOR_SPREAD = 5;
+
+// Coefficient of variation of a player's own minutes this season.
+export function ownMinutesSpread(rate) {
+  const mins = (rate?.perGame ?? []).map((g) => g.minutes).filter(Number.isFinite);
+  if (mins.length < MIN_GAMES_FOR_SPREAD) return null;
+  const mu = mins.reduce((a, b) => a + b, 0) / mins.length;
+  if (mu <= 0) return null;
+  const sd = Math.sqrt(mins.reduce((a, b) => a + (b - mu) ** 2, 0) / (mins.length - 1));
+  return sd / mu;
+}
+
+export function volatileMinutesFlag(rate, projectedMinutes) {
+  const own = ownMinutesSpread(rate);
+  if (own == null) return null;
+  const norm = roleMinutesSpread(projectedMinutes);
+  if (own < VOLATILE_MINUTES_MULTIPLE * norm) return null;
+  return (
+    `minutes swing ${(100 * own).toFixed(0)}% night to night against ` +
+    `${(100 * norm).toFixed(0)}% for a ${projectedMinutes.toFixed(0)}-minute role`
+  );
+}
 
 const SUFFIXES = new Set(['jr', 'sr', 'ii', 'iii', 'iv', 'v']);
 
@@ -75,7 +103,7 @@ export function ruledOutFrom(games) {
   return out;
 }
 
-export function propsFromLines(lines, { games, rates, minutesVolatility = 0.08 } = {}) {
+export function propsFromLines(lines, { games, rates } = {}) {
   const index = indexByName(rates);
   const ruledOut = ruledOutFrom(games);
   const byGame = new Map();
@@ -136,8 +164,14 @@ export function propsFromLines(lines, { games, rates, minutesVolatility = 0.08 }
         under: market.under,
         baseline: base.baseline,
         projectedMinutes: base.projectedMinutes,
-        minutesVolatility,
-        flags: { ...base.flags },
+        // No minutesVolatility: the simulation draws from the fitted spread for
+        // this role, and only a genuinely unusual swing is charged.
+        flags: {
+          ...base.flags,
+          ...(volatileMinutesFlag(rate, base.projectedMinutes)
+            ? { volatileMinutes: volatileMinutesFlag(rate, base.projectedMinutes) }
+            : {}),
+        },
       });
       byGame.set(game.id, list);
       priced += 1;

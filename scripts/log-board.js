@@ -126,7 +126,7 @@ async function main() {
         team: rate.team,
         rate,
         pace: rate.team === game.home.code ? game.home.ratings.pace : game.away.ratings.pace,
-        minutesVolatility: 0.08,
+        // Minutes spread comes from the fitted role curve in the simulator.
       }));
     return { ...game, players, props: propBuild.byGame.get(game.id) ?? game.props ?? [] };
   });
