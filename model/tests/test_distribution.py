@@ -81,3 +81,39 @@ def test_cover_probabilities_exclude_pushes_and_sum_to_one():
 def test_projection_still_drives_the_answer():
     """The lumpiness must not swamp the model's actual opinion."""
     assert sim.home_win_prob(10.0) > sim.home_win_prob(0.0) > sim.home_win_prob(-10.0)
+
+
+# --------------------------------------------------------------------------- #
+# Per-game profile (every game, bet or not)
+# --------------------------------------------------------------------------- #
+def test_profile_buckets_cover_every_outcome():
+    prof = sim.game_profile(4.0, 13.0, 3.5, 44.5)
+    assert abs(sum(prof["buckets"].values()) - 1.0) < 1e-9
+
+
+def test_profile_band_is_ordered_and_contains_the_projection():
+    prof = sim.game_profile(4.0, 13.0, 3.5, 44.5)
+    assert prof["p10"] <= prof["p50"] <= prof["p90"]
+    assert prof["p10"] < 4.0 < prof["p90"]
+
+
+def test_profile_win_probabilities_sum_to_one():
+    prof = sim.game_profile(-6.5, 13.0, -7.0, 41.0)
+    assert abs(prof["homeWin"] + prof["awayWin"] - 1.0) < 1e-9
+    assert prof["awayWin"] > prof["homeWin"]        # away favoured by 6.5
+
+
+def test_profile_splits_the_market_total_by_the_projection():
+    prof = sim.game_profile(4.0, 13.0, 3.5, 44.0)
+    assert prof["projHome"] == 24.0 and prof["projAway"] == 20.0
+
+
+def test_profile_without_a_line_or_total_still_describes_the_game():
+    prof = sim.game_profile(2.0, 13.0, None, None)
+    assert "homeCover" not in prof and "projHome" not in prof
+    assert 0.5 < prof["homeWin"] < 0.65
+
+
+def test_profile_reports_a_push_only_where_one_can_happen():
+    assert sim.game_profile(3.0, 13.0, 3.0, 44.0)["push"] > 0.05
+    assert sim.game_profile(3.0, 13.0, 3.5, 44.0)["push"] == 0.0

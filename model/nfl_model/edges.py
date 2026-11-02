@@ -293,4 +293,10 @@ def analyze_game(game: dict, pred_margin: float, sigma: float) -> dict:
         "wagers": [asdict(w) for w in wagers],
         "valueBets": [asdict(w) for w in qualifying],
         "bestBet": asdict(qualifying[0]) if qualifying else None,
+        # The whole outcome distribution for this game, computed for every game
+        # whether or not anything qualifies. The bet gate answers "is there a
+        # wager here"; this answers "what does this game actually look like".
+        "sim": sim.game_profile(pred_margin, sigma, spread_line, game.get("total_line")),
+        "homeQb": game.get("home_qb_name"),
+        "awayQb": game.get("away_qb_name"),
     }

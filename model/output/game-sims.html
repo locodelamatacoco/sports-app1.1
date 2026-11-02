@@ -1,0 +1,394 @@
+<title>Game Sim Board</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+  /* Layout: one row per game, read left to right as the matchup is written --
+     away team's outcomes on the left, home team's on the right, the market's
+     number splitting them. Same paper and type as the Season Model Board. */
+  :root {
+    color-scheme: light;
+    --plane: #f7f7f4; --surface: #fcfcfb; --sunken: #f2f2ee;
+    --ink: #0b0b0b; --ink-2: #52514e; --ink-muted: #898781;
+    --hairline: rgba(11,11,11,0.10); --rule: rgba(11,11,11,0.06);
+    --home: #2a78d6;      /* outcomes where the home side covers */
+    --away: #eb6834;      /* outcomes where the away side covers */
+    --push: #8a8983;      /* the margin that lands exactly on the number */
+    --key: rgba(11,11,11,0.07);
+    --win: #0f7a4a; --loss: #b0472f;
+    --font-display: Archivo, system-ui, sans-serif;
+    --font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --font-data: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --plane: #0d0d0d; --surface: #1a1a19; --sunken: #141413;
+      --ink: #f0efec; --ink-2: #c3c2b7; --ink-muted: #898781;
+      --hairline: rgba(255,255,255,0.12); --rule: rgba(255,255,255,0.07);
+      --home: #3987e5; --away: #d95926; --push: #6b6a64;
+      --key: rgba(255,255,255,0.07);
+      --win: #3fbd83; --loss: #e0806a;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --plane: #0d0d0d; --surface: #1a1a19; --sunken: #141413;
+    --ink: #f0efec; --ink-2: #c3c2b7; --ink-muted: #898781;
+    --hairline: rgba(255,255,255,0.12); --rule: rgba(255,255,255,0.07);
+    --home: #3987e5; --away: #d95926; --push: #6b6a64;
+    --key: rgba(255,255,255,0.07);
+    --win: #3fbd83; --loss: #e0806a;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--plane); color: var(--ink);
+    font-family: var(--font-body); font-size: 15px; line-height: 1.5;
+    padding-block: 32px 56px;
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+  }
+  .wrap { max-width: 1100px; margin: 0 auto; display: flex; flex-direction: column; gap: 22px; }
+  .eyebrow {
+    font-family: var(--font-data); font-size: 11px; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--ink-muted); margin: 0 0 6px;
+  }
+  h1 { font-family: var(--font-display); font-weight: 700; font-size: clamp(26px, 5vw, 32px);
+       letter-spacing: -0.015em; margin: 0; text-wrap: balance; }
+  .lede { margin: 8px 0 0; color: var(--ink-2); max-width: 66ch; }
+
+  .strip {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 1px; background: var(--hairline); border: 1px solid var(--hairline);
+    border-radius: 10px; overflow: hidden;
+  }
+  .cell { background: var(--surface); padding: 13px 16px 15px; display: flex; flex-direction: column; gap: 2px; }
+  .cell dt { font-size: 12px; color: var(--ink-muted); margin: 0; }
+  .cell dd { margin: 0; font-family: var(--font-data); font-size: 20px; font-weight: 600;
+             font-variant-numeric: tabular-nums; }
+  .cell small { font-size: 12px; color: var(--ink-2); }
+
+  .legend { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 12.5px; color: var(--ink-2);
+            align-items: center; }
+  .key { display: inline-flex; align-items: center; gap: 6px; }
+  .sw { width: 10px; height: 12px; border-radius: 2px; flex: none; }
+  .mk { flex: none; }
+
+  .games { display: flex; flex-direction: column; gap: 10px; }
+  .game {
+    background: var(--surface); border: 1px solid var(--hairline); border-radius: 10px;
+    padding: 14px 16px; display: grid; gap: 10px 18px;
+    grid-template-columns: 190px minmax(0, 1fr) 230px; align-items: center;
+  }
+  .info { min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+  .matchup { font-family: var(--font-display); font-weight: 600; font-size: 17px; letter-spacing: -0.005em; }
+  .matchup .at { color: var(--ink-muted); font-weight: 600; padding: 0 3px; }
+  .when, .qbs { font-size: 12.5px; color: var(--ink-2); }
+  .qbs { color: var(--ink-muted); }
+  .proj { font-family: var(--font-data); font-size: 12.5px; color: var(--ink-2); margin-top: 4px;
+          font-variant-numeric: tabular-nums; }
+
+  .chart { min-width: 0; position: relative; }
+  .chart svg { display: block; width: 100%; height: auto; overflow: visible; }
+  .chart text { font-family: var(--font-data); font-size: 10.5px; fill: var(--ink-muted); }
+  .chart .linelabel { fill: var(--ink); font-weight: 600; font-size: 11px; }
+  .chart .hit { fill: transparent; cursor: crosshair; }
+  .chart .hit:focus-visible { outline: none; fill: var(--key); }
+
+  .stats { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 3px 10px;
+           font-size: 12.5px; align-items: baseline; }
+  .stats dt { color: var(--ink-muted); margin: 0; white-space: nowrap; }
+  .stats dd { margin: 0; font-family: var(--font-data); font-variant-numeric: tabular-nums;
+              color: var(--ink); min-width: 0; }
+  .stats dd .sub { color: var(--ink-muted); }
+  .chip { display: inline-block; font-family: var(--font-data); font-size: 11px; font-weight: 600;
+          padding: 1px 6px; border-radius: 4px; border: 1px solid var(--hairline);
+          color: var(--ink-2); white-space: nowrap; }
+  .chip.win { color: var(--win); border-color: currentColor; }
+  .chip.loss { color: var(--loss); border-color: currentColor; }
+
+  .tip {
+    position: absolute; pointer-events: none; z-index: 5;
+    background: var(--ink); color: var(--surface);
+    font-family: var(--font-data); font-size: 11.5px; line-height: 1.35;
+    padding: 5px 8px; border-radius: 5px; white-space: nowrap; transform: translate(-50%, -100%);
+  }
+
+  .notes { border-top: 1px solid var(--hairline); padding-top: 18px;
+           display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
+  .notes h3 { font-family: var(--font-data); font-size: 10.5px; letter-spacing: 0.09em;
+              text-transform: uppercase; color: var(--ink-muted); font-weight: 500; margin: 0 0 6px; }
+  .notes p { margin: 0; font-size: 13.5px; color: var(--ink-2); max-width: 60ch; }
+
+  details.tbl { background: var(--surface); border: 1px solid var(--hairline); border-radius: 10px; padding: 12px 16px; }
+  details.tbl summary { cursor: pointer; font-size: 13.5px; color: var(--ink-2); }
+  details.tbl summary:focus-visible { outline: 2px solid var(--home); outline-offset: 3px; border-radius: 4px; }
+  .tscroll { overflow-x: auto; margin-top: 10px; }
+  table { border-collapse: collapse; width: 100%; min-width: 760px; font-size: 12.5px; }
+  th { text-align: right; font-family: var(--font-data); font-size: 10.5px; letter-spacing: 0.07em;
+       text-transform: uppercase; color: var(--ink-muted); font-weight: 500; padding: 0 8px 6px;
+       border-bottom: 1px solid var(--hairline); }
+  td { text-align: right; padding: 6px 8px; border-bottom: 1px solid var(--rule);
+       font-family: var(--font-data); font-variant-numeric: tabular-nums; }
+  th:first-child, td:first-child { text-align: left; padding-left: 0; }
+
+  @media (max-width: 900px) {
+    .game { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+    .chart { grid-column: 1 / -1; grid-row: 2; }
+  }
+  @media (max-width: 560px) {
+    .game { grid-template-columns: minmax(0, 1fr); }
+    .chart { grid-row: auto; }
+    /* The drawing shrinks to the screen, so its text would too: drop every
+       other tick and set the rest in larger viewBox units to stay legible. */
+    .chart .tick { font-size: 17px; }
+    .chart .tick.odd { display: none; }
+    .chart .linelabel { font-size: 17px; }
+  }
+</style>
+
+<div class="wrap">
+  <header>
+    <p class="eyebrow" id="eyebrow"></p>
+    <h1>Game Sim Board</h1>
+    <p class="lede" id="lede"></p>
+  </header>
+
+  <dl class="strip" id="strip"></dl>
+
+  <div class="legend" aria-label="Chart key">
+    <span class="key"><span class="sw" style="background:var(--away)"></span>away side covers</span>
+    <span class="key"><span class="sw" style="background:var(--home)"></span>home side covers</span>
+    <span class="key"><span class="sw" style="background:var(--push)"></span>push</span>
+    <span class="key"><svg class="mk" width="12" height="14" aria-hidden="true"><line x1="6" y1="0" x2="6" y2="14" stroke="var(--ink)" stroke-width="2"/></svg>market line</span>
+    <span class="key"><svg class="mk" width="12" height="12" aria-hidden="true"><path d="M6 1 L11 10 L1 10 Z" fill="var(--ink-2)"/></svg>model projection</span>
+    <span class="key" id="finalkey"><svg class="mk" width="12" height="12" aria-hidden="true"><circle cx="6" cy="6" r="4.5" fill="var(--ink)"/></svg>final</span>
+  </div>
+
+  <section class="games" id="games" aria-label="Games"></section>
+
+  <details class="tbl">
+    <summary>All games as a table</summary>
+    <div class="tscroll"><table id="tbl"></table></div>
+  </details>
+
+  <section class="notes">
+    <div><h3>Reading a game</h3><p>Each bar is one final margin, and its height is how often the model
+      expects that exact result. The market's number splits them: bars on the left of it are outcomes
+      where the away side covers, bars on the right where the home side does.</p></div>
+    <div><h3>Why 3 and 7 stand out</h3><p>Football scores are built from field goals and touchdowns,
+      so finals pile up on 3 and 7. Over 3,134 games a margin of exactly 3 happened 15% of the time.
+      That is why a spread of 3 pushes so often.</p></div>
+    <div><h3>The 80% band</h3><p>The middle 80% of each game's outcomes. It is wide on purpose:
+      a projected margin of 4 still leaves plenty of room for a two-touchdown swing either way.
+      If the sims are honest, about eight in ten finals land inside it.</p></div>
+  </section>
+</div>
+
+<script>
+const DATA = {"week":8,"review":true,"games":[{"away":"CAR","home":"GB","kickoff":"2026-10-30T00:15:00+00:00","awayQb":"Bryce Young","homeQb":"Jordan Love","proj":4.18,"sim":{"homeWin":0.6236195802144311,"awayWin":0.3763804197855689,"buckets":{"home8":0.3541898547730089,"home4":0.13939783183667287,"home1":0.12906605303599283,"tie":0.0019316811375128964,"away1":0.11421709169719527,"away4":0.1040870904279289,"away8":0.15711039709168845},"p10":-12,"p50":3,"p90":21,"fairSpread":4.0,"fairHomeML":-166,"fairAwayML":166,"distribution":[[-35,0.00032],[-34,0.0004],[-33,0.0005],[-32,0.00063],[-31,0.00078],[-30,0.00096],[-29,0.00117],[-28,0.00142],[-27,0.00172],[-26,0.00207],[-25,0.00247],[-24,0.00293],[-23,0.00346],[-22,0.00406],[-21,0.0058],[-20,0.00604],[-19,0.00369],[-18,0.00465],[-17,0.00966],[-16,0.00695],[-15,0.00623],[-14,0.0175],[-13,0.00914],[-12,0.0074],[-11,0.01171],[-10,0.01821],[-9,0.01077],[-8,0.01539],[-7,0.03682],[-6,0.03069],[-5,0.01537],[-4,0.02121],[-3,0.07024],[-2,0.02217],[-1,0.02181],[0,0.00193],[1,0.02293],[2,0.02451],[3,0.08163],[4,0.02591],[5,0.01975],[6,0.04145],[7,0.05229],[8,0.02298],[9,0.01691],[10,0.03005],[11,0.02032],[12,0.0135],[13,0.01753],[14,0.0353],[15,0.01321],[16,0.0155],[17,0.02263],[18,0.01146],[19,0.00955],[20,0.01644],[21,0.01661],[22,0.01222],[23,0.01095],[24,0.00975],[25,0.00864],[26,0.0076],[27,0.00665],[28,0.00578],[29,0.005],[30,0.00429],[31,0.00367],[32,0.00311],[33,0.00263],[34,0.0022],[35,0.00184]],"projHome":25.8,"projAway":21.7,"total":47.5,"line":3.5,"homeCover":0.49358768660968183,"awayCover":0.5064123133903182,"push":0.0,"nearLine":0.21617516001688822},"marketHomeWin":0.6309403437815976,"pick":null,"final":{"home":27,"away":19,"margin":8.0,"pct":0.6572990193389534,"inside":true}},{"away":"ARI","home":"DAL","kickoff":"2026-11-01T18:00:00+00:00","awayQb":"Jacoby Brissett","homeQb":"Dak Prescott","proj":7.74,"sim":{"homeWin":0.7206658215071858,"awayWin":0.27933417849281417,"buckets":{"home8":0.4599718915786993,"home4":0.13963547052622946,"home1":0.12020494509996989,"tie":0.0017070286045744085,"away1":0.09586021188125557,"away4":0.08130194880042697,"away8":0.10131850350884451},"p10":-8,"p50":7,"p90":24,"fairSpread":7.5,"fairHomeML":-258,"fairAwayML":258,"distribution":[[-35,0.00013],[-34,0.00017],[-33,0.00022],[-32,0.00028],[-31,0.00035],[-30,0.00045],[-29,0.00056],[-28,0.00069],[-27,0.00085],[-26,0.00105],[-25,0.00128],[-24,0.00155],[-23,0.00187],[-22,0.00224],[-21,0.00327],[-20,0.00348],[-19,0.00217],[-18,0.0028],[-17,0.00594],[-16,0.00437],[-15,0.004],[-14,0.01147],[-13,0.00612],[-12,0.00506],[-11,0.00819],[-10,0.013],[-9,0.00786],[-8,0.01147],[-7,0.02802],[-6,0.02386],[-5,0.01221],[-4,0.01721],[-3,0.05822],[-2,0.01877],[-1,0.01886],[0,0.00171],[1,0.0207],[2,0.0226],[3,0.07691],[4,0.02494],[5,0.01942],[6,0.04163],[7,0.05365],[8,0.02408],[9,0.0181],[10,0.03287],[11,0.02271],[12,0.01541],[13,0.02045],[14,0.04205],[15,0.01608],[16,0.01927],[17,0.02874],[18,0.01487],[19,0.01266],[20,0.02227],[21,0.02298],[22,0.01727],[23,0.01581],[24,0.01438],[25,0.01301],[26,0.0117],[27,0.01045],[28,0.00928],[29,0.0082],[30,0.0072],[31,0.00628],[32,0.00545],[33,0.00469],[34,0.00402],[35,0.00343]],"projHome":31.1,"projAway":23.4,"total":54.5,"line":7.0,"homeCover":0.48604860614383,"awayCover":0.51395139385617,"push":0.05365042556549207,"nearLine":0.2146951182934982},"marketHomeWin":0.740871613663133,"pick":null,"final":{"home":30,"away":33,"margin":-3.0,"pct":0.21173151490545708,"inside":true}},{"away":"ATL","home":"TB","kickoff":"2026-11-01T18:00:00+00:00","awayQb":"Michael Penix Jr.","homeQb":"Baker Mayfield","proj":2.69,"sim":{"homeWin":0.5802682075792367,"awayWin":0.4197317924207633,"buckets":{"home8":0.312918126489516,"home4":0.13628082687497284,"home1":0.13007431979487596,"tie":0.001989868839743793,"away1":0.12023514570344175,"away4":0.11292631174325297,"away8":0.18557540055419666},"p10":-14,"p50":3,"p90":20,"fairSpread":2.5,"fairHomeML":-138,"fairAwayML":138,"distribution":[[-35,0.00045],[-34,0.00056],[-33,0.0007],[-32,0.00086],[-31,0.00105],[-30,0.00129],[-29,0.00156],[-28,0.00188],[-27,0.00225],[-26,0.00268],[-25,0.00318],[-24,0.00374],[-23,0.00438],[-22,0.00509],[-21,0.00721],[-20,0.00744],[-19,0.0045],[-18,0.00563],[-17,0.01158],[-16,0.00826],[-15,0.00734],[-14,0.02043],[-13,0.01058],[-12,0.00849],[-11,0.01331],[-10,0.02051],[-9,0.01202],[-8,0.01703],[-7,0.04038],[-6,0.03335],[-5,0.01656],[-4,0.02264],[-3,0.07432],[-2,0.02325],[-1,0.02267],[0,0.00199],[1,0.02341],[2,0.0248],[3,0.08187],[4,0.02575],[5,0.01946],[6,0.04047],[7,0.0506],[8,0.02204],[9,0.01607],[10,0.02831],[11,0.01898],[12,0.0125],[13,0.01608],[14,0.03209],[15,0.0119],[16,0.01384],[17,0.02003],[18,0.01006],[19,0.00831],[20,0.01417],[21,0.01418],[22,0.01034],[23,0.00919],[24,0.00811],[25,0.00712],[26,0.00621],[27,0.00538],[28,0.00464],[29,0.00397],[30,0.00338],[31,0.00286],[32,0.00241],[33,0.00202],[34,0.00168],[35,0.00138]],"projHome":22.6,"projAway":19.9,"total":42.5,"line":2.5,"homeCover":0.5310663137582968,"awayCover":0.4689336862417032,"push":0.0,"nearLine":0.17727746101037814},"marketHomeWin":0.5427435387673957,"pick":null,"final":{"home":16,"away":0,"margin":16.0,"pct":0.8519761109630398,"inside":true}},{"away":"BAL","home":"BUF","kickoff":"2026-11-01T18:00:00+00:00","awayQb":"Lamar Jackson","homeQb":"Josh Allen","proj":3.49,"sim":{"homeWin":0.6036909120958521,"awayWin":0.39630908790414787,"buckets":{"home8":0.3348045812205904,"home4":0.1381658949810433,"home1":0.12973965392524722,"tie":0.001961563937942372,"away1":0.11715307828564904,"away4":0.1082635268594597,"away8":0.16991170079006798},"p10":-13,"p50":3,"p90":20,"fairSpread":3.5,"fairHomeML":-152,"fairAwayML":152,"distribution":[[-35,0.00037],[-34,0.00047],[-33,0.00059],[-32,0.00073],[-31,0.0009],[-30,0.0011],[-29,0.00134],[-28,0.00162],[-27,0.00195],[-26,0.00234],[-25,0.00278],[-24,0.00329],[-23,0.00386],[-22,0.00451],[-21,0.00642],[-20,0.00666],[-19,0.00405],[-18,0.00509],[-17,0.01052],[-16,0.00755],[-15,0.00673],[-14,0.01884],[-13,0.0098],[-12,0.0079],[-11,0.01245],[-10,0.01927],[-9,0.01135],[-8,0.01615],[-7,0.03849],[-6,0.03194],[-5,0.01594],[-4,0.02189],[-3,0.07222],[-2,0.0227],[-1,0.02224],[0,0.00196],[1,0.02319],[2,0.02468],[3,0.08187],[4,0.02588],[5,0.01965],[6,0.04106],[7,0.05158],[8,0.02257],[9,0.01654],[10,0.02928],[11,0.01972],[12,0.01305],[13,0.01687],[14,0.03383],[15,0.01261],[16,0.01473],[17,0.02142],[18,0.01081],[19,0.00897],[20,0.01537],[21,0.01546],[22,0.01133],[23,0.01011],[24,0.00897],[25,0.00791],[26,0.00693],[27,0.00604],[28,0.00523],[29,0.0045],[30,0.00385],[31,0.00328],[32,0.00277],[33,0.00233],[34,0.00194],[35,0.00161]],"projHome":29.0,"projAway":25.5,"total":54.5,"line":3.0,"homeCover":0.5151465477134537,"awayCover":0.4848534522865463,"push":0.08187198710546344,"nearLine":0.2182844275076455},"marketHomeWin":0.593369754159424,"pick":null,"final":{"home":36,"away":10,"margin":26.0,"pct":0.9582293093770876,"inside":false}},{"away":"CLE","home":"PIT","kickoff":"2026-11-01T18:00:00+00:00","awayQb":"Deshaun Watson","homeQb":"Aaron Rodgers","proj":5.72,"sim":{"homeWin":0.666938403743148,"awayWin":0.33306159625685205,"buckets":{"home8":0.3989337062532614,"home4":0.14077629666400598,"home1":0.1263044232432268,"tie":0.0018479551653073996,"away1":0.10685201947825497,"away4":0.09439189032198851,"away8":0.1308937088739549},"p10":-10,"p50":5,"p90":22,"fairSpread":5.5,"fairHomeML":-200,"fairAwayML":200,"distribution":[[-35,0.00022],[-34,0.00028],[-33,0.00035],[-32,0.00045],[-31,0.00056],[-30,0.00069],[-29,0.00086],[-28,0.00105],[-27,0.00128],[-26,0.00155],[-25,0.00187],[-24,0.00225],[-23,0.00268],[-22,0.00317],[-21,0.00457],[-20,0.0048],[-19,0.00296],[-18,0.00377],[-17,0.0079],[-16,0.00574],[-15,0.00519],[-14,0.01472],[-13,0.00776],[-12,0.00634],[-11,0.01012],[-10,0.01588],[-9,0.00948],[-8,0.01368],[-7,0.03302],[-6,0.02777],[-5,0.01405],[-4,0.01955],[-3,0.06536],[-2,0.02082],[-1,0.02067],[0,0.00185],[1,0.02214],[2,0.02388],[3,0.08029],[4,0.02572],[5,0.01979],[6,0.04191],[7,0.05336],[8,0.02367],[9,0.01758],[10,0.03153],[11,0.02152],[12,0.01443],[13,0.01891],[14,0.03843],[15,0.01452],[16,0.01719],[17,0.02533],[18,0.01295],[19,0.01089],[20,0.01892],[21,0.01929],[22,0.01432],[23,0.01295],[24,0.01164],[25,0.01041],[26,0.00924],[27,0.00816],[28,0.00716],[29,0.00625],[30,0.00542],[31,0.00467],[32,0.004],[33,0.00341],[34,0.00289],[35,0.00243]],"projHome":22.1,"projAway":16.4,"total":38.5,"line":3.5,"homeCover":0.5397100029172676,"awayCover":0.46028999708273244,"push":0.0,"nearLine":0.21372004002525669},"marketHomeWin":0.6369041816941223,"pick":null,"final":{"home":27,"away":6,"margin":21.0,"pct":0.8765710026436407,"inside":true}},{"away":"IND","home":"JAX","kickoff":"2026-11-01T18:00:00+00:00","awayQb":"Daniel Jones","homeQb":"Trevor Lawrence","proj":8.89,"sim":{"homeWin":0.7493548430974246,"awayWin":0.2506451569025754,"buckets":{"home8":0.4954387512015141,"home4":0.1375009762152406,"home1":0.11560809477170944,"tie":0.001614041817920898,"away1":0.08914639708709336,"away4":0.07387785090556911,"away8":0.08681388800095263},"p10":-7,"p50":7,"p90":26,"fairSpread":9.0,"fairHomeML":-299,"fairAwayML":299,"distribution":[[-35,0.0001],[-34,0.00013],[-33,0.00017],[-32,0.00021],[-31,0.00027],[-30,0.00034],[-29,0.00043],[-28,0.00054],[-27,0.00067],[-26,0.00083],[-25,0.00102],[-24,0.00124],[-23,0.00151],[-22,0.00182],[-21,0.00268],[-20,0.00287],[-19,0.0018],[-18,0.00234],[-17,0.00499],[-16,0.0037],[-15,0.00341],[-14,0.00985],[-13,0.00529],[-12,0.00441],[-11,0.00717],[-10,0.01147],[-9,0.00698],[-8,0.01026],[-7,0.02525],[-6,0.02165],[-5,0.01116],[-4,0.01583],[-3,0.05392],[-2,0.01751],[-1,0.01771],[0,0.00161],[1,0.01971],[2,0.02167],[3,0.07424],[4,0.02424],[5,0.01901],[6,0.04102],[7,0.05324],[8,0.02406],[9,0.01821],[10,0.0333],[11,0.02317],[12,0.01583],[13,0.02115],[14,0.04379],[15,0.01686],[16,0.02035],[17,0.03056],[18,0.01592],[19,0.01365],[20,0.02416],[21,0.02511],[22,0.019],[23,0.01751],[24,0.01605],[25,0.01461],[26,0.01323],[27,0.0119],[28,0.01065],[29,0.00947],[30,0.00837],[31,0.00735],[32,0.00642],[33,0.00557],[34,0.00481],[35,0.00412]],"projHome":27.2,"projAway":18.3,"total":45.5,"line":10.0,"homeCover":0.434326005686092,"awayCover":0.565673994313908,"push":0.03329756657101213,"nearLine":0.1889529529556864},"marketHomeWin":0.7957758771164253,"pick":{"label":"IND +10","odds":-110,"result":"loss","profit":-1.0},"final":{"home":42,"away":7,"margin":35.0,"pct":0.9776767337058021,"inside":false}},{"away":"LV","home":"NYJ","kickoff":"2026-11-01T18:00:00+00:00","awayQb":"Kirk Cousins","homeQb":"Geno Smith","proj":-1.11,"sim":{"homeWin":0.4667036107971993,"awayWin":0.5332963892028006,"buckets":{"home8":0.21908606390686625,"home4":0.12141147931627327,"home1":0.1251936908739869,"tie":0.0020247534001456573,"away1":0.12932376907193174,"away4":0.1312041635784678,"away8":0.27175607985232825},"p10":-17,"p50":-2,"p90":15,"fairSpread":-1.0,"fairHomeML":114,"fairAwayML":-114,"distribution":[[-35,0.00101],[-34,0.00124],[-33,0.0015],[-32,0.00181],[-31,0.00217],[-30,0.00259],[-29,0.00307],[-28,0.00362],[-27,0.00424],[-26,0.00494],[-25,0.00571],[-24,0.00657],[-23,0.00752],[-22,0.00855],[-21,0.01183],[-20,0.01193],[-19,0.00706],[-18,0.00863],[-17,0.01735],[-16,0.01211],[-15,0.01051],[-14,0.0286],[-13,0.01447],[-12,0.01135],[-11,0.0174],[-10,0.0262],[-9,0.01502],[-8,0.02079],[-7,0.04819],[-6,0.0389],[-5,0.01888],[-4,0.02523],[-3,0.08097],[-2,0.02476],[-1,0.02359],[0,0.00202],[1,0.02328],[2,0.02411],[3,0.0778],[4,0.02392],[5,0.01767],[6,0.03592],[7,0.0439],[8,0.01869],[9,0.01332],[10,0.02294],[11,0.01503],[12,0.00967],[13,0.01217],[14,0.02374],[15,0.00861],[16,0.00978],[17,0.01384],[18,0.00679],[19,0.00548],[20,0.00914],[21,0.00895],[22,0.00638],[23,0.00554],[24,0.00478],[25,0.0041],[26,0.00349],[27,0.00296],[28,0.00249],[29,0.00209],[30,0.00174],[31,0.00144],[32,0.00118],[33,0.00097],[34,0.00079],[35,0.00064]],"projHome":22.7,"projAway":23.8,"total":46.5,"line":1.5,"homeCover":0.44240808204364956,"awayCover":0.5575919179563504,"push":0.0,"nearLine":0.1747381443832157},"marketHomeWin":0.5324675324675325,"pick":{"label":"LV +1.5","odds":-108,"result":"win","profit":0.925925925925926},"final":{"home":33,"away":38,"margin":-5.0,"pct":0.36828586920201967,"inside":true}},{"away":"MIN","home":"DET","kickoff":"2026-11-01T18:00:00+00:00","awayQb":"Kyler Murray","homeQb":"Jared Goff","proj":3.18,"sim":{"homeWin":0.5946512947969558,"awayWin":0.4053487052030442,"buckets":{"home8":0.3262455653194483,"home4":0.13749263184491864,"home1":0.12992641973570435,"tie":0.0019733557937686823,"away1":0.1183899928999706,"away4":0.11009531783905843,"away8":0.17587671656713083},"p10":-13,"p50":3,"p90":20,"fairSpread":3.0,"fairHomeML":-147,"fairAwayML":147,"distribution":[[-35,0.0004],[-34,0.0005],[-33,0.00063],[-32,0.00078],[-31,0.00095],[-30,0.00117],[-29,0.00142],[-28,0.00172],[-27,0.00206],[-26,0.00247],[-25,0.00293],[-24,0.00346],[-23,0.00406],[-22,0.00473],[-21,0.00672],[-20,0.00695],[-19,0.00422],[-18,0.00529],[-17,0.01092],[-16,0.00782],[-15,0.00696],[-14,0.01945],[-13,0.0101],[-12,0.00813],[-11,0.01278],[-10,0.01975],[-9,0.01161],[-8,0.01649],[-7,0.03923],[-6,0.0325],[-5,0.01618],[-4,0.02219],[-3,0.07306],[-2,0.02292],[-1,0.02241],[0,0.00197],[1,0.02328],[2,0.02474],[3,0.08191],[4,0.02584],[5,0.01958],[6,0.04085],[7,0.05122],[8,0.02237],[9,0.01637],[10,0.02891],[11,0.01944],[12,0.01284],[13,0.01657],[14,0.03316],[15,0.01234],[16,0.01439],[17,0.02088],[18,0.01051],[19,0.00871],[20,0.0149],[21,0.01496],[22,0.01094],[23,0.00975],[24,0.00863],[25,0.00759],[26,0.00664],[27,0.00578],[28,0.00499],[29,0.00429],[30,0.00366],[31,0.00311],[32,0.00263],[33,0.0022],[34,0.00184],[35,0.00152]],"projHome":24.8,"projAway":21.7,"total":46.5,"line":3.5,"homeCover":0.46373819716436704,"awayCover":0.536261802835633,"push":0.0,"nearLine":0.21619676363694018},"marketHomeWin":0.6037569709421778,"pick":null,"final":{"home":12,"away":7,"margin":5.0,"pct":0.5718959287305005,"inside":true}},{"away":"TEN","home":"CIN","kickoff":"2026-11-01T18:00:00+00:00","awayQb":"Cam Ward","homeQb":"Joe Burrow","proj":12.51,"sim":{"homeWin":0.8289811852432301,"awayWin":0.17101881475676994,"buckets":{"home8":0.6068790679278473,"home4":0.12438347969807736,"home1":0.0970764487560278,"tie":0.0012843777225550648,"away1":0.06734056199721945,"away4":0.05189591018742597,"away8":0.05114015371084686},"p10":-4,"p50":12,"p90":29,"fairSpread":12.5,"fairHomeML":-485,"fairAwayML":485,"distribution":[[-35,4e-05],[-34,5e-05],[-33,6e-05],[-32,8e-05],[-31,0.00011],[-30,0.00014],[-29,0.00018],[-28,0.00023],[-27,0.0003],[-26,0.00038],[-25,0.00047],[-24,0.00059],[-23,0.00073],[-22,0.0009],[-21,0.00135],[-20,0.00148],[-19,0.00095],[-18,0.00126],[-17,0.00275],[-16,0.00208],[-15,0.00196],[-14,0.00579],[-13,0.00318],[-12,0.0027],[-11,0.0045],[-10,0.00735],[-9,0.00457],[-8,0.00686],[-7,0.01726],[-6,0.01512],[-5,0.00796],[-4,0.01155],[-3,0.04021],[-2,0.01334],[-1,0.01379],[0,0.00128],[1,0.01603],[2,0.01801],[3,0.06305],[4,0.02104],[5,0.01686],[6,0.03718],[7,0.04931],[8,0.02278],[9,0.01762],[10,0.03292],[11,0.0234],[12,0.01634],[13,0.02231],[14,0.04721],[15,0.01857],[16,0.02291],[17,0.03516],[18,0.01872],[19,0.0164],[20,0.02968],[21,0.03151],[22,0.02437],[23,0.02296],[24,0.02149],[25,0.02],[26,0.0185],[27,0.01702],[28,0.01555],[29,0.01413],[30,0.01276],[31,0.01146],[32,0.01023],[33,0.00907],[34,0.008],[35,0.00701]],"projHome":29.0,"projAway":16.5,"total":45.5,"line":10.5,"homeCover":0.5335665050672811,"awayCover":0.4664334949327189,"push":0.0,"nearLine":0.13536860863515593},"marketHomeWin":0.863013698630137,"pick":null,"final":{"home":43,"away":36,"margin":7.0,"pct":0.36846622013027225,"inside":true}},{"away":"LAC","home":"LA","kickoff":"2026-11-01T21:05:00+00:00","awayQb":"Justin Herbert","homeQb":"Matthew Stafford","proj":8.61,"sim":{"homeWin":0.7425084093816142,"awayWin":0.2574915906183858,"buckets":{"home8":0.4867762871723749,"home4":0.13811765919125812,"home1":0.11679576350921553,"tie":0.001637399017531276,"away1":0.09080242735322977,"away4":0.07567529880805228,"away8":0.09019516494833824},"p10":-7,"p50":7,"p90":25,"fairSpread":8.5,"fairHomeML":-288,"fairAwayML":288,"distribution":[[-35,0.00011],[-34,0.00014],[-33,0.00018],[-32,0.00023],[-31,0.00029],[-30,0.00037],[-29,0.00046],[-28,0.00057],[-27,0.00071],[-26,0.00088],[-25,0.00108],[-24,0.00131],[-23,0.00159],[-22,0.00192],[-21,0.00282],[-20,0.00301],[-19,0.00189],[-18,0.00245],[-17,0.00521],[-16,0.00385],[-15,0.00355],[-14,0.01023],[-13,0.00549],[-12,0.00456],[-11,0.00741],[-10,0.01184],[-9,0.00719],[-8,0.01055],[-7,0.02592],[-6,0.02218],[-5,0.01141],[-4,0.01616],[-3,0.05498],[-2,0.01782],[-1,0.018],[0,0.00164],[1,0.01996],[2,0.02191],[3,0.07493],[4,0.02442],[5,0.01912],[6,0.0412],[7,0.05337],[8,0.02409],[9,0.0182],[10,0.03322],[11,0.02307],[12,0.01574],[13,0.02099],[14,0.04339],[15,0.01668],[16,0.0201],[17,0.03013],[18,0.01567],[19,0.01341],[20,0.02371],[21,0.02459],[22,0.01858],[23,0.0171],[24,0.01564],[25,0.01422],[26,0.01285],[27,0.01154],[28,0.01031],[29,0.00915],[30,0.00807],[31,0.00708],[32,0.00617],[33,0.00535],[34,0.00461],[35,0.00394]],"projHome":27.6,"projAway":18.9,"total":46.5,"line":6.5,"homeCover":0.5401512342661359,"awayCover":0.45984876573386413,"push":0.0,"nearLine":0.18040416783027693},"marketHomeWin":0.7095435684647302,"pick":null,"final":{"home":24,"away":9,"margin":15.0,"pct":0.7002600061837068,"inside":true}},{"away":"KC","home":"DEN","kickoff":"2026-11-01T21:25:00+00:00","awayQb":"Patrick Mahomes","homeQb":"Bo Nix","proj":-1.31,"sim":{"homeWin":0.46072092599196435,"awayWin":0.5392790740080357,"buckets":{"home8":0.21465720019802903,"home4":0.12039860845462423,"home1":0.12465415717859005,"tie":0.002021920321442076,"away1":0.12952168077177928,"away4":0.13194082820104128,"away8":0.2768056048744941},"p10":-18,"p50":-2,"p90":15,"fairSpread":-1.5,"fairHomeML":117,"fairAwayML":-117,"distribution":[[-35,0.00105],[-34,0.00129],[-33,0.00156],[-32,0.00188],[-31,0.00225],[-30,0.00268],[-29,0.00318],[-28,0.00374],[-27,0.00437],[-26,0.00509],[-25,0.00588],[-24,0.00676],[-23,0.00772],[-22,0.00876],[-21,0.01212],[-20,0.0122],[-19,0.00721],[-18,0.0088],[-17,0.01768],[-16,0.01232],[-15,0.01068],[-14,0.02904],[-13,0.01468],[-12,0.0115],[-11,0.01761],[-10,0.02648],[-9,0.01516],[-8,0.02096],[-7,0.04852],[-6,0.03913],[-5,0.01897],[-4,0.02532],[-3,0.08115],[-2,0.02478],[-1,0.02359],[0,0.00202],[1,0.02322],[2,0.02402],[3,0.07741],[4,0.02378],[5,0.01754],[6,0.03561],[7,0.04347],[8,0.01849],[9,0.01316],[10,0.02264],[11,0.01481],[12,0.00952],[13,0.01197],[14,0.02331],[15,0.00844],[16,0.00959],[17,0.01354],[18,0.00664],[19,0.00535],[20,0.00891],[21,0.00871],[22,0.0062],[23,0.00538],[24,0.00464],[25,0.00397],[26,0.00338],[27,0.00286],[28,0.00241],[29,0.00201],[30,0.00167],[31,0.00138],[32,0.00114],[33,0.00093],[34,0.00075],[35,0.00061]],"projHome":20.1,"projAway":21.4,"total":41.5,"line":-1.0,"homeCover":0.4728874109897825,"awayCover":0.5271125890102175,"push":0.02359023433029857,"nearLine":0.20410227654713603},"marketHomeWin":0.5043297540699688,"pick":null,"final":{"home":28,"away":24,"margin":4.0,"pct":0.6768326732349266,"inside":true}},{"away":"NE","home":"MIA","kickoff":"2026-11-01T21:25:00+00:00","awayQb":"Drake Maye","homeQb":"Malik Willis","proj":-6.55,"sim":{"homeWin":0.31051279401099713,"awayWin":0.6894872059890029,"buckets":{"home8":0.11809282514191763,"home4":0.08903398818499261,"home1":0.10248901336016947,"tie":0.0017939346478347672,"away1":0.1241229257758249,"away4":0.14071445289249288,"away8":0.4237528599967678},"p10":-23,"p50":-6,"p90":9,"fairSpread":-6.5,"fairHomeML":222,"fairAwayML":-222,"distribution":[[-35,0.00281],[-34,0.00332],[-33,0.0039],[-32,0.00455],[-31,0.00529],[-30,0.00611],[-29,0.00701],[-28,0.00799],[-27,0.00906],[-26,0.01021],[-25,0.01144],[-24,0.01274],[-23,0.0141],[-22,0.01551],[-21,0.02079],[-20,0.02029],[-19,0.01162],[-18,0.01375],[-17,0.02676],[-16,0.01807],[-15,0.01518],[-14,0.04],[-13,0.01959],[-12,0.01487],[-11,0.02207],[-10,0.03217],[-9,0.01784],[-8,0.02391],[-7,0.05364],[-6,0.04191],[-5,0.01969],[-4,0.02547],[-3,0.07911],[-2,0.02341],[-1,0.0216],[0,0.00179],[1,0.01997],[2,0.02001],[3,0.06251],[4,0.01861],[5,0.0133],[6,0.02617],[7,0.03096],[8,0.01276],[9,0.0088],[10,0.01467],[11,0.0093],[12,0.0058],[13,0.00706],[14,0.01333],[15,0.00468],[16,0.00515],[17,0.00704],[18,0.00335],[19,0.00261],[20,0.00422],[21,0.004],[22,0.00276],[23,0.00232],[24,0.00194],[25,0.00161],[26,0.00133],[27,0.00109],[28,0.00089],[29,0.00072],[30,0.00058],[31,0.00046],[32,0.00037],[33,0.00029],[34,0.00023],[35,0.00018]],"projHome":17.5,"projAway":24.0,"total":41.5,"line":-7.0,"homeCover":0.5522304649411444,"awayCover":0.44776953505885564,"push":0.053636241820094015,"nearLine":0.21463121052781137},"marketHomeWin":0.2559309849029475,"pick":null,"final":{"home":19,"away":24,"margin":-5.0,"pct":0.5291506441317841,"inside":true}},{"away":"PHI","home":"WAS","kickoff":"2026-11-02T01:20:00+00:00","awayQb":"Tanner McKee","homeQb":"Jayden Daniels","proj":2.22,"sim":{"homeWin":0.5663775334154539,"awayWin":0.43362246658454606,"buckets":{"home8":0.30037661786388936,"home4":0.13495288956102874,"home1":0.13004642078515669,"tie":0.0020032104107582977,"away1":0.12187277499637719,"away4":0.11555976030469797,"away8":0.19518832607809158},"p10":-14,"p50":3,"p90":19,"fairSpread":2.0,"fairHomeML":-131,"fairAwayML":131,"distribution":[[-35,0.0005],[-34,0.00062],[-33,0.00077],[-32,0.00095],[-31,0.00116],[-30,0.00141],[-29,0.0017],[-28,0.00205],[-27,0.00245],[-26,0.00291],[-25,0.00343],[-24,0.00403],[-23,0.0047],[-22,0.00545],[-21,0.0077],[-20,0.00792],[-19,0.00478],[-18,0.00596],[-17,0.01223],[-16,0.0087],[-15,0.00771],[-14,0.0214],[-13,0.01104],[-12,0.00884],[-11,0.01382],[-10,0.02124],[-9,0.01242],[-8,0.01753],[-7,0.04146],[-6,0.03415],[-5,0.01691],[-4,0.02305],[-3,0.07545],[-2,0.02354],[-1,0.02288],[0,0.002],[1,0.0235],[2,0.02482],[3,0.08172],[4,0.02564],[5,0.01931],[6,0.04006],[7,0.04994],[8,0.02169],[9,0.01578],[10,0.02771],[11,0.01852],[12,0.01216],[13,0.01561],[14,0.03106],[15,0.01149],[16,0.01332],[17,0.01922],[18,0.00962],[19,0.00793],[20,0.01348],[21,0.01346],[22,0.00979],[23,0.00867],[24,0.00763],[25,0.00668],[26,0.00581],[27,0.00502],[28,0.00431],[29,0.00369],[30,0.00313],[31,0.00264],[32,0.00222],[33,0.00185],[34,0.00153],[35,0.00126]],"projHome":21.4,"projAway":19.1,"total":40.5,"line":6.0,"homeCover":0.36493943937362977,"awayCover":0.6350605606263702,"push":0.040056147464670205,"nearLine":0.2541421083567422},"marketHomeWin":0.705033164260632,"pick":{"label":"PHI +6","odds":-109,"result":"loss","profit":-1.0},"final":{"home":27,"away":10,"margin":17.0,"pct":0.8765693936126632,"inside":true}},{"away":"CHI","home":"SEA","kickoff":"2026-11-03T01:15:00+00:00","awayQb":"Caleb Williams","homeQb":"Sam Darnold","proj":5.25,"sim":{"homeWin":0.6539077225323073,"awayWin":0.34609227746769267,"buckets":{"home8":0.3850818911875275,"home4":0.14055987408569579,"home1":0.12732801622238926,"tie":0.001875882073389419,"away1":0.10920841178458744,"away4":0.09739346929014339,"away8":0.13855245535626726},"p10":-10,"p50":4,"p90":22,"fairSpread":5.0,"fairHomeML":-189,"fairAwayML":189,"distribution":[[-35,0.00025],[-34,0.00031],[-33,0.0004],[-32,0.0005],[-31,0.00062],[-30,0.00077],[-29,0.00094],[-28,0.00115],[-27,0.0014],[-26,0.0017],[-25,0.00204],[-24,0.00244],[-23,0.0029],[-22,0.00342],[-21,0.00492],[-20,0.00516],[-19,0.00317],[-18,0.00403],[-17,0.00841],[-16,0.0061],[-15,0.0055],[-14,0.01554],[-13,0.00817],[-12,0.00666],[-11,0.0106],[-10,0.01658],[-9,0.00987],[-8,0.0142],[-7,0.03419],[-6,0.02867],[-5,0.01446],[-4,0.02007],[-3,0.06691],[-2,0.02126],[-1,0.02104],[0,0.00188],[1,0.02241],[2,0.02411],[3,0.08081],[4,0.02582],[5,0.01981],[6,0.04183],[7,0.05311],[8,0.02349],[9,0.0174],[10,0.03111],[11,0.02118],[12,0.01416],[13,0.01851],[14,0.0375],[15,0.01413],[16,0.01668],[17,0.02451],[18,0.01249],[19,0.01048],[20,0.01816],[21,0.01846],[22,0.01367],[23,0.01233],[24,0.01105],[25,0.00984],[26,0.00872],[27,0.00768],[28,0.00672],[29,0.00584],[30,0.00505],[31,0.00434],[32,0.00371],[33,0.00315],[34,0.00266],[35,0.00223]],"projHome":25.9,"projAway":20.6,"total":46.5,"line":3.0,"homeCover":0.5718550355459167,"awayCover":0.42814496445408334,"push":0.08081291131514834,"nearLine":0.21665423586629035},"marketHomeWin":0.6092362344582594,"pick":{"label":"SEA -3","odds":-114,"result":null,"profit":null},"final":null}],"summary":{"games":14,"final":13,"inside":11,"expectedInside":10,"pickedWinner":11,"marketWinner":10,"picksW":1,"picksL":2,"picksP":0,"picksOpen":1}};
+const SPAN = 35;
+
+const W = 640, H = 128, PADX = 10, TOP = 18, BASE = 92;
+const step = (W - 2 * PADX) / (2 * SPAN + 1);
+const x = m => PADX + (m + SPAN + 0.5) * step;
+const yMax = Math.max(...DATA.games.flatMap(g => g.sim.distribution.map(d => d[1])), 0.01);
+const h = p => (p / yMax) * (BASE - TOP);
+
+const pct = p => (p * 100).toFixed(0) + "%";
+const side = (g, m) => m === 0 ? "tie" : (m > 0 ? g.home : g.away) + "+" + Math.abs(m);
+const lineText = (g, L) => L === 0 ? "PK" :
+  (L > 0 ? g.home + " −" + fmt(L) : g.away + " −" + fmt(-L));
+const fmt = v => (Math.round(v * 2) / 2).toString().replace(/\.0$/, "");
+const odds = o => (o > 0 ? "+" : "−") + Math.abs(o);
+const el = (tag, attrs = {}, text) => {
+  const n = document.createElementNS("http://www.w3.org/2000/svg", tag);
+  for (const [k, v] of Object.entries(attrs)) n.setAttribute(k, v);
+  if (text !== undefined) n.textContent = text;
+  return n;
+};
+const div = (cls, text) => { const d = document.createElement("div"); if (cls) d.className = cls;
+  if (text !== undefined) d.textContent = text; return d; };
+
+function header() {
+  const s = DATA.summary, wk = DATA.week ? "Week " + DATA.week : "This week";
+  document.getElementById("eyebrow").textContent =
+    "2026 NFL · " + wk + (DATA.review ? " · results in" : " · upcoming");
+  document.getElementById("lede").textContent = DATA.review
+    ? "Every game from " + wk.toLowerCase() + ", run through the model's full outcome distribution, with each final marked where it actually landed."
+    : "Every game on the slate, run through the model's full outcome distribution. The bet gate flags only a few; this shows what the model thinks about all of them.";
+  document.getElementById("finalkey").hidden = !DATA.review;
+
+  const cells = DATA.review ? [
+    ["Games simulated", s.games, s.final + " final"],
+    ["Finals inside the 80% band", s.inside + " of " + s.final, "honest sims put about " + s.expectedInside + " here"],
+    ["Model's projected winner won", s.pickedWinner + " of " + s.final,
+      "market favorite won " + s.marketWinner + ", straight up"],
+    ["Flagged picks", s.picksW + "–" + s.picksL + (s.picksP ? "–" + s.picksP : ""),
+      s.picksOpen ? s.picksOpen + " still open" : "all settled"],
+  ] : [
+    ["Games simulated", s.games, "every game on the slate"],
+    ["Model flags", s.flagged, "games that clear the bet gate"],
+    ["Coin flips", s.coinFlips, "neither side above 60% to win"],
+    ["Biggest favorite", s.biggestFav ? s.biggestFav.team + " " + pct(s.biggestFav.prob) : "—", "to win outright"],
+  ];
+  const strip = document.getElementById("strip");
+  for (const [t, v, sm] of cells) {
+    const c = div("cell");
+    const dt = document.createElement("dt"); dt.textContent = t;
+    const dd = document.createElement("dd"); dd.textContent = v;
+    const small = document.createElement("small"); small.textContent = sm;
+    c.append(dt, dd, small); strip.append(c);
+  }
+}
+
+function chart(g, host) {
+  const svg = el("svg", { viewBox: "0 0 " + W + " " + H, role: "img",
+    "aria-label": g.away + " at " + g.home + " outcome distribution" });
+  const s = g.sim, L = s.line;
+
+  // Key numbers: faint guides at 3 and 7 either way, where finals pile up.
+  for (const k of [-7, -3, 3, 7]) {
+    svg.append(el("rect", { x: x(k) - step / 2, y: TOP, width: step, height: BASE - TOP, fill: "var(--key)" }));
+  }
+  for (const [m, p] of s.distribution) {
+    const cls = L === undefined || L === null ? "home" : (m > L ? "home" : (m < L ? "away" : "push"));
+    const bh = h(p), bw = Math.max(step - 2, 1);
+    if (bh > 0.2) svg.append(el("rect", { x: x(m) - bw / 2, y: BASE - bh, width: bw, height: bh,
+      rx: Math.min(1.5, bw / 2), fill: "var(--" + cls + ")" }));
+  }
+  svg.append(el("line", { x1: PADX, x2: W - PADX, y1: BASE, y2: BASE, stroke: "var(--hairline)", "stroke-width": 1 }));
+  for (const t of [-28, -21, -14, -7, 0, 7, 14, 21, 28]) {
+    svg.append(el("text", { x: x(t), y: BASE + 13, "text-anchor": "middle",
+      class: Math.abs(t) % 14 === 7 ? "tick odd" : "tick" },
+      t === 0 ? "0" : (t < 0 ? g.away + " " + (-t) : g.home + " " + t)));
+  }
+  if (L !== undefined && L !== null) {
+    svg.append(el("line", { x1: x(L), x2: x(L), y1: TOP - 4, y2: BASE + 2, stroke: "var(--ink)", "stroke-width": 2 }));
+    const right = L < SPAN - 8;
+    svg.append(el("text", { x: x(L) + (right ? 5 : -5), y: TOP - 6, "text-anchor": right ? "start" : "end",
+      class: "linelabel" }, lineText(g, L)));
+  }
+  const pm = Math.max(-SPAN, Math.min(SPAN, g.proj));
+  svg.append(el("path", { d: `M${x(pm)} ${BASE + 18} l5 9 h-10 z`, fill: "var(--ink-2)" }));
+  if (g.final) {
+    const fm = Math.max(-SPAN, Math.min(SPAN, g.final.margin));
+    svg.append(el("line", { x1: x(fm), x2: x(fm), y1: TOP, y2: BASE, stroke: "var(--ink)",
+      "stroke-width": 1.25, "stroke-dasharray": "2 2" }));
+    svg.append(el("circle", { cx: x(fm), cy: TOP, r: 4.5, fill: "var(--ink)",
+      stroke: "var(--surface)", "stroke-width": 2 }));
+  }
+
+  // Hover: hit targets span the full plot height, wider than the bar itself.
+  const tip = div("tip"); tip.hidden = true; host.append(tip);
+  for (const [m, p] of s.distribution) {
+    const hit = el("rect", { x: x(m) - step / 2, y: TOP, width: step, height: BASE - TOP + 2,
+      class: "hit", tabindex: "-1" });
+    const show = () => {
+      const r = svg.getBoundingClientRect(), k = r.width / W;
+      const covers = L === undefined || L === null ? "" :
+        (m > L ? g.home + " covers" : m < L ? g.away + " covers" : "push");
+      tip.textContent = (m === 0 ? "Tie" : (m > 0 ? g.home : g.away) + " by " + Math.abs(m)) +
+        " — " + (p * 100).toFixed(1) + "%" + (covers ? " · " + covers : "");
+      tip.style.left = (x(m) * k) + "px"; tip.style.top = ((BASE - h(p)) * k - 6) + "px";
+      tip.hidden = false;
+    };
+    hit.addEventListener("mouseenter", show);
+    hit.addEventListener("mouseleave", () => { tip.hidden = true; });
+    svg.append(hit);
+  }
+  host.prepend(svg);
+}
+
+function stats(g) {
+  const s = g.sim, dl = document.createElement("dl"); dl.className = "stats";
+  const row = (k, v) => { const dt = document.createElement("dt"); dt.textContent = k;
+    const dd = document.createElement("dd"); if (typeof v === "string") dd.textContent = v; else dd.append(v);
+    dl.append(dt, dd); };
+  const homeFav = s.homeWin >= s.awayWin;
+  const winTxt = (homeFav ? g.home : g.away) + " " + pct(Math.max(s.homeWin, s.awayWin));
+  if (g.marketHomeWin !== null && g.marketHomeWin !== undefined) {
+    const f = document.createDocumentFragment(); f.append(winTxt + " ");
+    const sub = document.createElement("span"); sub.className = "sub";
+    sub.textContent = "mkt " + pct(homeFav ? g.marketHomeWin : 1 - g.marketHomeWin);
+    f.append(sub); row("Win", f);
+  } else row("Win", winTxt);
+  if (s.homeCover !== undefined) {
+    const hc = s.homeCover >= s.awayCover;
+    row("Covers", (hc ? g.home : g.away) + " " + pct(Math.max(s.homeCover, s.awayCover)) +
+        (s.push > 0.005 ? " · push " + pct(s.push) : ""));
+  }
+  row("80% band", side(g, s.p10) + " to " + side(g, s.p90));
+  if (g.pick) {
+    const f = document.createDocumentFragment();
+    const c = document.createElement("span"); c.className = "chip" + (g.pick.result ? " " + g.pick.result : "");
+    c.textContent = g.pick.label + " " + odds(g.pick.odds) +
+      (g.pick.result ? " · " + g.pick.result.toUpperCase()[0] : "");
+    f.append(c); row("Pick", f);
+  }
+  if (g.final) {
+    const f = document.createDocumentFragment();
+    f.append(side(g, g.final.margin) + " ");
+    const sub = document.createElement("span"); sub.className = "sub";
+    sub.textContent = (g.final.inside ? "inside band" : "outside band") + " · " +
+      Math.round(g.final.pct * 100) + "th pct";
+    f.append(sub); row("Final", f);
+  }
+  return dl;
+}
+
+function games() {
+  const host = document.getElementById("games");
+  for (const g of DATA.games) {
+    const a = document.createElement("article"); a.className = "game";
+    const info = div("info");
+    const mu = div("matchup"); mu.append(g.away);
+    const at = document.createElement("span"); at.className = "at"; at.textContent = "@"; mu.append(at, g.home);
+    info.append(mu);
+    if (g.kickoff) {
+      const d = new Date(g.kickoff);
+      info.append(div("when", d.toLocaleString("en-US", { timeZone: "America/New_York",
+        weekday: "short", hour: "numeric", minute: "2-digit" }) + " ET"));
+    }
+    if (g.awayQb || g.homeQb) info.append(div("qbs", (g.awayQb || "?") + " vs " + (g.homeQb || "?")));
+    const s = g.sim;
+    let pj = "Model " + side(g, Math.round(g.proj * 2) / 2);
+    if (s.projHome !== undefined) pj += " · " + (s.projHome >= s.projAway
+      ? g.home + " " + Math.round(s.projHome) + "–" + Math.round(s.projAway)
+      : g.away + " " + Math.round(s.projAway) + "–" + Math.round(s.projHome));
+    if (g.final) pj += "\nFinal " + (g.final.home >= g.final.away
+      ? g.home + " " + g.final.home + "–" + g.final.away
+      : g.away + " " + g.final.away + "–" + g.final.home);
+    const p = div("proj"); p.style.whiteSpace = "pre-line"; p.textContent = pj; info.append(p);
+    const c = div("chart"); chart(g, c);
+    a.append(info, c, stats(g));
+    host.append(a);
+  }
+}
+
+function table() {
+  const t = document.getElementById("tbl");
+  const cols = ["Game", "Model", "Line", "Win", "Covers", "Push", "80% band"];
+  if (DATA.review) cols.push("Final", "Pctile");
+  const thead = document.createElement("thead"), tr = document.createElement("tr");
+  for (const c of cols) { const th = document.createElement("th"); th.textContent = c; tr.append(th); }
+  thead.append(tr); t.append(thead);
+  const tb = document.createElement("tbody");
+  for (const g of DATA.games) {
+    const s = g.sim, r = document.createElement("tr");
+    const homeFav = s.homeWin >= s.awayWin;
+    const cells = [g.away + " @ " + g.home, side(g, Math.round(g.proj * 2) / 2),
+      s.line === undefined ? "—" : lineText(g, s.line),
+      (homeFav ? g.home : g.away) + " " + pct(Math.max(s.homeWin, s.awayWin)),
+      s.homeCover === undefined ? "—" : (s.homeCover >= s.awayCover ? g.home : g.away) + " " +
+        pct(Math.max(s.homeCover, s.awayCover)),
+      s.push === undefined ? "—" : pct(s.push), side(g, s.p10) + " to " + side(g, s.p90)];
+    if (DATA.review) cells.push(g.final ? side(g, g.final.margin) : "—",
+      g.final ? Math.round(g.final.pct * 100) + "" : "—");
+    for (const v of cells) { const td = document.createElement("td"); td.textContent = v; r.append(td); }
+    tb.append(r);
+  }
+  t.append(tb);
+}
+
+header(); games(); table();
+</script>

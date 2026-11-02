@@ -152,6 +152,82 @@ def home_win_prob(pred_margin: float, sigma: Optional[float] = None) -> float:
 
 
 # --------------------------------------------------------------------------- #
+# Full game profile -- every game, bet or not
+# --------------------------------------------------------------------------- #
+# Buckets read from the home side. Chosen on the key numbers: inside a field
+# goal, inside a touchdown, and beyond it.
+MARGIN_BUCKETS = (
+    ("home8", 8, MAX_MARGIN), ("home4", 4, 7), ("home1", 1, 3), ("tie", 0, 0),
+    ("away1", -3, -1), ("away4", -7, -4), ("away8", -MAX_MARGIN, -8),
+)
+CHART_RANGE = 35   # margins shown in a game's distribution chart
+
+
+def game_profile(pred_margin: float, sigma: Optional[float],
+                 spread_line: Optional[float], total: Optional[float]) -> dict:
+    """Everything the margin distribution says about one game.
+
+    Computed exactly over the distribution rather than by sampling it -- the
+    same answer an unlimited number of simulated games would converge to,
+    without the noise. The point is to see the whole shape of every game, not
+    just whether it clears a betting threshold: how often each side wins, how
+    wide the plausible outcomes run, and where the market's number sits inside
+    them.
+    """
+    d = margin_distribution(pred_margin, sigma)
+    m, p = d.margins, d.probs
+
+    buckets = {name: float(p[(m >= lo) & (m <= hi)].sum())
+               for name, lo, hi in MARGIN_BUCKETS}
+
+    cdf = np.cumsum(p)
+    def pct(q: float) -> int:
+        return int(m[np.searchsorted(cdf, q)])
+
+    home_win = d.home_win()
+    profile = {
+        "homeWin": home_win,
+        "awayWin": 1.0 - home_win,
+        "buckets": buckets,
+        # The middle 80% of outcomes. Wide on purpose: this is the honest
+        # spread of what a projected margin actually commits to.
+        "p10": pct(0.10), "p50": pct(0.50), "p90": pct(0.90),
+        "fairSpread": dist.fair_spread_line(pred_margin),
+        "fairHomeML": _fair_moneyline(home_win),
+        "fairAwayML": _fair_moneyline(1.0 - home_win),
+        "distribution": [[int(k), round(float(v), 5)]
+                         for k, v in zip(m, p) if abs(k) <= CHART_RANGE],
+    }
+
+    if total is not None and np.isfinite(total):
+        # The model projects a margin, not a total, so the scoring level is the
+        # market's. The split between the two sides is the model's.
+        profile["projHome"] = round((float(total) + pred_margin) / 2.0, 1)
+        profile["projAway"] = round((float(total) - pred_margin) / 2.0, 1)
+        profile["total"] = float(total)
+
+    if spread_line is not None and np.isfinite(spread_line):
+        home_cover, away_cover, push = d.cover(spread_line)
+        profile.update({
+            "line": float(spread_line),
+            # Conditional on the bet settling, plus the chance it does not.
+            "homeCover": home_cover, "awayCover": away_cover, "push": push,
+            # How much of the distribution sits within a field goal of the
+            # number either way -- the games a half-point decides.
+            "nearLine": float(p[np.abs(m - spread_line) <= 3].sum()),
+        })
+    return profile
+
+
+def _fair_moneyline(prob: float) -> Optional[int]:
+    if not 0.0 < prob < 1.0:
+        return None
+    if prob >= 0.5:
+        return int(round(-100.0 * prob / (1.0 - prob)))
+    return int(round(100.0 * (1.0 - prob) / prob))
+
+
+# --------------------------------------------------------------------------- #
 # Drive simulator -- scenario work, not pricing
 # --------------------------------------------------------------------------- #
 def simulate_scores(pred_margin: float, total: Optional[float] = None,

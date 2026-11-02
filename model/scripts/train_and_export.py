@@ -107,6 +107,15 @@ def main() -> int:
           f"({payload['summary']['valueBets']} value bets) -> {args.out}\n")
 
     _print_slate(payload)
+    # Every run also draws every game's full simulated distribution, so the
+    # picture of the slate never lags behind the numbers that produced it.
+    try:
+        from scripts import sim_board
+        games, week = sim_board.live_games(args.out)
+        sim_board.write(sim_board.DEFAULT_OUT, sim_board.render(games, week, False))
+        print(f"\nGame sim board -> {sim_board.DEFAULT_OUT}")
+    except Exception as exc:  # the board is a view; never let it fail the run
+        print(f"\n[warn] game sim board not written ({type(exc).__name__}: {exc}).")
     return 0
 
 
@@ -219,6 +228,37 @@ def _print_slate(payload: dict) -> None:
         else:
             bet = "— pass (no qualifying edge)"
         print(f"{g['away']+' @ '+g['home']:<15}{proj:>7}  {spread_s:>8}  {hml_s:>8}  {bet}")
+    _print_sims(payload)
+
+
+def _print_sims(payload: dict) -> None:
+    """Every game's simulated outcome distribution, bet or not."""
+    print("\nGAME SIMS — every game, read from the home side")
+    print(f"{'MATCHUP':<13}{'PROJ SCORE':>14}{'WIN':>10}{'COVER @ LINE':>18}"
+          f"{'PUSH':>7}   {'80% OF OUTCOMES':<20}")
+    print("-" * 85)
+    for g in payload["games"]:
+        s = g.get("sim") or {}
+        if not s:
+            continue
+        score = (f"{g['home']} {s['projHome']:.0f}-{s['projAway']:.0f}"
+                 if "projHome" in s else "-")
+        win = f"{s['homeWin']*100:.0f}/{s['awayWin']*100:.0f}"
+        if "homeCover" in s:
+            cover = f"{g['home']} {s['homeCover']*100:.0f}% @ {-s['line']:+g}"
+            push = f"{s['push']*100:.0f}%"
+        else:
+            cover, push = "-", "-"
+        rng = f"{_side(g, s['p10'])} .. {_side(g, s['p90'])}"
+        print(f"{g['away']+' @ '+g['home']:<13}{score:>14}{win:>10}{cover:>18}"
+              f"{push:>7}   {rng:<20}")
+
+
+def _side(g: dict, margin: int) -> str:
+    """A home margin as a readable result, e.g. +7 -> 'KC+7', -3 -> 'DEN+3'."""
+    if margin == 0:
+        return "tie"
+    return f"{g['home'] if margin > 0 else g['away']}+{abs(margin)}"
 
 
 if __name__ == "__main__":
