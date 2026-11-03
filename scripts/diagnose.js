@@ -66,7 +66,7 @@ const DIR=path.join(__dirname,'..','board-log');
       // One row per market FAMILY, the side the model leaned.
       const fam=new Map();
       for(const m of g.markets){
-        const k=`${m.market}:${m.line??''}:${m.player??''}`;
+        const k=`${m.market}:${m.player??''}:${m.stat??''}:${m.line??''}`;
         const best=fam.get(k);
         if(!best||m.rawEdge>best.rawEdge) fam.set(k,m);
       }

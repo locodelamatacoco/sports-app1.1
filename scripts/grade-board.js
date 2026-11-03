@@ -160,7 +160,11 @@ async function main() {
       // actually preferred in each market family.
       const families = new Map();
       for (const market of game.markets) {
-        const key = `${market.market}:${market.line ?? ''}`;
+        // A family is one bettable question: for a prop that means player and
+        // stat as well as line. Keying on market and line alone collapsed every
+        // player's prop at the same line in a game into one graded row — on
+        // 2026-11-02 that dropped 104 of 261 prop leans.
+        const key = `${market.market}:${market.player ?? ''}:${market.stat ?? ''}:${market.line ?? ''}`;
         const best = families.get(key);
         if (!best || market.rawEdge > best.rawEdge) families.set(key, market);
       }
