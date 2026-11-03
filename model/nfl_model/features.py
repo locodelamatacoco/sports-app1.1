@@ -280,6 +280,7 @@ def attach_slate_power(
         out[f"{side}_qb_name"] = [
             names.get(q) or (starter_names or {}).get(t) for t, q in zip(teams, qb_ids)
         ]
+        out[f"{side}_qb_id"] = list(qb_ids)
     out["power_diff"] = out["home_power"] - out["away_power"]
     return out
 
@@ -337,8 +338,55 @@ POWER_COLUMNS = ["home_power", "away_power", "power_diff"]
 # Game context the schedules hand us for free.
 CONTEXT_COLUMNS = ["neutral", "div_game", "qb_change_diff"]
 
+# Play-level quarterback quality (see ``qb_quality.py``). Walk-forward
+# 2018-2026 on 2,348 games, identical model and games otherwise: MAE -0.054
+# pts, 95% CI [-0.104, -0.005]; gap to the closing line +0.40 -> +0.35.
+QB_QUALITY_COLUMNS = ["qb_epa_diff", "qb_delta_diff"]
+
 # The exact feature vector fed to the model, in a fixed order.
-FEATURE_COLUMNS = FORM_COLUMNS + POWER_COLUMNS + CONTEXT_COLUMNS
+FEATURE_COLUMNS = FORM_COLUMNS + POWER_COLUMNS + CONTEXT_COLUMNS + QB_QUALITY_COLUMNS
+
+_QB_BOOKS: dict = {}
+
+
+def qb_book(last_season: int):
+    """The quarterback ratings book, built once per process."""
+    from . import qb_quality as qbq
+    if last_season not in _QB_BOOKS:
+        _QB_BOOKS[last_season] = qbq.QbBook(qbq.load_qb_games(last_season))
+    return _QB_BOOKS[last_season]
+
+
+def add_qb_quality(df: pd.DataFrame, games: pd.DataFrame, book=None) -> pd.DataFrame:
+    """Attach ``QB_QUALITY_COLUMNS``.
+
+    Starters come from the frame's ``{side}_qb_id`` (the schedule's recorded
+    starter for played games; the depth chart or an override on a live slate).
+    A starter known only by name -- a quarterback who has thrown passes but
+    never started, like a third-stringer pressed into duty -- is resolved
+    through the stats book. Without quarterback ids at all (synthetic data)
+    the features are zero, which the ridge reads as "no information".
+    """
+    from . import qb_quality as qbq
+    out = df.copy()
+    if "home_qb_id" not in out.columns and "game_id" in out.columns \
+            and "home_qb_id" in games.columns:
+        out = out.merge(games[["game_id", "home_qb_id", "away_qb_id"]],
+                        on="game_id", how="left")
+    if "home_qb_id" not in games.columns or "home_qb_id" not in out.columns:
+        for c in QB_QUALITY_COLUMNS:
+            out[c] = 0.0
+        return out
+    if book is None:
+        book = qb_book(int(pd.to_numeric(games["season"]).max()))
+    ids = {}
+    for side in ("home", "away"):
+        col = list(out[f"{side}_qb_id"])
+        names = list(out[f"{side}_qb_name"]) if f"{side}_qb_name" in out.columns else [None] * len(out)
+        ids[side] = [q if isinstance(q, str) else (book.id_for_name(n) if isinstance(n, str) else None)
+                     for q, n in zip(col, names)]
+        out[f"{side}_qb_id"] = ids[side]
+    return qbq.add_qb_features(out, games, book, qb_ids=ids)
 
 
 def add_context_features(df: pd.DataFrame) -> pd.DataFrame:

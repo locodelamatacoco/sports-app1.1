@@ -107,6 +107,7 @@ def live_games(path: str) -> tuple:
         games.append({
             "away": g["away"], "home": g["home"], "kickoff": g.get("kickoff"),
             "awayQb": g.get("awayQb"), "homeQb": g.get("homeQb"),
+            "awayQbRating": g.get("awayQbRating"), "homeQbRating": g.get("homeQbRating"),
             "proj": g["projectedMargin"], "sim": s,
             "marketHomeWin": (g.get("market") or {}).get("noVigHomeWin"),
             "pick": ({"label": b["label"], "odds": int(b["book_odds"]),
@@ -386,6 +387,10 @@ TEMPLATE = r"""<title>Game Sim Board</title>
       result; only 1 game in 10 goes past each end. It is a reality check, not a pick: even a
       4-point favourite loses or wins big all the time. If the sims are honest, about eight in
       ten finals land inside it -- the review page counts that every week.</p></div>
+    <div><h3>QB rating</h3><p>The number beside each quarterback: expected points he adds per
+      play, from every pass, sack and run of his career, recent seasons weighted most. Thin
+      records are pulled toward what first-time starters actually produce (about −0.10), so a
+      backup with one bad game is not mistaken for an average starter. Mahomes is about +0.14.</p></div>
   </section>
 </div>
 
@@ -576,7 +581,13 @@ function games() {
       info.append(div("when", d.toLocaleString("en-US", { timeZone: "America/New_York",
         weekday: "short", hour: "numeric", minute: "2-digit" }) + " ET"));
     }
-    if (g.awayQb || g.homeQb) info.append(div("qbs", (g.awayQb || "?") + " vs " + (g.homeQb || "?")));
+    if (g.awayQb || g.homeQb) {
+      // QB quality: EPA per play, shrunk toward replacement level (about -0.10).
+      const qr = r => (r === null || r === undefined) ? "" : " (" + (r >= 0 ? "+" : "−") + Math.abs(r).toFixed(2) + ")";
+      const q = div("qbs", (g.awayQb || "?") + qr(g.awayQbRating) + " vs " + (g.homeQb || "?") + qr(g.homeQbRating));
+      q.title = "QB rating: expected points added per play, shrunk toward replacement level (about −0.10). Mahomes ≈ +0.14.";
+      info.append(q);
+    }
     const s = g.sim;
     let pj = "Model " + side(g, Math.round(g.proj * 2) / 2);
     if (s.projHome !== undefined) pj += " · " + (s.projHome >= s.projAway

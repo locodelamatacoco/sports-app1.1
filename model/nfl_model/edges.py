@@ -299,4 +299,15 @@ def analyze_game(game: dict, pred_margin: float, sigma: float) -> dict:
         "sim": sim.game_profile(pred_margin, sigma, spread_line, game.get("total_line")),
         "homeQb": game.get("home_qb_name"),
         "awayQb": game.get("away_qb_name"),
+        # Play-level QB quality (EPA per play, shrunk to replacement level).
+        "homeQbRating": _maybe_float(game.get("home_qb_rating")),
+        "awayQbRating": _maybe_float(game.get("away_qb_rating")),
     }
+
+
+def _maybe_float(v):
+    try:
+        f = float(v)
+    except (TypeError, ValueError):
+        return None
+    return f if f == f else None

@@ -81,6 +81,7 @@ def run_backtest(args: argparse.Namespace) -> pd.DataFrame:
     matchups = feat.build_matchup_frame(ds.games, rolled)
     matchups = feat.attach_power_features(matchups, ds.games)
     matchups = feat.add_context_features(matchups)
+    matchups = feat.add_qb_quality(matchups, ds.games)
     matchups = matchups[matchups["home_margin"].notna()]
 
     graded = []

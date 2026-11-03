@@ -75,6 +75,7 @@ def main() -> int:
     matchups = feat.build_matchup_frame(ds.games, rolled)
     matchups = feat.attach_power_features(matchups, ds.games)
     matchups = feat.add_context_features(matchups)
+    matchups = feat.add_qb_quality(matchups, ds.games)
     print(f"[2/5] Built matchup frame: {len(matchups)} rows, {len(feat.FEATURE_COLUMNS)} features.")
 
     # 3. Split into training games (played) and the slate to price.
@@ -201,6 +202,17 @@ def _oddstrader_slate(args, rolled, matchups, ds_games):
     slate = feat.add_context_features(slate)
     # The board has no week number; take the official one from the schedule.
     slate = feat.attach_schedule_week(slate, ds_games)
+    slate = feat.add_qb_quality(slate, ds_games)
+    book = feat.qb_book(int(ds_games["season"].max()))
+    for side in ("home", "away"):
+        for t, n, q, s, w, r in zip(slate[f"{side}_team"], slate[f"{side}_qb_name"],
+                                    slate[f"{side}_qb_id"], slate["season"], slate["week"],
+                                    slate[f"{side}_qb_rating"]):
+            plays, _ = book.evidence(q, int(s), int(w))
+            if plays < 100:
+                print(f"[qb] {t}: {n} has {plays:.0f} plays of NFL history -- rated "
+                      f"{r:+.3f} EPA/play, mostly the replacement-level prior "
+                      f"({book.prior:+.3f}).")
     train = matchups[matchups["home_margin"].notna()].copy()
     label = "OddsTrader (consensus)"
     if new_season:

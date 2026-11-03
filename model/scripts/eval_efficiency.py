@@ -165,7 +165,7 @@ def main() -> int:
         rolled = feat.build_rolling_features(team_game)
         m = feat.build_matchup_frame(ds.games, rolled)
         m = feat.attach_power_features(m, ds.games)
-        return feat.add_context_features(m)
+        return feat.add_qb_quality(feat.add_context_features(m), ds.games)
 
     points = build(ds.team_game)
     efficiency = build(eff_tg)
