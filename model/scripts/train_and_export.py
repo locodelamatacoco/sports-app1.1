@@ -258,7 +258,7 @@ def _print_sims(payload: dict) -> None:
     """Every game's simulated outcome distribution, bet or not."""
     print("\nGAME SIMS — every game, read from the home side")
     print(f"{'MATCHUP':<13}{'PROJ SCORE':>14}{'WIN':>10}{'COVER @ LINE':>18}"
-          f"{'PUSH':>7}   {'80% OF OUTCOMES':<20}")
+          f"{'PUSH':>7}   {'LIKELY RANGE (8 IN 10)':<20}")
     print("-" * 85)
     for g in payload["games"]:
         s = g.get("sim") or {}

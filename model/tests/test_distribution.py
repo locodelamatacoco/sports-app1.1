@@ -117,3 +117,25 @@ def test_profile_without_a_line_or_total_still_describes_the_game():
 def test_profile_reports_a_push_only_where_one_can_happen():
     assert sim.game_profile(3.0, 13.0, 3.0, 44.0)["push"] > 0.05
     assert sim.game_profile(3.0, 13.0, 3.5, 44.0)["push"] == 0.0
+
+
+def test_h2h_meetings_and_summary():
+    import pandas as pd
+    from nfl_model import h2h
+    sched = pd.DataFrame([
+        dict(season=2025, week=3, gameday="2025-09-21", home_team="SEA", away_team="CHI",
+             home_score=27, away_score=20, spread_line=3.0),
+        dict(season=2025, week=14, gameday="2025-12-07", home_team="CHI", away_team="SEA",
+             home_score=17, away_score=20, spread_line=-2.5),
+        dict(season=2026, week=8, gameday="2026-11-02", home_team="SEA", away_team="CHI",
+             home_score=17, away_score=34, spread_line=3.0),
+        dict(season=2026, week=9, gameday="2026-11-08", home_team="SEA", away_team="ARI",
+             home_score=None, away_score=None, spread_line=11.0),
+    ])
+    past = h2h.meetings(sched, "SEA", "CHI", before="2026-11-02T20:00:00Z")
+    assert [m["season"] for m in past] == [2025, 2025]          # newest first, 2026 excluded
+    assert past[0]["winner"] == "SEA" and past[0]["covered"] == "SEA"  # newest: won at CHI by 3 as a 2.5-pt dog
+    assert past[1]["covered"] == "SEA"                         # won by 7, laid 3
+    s = h2h.summary(past, "SEA")
+    assert (s["wins"], s["losses"], s["atsWins"], s["atsLosses"]) == (2, 0, 2, 0)
+    assert h2h.summary(h2h.meetings(sched, "SEA", "CHI"), "CHI")["wins"] == 1

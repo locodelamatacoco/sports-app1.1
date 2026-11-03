@@ -17,7 +17,7 @@ Two modes:
 
 Review mode doubles as a calibration check anyone can read: if the simulated
 distributions are honest, about eight in ten finals land inside each game's
-80% band. Far fewer means the sims are too confident; far more means they are
+likely range (its 80% band). Far fewer means the sims are too confident; far more means they are
 too timid.
 """
 from __future__ import annotations
@@ -300,6 +300,9 @@ TEMPLATE = r"""<title>Game Sim Board</title>
   .stats dd { margin: 0; font-family: var(--font-data); font-variant-numeric: tabular-nums;
               color: var(--ink); min-width: 0; }
   .stats dd .sub { color: var(--ink-muted); }
+  .h2h { font-size: 12px; color: var(--ink-muted); }
+  .h2h summary { cursor: pointer; font-family: var(--font-data); }
+  .h2h ul { margin: 4px 0 0; padding-left: 16px; font-family: var(--font-data); font-size: 11.5px; }
   .chip { display: inline-block; font-family: var(--font-data); font-size: 11px; font-weight: 600;
           padding: 1px 6px; border-radius: 4px; border: 1px solid var(--hairline);
           color: var(--ink-2); white-space: nowrap; }
@@ -378,9 +381,11 @@ TEMPLATE = r"""<title>Game Sim Board</title>
     <div><h3>Why 3 and 7 stand out</h3><p>Football scores are built from field goals and touchdowns,
       so finals pile up on 3 and 7. Over 3,134 games a margin of exactly 3 happened 15% of the time.
       That is why a spread of 3 pushes so often.</p></div>
-    <div><h3>The 80% band</h3><p>The middle 80% of each game's outcomes. It is wide on purpose:
-      a projected margin of 4 still leaves plenty of room for a two-touchdown swing either way.
-      If the sims are honest, about eight in ten finals land inside it.</p></div>
+    <div><h3>Likely range</h3><p>Where the final margin lands in 8 of every 10 simulated games.
+      "JAX+21 to BAL+12" means: anything from Jacksonville by 21 to Baltimore by 12 is a normal
+      result; only 1 game in 10 goes past each end. It is a reality check, not a pick: even a
+      4-point favourite loses or wins big all the time. If the sims are honest, about eight in
+      ten finals land inside it -- the review page counts that every week.</p></div>
   </section>
 </div>
 
@@ -420,7 +425,7 @@ function header() {
 
   const cells = DATA.review ? [
     ["Games simulated", s.games, s.final + " final"],
-    ["Finals inside the 80% band", s.inside + " of " + s.final, "honest sims put about " + s.expectedInside + " here"],
+    ["Finals inside the likely range", s.inside + " of " + s.final, "honest sims put about " + s.expectedInside + " here"],
     ["Model's projected winner won", s.pickedWinner + " of " + s.final,
       "market favorite won " + s.marketWinner + ", straight up"],
     ["Flagged picks", s.picksW + "–" + s.picksL + (s.picksP ? "–" + s.picksP : ""),
@@ -517,7 +522,7 @@ function stats(g) {
     row("Covers", (hc ? g.home : g.away) + " " + pct(Math.max(s.homeCover, s.awayCover)) +
         (s.push > 0.005 ? " · push " + pct(s.push) : ""));
   }
-  row("80% band", side(g, s.p10) + " to " + side(g, s.p90));
+  row("Likely range", side(g, s.p10) + " to " + side(g, s.p90) + " (8 in 10)");
   if (g.pick) {
     const f = document.createDocumentFragment();
     const c = document.createElement("span"); c.className = "chip" + (g.pick.result ? " " + g.pick.result : "");
@@ -534,6 +539,28 @@ function stats(g) {
     f.append(sub); row("Final", f);
   }
   return dl;
+}
+
+function h2hBlock(g) {
+  // Last meetings: context, not part of the projection (it adds nothing the
+  // market does not already price -- see nfl_model/h2h.py).
+  const h = g.h2h, r = h.home, d = document.createElement("details");
+  d.className = "h2h";
+  const sm = document.createElement("summary");
+  sm.textContent = "H2H last " + r.n + ": " + g.home + " " + r.wins + "–" + r.losses +
+    " · ATS " + r.atsWins + "–" + r.atsLosses;
+  d.append(sm);
+  const ul = document.createElement("ul");
+  for (const m of h.games) {
+    const li = document.createElement("li");
+    const w = m.homeScore >= m.awayScore;
+    let t = m.season + " W" + m.week + "  " + (w ? m.home + " " + m.homeScore + "–" + m.awayScore + " @" + m.home
+      : m.away + " " + m.awayScore + "–" + m.homeScore + " @" + m.home);
+    if (m.covered) t += m.covered === "push" ? " · push" : " · " + m.covered + " cov";
+    li.textContent = t; ul.append(li);
+  }
+  d.append(ul);
+  return d;
 }
 
 function games() {
@@ -559,6 +586,7 @@ function games() {
       ? g.home + " " + g.final.home + "–" + g.final.away
       : g.away + " " + g.final.away + "–" + g.final.home);
     const p = div("proj"); p.style.whiteSpace = "pre-line"; p.textContent = pj; info.append(p);
+    if (g.h2h && g.h2h.games.length) info.append(h2hBlock(g));
     const c = div("chart"); chart(g, c);
     a.append(info, c, stats(g));
     host.append(a);
@@ -567,7 +595,7 @@ function games() {
 
 function table() {
   const t = document.getElementById("tbl");
-  const cols = ["Game", "Model", "Line", "Win", "Covers", "Push", "80% band"];
+  const cols = ["Game", "Model", "Line", "Win", "Covers", "Push", "Likely range (8 in 10)"];
   if (DATA.review) cols.push("Final", "Pctile");
   const thead = document.createElement("thead"), tr = document.createElement("tr");
   for (const c of cols) { const th = document.createElement("th"); th.textContent = c; tr.append(th); }
@@ -595,8 +623,23 @@ header(); games(); table();
 """
 
 
+def attach_h2h(games: list, schedule: Optional[pd.DataFrame] = None) -> None:
+    """Add each game's last five meetings. Context only -- see nfl_model.h2h."""
+    from nfl_model import h2h
+    try:
+        schedule = h2h.load_schedule() if schedule is None else schedule
+    except Exception as exc:  # a view; never fail the board over it
+        print(f"[warn] head-to-head not loaded ({type(exc).__name__}: {exc}).")
+        return
+    for g in games:
+        past = h2h.meetings(schedule, g["home"], g["away"], before=g.get("kickoff"))
+        g["h2h"] = {"games": past, "home": h2h.summary(past, g["home"])}
+
+
 def render(games: list, week: Optional[int], review: bool) -> str:
     games = sorted(games, key=lambda g: (g.get("kickoff") or "", g["away"]))
+    if games and "h2h" not in games[0]:
+        attach_h2h(games)
     data = {"week": week, "review": review, "games": games,
             "summary": summarise(games, review)}
     return TEMPLATE.replace("__DATA__", json.dumps(data, default=_json_default,
