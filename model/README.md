@@ -57,9 +57,13 @@ price the live OddsTrader slate:
 
 ```bash
 python -m scripts.train_and_export \
-    --train-seasons 2015 2016 2017 2018 2019 2020 2021 2022 2023 2024 2025 \
+    --train-seasons 2015 2016 2017 2018 2019 2020 2021 2022 2023 2024 2025 2026 \
     --slate oddstrader --out output/nfl_edges.json
 ```
+
+Include the **current season** in `--train-seasons`. Leave it out and the run
+treats the slate as a season opener (its log says "opener, prior-season form
+regressed") and ignores every game played this year.
 
 Training data is the nflverse *schedules* CSV (real scores + real closing lines),
 turned into a **points-margin power rating** — no API key, no extra package, just
