@@ -1,0 +1,692 @@
+{
+ "slateDate": "2026-11-05",
+ "source": "scoresandodds.com/nba/props (points) and /nba/props/rebounds",
+ "fetchedAt": "2026-11-05T18:15Z",
+ "note": "Best available price per side, often from different books. A side shown with a price but no line is not recorded. Assists not taken.",
+ "lines": [
+  {
+   "player": "Bobby Portis",
+   "stat": "points",
+   "over": {
+    "line": 7.5,
+    "price": -118
+   },
+   "under": {
+    "line": 7.5,
+    "price": -112
+   }
+  },
+  {
+   "player": "Giannis Antetokounmpo",
+   "stat": "points",
+   "over": {
+    "line": 28.5,
+    "price": -115
+   },
+   "under": {
+    "line": 29.5,
+    "price": -120
+   }
+  },
+  {
+   "player": "Stephen Curry",
+   "stat": "points",
+   "over": {
+    "line": 26.5,
+    "price": -120
+   },
+   "under": {
+    "line": 27.5,
+    "price": -110
+   }
+  },
+  {
+   "player": "Devin Booker",
+   "stat": "points",
+   "over": {
+    "line": 24.5,
+    "price": -145
+   },
+   "under": {
+    "line": 25.5,
+    "price": -109
+   }
+  },
+  {
+   "player": "Franz Wagner",
+   "stat": "points",
+   "over": {
+    "line": 22.5,
+    "price": -120
+   },
+   "under": {
+    "line": 23.5,
+    "price": -120
+   }
+  },
+  {
+   "player": "Bam Adebayo",
+   "stat": "points",
+   "over": {
+    "line": 20.5,
+    "price": -115
+   },
+   "under": {
+    "line": 21.5,
+    "price": -125
+   }
+  },
+  {
+   "player": "Desmond Bane",
+   "stat": "points",
+   "over": {
+    "line": 20.5,
+    "price": -105
+   },
+   "under": {
+    "line": 20.5,
+    "price": -105
+   }
+  },
+  {
+   "player": "Yaxel Lendeborg",
+   "stat": "points",
+   "over": {
+    "line": 18.5,
+    "price": -115
+   },
+   "under": {
+    "line": 18.5,
+    "price": 102
+   }
+  },
+  {
+   "player": "Brandin Podziemski",
+   "stat": "points",
+   "over": {
+    "line": 15.5,
+    "price": -132
+   },
+   "under": {
+    "line": 16.5,
+    "price": -114
+   }
+  },
+  {
+   "player": "Miles Bridges",
+   "stat": "points",
+   "over": {
+    "line": 16.5,
+    "price": -105
+   },
+   "under": {
+    "line": 16.5,
+    "price": -105
+   }
+  },
+  {
+   "player": "Dillon Brooks",
+   "stat": "points",
+   "over": {
+    "line": 15.5,
+    "price": -125
+   },
+   "under": {
+    "line": 16.5,
+    "price": -115
+   }
+  },
+  {
+   "player": "Jalen Green",
+   "stat": "points",
+   "over": {
+    "line": 15.5,
+    "price": -140
+   },
+   "under": {
+    "line": 16.5,
+    "price": -120
+   }
+  },
+  {
+   "player": "Anthony Black",
+   "stat": "points",
+   "over": {
+    "line": 14.5,
+    "price": -115
+   },
+   "under": {
+    "line": 15.5,
+    "price": -116
+   }
+  },
+  {
+   "player": "Davion Mitchell",
+   "stat": "points",
+   "over": {
+    "line": 12.5,
+    "price": -105
+   },
+   "under": {
+    "line": 13.5,
+    "price": -130
+   }
+  },
+  {
+   "player": "Klay Thompson",
+   "stat": "points",
+   "over": {
+    "line": 11.5,
+    "price": -135
+   },
+   "under": {
+    "line": 13.5,
+    "price": -125
+   }
+  },
+  {
+   "player": "Andrew Wiggins",
+   "stat": "points",
+   "over": {
+    "line": 11.5,
+    "price": -115
+   },
+   "under": {
+    "line": 12.5,
+    "price": -127
+   }
+  },
+  {
+   "player": "Tristan da Silva",
+   "stat": "points",
+   "over": {
+    "line": 11.5,
+    "price": -120
+   },
+   "under": {
+    "line": 12.5,
+    "price": -125
+   }
+  },
+  {
+   "player": "Pelle Larsson",
+   "stat": "points",
+   "over": {
+    "line": 11.5,
+    "price": -129
+   },
+   "under": {
+    "line": 13.5,
+    "price": -125
+   }
+  },
+  {
+   "player": "Wendell Carter Jr.",
+   "stat": "points",
+   "over": {
+    "line": 10.5,
+    "price": -130
+   },
+   "under": {
+    "line": 12.5,
+    "price": -110
+   }
+  },
+  {
+   "player": "De'Anthony Melton",
+   "stat": "points",
+   "over": {
+    "line": 9.5,
+    "price": -115
+   },
+   "under": {
+    "line": 10.5,
+    "price": -112
+   }
+  },
+  {
+   "player": "Brandon Williams",
+   "stat": "points",
+   "over": {
+    "line": 9.5,
+    "price": -120
+   },
+   "under": {
+    "line": 9.5,
+    "price": -105
+   }
+  },
+  {
+   "player": "Collin Gillespie",
+   "stat": "points",
+   "over": {
+    "line": 9.5,
+    "price": -105
+   },
+   "under": {
+    "line": 10.5,
+    "price": -125
+   }
+  },
+  {
+   "player": "Jase Richardson",
+   "stat": "points",
+   "over": {
+    "line": 8.5,
+    "price": -110
+   },
+   "under": {
+    "line": 8.5,
+    "price": -102
+   }
+  },
+  {
+   "player": "Georges Niang",
+   "stat": "points",
+   "over": {
+    "line": 7.5,
+    "price": -110
+   },
+   "under": {
+    "line": 7.5,
+    "price": -106
+   }
+  },
+  {
+   "player": "Oso Ighodaro",
+   "stat": "points",
+   "over": {
+    "line": 6.5,
+    "price": -122
+   },
+   "under": {
+    "line": 6.5,
+    "price": -104
+   }
+  },
+  {
+   "player": "Will Richard",
+   "stat": "points",
+   "over": {
+    "line": 5.5,
+    "price": -125
+   },
+   "under": {
+    "line": 6.5,
+    "price": -132
+   }
+  },
+  {
+   "player": "Jamal Cain",
+   "stat": "points",
+   "over": {
+    "line": 5.5,
+    "price": -112
+   },
+   "under": {
+    "line": 6.5,
+    "price": -140
+   }
+  },
+  {
+   "player": "Khaman Maluach",
+   "stat": "points",
+   "over": {
+    "line": 5.5,
+    "price": -115
+   },
+   "under": {
+    "line": 6.5,
+    "price": -136
+   }
+  },
+  {
+   "player": "Draymond Green",
+   "stat": "points",
+   "over": {
+    "line": 5.5,
+    "price": 105
+   },
+   "under": {
+    "line": 5.5,
+    "price": -109
+   }
+  },
+  {
+   "player": "Bobby Portis",
+   "stat": "rebounds",
+   "over": {
+    "line": 5.5,
+    "price": 118
+   },
+   "under": {
+    "line": 5.5,
+    "price": -158
+   }
+  },
+  {
+   "player": "Giannis Antetokounmpo",
+   "stat": "rebounds",
+   "over": {
+    "line": 10.5,
+    "price": -127
+   },
+   "under": {
+    "line": 11.5,
+    "price": -185
+   }
+  },
+  {
+   "player": "Bam Adebayo",
+   "stat": "rebounds",
+   "over": {
+    "line": 9.5,
+    "price": -115
+   },
+   "under": {
+    "line": 9.5,
+    "price": 104
+   }
+  },
+  {
+   "player": "Wendell Carter Jr.",
+   "stat": "rebounds",
+   "over": {
+    "line": 8.5,
+    "price": -115
+   },
+   "under": {
+    "line": 9.5,
+    "price": -150
+   }
+  },
+  {
+   "player": "Yaxel Lendeborg",
+   "stat": "rebounds",
+   "over": {
+    "line": 7.5,
+    "price": 110
+   },
+   "under": {
+    "line": 7.5,
+    "price": -129
+   }
+  },
+  {
+   "player": "Miles Bridges",
+   "stat": "rebounds",
+   "over": {
+    "line": 6.5,
+    "price": 105
+   },
+   "under": {
+    "line": 6.5,
+    "price": -127
+   }
+  },
+  {
+   "player": "Franz Wagner",
+   "stat": "rebounds",
+   "over": {
+    "line": 5.5,
+    "price": -140
+   },
+   "under": {
+    "line": 6.5,
+    "price": -130
+   }
+  },
+  {
+   "player": "Khaman Maluach",
+   "stat": "rebounds",
+   "over": {
+    "line": 5.5,
+    "price": 102
+   },
+   "under": {
+    "line": 5.5,
+    "price": -117
+   }
+  },
+  {
+   "player": "Oso Ighodaro",
+   "stat": "rebounds",
+   "over": {
+    "line": 5.5,
+    "price": 115
+   },
+   "under": {
+    "line": 5.5,
+    "price": -120
+   }
+  },
+  {
+   "player": "Brandin Podziemski",
+   "stat": "rebounds",
+   "over": {
+    "line": 4.5,
+    "price": -155
+   },
+   "under": {
+    "line": 5.5,
+    "price": -140
+   }
+  },
+  {
+   "player": "Draymond Green",
+   "stat": "rebounds",
+   "over": {
+    "line": 5.5,
+    "price": 128
+   },
+   "under": {
+    "line": 5.5,
+    "price": -125
+   }
+  },
+  {
+   "player": "Anthony Black",
+   "stat": "rebounds",
+   "over": {
+    "line": 4.5,
+    "price": 102
+   },
+   "under": {
+    "line": 4.5,
+    "price": -109
+   }
+  },
+  {
+   "player": "Desmond Bane",
+   "stat": "rebounds",
+   "over": {
+    "line": 4.5,
+    "price": 125
+   },
+   "under": {
+    "line": 4.5,
+    "price": -123
+   }
+  },
+  {
+   "player": "Tristan da Silva",
+   "stat": "rebounds",
+   "over": {
+    "line": 4.5,
+    "price": 115
+   },
+   "under": {
+    "line": 4.5,
+    "price": -125
+   }
+  },
+  {
+   "player": "Devin Booker",
+   "stat": "rebounds",
+   "over": {
+    "line": 3.5,
+    "price": -130
+   },
+   "under": {
+    "line": 3.5,
+    "price": 122
+   }
+  },
+  {
+   "player": "Dillon Brooks",
+   "stat": "rebounds",
+   "over": {
+    "line": 3.5,
+    "price": -155
+   },
+   "under": {
+    "line": 4.5,
+    "price": -150
+   }
+  },
+  {
+   "player": "Pelle Larsson",
+   "stat": "rebounds",
+   "over": {
+    "line": 3.5,
+    "price": -115
+   },
+   "under": {
+    "line": 3.5,
+    "price": 110
+   }
+  },
+  {
+   "player": "Stephen Curry",
+   "stat": "rebounds",
+   "over": {
+    "line": 3.5,
+    "price": -110
+   },
+   "under": {
+    "line": 3.5,
+    "price": 100
+   }
+  },
+  {
+   "player": "De'Anthony Melton",
+   "stat": "rebounds",
+   "over": {
+    "line": 3.5,
+    "price": 100
+   },
+   "under": {
+    "line": 3.5,
+    "price": 100
+   }
+  },
+  {
+   "player": "Jalen Green",
+   "stat": "rebounds",
+   "over": {
+    "line": 3.5,
+    "price": -110
+   },
+   "under": {
+    "line": 3.5,
+    "price": -111
+   }
+  },
+  {
+   "player": "Andrew Wiggins",
+   "stat": "rebounds",
+   "over": {
+    "line": 3.5,
+    "price": -112
+   },
+   "under": {
+    "line": 3.5,
+    "price": -105
+   }
+  },
+  {
+   "player": "Collin Gillespie",
+   "stat": "rebounds",
+   "over": {
+    "line": 3.5,
+    "price": 130
+   },
+   "under": {
+    "line": 3.5,
+    "price": -125
+   }
+  },
+  {
+   "player": "Georges Niang",
+   "stat": "rebounds",
+   "over": {
+    "line": 3.5,
+    "price": 120
+   },
+   "under": {
+    "line": 3.5,
+    "price": -125
+   }
+  },
+  {
+   "player": "Jase Richardson",
+   "stat": "rebounds",
+   "over": null,
+   "under": {
+    "line": 2.5,
+    "price": -105
+   }
+  },
+  {
+   "player": "Jamal Cain",
+   "stat": "rebounds",
+   "over": {
+    "line": 2.5,
+    "price": -115
+   },
+   "under": {
+    "line": 2.5,
+    "price": -110
+   }
+  },
+  {
+   "player": "Will Richard",
+   "stat": "rebounds",
+   "over": null,
+   "under": {
+    "line": 2.5,
+    "price": -115
+   }
+  },
+  {
+   "player": "Davion Mitchell",
+   "stat": "rebounds",
+   "over": null,
+   "under": {
+    "line": 2.5,
+    "price": -135
+   }
+  },
+  {
+   "player": "Brandon Williams",
+   "stat": "rebounds",
+   "over": {
+    "line": 2.5,
+    "price": 120
+   },
+   "under": {
+    "line": 2.5,
+    "price": -150
+   }
+  },
+  {
+   "player": "Klay Thompson",
+   "stat": "rebounds",
+   "over": null,
+   "under": {
+    "line": 2.5,
+    "price": -145
+   }
+  }
+ ]
+}
