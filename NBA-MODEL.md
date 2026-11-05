@@ -550,6 +550,26 @@ half-point line fits between the two. The earlier "props can still qualify" was
 partly the narrow distribution's own overconfidence. A real prop edge now has
 to arrive as a stale price on a sound line.
 
+## Recent form and streakiness, tested and left out
+
+Two pieces of the original spec — blending a player's recent games and a
+"streaky player" penalty — were built as tests before going in.
+`scripts/fit-player-form.js` predicts every appearance from the games before it.
+
+**Last five games.** Weighting a player's last five above the rest of their
+season made every prediction slightly worse: points RMSE 5.181 at no extra
+weight, 5.206 at full weight, over 438 appearances where the two differ.
+Short hot and cold runs did not carry into the next game.
+
+**Streakiness.** Players whose scoring rate had swung most did miss by more
+next game, 40.3% against 34.0% (t 1.86) — but bench players both swing more
+and miss by more in relative terms simply by scoring less. Compared only within
+their own minutes band, with each miss scaled to the noise its size carries,
+the gap vanishes (t 0.20). It was role, and role is already priced by the
+fitted minutes spread. Charging -3% for it would penalise reserves twice. The
+flag stays in `propPenalties` for a hand-set prop but nothing in the live
+pipeline sets it.
+
 ## Totals regress to the league the ratings describe
 
 Two-thirds of a total projection is its shrinkage target, and that target was

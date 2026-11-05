@@ -30,7 +30,8 @@
     "diagnose": "node scripts/diagnose.js",
     "fit-player-blend": "node scripts/fit-player-blend.js",
     "fit-player-variance": "node scripts/fit-player-variance.js",
-    "fit-total-target": "node scripts/fit-total-target.js"
+    "fit-total-target": "node scripts/fit-total-target.js",
+    "fit-player-form": "node scripts/fit-player-form.js"
   },
   "eslintConfig": {
     "extends": [
