@@ -571,8 +571,12 @@ prop projections carry essentially no information the book does not already
 have, and their big gaps from the line were their errors.
 
 So prop pricing now leans 80% on the line (`PROP_LINE_ANCHOR`): the simulated
-distribution keeps its fitted shape and its centre moves most of the way to
-the posted line. Edges shrink to an honest size and the misleading top of the
+distribution keeps its fitted shape and its MEDIAN moves most of the way to
+the posted line. The median, because a book sets its line near the 50/50
+point; the first version moved the mean instead, and since points are
+right-skewed that left the median under the line and turned all 61 of the
+night's leans into unders. Moving the median gave 13 leans, both sides, the
+largest raw edge 3.8%. Edges shrink to an honest size and the misleading top of the
 list goes away. The raw model mean is still logged as `modelMean` so the anchor
 can be re-fitted, and the line-divergence veto still reads the raw model.
 

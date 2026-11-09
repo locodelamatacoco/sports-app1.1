@@ -989,12 +989,32 @@ export function priceShiftedLine(distribution, numSims, line, shift) {
   };
 }
 
+// The 50/50 point of a recorded whole-number distribution, treating each
+// bucket as spread evenly across its half-point either side.
+export function distributionMedian(distribution, numSims) {
+  const values = [...distribution.keys()].sort((a, b) => a - b);
+  let cum = 0;
+  for (const v of values) {
+    const p = distribution.get(v) / numSims;
+    if (cum + p >= 0.5) return v - 0.5 + (0.5 - cum) / p;
+    cum += p;
+  }
+  return values[values.length - 1] ?? null;
+}
+
 // Anchor a prop toward its posted line (see MODEL_CONSTANTS.PROP_LINE_ANCHOR).
+//
+// A book sets a line where over and under are close to even: its MEDIAN, not
+// its mean. Points are right-skewed, so a player's median sits below his mean,
+// and moving the model's mean onto the line left its median underneath — every
+// under then read as a small edge. The first board priced that way leaned under
+// on all 61 of its prop leans. The model's median is what moves toward the line.
 export function anchoredProp(result, line, weight = MODEL_CONSTANTS.PROP_LINE_ANCHOR) {
   if (line == null || !result?.dist || !(weight > 0)) {
     return { overProb: result.overProb, underProb: result.underProb, pushProb: result.pushProb, mean: result.simulatedMean, shift: 0 };
   }
-  const shift = weight * (line - result.simulatedMean);
+  const median = distributionMedian(result.dist, result.samples);
+  const shift = weight * (line - median);
   const p = priceShiftedLine(result.dist, result.samples, line, shift);
   return { ...p, mean: result.simulatedMean + shift, shift };
 }

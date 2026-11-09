@@ -24,6 +24,7 @@ import {
   projectPlayerGame,
   priceShiftedLine,
   anchoredProp,
+  distributionMedian,
   DOUBLE_DOUBLE_STATS,
   POINTS_THRESHOLDS,
   distributionSummary,
@@ -1215,10 +1216,28 @@ describe('props lean on the book\'s line', () => {
     expect(half.overProb).toBeCloseTo((lo.overProb + hi.overProb) / 2, 10);
   });
 
-  test('the centre moves the anchor share of the way to the line', () => {
+  test('the median moves the anchor share of the way to the line', () => {
+    // Symmetric 10/20/30: median 20, so a line of 25 moves it 4.
     const a = anchoredProp(result, 25, 0.8);
     expect(a.shift).toBeCloseTo(4, 10);
     expect(a.mean).toBeCloseTo(24, 10);
+  });
+
+  test('the median of a whole-number distribution interpolates inside its bucket', () => {
+    expect(distributionMedian(dist, 300)).toBeCloseTo(20, 10);
+    // 0 x 50, 10 x 50: the 50/50 point is the top edge of the 0 bucket.
+    expect(distributionMedian(new Map([[0, 50], [10, 50]]), 100)).toBeCloseTo(0.5, 10);
+  });
+
+  test('a skewed player anchored fully to the line is a coin flip, not an under', () => {
+    // Right-skewed: the mean (about 11.7) sits above the median. Anchoring the
+    // mean would leave every under looking cheap; anchoring the median makes
+    // the line the 50/50 point it is.
+    const skew = new Map([[5, 30], [8, 25], [10, 20], [15, 15], [30, 10]]);
+    const r = { dist: skew, samples: 100, simulatedMean: (5 * 30 + 8 * 25 + 10 * 20 + 15 * 15 + 30 * 10) / 100 };
+    const a = anchoredProp(r, 9.5, 1);
+    expect(a.overProb).toBeCloseTo(0.5, 2);
+    expect(a.underProb).toBeCloseTo(0.5, 2);
   });
 
   test('a zero anchor, or no line, leaves the model as it was', () => {
@@ -1244,6 +1263,10 @@ describe('props lean on the book\'s line', () => {
     const row = analyzeGame(game, { numSims: 8000, seed: 41 }).props.find((p) => p.side === 'under');
     const C = MODEL_CONSTANTS;
     expect(row.modelMean).toBeLessThan(21);
-    expect(row.simulatedMean).toBeCloseTo(row.modelMean + C.PROP_LINE_ANCHOR * (24.5 - row.modelMean), 6);
+    // The median, not the mean, is moved toward the line, so the reported
+    // mean lands above where moving the mean would have put it on a skewed
+    // points distribution.
+    expect(row.simulatedMean).toBeGreaterThan(row.modelMean);
+    expect(row.simulatedMean).toBeLessThan(26);
   });
 });

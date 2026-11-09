@@ -1,5 +1,5 @@
 {
-  "loggedAt": "2026-11-09T16:58:58.542Z",
+  "loggedAt": "2026-11-09T17:00:09.559Z",
   "published": [],
   "screenedOut": 103,
   "slateDate": "2026-11-09",
@@ -593,7 +593,7 @@
           "simulatedMean": null,
           "modelMean": null,
           "propBand": null,
-          "slateRank": 77
+          "slateRank": 41
         },
         {
           "label": "Los Angeles Lakers ML",
@@ -614,7 +614,7 @@
           "simulatedMean": null,
           "modelMean": null,
           "propBand": null,
-          "slateRank": 69
+          "slateRank": 33
         },
         {
           "label": "Atlanta Hawks -1.5",
@@ -635,7 +635,7 @@
           "simulatedMean": null,
           "modelMean": null,
           "propBand": null,
-          "slateRank": 94
+          "slateRank": 60
         },
         {
           "label": "Los Angeles Lakers +1.5",
@@ -656,7 +656,7 @@
           "simulatedMean": null,
           "modelMean": null,
           "propBand": null,
-          "slateRank": 60
+          "slateRank": 27
         },
         {
           "label": "Over 237.5",
@@ -677,7 +677,7 @@
           "simulatedMean": null,
           "modelMean": null,
           "propBand": null,
-          "slateRank": 143
+          "slateRank": 119
         },
         {
           "label": "Under 237.5",
@@ -698,7 +698,7 @@
           "simulatedMean": null,
           "modelMean": null,
           "propBand": null,
-          "slateRank": 17
+          "slateRank": 10
         },
         {
           "label": "Luka Doncic Over 33.5 points",
@@ -710,20 +710,20 @@
           "threshold": null,
           "book": null,
           "price": -123,
-          "modelProb": 0.4464,
+          "modelProb": 0.4979,
           "impliedProb": 0.5516,
-          "rawEdge": -0.1052,
-          "adjustedEdge": -0.2852,
+          "rawEdge": -0.0537,
+          "adjustedEdge": -0.2337,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 33.91,
+          "simulatedMean": 35.85,
           "modelMean": 35.55,
           "propBand": [
             18,
             33,
             56
           ],
-          "slateRank": 199
+          "slateRank": 168
         },
         {
           "label": "Luka Doncic Under 34.5 points",
@@ -735,20 +735,20 @@
           "threshold": null,
           "book": null,
           "price": -128,
-          "modelProb": 0.5574,
+          "modelProb": 0.5066,
           "impliedProb": 0.5614,
-          "rawEdge": -0.004,
-          "adjustedEdge": -0.184,
+          "rawEdge": -0.0548,
+          "adjustedEdge": -0.2348,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 34.75,
+          "simulatedMean": 36.71,
           "modelMean": 35.75,
           "propBand": [
             18,
             33,
             57
           ],
-          "slateRank": 113
+          "slateRank": 171
         },
         {
           "label": "Austin Reaves Over 21.5 points",
@@ -760,20 +760,20 @@
           "threshold": null,
           "book": null,
           "price": -105,
-          "modelProb": 0.4527,
+          "modelProb": 0.5057,
           "impliedProb": 0.5122,
-          "rawEdge": -0.0595,
-          "adjustedEdge": -0.2395,
+          "rawEdge": -0.0065,
+          "adjustedEdge": -0.1865,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 21.97,
+          "simulatedMean": 23.29,
           "modelMean": 23.85,
           "propBand": [
             12,
             22,
             38
           ],
-          "slateRank": 160
+          "slateRank": 85
         },
         {
           "label": "Austin Reaves Under 22.5 points",
@@ -785,20 +785,20 @@
           "threshold": null,
           "book": null,
           "price": -116,
-          "modelProb": 0.5544,
+          "modelProb": 0.5031,
           "impliedProb": 0.537,
-          "rawEdge": 0.0173,
-          "adjustedEdge": -0.1627,
+          "rawEdge": -0.0339,
+          "adjustedEdge": -0.2139,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 22.75,
+          "simulatedMean": 24.05,
           "modelMean": 23.74,
           "propBand": [
             12,
             22,
             38
           ],
-          "slateRank": 86
+          "slateRank": 131
         },
         {
           "label": "Jalen Johnson Over 20.5 points",
@@ -810,20 +810,20 @@
           "threshold": null,
           "book": null,
           "price": -110,
-          "modelProb": 0.4329,
+          "modelProb": 0.4848,
           "impliedProb": 0.5238,
-          "rawEdge": -0.0909,
-          "adjustedEdge": -0.2709,
+          "rawEdge": -0.039,
+          "adjustedEdge": -0.219,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 20.46,
+          "simulatedMean": 21.64,
           "modelMean": 20.29,
           "propBand": [
             10,
             19,
             32
           ],
-          "slateRank": 181
+          "slateRank": 137
         },
         {
           "label": "Jalen Johnson Under 20.5 points",
@@ -835,20 +835,20 @@
           "threshold": null,
           "book": null,
           "price": 102,
-          "modelProb": 0.5671,
+          "modelProb": 0.5152,
           "impliedProb": 0.495,
-          "rawEdge": 0.0721,
-          "adjustedEdge": -0.1079,
+          "rawEdge": 0.0202,
+          "adjustedEdge": -0.1598,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 20.46,
+          "simulatedMean": 21.64,
           "modelMean": 20.29,
           "propBand": [
             10,
             19,
             32
           ],
-          "slateRank": 28
+          "slateRank": 47
         },
         {
           "label": "Nickeil Alexander-Walker Over 19.5 points",
@@ -860,20 +860,20 @@
           "threshold": null,
           "book": null,
           "price": -120,
-          "modelProb": 0.443,
+          "modelProb": 0.4951,
           "impliedProb": 0.5455,
-          "rawEdge": -0.1024,
-          "adjustedEdge": -0.2824,
+          "rawEdge": -0.0504,
+          "adjustedEdge": -0.2304,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 19.68,
+          "simulatedMean": 20.86,
           "modelMean": 20.42,
           "propBand": [
             10,
             19,
             33
           ],
-          "slateRank": 197
+          "slateRank": 165
         },
         {
           "label": "Nickeil Alexander-Walker Under 20.5 points",
@@ -885,20 +885,20 @@
           "threshold": null,
           "book": null,
           "price": -110,
-          "modelProb": 0.5683,
+          "modelProb": 0.5147,
           "impliedProb": 0.5238,
-          "rawEdge": 0.0445,
-          "adjustedEdge": -0.1355,
+          "rawEdge": -0.0091,
+          "adjustedEdge": -0.1891,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 20.47,
+          "simulatedMean": 21.68,
           "modelMean": 20.37,
           "propBand": [
             10,
             19,
             33
           ],
-          "slateRank": 51
+          "slateRank": 90
         },
         {
           "label": "Walker Kessler Over 12.5 points",
@@ -910,20 +910,20 @@
           "threshold": null,
           "book": null,
           "price": -140,
-          "modelProb": 0.4538,
+          "modelProb": 0.5075,
           "impliedProb": 0.5833,
-          "rawEdge": -0.1296,
-          "adjustedEdge": -0.3096,
+          "rawEdge": -0.0759,
+          "adjustedEdge": -0.2559,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 12.82,
+          "simulatedMean": 13.66,
           "modelMean": 14.11,
           "propBand": [
             7,
             13,
             23
           ],
-          "slateRank": 226
+          "slateRank": 214
         },
         {
           "label": "Walker Kessler Under 13.5 points",
@@ -935,20 +935,20 @@
           "threshold": null,
           "book": null,
           "price": -120,
-          "modelProb": 0.5598,
+          "modelProb": 0.5057,
           "impliedProb": 0.5455,
-          "rawEdge": 0.0143,
-          "adjustedEdge": -0.1657,
+          "rawEdge": -0.0397,
+          "adjustedEdge": -0.2197,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 13.63,
+          "simulatedMean": 14.48,
           "modelMean": 14.13,
           "propBand": [
             7,
             13,
             23
           ],
-          "slateRank": 91
+          "slateRank": 139
         },
         {
           "label": "Aaron Wiggins Over 12.5 points",
@@ -960,20 +960,20 @@
           "threshold": null,
           "book": null,
           "price": -115,
-          "modelProb": 0.4111,
+          "modelProb": 0.4683,
           "impliedProb": 0.5349,
-          "rawEdge": -0.1238,
-          "adjustedEdge": -0.3038,
+          "rawEdge": -0.0665,
+          "adjustedEdge": -0.2465,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 12.27,
+          "simulatedMean": 13.07,
           "modelMean": 11.34,
           "propBand": [
             5,
             10,
             19
           ],
-          "slateRank": 217
+          "slateRank": 194
         },
         {
           "label": "Aaron Wiggins Under 13.5 points",
@@ -985,20 +985,20 @@
           "threshold": null,
           "book": null,
           "price": -127,
-          "modelProb": 0.6006,
+          "modelProb": 0.5461,
           "impliedProb": 0.5595,
-          "rawEdge": 0.0411,
-          "adjustedEdge": -0.1389,
+          "rawEdge": -0.0134,
+          "adjustedEdge": -0.1934,
           "qualifies": false,
           "veto": "projection 11.3 is 2.2 off the 13.5 line (16%) — the line is the more likely error",
-          "simulatedMean": 13.06,
+          "simulatedMean": 13.85,
           "modelMean": 11.3,
           "propBand": [
             5,
             10,
             19
           ],
-          "slateRank": 56
+          "slateRank": 94
         },
         {
           "label": "Onyeka Okongwu Over 12.5 points",
@@ -1010,20 +1010,20 @@
           "threshold": null,
           "book": null,
           "price": -128,
-          "modelProb": 0.4438,
+          "modelProb": 0.5003,
           "impliedProb": 0.5614,
-          "rawEdge": -0.1176,
-          "adjustedEdge": -0.2976,
+          "rawEdge": -0.0611,
+          "adjustedEdge": -0.2411,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 12.72,
+          "simulatedMean": 13.58,
           "modelMean": 13.6,
           "propBand": [
             7,
             13,
             22
           ],
-          "slateRank": 211
+          "slateRank": 184
         },
         {
           "label": "Onyeka Okongwu Under 13.5 points",
@@ -1035,20 +1035,20 @@
           "threshold": null,
           "book": null,
           "price": -112,
-          "modelProb": 0.5683,
+          "modelProb": 0.5126,
           "impliedProb": 0.5283,
-          "rawEdge": 0.04,
-          "adjustedEdge": -0.14,
+          "rawEdge": -0.0157,
+          "adjustedEdge": -0.1957,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 13.52,
+          "simulatedMean": 14.36,
           "modelMean": 13.61,
           "propBand": [
             7,
             13,
             22
           ],
-          "slateRank": 58
+          "slateRank": 97
         },
         {
           "label": "CJ McCollum Over 12.5 points",
@@ -1060,20 +1060,20 @@
           "threshold": null,
           "book": null,
           "price": -110,
-          "modelProb": 0.4578,
+          "modelProb": 0.5149,
           "impliedProb": 0.5238,
-          "rawEdge": -0.066,
-          "adjustedEdge": -0.246,
+          "rawEdge": -0.0089,
+          "adjustedEdge": -0.1889,
           "qualifies": false,
           "veto": "projection 15.0 is 2.5 off the 12.5 line (20%) — the line is the more likely error",
-          "simulatedMean": 13,
+          "simulatedMean": 13.97,
           "modelMean": 14.98,
           "propBand": [
             7,
             14,
             25
           ],
-          "slateRank": 166
+          "slateRank": 89
         },
         {
           "label": "CJ McCollum Under 12.5 points",
@@ -1085,20 +1085,20 @@
           "threshold": null,
           "book": null,
           "price": -102,
-          "modelProb": 0.5422,
+          "modelProb": 0.4851,
           "impliedProb": 0.505,
-          "rawEdge": 0.0372,
-          "adjustedEdge": -0.1428,
+          "rawEdge": -0.0198,
+          "adjustedEdge": -0.1998,
           "qualifies": false,
           "veto": "projection 15.0 is 2.5 off the 12.5 line (20%) — the line is the more likely error",
-          "simulatedMean": 13,
+          "simulatedMean": 13.97,
           "modelMean": 14.98,
           "propBand": [
             7,
             14,
             25
           ],
-          "slateRank": 62
+          "slateRank": 105
         },
         {
           "label": "Dyson Daniels Over 10.5 points",
@@ -1110,20 +1110,20 @@
           "threshold": null,
           "book": null,
           "price": -122,
-          "modelProb": 0.4288,
+          "modelProb": 0.483,
           "impliedProb": 0.5495,
-          "rawEdge": -0.1207,
-          "adjustedEdge": -0.3007,
+          "rawEdge": -0.0665,
+          "adjustedEdge": -0.2465,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 10.46,
+          "simulatedMean": 11.08,
           "modelMean": 10.3,
           "propBand": [
             5,
             10,
             17
           ],
-          "slateRank": 214
+          "slateRank": 195
         },
         {
           "label": "Dyson Daniels Under 11.5 points",
@@ -1135,20 +1135,20 @@
           "threshold": null,
           "book": null,
           "price": -125,
-          "modelProb": 0.5856,
+          "modelProb": 0.533,
           "impliedProb": 0.5556,
-          "rawEdge": 0.03,
-          "adjustedEdge": -0.15,
+          "rawEdge": -0.0225,
+          "adjustedEdge": -0.2025,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 11.27,
+          "simulatedMean": 11.89,
           "modelMean": 10.35,
           "propBand": [
             5,
             10,
             17
           ],
-          "slateRank": 73
+          "slateRank": 110
         },
         {
           "label": "Kingston Flemings Over 8.5 points",
@@ -1160,20 +1160,20 @@
           "threshold": null,
           "book": null,
           "price": -115,
-          "modelProb": 0.4185,
+          "modelProb": 0.4749,
           "impliedProb": 0.5349,
-          "rawEdge": -0.1164,
-          "adjustedEdge": -0.2964,
+          "rawEdge": -0.06,
+          "adjustedEdge": -0.24,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 8.41,
+          "simulatedMean": 9.04,
           "modelMean": 8.04,
           "propBand": [
             3,
             7,
             14
           ],
-          "slateRank": 208
+          "slateRank": 181
         },
         {
           "label": "Kingston Flemings Under 9.5 points",
@@ -1185,20 +1185,20 @@
           "threshold": null,
           "book": null,
           "price": -130,
-          "modelProb": 0.6005,
+          "modelProb": 0.5433,
           "impliedProb": 0.5652,
-          "rawEdge": 0.0353,
-          "adjustedEdge": -0.1447,
+          "rawEdge": -0.0219,
+          "adjustedEdge": -0.2019,
           "qualifies": false,
           "veto": "projection 8.1 is 1.4 off the 9.5 line (15%) — the line is the more likely error",
-          "simulatedMean": 9.21,
+          "simulatedMean": 9.86,
           "modelMean": 8.06,
           "propBand": [
             3,
             7,
             14
           ],
-          "slateRank": 63
+          "slateRank": 109
         },
         {
           "label": "Sandro Mamukelashvili Over 7.5 points",
@@ -1210,20 +1210,20 @@
           "threshold": null,
           "book": null,
           "price": -120,
-          "modelProb": 0.4649,
+          "modelProb": 0.5242,
           "impliedProb": 0.5455,
-          "rawEdge": -0.0806,
-          "adjustedEdge": -0.2606,
+          "rawEdge": -0.0212,
+          "adjustedEdge": -0.2012,
           "qualifies": false,
           "veto": "projection 9.9 is 2.4 off the 7.5 line (31%) — the line is the more likely error",
-          "simulatedMean": 7.97,
+          "simulatedMean": 8.69,
           "modelMean": 9.86,
           "propBand": [
             4,
             9,
             17
           ],
-          "slateRank": 175
+          "slateRank": 108
         },
         {
           "label": "Sandro Mamukelashvili Under 8.5 points",
@@ -1235,20 +1235,20 @@
           "threshold": null,
           "book": null,
           "price": -125,
-          "modelProb": 0.5525,
+          "modelProb": 0.4931,
           "impliedProb": 0.5556,
-          "rawEdge": -0.0031,
-          "adjustedEdge": -0.1831,
+          "rawEdge": -0.0624,
+          "adjustedEdge": -0.2424,
           "qualifies": false,
           "veto": "projection 9.8 is 1.3 off the 8.5 line (16%) — the line is the more likely error",
-          "simulatedMean": 8.77,
+          "simulatedMean": 9.5,
           "modelMean": 9.83,
           "propBand": [
             4,
             9,
             17
           ],
-          "slateRank": 111
+          "slateRank": 186
         },
         {
           "label": "Ziaire Williams Over 7.5 points",
@@ -1260,20 +1260,20 @@
           "threshold": null,
           "book": null,
           "price": -129,
-          "modelProb": 0.4707,
+          "modelProb": 0.5316,
           "impliedProb": 0.5633,
-          "rawEdge": -0.0926,
-          "adjustedEdge": -0.2726,
+          "rawEdge": -0.0318,
+          "adjustedEdge": -0.2118,
           "qualifies": false,
           "veto": "projection 10.4 is 2.9 off the 7.5 line (38%) — the line is the more likely error",
-          "simulatedMean": 8.07,
+          "simulatedMean": 8.84,
           "modelMean": 10.37,
           "propBand": [
             4,
             9,
             18
           ],
-          "slateRank": 182
+          "slateRank": 126
         },
         {
           "label": "Ziaire Williams Under 7.5 points",
@@ -1285,20 +1285,20 @@
           "threshold": null,
           "book": null,
           "price": 102,
-          "modelProb": 0.5293,
+          "modelProb": 0.4684,
           "impliedProb": 0.495,
-          "rawEdge": 0.0342,
-          "adjustedEdge": -0.1458,
+          "rawEdge": -0.0266,
+          "adjustedEdge": -0.2066,
           "qualifies": false,
           "veto": "projection 10.4 is 2.9 off the 7.5 line (38%) — the line is the more likely error",
-          "simulatedMean": 8.07,
+          "simulatedMean": 8.84,
           "modelMean": 10.37,
           "propBand": [
             4,
             9,
             18
           ],
-          "slateRank": 66
+          "slateRank": 117
         },
         {
           "label": "Luguentz Dort Over 7.5 points",
@@ -1310,20 +1310,20 @@
           "threshold": null,
           "book": null,
           "price": -104,
-          "modelProb": 0.4485,
+          "modelProb": 0.5072,
           "impliedProb": 0.5098,
-          "rawEdge": -0.0613,
-          "adjustedEdge": -0.2413,
+          "rawEdge": -0.0026,
+          "adjustedEdge": -0.1826,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 7.72,
+          "simulatedMean": 8.31,
           "modelMean": 8.6,
           "propBand": [
             4,
             8,
             14
           ],
-          "slateRank": 162
+          "slateRank": 80
         },
         {
           "label": "Luguentz Dort Under 7.5 points",
@@ -1335,20 +1335,20 @@
           "threshold": null,
           "book": null,
           "price": -111,
-          "modelProb": 0.5515,
+          "modelProb": 0.4928,
           "impliedProb": 0.5261,
-          "rawEdge": 0.0255,
-          "adjustedEdge": -0.1545,
+          "rawEdge": -0.0333,
+          "adjustedEdge": -0.2133,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 7.72,
+          "simulatedMean": 8.31,
           "modelMean": 8.6,
           "propBand": [
             4,
             8,
             14
           ],
-          "slateRank": 76
+          "slateRank": 129
         },
         {
           "label": "Matisse Thybulle Over 5.5 points",
@@ -1360,20 +1360,20 @@
           "threshold": null,
           "book": null,
           "price": -120,
-          "modelProb": 0.4472,
+          "modelProb": 0.5071,
           "impliedProb": 0.5455,
-          "rawEdge": -0.0983,
-          "adjustedEdge": -0.2783,
+          "rawEdge": -0.0383,
+          "adjustedEdge": -0.2183,
           "qualifies": false,
           "veto": "projection 6.5 is 1.0 off the 5.5 line (18%) — the line is the more likely error",
-          "simulatedMean": 5.7,
+          "simulatedMean": 6.23,
           "modelMean": 6.48,
           "propBand": [
             2,
             6,
             11
           ],
-          "slateRank": 189
+          "slateRank": 135
         },
         {
           "label": "Matisse Thybulle Under 6.5 points",
@@ -1385,20 +1385,20 @@
           "threshold": null,
           "book": null,
           "price": -135,
-          "modelProb": 0.5747,
+          "modelProb": 0.5157,
           "impliedProb": 0.5745,
-          "rawEdge": 0.0002,
-          "adjustedEdge": -0.1798,
+          "rawEdge": -0.0588,
+          "adjustedEdge": -0.2388,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 6.49,
+          "simulatedMean": 7.02,
           "modelMean": 6.46,
           "propBand": [
             2,
             6,
             11
           ],
-          "slateRank": 107
+          "slateRank": 179
         },
         {
           "label": "Jake LaRavia Over 5.5 points",
@@ -1410,20 +1410,20 @@
           "threshold": null,
           "book": null,
           "price": -115,
-          "modelProb": 0.4681,
+          "modelProb": 0.5261,
           "impliedProb": 0.5349,
-          "rawEdge": -0.0668,
-          "adjustedEdge": -0.2468,
+          "rawEdge": -0.0088,
+          "adjustedEdge": -0.1888,
           "qualifies": false,
           "veto": "projection 7.2 is 1.7 off the 5.5 line (31%) — the line is the more likely error",
-          "simulatedMean": 5.84,
+          "simulatedMean": 6.34,
           "modelMean": 7.21,
           "propBand": [
             3,
             7,
             12
           ],
-          "slateRank": 167
+          "slateRank": 88
         },
         {
           "label": "Jake LaRavia Under 5.5 points",
@@ -1435,20 +1435,20 @@
           "threshold": null,
           "book": null,
           "price": 101,
-          "modelProb": 0.5319,
+          "modelProb": 0.4739,
           "impliedProb": 0.4975,
-          "rawEdge": 0.0344,
-          "adjustedEdge": -0.1456,
+          "rawEdge": -0.0236,
+          "adjustedEdge": -0.2036,
           "qualifies": false,
           "veto": "projection 7.2 is 1.7 off the 5.5 line (31%) — the line is the more likely error",
-          "simulatedMean": 5.84,
+          "simulatedMean": 6.34,
           "modelMean": 7.21,
           "propBand": [
             3,
             7,
             12
           ],
-          "slateRank": 65
+          "slateRank": 112
         }
       ]
     },
@@ -1914,7 +1914,7 @@
           "simulatedMean": null,
           "modelMean": null,
           "propBand": null,
-          "slateRank": 33
+          "slateRank": 16
         },
         {
           "label": "Cleveland Cavaliers ML",
@@ -1935,7 +1935,7 @@
           "simulatedMean": null,
           "modelMean": null,
           "propBand": null,
-          "slateRank": 232
+          "slateRank": 248
         },
         {
           "label": "Charlotte Hornets +8.5",
@@ -1956,7 +1956,7 @@
           "simulatedMean": null,
           "modelMean": null,
           "propBand": null,
-          "slateRank": 61
+          "slateRank": 28
         },
         {
           "label": "Cleveland Cavaliers -8.5",
@@ -1977,7 +1977,7 @@
           "simulatedMean": null,
           "modelMean": null,
           "propBand": null,
-          "slateRank": 213
+          "slateRank": 244
         },
         {
           "label": "Over 214.5",
@@ -1998,7 +1998,7 @@
           "simulatedMean": null,
           "modelMean": null,
           "propBand": null,
-          "slateRank": 5
+          "slateRank": 2
         },
         {
           "label": "Under 214.5",
@@ -2019,7 +2019,7 @@
           "simulatedMean": null,
           "modelMean": null,
           "propBand": null,
-          "slateRank": 251
+          "slateRank": 255
         },
         {
           "label": "Donovan Mitchell Over 23.5 points",
@@ -2031,20 +2031,20 @@
           "threshold": null,
           "book": null,
           "price": -102,
-          "modelProb": 0.4441,
+          "modelProb": 0.4985,
           "impliedProb": 0.505,
-          "rawEdge": -0.0608,
-          "adjustedEdge": -0.2808,
+          "rawEdge": -0.0064,
+          "adjustedEdge": -0.2264,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 23.83,
+          "simulatedMean": 25.32,
           "modelMean": 25.17,
           "propBand": [
             12,
             23,
             40
           ],
-          "slateRank": 196
+          "slateRank": 155
         },
         {
           "label": "Donovan Mitchell Under 23.5 points",
@@ -2056,20 +2056,20 @@
           "threshold": null,
           "book": null,
           "price": -119,
-          "modelProb": 0.5559,
+          "modelProb": 0.5014,
           "impliedProb": 0.5434,
-          "rawEdge": 0.0125,
-          "adjustedEdge": -0.2075,
+          "rawEdge": -0.0419,
+          "adjustedEdge": -0.2619,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 23.83,
+          "simulatedMean": 25.32,
           "modelMean": 25.17,
           "propBand": [
             12,
             23,
             40
           ],
-          "slateRank": 142
+          "slateRank": 223
         },
         {
           "label": "Naz Reid Over 18.5 points",
@@ -2081,20 +2081,20 @@
           "threshold": null,
           "book": null,
           "price": -110,
-          "modelProb": 0.3834,
+          "modelProb": 0.436,
           "impliedProb": 0.5238,
-          "rawEdge": -0.1404,
-          "adjustedEdge": -0.3604,
+          "rawEdge": -0.0878,
+          "adjustedEdge": -0.3078,
           "qualifies": false,
           "veto": "projection 14.3 is 4.2 off the 18.5 line (22%) — the line is the more likely error",
-          "simulatedMean": 17.67,
+          "simulatedMean": 18.6,
           "modelMean": 14.34,
           "propBand": [
             7,
             13,
             24
           ],
-          "slateRank": 249
+          "slateRank": 246
         },
         {
           "label": "Naz Reid Under 19.5 points",
@@ -2106,20 +2106,20 @@
           "threshold": null,
           "book": null,
           "price": -115,
-          "modelProb": 0.6266,
+          "modelProb": 0.5752,
           "impliedProb": 0.5349,
-          "rawEdge": 0.0917,
-          "adjustedEdge": -0.1283,
+          "rawEdge": 0.0403,
+          "adjustedEdge": -0.1797,
           "qualifies": false,
           "veto": "projection 14.3 is 5.2 off the 19.5 line (27%) — the line is the more likely error",
-          "simulatedMean": 18.46,
+          "simulatedMean": 19.41,
           "modelMean": 14.31,
           "propBand": [
             7,
             13,
             23
           ],
-          "slateRank": 45
+          "slateRank": 75
         },
         {
           "label": "Evan Mobley Over 17.5 points",
@@ -2131,20 +2131,20 @@
           "threshold": null,
           "book": null,
           "price": 100,
-          "modelProb": 0.4337,
+          "modelProb": 0.4876,
           "impliedProb": 0.5,
-          "rawEdge": -0.0663,
-          "adjustedEdge": -0.2863,
+          "rawEdge": -0.0124,
+          "adjustedEdge": -0.2324,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 17.52,
+          "simulatedMean": 18.55,
           "modelMean": 17.61,
           "propBand": [
             9,
             16,
             28
           ],
-          "slateRank": 200
+          "slateRank": 167
         },
         {
           "label": "Evan Mobley Under 17.5 points",
@@ -2156,20 +2156,20 @@
           "threshold": null,
           "book": null,
           "price": -120,
-          "modelProb": 0.5663,
+          "modelProb": 0.5124,
           "impliedProb": 0.5455,
-          "rawEdge": 0.0209,
-          "adjustedEdge": -0.1991,
+          "rawEdge": -0.033,
+          "adjustedEdge": -0.253,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 17.52,
+          "simulatedMean": 18.55,
           "modelMean": 17.61,
           "propBand": [
             9,
             16,
             28
           ],
-          "slateRank": 132
+          "slateRank": 207
         },
         {
           "label": "James Harden Over 16.5 points",
@@ -2181,20 +2181,20 @@
           "threshold": null,
           "book": null,
           "price": -105,
-          "modelProb": 0.4578,
+          "modelProb": 0.5114,
           "impliedProb": 0.5122,
-          "rawEdge": -0.0544,
-          "adjustedEdge": -0.2744,
+          "rawEdge": -0.0007,
+          "adjustedEdge": -0.2207,
           "qualifies": false,
           "veto": "projection 19.1 is 2.6 off the 16.5 line (16%) — the line is the more likely error",
-          "simulatedMean": 17.02,
+          "simulatedMean": 18.15,
           "modelMean": 19.11,
           "propBand": [
             9,
             18,
             31
           ],
-          "slateRank": 185
+          "slateRank": 143
         },
         {
           "label": "James Harden Under 16.5 points",
@@ -2206,20 +2206,20 @@
           "threshold": null,
           "book": null,
           "price": -108,
-          "modelProb": 0.5422,
+          "modelProb": 0.4886,
           "impliedProb": 0.5192,
-          "rawEdge": 0.0229,
-          "adjustedEdge": -0.1971,
+          "rawEdge": -0.0307,
+          "adjustedEdge": -0.2507,
           "qualifies": false,
           "veto": "projection 19.1 is 2.6 off the 16.5 line (16%) — the line is the more likely error",
-          "simulatedMean": 17.02,
+          "simulatedMean": 18.15,
           "modelMean": 19.11,
           "propBand": [
             9,
             18,
             31
           ],
-          "slateRank": 129
+          "slateRank": 204
         },
         {
           "label": "Grayson Allen Over 15.5 points",
@@ -2231,20 +2231,20 @@
           "threshold": null,
           "book": null,
           "price": -140,
-          "modelProb": 0.422,
+          "modelProb": 0.4774,
           "impliedProb": 0.5833,
-          "rawEdge": -0.1614,
-          "adjustedEdge": -0.3814,
+          "rawEdge": -0.106,
+          "adjustedEdge": -0.326,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 15.36,
+          "simulatedMean": 16.34,
           "modelMean": 14.8,
           "propBand": [
             7,
             14,
             24
           ],
-          "slateRank": 253
+          "slateRank": 250
         },
         {
           "label": "Grayson Allen Under 16.5 points",
@@ -2256,20 +2256,20 @@
           "threshold": null,
           "book": null,
           "price": -115,
-          "modelProb": 0.5898,
+          "modelProb": 0.5347,
           "impliedProb": 0.5349,
-          "rawEdge": 0.0549,
-          "adjustedEdge": -0.1651,
+          "rawEdge": -0.0002,
+          "adjustedEdge": -0.2202,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 16.16,
+          "simulatedMean": 17.13,
           "modelMean": 14.81,
           "propBand": [
             7,
             14,
             24
           ],
-          "slateRank": 90
+          "slateRank": 141
         },
         {
           "label": "Coby White Over 14.5 points",
@@ -2281,20 +2281,20 @@
           "threshold": null,
           "book": null,
           "price": -114,
-          "modelProb": 0.4218,
+          "modelProb": 0.4803,
           "impliedProb": 0.5327,
-          "rawEdge": -0.1109,
-          "adjustedEdge": -0.3309,
+          "rawEdge": -0.0524,
+          "adjustedEdge": -0.2724,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 14.42,
+          "simulatedMean": 15.48,
           "modelMean": 14.1,
           "propBand": [
             6,
             13,
             24
           ],
-          "slateRank": 236
+          "slateRank": 228
         },
         {
           "label": "Coby White Under 15.5 points",
@@ -2306,20 +2306,20 @@
           "threshold": null,
           "book": null,
           "price": -120,
-          "modelProb": 0.59,
+          "modelProb": 0.5312,
           "impliedProb": 0.5455,
-          "rawEdge": 0.0446,
-          "adjustedEdge": -0.1754,
+          "rawEdge": -0.0142,
+          "adjustedEdge": -0.2342,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 15.22,
+          "simulatedMean": 16.28,
           "modelMean": 14.08,
           "propBand": [
             6,
             13,
             24
           ],
-          "slateRank": 105
+          "slateRank": 169
         },
         {
           "label": "Jarrett Allen Over 12.5 points",
@@ -2331,20 +2331,20 @@
           "threshold": null,
           "book": null,
           "price": 100,
-          "modelProb": 0.4463,
+          "modelProb": 0.5037,
           "impliedProb": 0.5,
-          "rawEdge": -0.0537,
-          "adjustedEdge": -0.2737,
+          "rawEdge": 0.0037,
+          "adjustedEdge": -0.2163,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 12.8,
+          "simulatedMean": 13.75,
           "modelMean": 13.99,
           "propBand": [
             6,
             13,
             23
           ],
-          "slateRank": 183
+          "slateRank": 132
         },
         {
           "label": "Jarrett Allen Under 12.5 points",
@@ -2356,20 +2356,20 @@
           "threshold": null,
           "book": null,
           "price": -103,
-          "modelProb": 0.5537,
+          "modelProb": 0.4963,
           "impliedProb": 0.5074,
-          "rawEdge": 0.0463,
-          "adjustedEdge": -0.1737,
+          "rawEdge": -0.0111,
+          "adjustedEdge": -0.2311,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 12.8,
+          "simulatedMean": 13.75,
           "modelMean": 13.99,
           "propBand": [
             6,
             13,
             23
           ],
-          "slateRank": 102
+          "slateRank": 166
         },
         {
           "label": "Peyton Watson Over 11.5 points",
@@ -2381,20 +2381,20 @@
           "threshold": null,
           "book": null,
           "price": -125,
-          "modelProb": 0.4456,
+          "modelProb": 0.5028,
           "impliedProb": 0.5556,
-          "rawEdge": -0.11,
-          "adjustedEdge": -0.33,
+          "rawEdge": -0.0528,
+          "adjustedEdge": -0.2728,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 11.74,
+          "simulatedMean": 12.55,
           "modelMean": 12.7,
           "propBand": [
             6,
             12,
             21
           ],
-          "slateRank": 235
+          "slateRank": 229
         },
         {
           "label": "Peyton Watson Under 12.5 points",
@@ -2406,20 +2406,20 @@
           "threshold": null,
           "book": null,
           "price": -114,
-          "modelProb": 0.5676,
+          "modelProb": 0.5114,
           "impliedProb": 0.5327,
-          "rawEdge": 0.0349,
-          "adjustedEdge": -0.1851,
+          "rawEdge": -0.0213,
+          "adjustedEdge": -0.2413,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 12.54,
+          "simulatedMean": 13.36,
           "modelMean": 12.7,
           "propBand": [
             6,
             12,
             21
           ],
-          "slateRank": 115
+          "slateRank": 185
         },
         {
           "label": "Royce O'Neale Over 8.5 points",
@@ -2431,20 +2431,20 @@
           "threshold": null,
           "book": null,
           "price": -127,
-          "modelProb": 0.3957,
+          "modelProb": 0.4501,
           "impliedProb": 0.5595,
-          "rawEdge": -0.1637,
-          "adjustedEdge": -0.3837,
+          "rawEdge": -0.1094,
+          "adjustedEdge": -0.3294,
           "qualifies": false,
           "veto": "projection 7.0 is 1.5 off the 8.5 line (18%) — the line is the more likely error",
-          "simulatedMean": 8.19,
+          "simulatedMean": 8.69,
           "modelMean": 6.96,
           "propBand": [
             3,
             6,
             12
           ],
-          "slateRank": 255
+          "slateRank": 251
         },
         {
           "label": "Royce O'Neale Under 8.5 points",
@@ -2456,20 +2456,20 @@
           "threshold": null,
           "book": null,
           "price": 102,
-          "modelProb": 0.6043,
+          "modelProb": 0.5499,
           "impliedProb": 0.495,
-          "rawEdge": 0.1092,
-          "adjustedEdge": -0.1108,
+          "rawEdge": 0.0548,
+          "adjustedEdge": -0.1652,
           "qualifies": false,
           "veto": "projection 7.0 is 1.5 off the 8.5 line (18%) — the line is the more likely error",
-          "simulatedMean": 8.19,
+          "simulatedMean": 8.69,
           "modelMean": 6.96,
           "propBand": [
             3,
             6,
             12
           ],
-          "slateRank": 32
+          "slateRank": 56
         },
         {
           "label": "Moussa Diabate Over 8.5 points",
@@ -2481,20 +2481,20 @@
           "threshold": null,
           "book": null,
           "price": -115,
-          "modelProb": 0.4213,
+          "modelProb": 0.4746,
           "impliedProb": 0.5349,
-          "rawEdge": -0.1136,
-          "adjustedEdge": -0.3336,
+          "rawEdge": -0.0603,
+          "adjustedEdge": -0.2803,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 8.4,
+          "simulatedMean": 8.92,
           "modelMean": 7.99,
           "propBand": [
             4,
             7,
             13
           ],
-          "slateRank": 239
+          "slateRank": 236
         },
         {
           "label": "Moussa Diabate Under 8.5 points",
@@ -2506,20 +2506,20 @@
           "threshold": null,
           "book": null,
           "price": 105,
-          "modelProb": 0.5787,
+          "modelProb": 0.5254,
           "impliedProb": 0.4878,
-          "rawEdge": 0.0909,
-          "adjustedEdge": -0.1291,
+          "rawEdge": 0.0376,
+          "adjustedEdge": -0.1824,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 8.4,
+          "simulatedMean": 8.92,
           "modelMean": 7.99,
           "propBand": [
             4,
             7,
             13
           ],
-          "slateRank": 47
+          "slateRank": 77
         },
         {
           "label": "Sion James Over 7.5 points",
@@ -2531,20 +2531,20 @@
           "threshold": null,
           "book": null,
           "price": -115,
-          "modelProb": 0.373,
+          "modelProb": 0.422,
           "impliedProb": 0.5349,
-          "rawEdge": -0.1619,
-          "adjustedEdge": -0.3819,
+          "rawEdge": -0.1129,
+          "adjustedEdge": -0.3329,
           "qualifies": false,
           "veto": "projection 5.4 is 2.1 off the 7.5 line (28%) — the line is the more likely error",
-          "simulatedMean": 7.08,
+          "simulatedMean": 7.45,
           "modelMean": 5.39,
           "propBand": [
             2,
             5,
             9
           ],
-          "slateRank": 254
+          "slateRank": 253
         },
         {
           "label": "Sion James Under 7.5 points",
@@ -2556,20 +2556,20 @@
           "threshold": null,
           "book": null,
           "price": -105,
-          "modelProb": 0.627,
+          "modelProb": 0.578,
           "impliedProb": 0.5122,
-          "rawEdge": 0.1148,
-          "adjustedEdge": -0.1052,
+          "rawEdge": 0.0658,
+          "adjustedEdge": -0.1542,
           "qualifies": false,
           "veto": "projection 5.4 is 2.1 off the 7.5 line (28%) — the line is the more likely error",
-          "simulatedMean": 7.08,
+          "simulatedMean": 7.45,
           "modelMean": 5.39,
           "propBand": [
             2,
             5,
             9
           ],
-          "slateRank": 25
+          "slateRank": 39
         }
       ]
     },
@@ -3143,7 +3143,7 @@
           "simulatedMean": null,
           "modelMean": null,
           "propBand": null,
-          "slateRank": 168
+          "slateRank": 202
         },
         {
           "label": "Washington Wizards ML",
@@ -3164,7 +3164,7 @@
           "simulatedMean": null,
           "modelMean": null,
           "propBand": null,
-          "slateRank": 155
+          "slateRank": 164
         },
         {
           "label": "Detroit Pistons -10.5",
@@ -3185,7 +3185,7 @@
           "simulatedMean": null,
           "modelMean": null,
           "propBand": null,
-          "slateRank": 125
+          "slateRank": 96
         },
         {
           "label": "Washington Wizards +10.5",
@@ -3206,7 +3206,7 @@
           "simulatedMean": null,
           "modelMean": null,
           "propBand": null,
-          "slateRank": 203
+          "slateRank": 241
         },
         {
           "label": "Over 217.5",
@@ -3227,7 +3227,7 @@
           "simulatedMean": null,
           "modelMean": null,
           "propBand": null,
-          "slateRank": 40
+          "slateRank": 18
         },
         {
           "label": "Under 217.5",
@@ -3248,7 +3248,7 @@
           "simulatedMean": null,
           "modelMean": null,
           "propBand": null,
-          "slateRank": 250
+          "slateRank": 254
         },
         {
           "label": "Cade Cunningham Over 24.5 points",
@@ -3260,20 +3260,20 @@
           "threshold": null,
           "book": null,
           "price": -125,
-          "modelProb": 0.4164,
+          "modelProb": 0.4676,
           "impliedProb": 0.5556,
-          "rawEdge": -0.1391,
-          "adjustedEdge": -0.3591,
+          "rawEdge": -0.088,
+          "adjustedEdge": -0.308,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 24.04,
+          "simulatedMean": 25.31,
           "modelMean": 22.2,
           "propBand": [
             11,
             21,
             35
           ],
-          "slateRank": 248
+          "slateRank": 247
         },
         {
           "label": "Cade Cunningham Under 26.5 points",
@@ -3285,20 +3285,20 @@
           "threshold": null,
           "book": null,
           "price": -118,
-          "modelProb": 0.6004,
+          "modelProb": 0.5487,
           "impliedProb": 0.5413,
-          "rawEdge": 0.0592,
-          "adjustedEdge": -0.1608,
+          "rawEdge": 0.0075,
+          "adjustedEdge": -0.2125,
           "qualifies": false,
           "veto": "projection 22.3 is 4.2 off the 26.5 line (16%) — the line is the more likely error",
-          "simulatedMean": 25.66,
+          "simulatedMean": 26.97,
           "modelMean": 22.28,
           "propBand": [
             11,
             21,
             36
           ],
-          "slateRank": 83
+          "slateRank": 127
         },
         {
           "label": "Anthony Davis Over 20.5 points",
@@ -3310,20 +3310,20 @@
           "threshold": null,
           "book": null,
           "price": -102,
-          "modelProb": 0.4329,
+          "modelProb": 0.4848,
           "impliedProb": 0.505,
-          "rawEdge": -0.0721,
-          "adjustedEdge": -0.2921,
+          "rawEdge": -0.0202,
+          "adjustedEdge": -0.2402,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 20.46,
+          "simulatedMean": 21.67,
           "modelMean": 20.31,
           "propBand": [
             10,
             19,
             33
           ],
-          "slateRank": 204
+          "slateRank": 182
         },
         {
           "label": "Anthony Davis Under 20.5 points",
@@ -3335,20 +3335,20 @@
           "threshold": null,
           "book": null,
           "price": -118,
-          "modelProb": 0.5671,
+          "modelProb": 0.5152,
           "impliedProb": 0.5413,
-          "rawEdge": 0.0259,
-          "adjustedEdge": -0.1941,
+          "rawEdge": -0.0261,
+          "adjustedEdge": -0.2461,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 20.46,
+          "simulatedMean": 21.67,
           "modelMean": 20.31,
           "propBand": [
             10,
             19,
             33
           ],
-          "slateRank": 124
+          "slateRank": 192
         },
         {
           "label": "Trae Young Over 17.5 points",
@@ -3360,20 +3360,20 @@
           "threshold": null,
           "book": null,
           "price": -120,
-          "modelProb": 0.4316,
+          "modelProb": 0.485,
           "impliedProb": 0.5455,
-          "rawEdge": -0.1138,
-          "adjustedEdge": -0.3338,
+          "rawEdge": -0.0604,
+          "adjustedEdge": -0.2804,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 17.48,
+          "simulatedMean": 18.56,
           "modelMean": 17.4,
           "propBand": [
             8,
             16,
             28
           ],
-          "slateRank": 240
+          "slateRank": 237
         },
         {
           "label": "Trae Young Under 18.5 points",
@@ -3385,20 +3385,20 @@
           "threshold": null,
           "book": null,
           "price": -108,
-          "modelProb": 0.5822,
+          "modelProb": 0.5262,
           "impliedProb": 0.5192,
-          "rawEdge": 0.063,
-          "adjustedEdge": -0.157,
+          "rawEdge": 0.007,
+          "adjustedEdge": -0.213,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 18.28,
+          "simulatedMean": 19.43,
           "modelMean": 17.39,
           "propBand": [
             8,
             16,
             28
           ],
-          "slateRank": 78
+          "slateRank": 128
         },
         {
           "label": "AJ Dybantsa Over 16.5 points",
@@ -3410,20 +3410,20 @@
           "threshold": null,
           "book": null,
           "price": -115,
-          "modelProb": 0.4151,
+          "modelProb": 0.4677,
           "impliedProb": 0.5349,
-          "rawEdge": -0.1198,
-          "adjustedEdge": -0.3398,
+          "rawEdge": -0.0672,
+          "adjustedEdge": -0.2872,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 16.21,
+          "simulatedMean": 17.11,
           "modelMean": 15.03,
           "propBand": [
             7,
             14,
             24
           ],
-          "slateRank": 245
+          "slateRank": 239
         },
         {
           "label": "AJ Dybantsa Under 17.5 points",
@@ -3435,20 +3435,20 @@
           "threshold": null,
           "book": null,
           "price": -120,
-          "modelProb": 0.5966,
+          "modelProb": 0.544,
           "impliedProb": 0.5455,
-          "rawEdge": 0.0512,
-          "adjustedEdge": -0.1688,
+          "rawEdge": -0.0015,
+          "adjustedEdge": -0.2215,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 17,
+          "simulatedMean": 17.91,
           "modelMean": 15.01,
           "propBand": [
             7,
             14,
             24
           ],
-          "slateRank": 97
+          "slateRank": 147
         },
         {
           "label": "Duncan Robinson Over 15.5 points",
@@ -3460,20 +3460,20 @@
           "threshold": null,
           "book": null,
           "price": -105,
-          "modelProb": 0.4132,
+          "modelProb": 0.4659,
           "impliedProb": 0.5122,
-          "rawEdge": -0.099,
-          "adjustedEdge": -0.319,
+          "rawEdge": -0.0463,
+          "adjustedEdge": -0.2663,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 15.19,
+          "simulatedMean": 16.09,
           "modelMean": 13.95,
           "propBand": [
             7,
             13,
             23
           ],
-          "slateRank": 229
+          "slateRank": 226
         },
         {
           "label": "Duncan Robinson Under 15.5 points",
@@ -3485,20 +3485,20 @@
           "threshold": null,
           "book": null,
           "price": -115,
-          "modelProb": 0.5868,
+          "modelProb": 0.5341,
           "impliedProb": 0.5349,
-          "rawEdge": 0.0519,
-          "adjustedEdge": -0.1681,
+          "rawEdge": -0.0008,
+          "adjustedEdge": -0.2208,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 15.19,
+          "simulatedMean": 16.09,
           "modelMean": 13.95,
           "propBand": [
             7,
             13,
             23
           ],
-          "slateRank": 95
+          "slateRank": 144
         },
         {
           "label": "Kyshawn George Over 15.5 points",
@@ -3510,20 +3510,20 @@
           "threshold": null,
           "book": null,
           "price": -109,
-          "modelProb": 0.4314,
+          "modelProb": 0.4851,
           "impliedProb": 0.5215,
-          "rawEdge": -0.0901,
-          "adjustedEdge": -0.3101,
+          "rawEdge": -0.0364,
+          "adjustedEdge": -0.2564,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 15.49,
+          "simulatedMean": 16.43,
           "modelMean": 15.44,
           "propBand": [
             7,
             14,
             25
           ],
-          "slateRank": 227
+          "slateRank": 216
         },
         {
           "label": "Kyshawn George Under 15.5 points",
@@ -3535,20 +3535,20 @@
           "threshold": null,
           "book": null,
           "price": -110,
-          "modelProb": 0.5686,
+          "modelProb": 0.5149,
           "impliedProb": 0.5238,
-          "rawEdge": 0.0448,
-          "adjustedEdge": -0.1752,
+          "rawEdge": -0.0089,
+          "adjustedEdge": -0.2289,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 15.49,
+          "simulatedMean": 16.43,
           "modelMean": 15.44,
           "propBand": [
             7,
             14,
             25
           ],
-          "slateRank": 104
+          "slateRank": 162
         },
         {
           "label": "Paul Reed Over 11.5 points",
@@ -3560,20 +3560,20 @@
           "threshold": null,
           "book": null,
           "price": -131,
-          "modelProb": 0.3962,
+          "modelProb": 0.4546,
           "impliedProb": 0.5671,
-          "rawEdge": -0.1709,
-          "adjustedEdge": -0.3909,
+          "rawEdge": -0.1125,
+          "adjustedEdge": -0.3325,
           "qualifies": false,
           "veto": "projection 9.5 is 2.0 off the 11.5 line (17%) — the line is the more likely error",
-          "simulatedMean": 11.1,
+          "simulatedMean": 11.92,
           "modelMean": 9.51,
           "propBand": [
             3,
             8,
             17
           ],
-          "slateRank": 256
+          "slateRank": 252
         },
         {
           "label": "Paul Reed Under 12.5 points",
@@ -3585,20 +3585,20 @@
           "threshold": null,
           "book": null,
           "price": -120,
-          "modelProb": 0.6165,
+          "modelProb": 0.561,
           "impliedProb": 0.5455,
-          "rawEdge": 0.071,
-          "adjustedEdge": -0.149,
+          "rawEdge": 0.0155,
+          "adjustedEdge": -0.2045,
           "qualifies": false,
           "veto": "projection 9.5 is 3.0 off the 12.5 line (24%) — the line is the more likely error",
-          "simulatedMean": 11.9,
+          "simulatedMean": 12.69,
           "modelMean": 9.48,
           "propBand": [
             3,
             8,
             17
           ],
-          "slateRank": 71
+          "slateRank": 114
         },
         {
           "label": "Alex Sarr Over 10.5 points",
@@ -3610,20 +3610,20 @@
           "threshold": null,
           "book": null,
           "price": -115,
-          "modelProb": 0.4595,
+          "modelProb": 0.5188,
           "impliedProb": 0.5349,
-          "rawEdge": -0.0754,
-          "adjustedEdge": -0.2954,
+          "rawEdge": -0.0161,
+          "adjustedEdge": -0.2361,
           "qualifies": false,
           "veto": "projection 13.0 is 2.5 off the 10.5 line (23%) — the line is the more likely error",
-          "simulatedMean": 10.99,
+          "simulatedMean": 11.86,
           "modelMean": 12.95,
           "propBand": [
             6,
             12,
             21
           ],
-          "slateRank": 207
+          "slateRank": 174
         },
         {
           "label": "Alex Sarr Under 11.5 points",
@@ -3635,20 +3635,20 @@
           "threshold": null,
           "book": null,
           "price": -116,
-          "modelProb": 0.5545,
+          "modelProb": 0.4952,
           "impliedProb": 0.537,
-          "rawEdge": 0.0175,
-          "adjustedEdge": -0.2025,
+          "rawEdge": -0.0418,
+          "adjustedEdge": -0.2618,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 11.79,
+          "simulatedMean": 12.68,
           "modelMean": 12.96,
           "propBand": [
             6,
             12,
             21
           ],
-          "slateRank": 137
+          "slateRank": 222
         },
         {
           "label": "John Collins Over 10.5 points",
@@ -3660,20 +3660,20 @@
           "threshold": null,
           "book": null,
           "price": -130,
-          "modelProb": 0.4393,
+          "modelProb": 0.4953,
           "impliedProb": 0.5652,
-          "rawEdge": -0.1259,
-          "adjustedEdge": -0.3459,
+          "rawEdge": -0.0699,
+          "adjustedEdge": -0.2899,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 10.63,
+          "simulatedMean": 11.37,
           "modelMean": 11.13,
           "propBand": [
             5,
             10,
             18
           ],
-          "slateRank": 247
+          "slateRank": 240
         },
         {
           "label": "John Collins Under 11.5 points",
@@ -3685,20 +3685,20 @@
           "threshold": null,
           "book": null,
           "price": -110,
-          "modelProb": 0.5776,
+          "modelProb": 0.5214,
           "impliedProb": 0.5238,
-          "rawEdge": 0.0538,
-          "adjustedEdge": -0.1662,
+          "rawEdge": -0.0024,
+          "adjustedEdge": -0.2224,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 11.42,
+          "simulatedMean": 12.14,
           "modelMean": 11.08,
           "propBand": [
             5,
             10,
             18
           ],
-          "slateRank": 92
+          "slateRank": 150
         },
         {
           "label": "Ausar Thompson Over 10.5 points",
@@ -3710,20 +3710,20 @@
           "threshold": null,
           "book": null,
           "price": 102,
-          "modelProb": 0.408,
+          "modelProb": 0.4635,
           "impliedProb": 0.495,
-          "rawEdge": -0.0871,
-          "adjustedEdge": -0.3071,
+          "rawEdge": -0.0315,
+          "adjustedEdge": -0.2515,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 10.25,
+          "simulatedMean": 10.87,
           "modelMean": 9.25,
           "propBand": [
             4,
             8,
             15
           ],
-          "slateRank": 223
+          "slateRank": 205
         },
         {
           "label": "Ausar Thompson Under 10.5 points",
@@ -3735,20 +3735,20 @@
           "threshold": null,
           "book": null,
           "price": -105,
-          "modelProb": 0.592,
+          "modelProb": 0.5365,
           "impliedProb": 0.5122,
-          "rawEdge": 0.0798,
-          "adjustedEdge": -0.1402,
+          "rawEdge": 0.0243,
+          "adjustedEdge": -0.1957,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 10.25,
+          "simulatedMean": 10.87,
           "modelMean": 9.25,
           "propBand": [
             4,
             8,
             15
           ],
-          "slateRank": 59
+          "slateRank": 98
         },
         {
           "label": "Daniss Jenkins Over 9.5 points",
@@ -3760,20 +3760,20 @@
           "threshold": null,
           "book": null,
           "price": -120,
-          "modelProb": 0.431,
+          "modelProb": 0.4896,
           "impliedProb": 0.5455,
-          "rawEdge": -0.1144,
-          "adjustedEdge": -0.3344,
+          "rawEdge": -0.0559,
+          "adjustedEdge": -0.2759,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 9.56,
+          "simulatedMean": 10.28,
           "modelMean": 9.78,
           "propBand": [
             4,
             9,
             17
           ],
-          "slateRank": 242
+          "slateRank": 231
         },
         {
           "label": "Daniss Jenkins Under 10.5 points",
@@ -3785,20 +3785,20 @@
           "threshold": null,
           "book": null,
           "price": -105,
-          "modelProb": 0.5857,
+          "modelProb": 0.5275,
           "impliedProb": 0.5122,
-          "rawEdge": 0.0735,
-          "adjustedEdge": -0.1465,
+          "rawEdge": 0.0153,
+          "adjustedEdge": -0.2047,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 10.36,
+          "simulatedMean": 11.12,
           "modelMean": 9.78,
           "propBand": [
             4,
             9,
             17
           ],
-          "slateRank": 67
+          "slateRank": 115
         },
         {
           "label": "Kevin Huerter Over 7.5 points",
@@ -3810,20 +3810,20 @@
           "threshold": null,
           "book": null,
           "price": -115,
-          "modelProb": 0.4483,
+          "modelProb": 0.5087,
           "impliedProb": 0.5349,
-          "rawEdge": -0.0866,
-          "adjustedEdge": -0.3066,
+          "rawEdge": -0.0262,
+          "adjustedEdge": -0.2462,
           "qualifies": false,
           "veto": "projection 8.8 is 1.3 off the 7.5 line (18%) — the line is the more likely error",
-          "simulatedMean": 7.77,
+          "simulatedMean": 8.46,
           "modelMean": 8.85,
           "propBand": [
             4,
             8,
             15
           ],
-          "slateRank": 222
+          "slateRank": 193
         },
         {
           "label": "Kevin Huerter Under 8.5 points",
@@ -3835,20 +3835,20 @@
           "threshold": null,
           "book": null,
           "price": -120,
-          "modelProb": 0.5666,
+          "modelProb": 0.5087,
           "impliedProb": 0.5455,
-          "rawEdge": 0.0211,
-          "adjustedEdge": -0.1989,
+          "rawEdge": -0.0368,
+          "adjustedEdge": -0.2568,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 8.57,
+          "simulatedMean": 9.25,
           "modelMean": 8.86,
           "propBand": [
             4,
             8,
             15
           ],
-          "slateRank": 130
+          "slateRank": 218
         }
       ]
     },
@@ -4368,7 +4368,7 @@
           "simulatedMean": null,
           "modelMean": null,
           "propBand": null,
-          "slateRank": 11
+          "slateRank": 7
         },
         {
           "label": "Memphis Grizzlies ML",
@@ -4389,7 +4389,7 @@
           "simulatedMean": null,
           "modelMean": null,
           "propBand": null,
-          "slateRank": 82
+          "slateRank": 48
         },
         {
           "label": "Toronto Raptors -3.5",
@@ -4410,7 +4410,7 @@
           "simulatedMean": null,
           "modelMean": null,
           "propBand": null,
-          "slateRank": 9
+          "slateRank": 5
         },
         {
           "label": "Memphis Grizzlies +3.5",
@@ -4431,7 +4431,7 @@
           "simulatedMean": null,
           "modelMean": null,
           "propBand": null,
-          "slateRank": 101
+          "slateRank": 67
         },
         {
           "label": "Over 229.5",
@@ -4452,7 +4452,7 @@
           "simulatedMean": null,
           "modelMean": null,
           "propBand": null,
-          "slateRank": 30
+          "slateRank": 14
         },
         {
           "label": "Under 229.5",
@@ -4473,7 +4473,7 @@
           "simulatedMean": null,
           "modelMean": null,
           "propBand": null,
-          "slateRank": 54
+          "slateRank": 25
         },
         {
           "label": "RJ Barrett Over 23.5 points",
@@ -4485,20 +4485,20 @@
           "threshold": null,
           "book": null,
           "price": -120,
-          "modelProb": 0.3968,
+          "modelProb": 0.4482,
           "impliedProb": 0.5455,
-          "rawEdge": -0.1487,
-          "adjustedEdge": -0.2987,
+          "rawEdge": -0.0973,
+          "adjustedEdge": -0.2473,
           "qualifies": false,
           "veto": "projection 19.5 is 4.0 off the 23.5 line (17%) — the line is the more likely error",
-          "simulatedMean": 22.7,
+          "simulatedMean": 23.88,
           "modelMean": 19.48,
           "propBand": [
             9,
             18,
             31
           ],
-          "slateRank": 212
+          "slateRank": 196
         },
         {
           "label": "RJ Barrett Under 24.5 points",
@@ -4510,20 +4510,20 @@
           "threshold": null,
           "book": null,
           "price": -118,
-          "modelProb": 0.6127,
+          "modelProb": 0.5605,
           "impliedProb": 0.5413,
-          "rawEdge": 0.0714,
-          "adjustedEdge": -0.0786,
+          "rawEdge": 0.0192,
+          "adjustedEdge": -0.1308,
           "qualifies": false,
           "veto": "projection 19.5 is 5.0 off the 24.5 line (20%) — the line is the more likely error",
-          "simulatedMean": 23.5,
+          "simulatedMean": 24.71,
           "modelMean": 19.48,
           "propBand": [
             9,
             18,
             31
           ],
-          "slateRank": 10
+          "slateRank": 20
         },
         {
           "label": "Scottie Barnes Over 22.5 points",
@@ -4535,20 +4535,20 @@
           "threshold": null,
           "book": null,
           "price": -125,
-          "modelProb": 0.4083,
+          "modelProb": 0.4583,
           "impliedProb": 0.5556,
-          "rawEdge": -0.1473,
-          "adjustedEdge": -0.2973,
+          "rawEdge": -0.0973,
+          "adjustedEdge": -0.2473,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 21.9,
+          "simulatedMean": 23.01,
           "modelMean": 19.5,
           "propBand": [
             10,
             18,
             31
           ],
-          "slateRank": 210
+          "slateRank": 197
         },
         {
           "label": "Scottie Barnes Under 23.5 points",
@@ -4560,20 +4560,20 @@
           "threshold": null,
           "book": null,
           "price": -115,
-          "modelProb": 0.6011,
+          "modelProb": 0.5506,
           "impliedProb": 0.5349,
-          "rawEdge": 0.0662,
-          "adjustedEdge": -0.0838,
+          "rawEdge": 0.0157,
+          "adjustedEdge": -0.1343,
           "qualifies": false,
           "veto": "projection 19.5 is 4.0 off the 23.5 line (17%) — the line is the more likely error",
-          "simulatedMean": 22.7,
+          "simulatedMean": 23.84,
           "modelMean": 19.51,
           "propBand": [
             10,
             18,
             31
           ],
-          "slateRank": 13
+          "slateRank": 23
         },
         {
           "label": "Ty Jerome Over 21.5 points",
@@ -4585,20 +4585,20 @@
           "threshold": null,
           "book": null,
           "price": -105,
-          "modelProb": 0.4266,
+          "modelProb": 0.4854,
           "impliedProb": 0.5122,
-          "rawEdge": -0.0856,
-          "adjustedEdge": -0.2356,
+          "rawEdge": -0.0268,
+          "adjustedEdge": -0.1768,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 21.51,
+          "simulatedMean": 23.01,
           "modelMean": 21.55,
           "propBand": [
             10,
             20,
             36
           ],
-          "slateRank": 156
+          "slateRank": 74
         },
         {
           "label": "Ty Jerome Under 22.5 points",
@@ -4610,20 +4610,20 @@
           "threshold": null,
           "book": null,
           "price": -120,
-          "modelProb": 0.5809,
+          "modelProb": 0.5222,
           "impliedProb": 0.5455,
-          "rawEdge": 0.0355,
-          "adjustedEdge": -0.1145,
+          "rawEdge": -0.0232,
+          "adjustedEdge": -0.1732,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 22.31,
+          "simulatedMean": 23.82,
           "modelMean": 21.54,
           "propBand": [
             10,
             20,
             36
           ],
-          "slateRank": 36
+          "slateRank": 69
         },
         {
           "label": "Immanuel Quickley Over 18.5 points",
@@ -4635,20 +4635,20 @@
           "threshold": null,
           "book": null,
           "price": 102,
-          "modelProb": 0.4084,
+          "modelProb": 0.4596,
           "impliedProb": 0.495,
-          "rawEdge": -0.0867,
-          "adjustedEdge": -0.2367,
+          "rawEdge": -0.0354,
+          "adjustedEdge": -0.1854,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 18.03,
+          "simulatedMean": 18.99,
           "modelMean": 16.17,
           "propBand": [
             8,
             15,
             26
           ],
-          "slateRank": 157
+          "slateRank": 83
         },
         {
           "label": "Immanuel Quickley Under 18.5 points",
@@ -4660,20 +4660,20 @@
           "threshold": null,
           "book": null,
           "price": -118,
-          "modelProb": 0.5916,
+          "modelProb": 0.5404,
           "impliedProb": 0.5413,
-          "rawEdge": 0.0503,
-          "adjustedEdge": -0.0997,
+          "rawEdge": -0.0009,
+          "adjustedEdge": -0.1509,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 18.03,
+          "simulatedMean": 18.99,
           "modelMean": 16.17,
           "propBand": [
             8,
             15,
             26
           ],
-          "slateRank": 18
+          "slateRank": 36
         },
         {
           "label": "Cameron Boozer Over 16.5 points",
@@ -4685,20 +4685,20 @@
           "threshold": null,
           "book": null,
           "price": -120,
-          "modelProb": 0.4154,
+          "modelProb": 0.4674,
           "impliedProb": 0.5455,
-          "rawEdge": -0.1301,
-          "adjustedEdge": -0.2801,
+          "rawEdge": -0.078,
+          "adjustedEdge": -0.228,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 16.19,
+          "simulatedMean": 17.1,
           "modelMean": 14.96,
           "propBand": [
             7,
             14,
             24
           ],
-          "slateRank": 194
+          "slateRank": 160
         },
         {
           "label": "Cameron Boozer Under 17.5 points",
@@ -4710,20 +4710,20 @@
           "threshold": null,
           "book": null,
           "price": -130,
-          "modelProb": 0.5967,
+          "modelProb": 0.5441,
           "impliedProb": 0.5652,
-          "rawEdge": 0.0314,
-          "adjustedEdge": -0.1186,
+          "rawEdge": -0.0211,
+          "adjustedEdge": -0.1711,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 16.99,
+          "simulatedMean": 17.89,
           "modelMean": 14.96,
           "propBand": [
             7,
             14,
             24
           ],
-          "slateRank": 39
+          "slateRank": 65
         },
         {
           "label": "Cedric Coward Over 13.5 points",
@@ -4735,20 +4735,20 @@
           "threshold": null,
           "book": null,
           "price": 102,
-          "modelProb": 0.4251,
+          "modelProb": 0.4808,
           "impliedProb": 0.495,
-          "rawEdge": -0.07,
-          "adjustedEdge": -0.22,
+          "rawEdge": -0.0143,
+          "adjustedEdge": -0.1643,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 13.44,
+          "simulatedMean": 14.32,
           "modelMean": 13.19,
           "propBand": [
             6,
             12,
             22
           ],
-          "slateRank": 150
+          "slateRank": 55
         },
         {
           "label": "Cedric Coward Under 13.5 points",
@@ -4760,20 +4760,20 @@
           "threshold": null,
           "book": null,
           "price": -113,
-          "modelProb": 0.5749,
+          "modelProb": 0.5192,
           "impliedProb": 0.5305,
-          "rawEdge": 0.0444,
-          "adjustedEdge": -0.1056,
+          "rawEdge": -0.0113,
+          "adjustedEdge": -0.1613,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 13.44,
+          "simulatedMean": 14.32,
           "modelMean": 13.19,
           "propBand": [
             6,
             12,
             22
           ],
-          "slateRank": 26
+          "slateRank": 51
         },
         {
           "label": "Collin Murray-Boyles Over 12.5 points",
@@ -4785,20 +4785,20 @@
           "threshold": null,
           "book": null,
           "price": -125,
-          "modelProb": 0.3727,
+          "modelProb": 0.4268,
           "impliedProb": 0.5556,
-          "rawEdge": -0.1828,
-          "adjustedEdge": -0.3328,
+          "rawEdge": -0.1288,
+          "adjustedEdge": -0.2788,
           "qualifies": false,
           "veto": "projection 9.1 is 3.4 off the 12.5 line (27%) — the line is the more likely error",
-          "simulatedMean": 11.81,
+          "simulatedMean": 12.51,
           "modelMean": 9.06,
           "propBand": [
             4,
             8,
             16
           ],
-          "slateRank": 238
+          "slateRank": 234
         },
         {
           "label": "Collin Murray-Boyles Under 12.5 points",
@@ -4810,20 +4810,20 @@
           "threshold": null,
           "book": null,
           "price": 100,
-          "modelProb": 0.6273,
+          "modelProb": 0.5732,
           "impliedProb": 0.5,
-          "rawEdge": 0.1273,
-          "adjustedEdge": -0.0227,
+          "rawEdge": 0.0732,
+          "adjustedEdge": -0.0768,
           "qualifies": false,
           "veto": "projection 9.1 is 3.4 off the 12.5 line (27%) — the line is the more likely error",
-          "simulatedMean": 11.81,
+          "simulatedMean": 12.51,
           "modelMean": 9.06,
           "propBand": [
             4,
             8,
             16
           ],
-          "slateRank": 1
+          "slateRank": 6
         },
         {
           "label": "Ja'Kobe Walter Over 11.5 points",
@@ -4835,20 +4835,20 @@
           "threshold": null,
           "book": null,
           "price": -115,
-          "modelProb": 0.3792,
+          "modelProb": 0.4306,
           "impliedProb": 0.5349,
-          "rawEdge": -0.1557,
-          "adjustedEdge": -0.3057,
+          "rawEdge": -0.1043,
+          "adjustedEdge": -0.2543,
           "qualifies": false,
           "veto": "projection 8.6 is 2.9 off the 11.5 line (25%) — the line is the more likely error",
-          "simulatedMean": 10.92,
+          "simulatedMean": 11.54,
           "modelMean": 8.6,
           "propBand": [
             4,
             8,
             14
           ],
-          "slateRank": 221
+          "slateRank": 210
         },
         {
           "label": "Ja'Kobe Walter Under 12.5 points",
@@ -4860,20 +4860,20 @@
           "threshold": null,
           "book": null,
           "price": -127,
-          "modelProb": 0.6385,
+          "modelProb": 0.5863,
           "impliedProb": 0.5595,
-          "rawEdge": 0.079,
-          "adjustedEdge": -0.071,
+          "rawEdge": 0.0268,
+          "adjustedEdge": -0.1232,
           "qualifies": false,
           "veto": "projection 8.6 is 3.9 off the 12.5 line (31%) — the line is the more likely error",
-          "simulatedMean": 11.72,
+          "simulatedMean": 12.33,
           "modelMean": 8.62,
           "propBand": [
             4,
             8,
             14
           ],
-          "slateRank": 4
+          "slateRank": 19
         },
         {
           "label": "Jerami Grant Over 10.5 points",
@@ -4885,20 +4885,20 @@
           "threshold": null,
           "book": null,
           "price": -105,
-          "modelProb": 0.4698,
+          "modelProb": 0.5291,
           "impliedProb": 0.5122,
-          "rawEdge": -0.0424,
-          "adjustedEdge": -0.1924,
+          "rawEdge": 0.0169,
+          "adjustedEdge": -0.1331,
           "qualifies": false,
           "veto": "projection 13.9 is 3.4 off the 10.5 line (33%) — the line is the more likely error",
-          "simulatedMean": 11.19,
+          "simulatedMean": 12.12,
           "modelMean": 13.94,
           "propBand": [
             6,
             13,
             23
           ],
-          "slateRank": 123
+          "slateRank": 22
         },
         {
           "label": "Jerami Grant Under 10.5 points",
@@ -4910,20 +4910,20 @@
           "threshold": null,
           "book": null,
           "price": -112,
-          "modelProb": 0.5302,
+          "modelProb": 0.4709,
           "impliedProb": 0.5283,
-          "rawEdge": 0.0019,
-          "adjustedEdge": -0.1481,
+          "rawEdge": -0.0574,
+          "adjustedEdge": -0.2074,
           "qualifies": false,
           "veto": "projection 13.9 is 3.4 off the 10.5 line (33%) — the line is the more likely error",
-          "simulatedMean": 11.19,
+          "simulatedMean": 12.12,
           "modelMean": 13.94,
           "propBand": [
             6,
             13,
             23
           ],
-          "slateRank": 70
+          "slateRank": 118
         },
         {
           "label": "Jaylen Wells Over 9.5 points",
@@ -4935,20 +4935,20 @@
           "threshold": null,
           "book": null,
           "price": -120,
-          "modelProb": 0.455,
+          "modelProb": 0.5134,
           "impliedProb": 0.5455,
-          "rawEdge": -0.0904,
-          "adjustedEdge": -0.2404,
+          "rawEdge": -0.0321,
+          "adjustedEdge": -0.1821,
           "qualifies": false,
           "veto": "projection 11.3 is 1.8 off the 9.5 line (19%) — the line is the more likely error",
-          "simulatedMean": 9.85,
+          "simulatedMean": 10.61,
           "modelMean": 11.27,
           "propBand": [
             5,
             10,
             19
           ],
-          "slateRank": 161
+          "slateRank": 76
         },
         {
           "label": "Jaylen Wells Under 10.5 points",
@@ -4960,20 +4960,20 @@
           "threshold": null,
           "book": null,
           "price": -138,
-          "modelProb": 0.5597,
+          "modelProb": 0.5025,
           "impliedProb": 0.5798,
-          "rawEdge": -0.0201,
-          "adjustedEdge": -0.1701,
+          "rawEdge": -0.0773,
+          "adjustedEdge": -0.2273,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 10.66,
+          "simulatedMean": 11.42,
           "modelMean": 11.29,
           "propBand": [
             5,
             10,
             19
           ],
-          "slateRank": 99
+          "slateRank": 156
         },
         {
           "label": "Jakob Poeltl Over 9.5 points",
@@ -4985,20 +4985,20 @@
           "threshold": null,
           "book": null,
           "price": -114,
-          "modelProb": 0.4175,
+          "modelProb": 0.4741,
           "impliedProb": 0.5327,
-          "rawEdge": -0.1152,
-          "adjustedEdge": -0.2652,
+          "rawEdge": -0.0586,
+          "adjustedEdge": -0.2086,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 9.39,
+          "simulatedMean": 10.06,
           "modelMean": 8.96,
           "propBand": [
             4,
             8,
             15
           ],
-          "slateRank": 179
+          "slateRank": 120
         },
         {
           "label": "Jakob Poeltl Under 9.5 points",
@@ -5010,20 +5010,20 @@
           "threshold": null,
           "book": null,
           "price": 105,
-          "modelProb": 0.5825,
+          "modelProb": 0.5259,
           "impliedProb": 0.4878,
-          "rawEdge": 0.0947,
-          "adjustedEdge": -0.0553,
+          "rawEdge": 0.0381,
+          "adjustedEdge": -0.1119,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 9.39,
+          "simulatedMean": 10.06,
           "modelMean": 8.96,
           "propBand": [
             4,
             8,
             15
           ],
-          "slateRank": 3
+          "slateRank": 15
         },
         {
           "label": "Zach Edey Over 8.5 points",
@@ -5035,20 +5035,20 @@
           "threshold": null,
           "book": null,
           "price": -105,
-          "modelProb": 0.4619,
+          "modelProb": 0.5202,
           "impliedProb": 0.5122,
-          "rawEdge": -0.0502,
-          "adjustedEdge": -0.2002,
+          "rawEdge": 0.008,
+          "adjustedEdge": -0.142,
           "qualifies": false,
           "veto": "projection 10.9 is 2.4 off the 8.5 line (28%) — the line is the more likely error",
-          "simulatedMean": 8.97,
+          "simulatedMean": 9.76,
           "modelMean": 10.86,
           "propBand": [
             5,
             10,
             18
           ],
-          "slateRank": 133
+          "slateRank": 29
         },
         {
           "label": "Zach Edey Under 8.5 points",
@@ -5060,20 +5060,20 @@
           "threshold": null,
           "book": null,
           "price": -105,
-          "modelProb": 0.5381,
+          "modelProb": 0.4798,
           "impliedProb": 0.5122,
-          "rawEdge": 0.0259,
-          "adjustedEdge": -0.1241,
+          "rawEdge": -0.0324,
+          "adjustedEdge": -0.1824,
           "qualifies": false,
           "veto": "projection 10.9 is 2.4 off the 8.5 line (28%) — the line is the more likely error",
-          "simulatedMean": 8.97,
+          "simulatedMean": 9.76,
           "modelMean": 10.86,
           "propBand": [
             5,
             10,
             18
           ],
-          "slateRank": 44
+          "slateRank": 78
         },
         {
           "label": "Cam Spencer Over 8.5 points",
@@ -5085,20 +5085,20 @@
           "threshold": null,
           "book": null,
           "price": 100,
-          "modelProb": 0.4445,
+          "modelProb": 0.5046,
           "impliedProb": 0.5,
-          "rawEdge": -0.0555,
-          "adjustedEdge": -0.2055,
+          "rawEdge": 0.0046,
+          "adjustedEdge": -0.1454,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 8.75,
+          "simulatedMean": 9.5,
           "modelMean": 9.73,
           "propBand": [
             4,
             9,
             17
           ],
-          "slateRank": 140
+          "slateRank": 31
         },
         {
           "label": "Cam Spencer Under 8.5 points",
@@ -5110,20 +5110,20 @@
           "threshold": null,
           "book": null,
           "price": -116,
-          "modelProb": 0.5555,
+          "modelProb": 0.4954,
           "impliedProb": 0.537,
-          "rawEdge": 0.0184,
-          "adjustedEdge": -0.1316,
+          "rawEdge": -0.0417,
+          "adjustedEdge": -0.1917,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 8.75,
+          "simulatedMean": 9.5,
           "modelMean": 9.73,
           "propBand": [
             4,
             9,
             17
           ],
-          "slateRank": 49
+          "slateRank": 93
         }
       ]
     },
@@ -5697,7 +5697,7 @@
           "simulatedMean": null,
           "modelMean": null,
           "propBand": null,
-          "slateRank": 12
+          "slateRank": 8
         },
         {
           "label": "Indiana Pacers ML",
@@ -5718,7 +5718,7 @@
           "simulatedMean": null,
           "modelMean": null,
           "propBand": null,
-          "slateRank": 80
+          "slateRank": 43
         },
         {
           "label": "Dallas Mavericks -3.5",
@@ -5739,7 +5739,7 @@
           "simulatedMean": null,
           "modelMean": null,
           "propBand": null,
-          "slateRank": 6
+          "slateRank": 3
         },
         {
           "label": "Indiana Pacers +3.5",
@@ -5760,7 +5760,7 @@
           "simulatedMean": null,
           "modelMean": null,
           "propBand": null,
-          "slateRank": 103
+          "slateRank": 70
         },
         {
           "label": "Over 227.5",
@@ -5781,7 +5781,7 @@
           "simulatedMean": null,
           "modelMean": null,
           "propBand": null,
-          "slateRank": 19
+          "slateRank": 11
         },
         {
           "label": "Under 227.5",
@@ -5802,7 +5802,7 @@
           "simulatedMean": null,
           "modelMean": null,
           "propBand": null,
-          "slateRank": 68
+          "slateRank": 32
         },
         {
           "label": "Cooper Flagg Over 25.5 points",
@@ -5814,20 +5814,20 @@
           "threshold": null,
           "book": null,
           "price": -120,
-          "modelProb": 0.4016,
+          "modelProb": 0.4523,
           "impliedProb": 0.5455,
-          "rawEdge": -0.1439,
-          "adjustedEdge": -0.3439,
+          "rawEdge": -0.0932,
+          "adjustedEdge": -0.2932,
           "qualifies": false,
           "veto": "projection 21.5 is 4.0 off the 25.5 line (16%) — the line is the more likely error",
-          "simulatedMean": 24.7,
+          "simulatedMean": 25.92,
           "modelMean": 21.51,
           "propBand": [
             11,
             20,
             34
           ],
-          "slateRank": 246
+          "slateRank": 242
         },
         {
           "label": "Cooper Flagg Under 26.5 points",
@@ -5839,20 +5839,20 @@
           "threshold": null,
           "book": null,
           "price": -120,
-          "modelProb": 0.6087,
+          "modelProb": 0.557,
           "impliedProb": 0.5455,
-          "rawEdge": 0.0633,
-          "adjustedEdge": -0.1367,
+          "rawEdge": 0.0115,
+          "adjustedEdge": -0.1885,
           "qualifies": false,
           "veto": "projection 21.5 is 5.0 off the 26.5 line (19%) — the line is the more likely error",
-          "simulatedMean": 25.5,
+          "simulatedMean": 26.79,
           "modelMean": 21.48,
           "propBand": [
             11,
             20,
             34
           ],
-          "slateRank": 53
+          "slateRank": 87
         },
         {
           "label": "Kyrie Irving Over 21.5 points",
@@ -5864,20 +5864,20 @@
           "threshold": null,
           "book": null,
           "price": -112,
-          "modelProb": 0.4247,
+          "modelProb": 0.4782,
           "impliedProb": 0.5283,
-          "rawEdge": -0.1036,
-          "adjustedEdge": -0.2536,
+          "rawEdge": -0.0501,
+          "adjustedEdge": -0.2001,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 21.33,
+          "simulatedMean": 22.63,
           "modelMean": 20.63,
           "propBand": [
             10,
             19,
             34
           ],
-          "slateRank": 171
+          "slateRank": 106
         },
         {
           "label": "Kyrie Irving Under 22.5 points",
@@ -5889,20 +5889,20 @@
           "threshold": null,
           "book": null,
           "price": -120,
-          "modelProb": 0.5847,
+          "modelProb": 0.5303,
           "impliedProb": 0.5455,
-          "rawEdge": 0.0393,
-          "adjustedEdge": -0.1107,
+          "rawEdge": -0.0152,
+          "adjustedEdge": -0.1652,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 22.13,
+          "simulatedMean": 23.44,
           "modelMean": 20.64,
           "propBand": [
             10,
             19,
             34
           ],
-          "slateRank": 31
+          "slateRank": 57
         },
         {
           "label": "Pascal Siakam Over 19.5 points",
@@ -5914,20 +5914,20 @@
           "threshold": null,
           "book": null,
           "price": -128,
-          "modelProb": 0.4525,
+          "modelProb": 0.5071,
           "impliedProb": 0.5614,
-          "rawEdge": -0.1089,
-          "adjustedEdge": -0.2589,
+          "rawEdge": -0.0543,
+          "adjustedEdge": -0.2043,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 20,
+          "simulatedMean": 21.32,
           "modelMean": 21.98,
           "propBand": [
             11,
             20,
             35
           ],
-          "slateRank": 174
+          "slateRank": 113
         },
         {
           "label": "Pascal Siakam Under 20.5 points",
@@ -5939,20 +5939,20 @@
           "threshold": null,
           "book": null,
           "price": -112,
-          "modelProb": 0.5557,
+          "modelProb": 0.5021,
           "impliedProb": 0.5283,
-          "rawEdge": 0.0274,
-          "adjustedEdge": -0.1226,
+          "rawEdge": -0.0262,
+          "adjustedEdge": -0.1762,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 20.78,
+          "simulatedMean": 22.09,
           "modelMean": 21.9,
           "propBand": [
             11,
             20,
             35
           ],
-          "slateRank": 41
+          "slateRank": 73
         },
         {
           "label": "Andrew Nembhard Over 15.5 points",
@@ -5964,20 +5964,20 @@
           "threshold": null,
           "book": null,
           "price": -100,
-          "modelProb": 0.445,
+          "modelProb": 0.4978,
           "impliedProb": 0.5,
-          "rawEdge": -0.055,
-          "adjustedEdge": -0.205,
+          "rawEdge": -0.0022,
+          "adjustedEdge": -0.1522,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 15.71,
+          "simulatedMean": 16.69,
           "modelMean": 16.54,
           "propBand": [
             8,
             15,
             27
           ],
-          "slateRank": 139
+          "slateRank": 37
         },
         {
           "label": "Andrew Nembhard Under 15.5 points",
@@ -5989,20 +5989,20 @@
           "threshold": null,
           "book": null,
           "price": -112,
-          "modelProb": 0.555,
+          "modelProb": 0.5022,
           "impliedProb": 0.5283,
-          "rawEdge": 0.0267,
-          "adjustedEdge": -0.1233,
+          "rawEdge": -0.0261,
+          "adjustedEdge": -0.1761,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 15.71,
+          "simulatedMean": 16.69,
           "modelMean": 16.54,
           "propBand": [
             8,
             15,
             27
           ],
-          "slateRank": 43
+          "slateRank": 72
         },
         {
           "label": "P.J. Washington Over 14.5 points",
@@ -6014,20 +6014,20 @@
           "threshold": null,
           "book": null,
           "price": 102,
-          "modelProb": 0.4277,
+          "modelProb": 0.4798,
           "impliedProb": 0.495,
-          "rawEdge": -0.0674,
-          "adjustedEdge": -0.2174,
+          "rawEdge": -0.0152,
+          "adjustedEdge": -0.1652,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 14.4,
+          "simulatedMean": 15.23,
           "modelMean": 14.02,
           "propBand": [
             7,
             13,
             23
           ],
-          "slateRank": 147
+          "slateRank": 58
         },
         {
           "label": "P.J. Washington Under 14.5 points",
@@ -6039,20 +6039,20 @@
           "threshold": null,
           "book": null,
           "price": -120,
-          "modelProb": 0.5723,
+          "modelProb": 0.5202,
           "impliedProb": 0.5455,
-          "rawEdge": 0.0269,
-          "adjustedEdge": -0.1231,
+          "rawEdge": -0.0253,
+          "adjustedEdge": -0.1753,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 14.4,
+          "simulatedMean": 15.23,
           "modelMean": 14.02,
           "propBand": [
             7,
             13,
             23
           ],
-          "slateRank": 42
+          "slateRank": 71
         },
         {
           "label": "Aaron Nesmith Over 11.5 points",
@@ -6064,20 +6064,20 @@
           "threshold": null,
           "book": null,
           "price": -115,
-          "modelProb": 0.446,
+          "modelProb": 0.5014,
           "impliedProb": 0.5349,
-          "rawEdge": -0.0889,
-          "adjustedEdge": -0.2389,
+          "rawEdge": -0.0334,
+          "adjustedEdge": -0.1834,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 11.73,
+          "simulatedMean": 12.55,
           "modelMean": 12.64,
           "propBand": [
             6,
             12,
             21
           ],
-          "slateRank": 159
+          "slateRank": 82
         },
         {
           "label": "Aaron Nesmith Under 12.5 points",
@@ -6089,20 +6089,20 @@
           "threshold": null,
           "book": null,
           "price": -127,
-          "modelProb": 0.57,
+          "modelProb": 0.5128,
           "impliedProb": 0.5595,
-          "rawEdge": 0.0106,
-          "adjustedEdge": -0.1394,
+          "rawEdge": -0.0466,
+          "adjustedEdge": -0.1966,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 12.52,
+          "simulatedMean": 13.37,
           "modelMean": 12.62,
           "propBand": [
             6,
             12,
             21
           ],
-          "slateRank": 57
+          "slateRank": 100
         },
         {
           "label": "Obi Toppin Over 11.5 points",
@@ -6114,20 +6114,20 @@
           "threshold": null,
           "book": null,
           "price": 100,
-          "modelProb": 0.4317,
+          "modelProb": 0.4908,
           "impliedProb": 0.5,
-          "rawEdge": -0.0683,
-          "adjustedEdge": -0.2183,
+          "rawEdge": -0.0092,
+          "adjustedEdge": -0.1592,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 11.6,
+          "simulatedMean": 12.6,
           "modelMean": 11.99,
           "propBand": [
             4,
             11,
             21
           ],
-          "slateRank": 148
+          "slateRank": 46
         },
         {
           "label": "Obi Toppin Under 11.5 points",
@@ -6139,20 +6139,20 @@
           "threshold": null,
           "book": null,
           "price": -108,
-          "modelProb": 0.5683,
+          "modelProb": 0.5092,
           "impliedProb": 0.5192,
-          "rawEdge": 0.0491,
-          "adjustedEdge": -0.1009,
+          "rawEdge": -0.0101,
+          "adjustedEdge": -0.1601,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 11.6,
+          "simulatedMean": 12.6,
           "modelMean": 11.99,
           "propBand": [
             4,
             11,
             21
           ],
-          "slateRank": 21
+          "slateRank": 49
         },
         {
           "label": "Daniel Gafford Over 9.5 points",
@@ -6164,20 +6164,20 @@
           "threshold": null,
           "book": null,
           "price": -110,
-          "modelProb": 0.4234,
+          "modelProb": 0.4823,
           "impliedProb": 0.5238,
-          "rawEdge": -0.1004,
-          "adjustedEdge": -0.2504,
+          "rawEdge": -0.0415,
+          "adjustedEdge": -0.1915,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 9.47,
+          "simulatedMean": 10.19,
           "modelMean": 9.34,
           "propBand": [
             4,
             8,
             16
           ],
-          "slateRank": 169
+          "slateRank": 92
         },
         {
           "label": "Daniel Gafford Under 9.5 points",
@@ -6189,20 +6189,20 @@
           "threshold": null,
           "book": null,
           "price": -101,
-          "modelProb": 0.5766,
+          "modelProb": 0.5177,
           "impliedProb": 0.5025,
-          "rawEdge": 0.0741,
-          "adjustedEdge": -0.0759,
+          "rawEdge": 0.0152,
+          "adjustedEdge": -0.1348,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 9.47,
+          "simulatedMean": 10.19,
           "modelMean": 9.34,
           "propBand": [
             4,
             8,
             16
           ],
-          "slateRank": 8
+          "slateRank": 24
         },
         {
           "label": "Ivica Zubac Over 8.5 points",
@@ -6214,20 +6214,20 @@
           "threshold": null,
           "book": null,
           "price": -120,
-          "modelProb": 0.4702,
+          "modelProb": 0.5321,
           "impliedProb": 0.5455,
-          "rawEdge": -0.0752,
-          "adjustedEdge": -0.2752,
+          "rawEdge": -0.0133,
+          "adjustedEdge": -0.2133,
           "qualifies": false,
           "veto": "projection 11.5 is 3.0 off the 8.5 line (35%) — the line is the more likely error",
-          "simulatedMean": 9.09,
+          "simulatedMean": 9.89,
           "modelMean": 11.47,
           "propBand": [
             5,
             10,
             19
           ],
-          "slateRank": 186
+          "slateRank": 130
         },
         {
           "label": "Ivica Zubac Under 9.5 points",
@@ -6239,20 +6239,20 @@
           "threshold": null,
           "book": null,
           "price": -102,
-          "modelProb": 0.54,
+          "modelProb": 0.4835,
           "impliedProb": 0.505,
-          "rawEdge": 0.035,
-          "adjustedEdge": -0.165,
+          "rawEdge": -0.0214,
+          "adjustedEdge": -0.2214,
           "qualifies": false,
           "veto": "projection 11.5 is 2.0 off the 9.5 line (21%) — the line is the more likely error",
-          "simulatedMean": 9.9,
+          "simulatedMean": 10.65,
           "modelMean": 11.5,
           "propBand": [
             5,
             11,
             19
           ],
-          "slateRank": 89
+          "slateRank": 146
         },
         {
           "label": "Kelly Oubre Jr. Over 7.5 points",
@@ -6264,20 +6264,20 @@
           "threshold": null,
           "book": null,
           "price": 100,
-          "modelProb": 0.488,
+          "modelProb": 0.5465,
           "impliedProb": 0.5,
-          "rawEdge": -0.012,
-          "adjustedEdge": -0.162,
+          "rawEdge": 0.0465,
+          "adjustedEdge": -0.1035,
           "qualifies": false,
           "veto": "projection 11.3 is 3.8 off the 7.5 line (50%) — the line is the more likely error",
-          "simulatedMean": 8.25,
+          "simulatedMean": 8.97,
           "modelMean": 11.25,
           "propBand": [
             5,
             10,
             18
           ],
-          "slateRank": 85
+          "slateRank": 12
         },
         {
           "label": "Kelly Oubre Jr. Under 7.5 points",
@@ -6289,20 +6289,20 @@
           "threshold": null,
           "book": null,
           "price": -109,
-          "modelProb": 0.512,
+          "modelProb": 0.4535,
           "impliedProb": 0.5215,
-          "rawEdge": -0.0095,
-          "adjustedEdge": -0.1595,
+          "rawEdge": -0.068,
+          "adjustedEdge": -0.218,
           "qualifies": false,
           "veto": "projection 11.3 is 3.8 off the 7.5 line (50%) — the line is the more likely error",
-          "simulatedMean": 8.25,
+          "simulatedMean": 8.97,
           "modelMean": 11.25,
           "propBand": [
             5,
             10,
             18
           ],
-          "slateRank": 81
+          "slateRank": 133
         },
         {
           "label": "Caleb Martin Over 4.5 points",
@@ -6314,20 +6314,20 @@
           "threshold": null,
           "book": null,
           "price": -105,
-          "modelProb": 0.4096,
+          "modelProb": 0.4673,
           "impliedProb": 0.5122,
-          "rawEdge": -0.1026,
-          "adjustedEdge": -0.2526,
+          "rawEdge": -0.0449,
+          "adjustedEdge": -0.1949,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 4.39,
+          "simulatedMean": 4.79,
           "modelMean": 3.93,
           "propBand": [
             1,
             3,
             8
           ],
-          "slateRank": 170
+          "slateRank": 95
         },
         {
           "label": "Caleb Martin Under 4.5 points",
@@ -6339,20 +6339,20 @@
           "threshold": null,
           "book": null,
           "price": -120,
-          "modelProb": 0.5904,
+          "modelProb": 0.5327,
           "impliedProb": 0.5455,
-          "rawEdge": 0.045,
-          "adjustedEdge": -0.105,
+          "rawEdge": -0.0128,
+          "adjustedEdge": -0.1628,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 4.39,
+          "simulatedMean": 4.79,
           "modelMean": 3.93,
           "propBand": [
             1,
             3,
             8
           ],
-          "slateRank": 24
+          "slateRank": 54
         }
       ]
     },
@@ -6845,7 +6845,7 @@
           "simulatedMean": null,
           "modelMean": null,
           "propBand": null,
-          "slateRank": 233
+          "slateRank": 249
         },
         {
           "label": "Denver Nuggets ML",
@@ -6866,7 +6866,7 @@
           "simulatedMean": null,
           "modelMean": null,
           "propBand": null,
-          "slateRank": 48
+          "slateRank": 21
         },
         {
           "label": "Houston Rockets -9.5",
@@ -6887,7 +6887,7 @@
           "simulatedMean": null,
           "modelMean": null,
           "propBand": null,
-          "slateRank": 216
+          "slateRank": 245
         },
         {
           "label": "Denver Nuggets +9.5",
@@ -6908,7 +6908,7 @@
           "simulatedMean": null,
           "modelMean": null,
           "propBand": null,
-          "slateRank": 84
+          "slateRank": 53
         },
         {
           "label": "Over 219.5",
@@ -6929,7 +6929,7 @@
           "simulatedMean": null,
           "modelMean": null,
           "propBand": null,
-          "slateRank": 14
+          "slateRank": 9
         },
         {
           "label": "Under 219.5",
@@ -6950,7 +6950,7 @@
           "simulatedMean": null,
           "modelMean": null,
           "propBand": null,
-          "slateRank": 252
+          "slateRank": 256
         },
         {
           "label": "Nikola Jokic Over 25.5 points",
@@ -6962,20 +6962,20 @@
           "threshold": null,
           "book": null,
           "price": -105,
-          "modelProb": 0.4271,
+          "modelProb": 0.4784,
           "impliedProb": 0.5122,
-          "rawEdge": -0.0851,
-          "adjustedEdge": -0.3051,
+          "rawEdge": -0.0338,
+          "adjustedEdge": -0.2538,
           "qualifies": false,
           "veto": "model total 12.0 pts off the posted total",
-          "simulatedMean": 25.29,
+          "simulatedMean": 26.67,
           "modelMean": 24.46,
           "propBand": [
             12,
             23,
             39
           ],
-          "slateRank": 220
+          "slateRank": 208
         },
         {
           "label": "Nikola Jokic Under 26.5 points",
@@ -6987,20 +6987,20 @@
           "threshold": null,
           "book": null,
           "price": -120,
-          "modelProb": 0.5795,
+          "modelProb": 0.5283,
           "impliedProb": 0.5455,
-          "rawEdge": 0.0341,
-          "adjustedEdge": -0.1859,
+          "rawEdge": -0.0171,
+          "adjustedEdge": -0.2371,
           "qualifies": false,
           "veto": "model total 12.0 pts off the posted total",
-          "simulatedMean": 26.1,
+          "simulatedMean": 27.5,
           "modelMean": 24.5,
           "propBand": [
             12,
             23,
             39
           ],
-          "slateRank": 117
+          "slateRank": 176
         },
         {
           "label": "Kevin Durant Over 20.5 points",
@@ -7012,20 +7012,20 @@
           "threshold": null,
           "book": null,
           "price": -105,
-          "modelProb": 0.4524,
+          "modelProb": 0.5061,
           "impliedProb": 0.5122,
-          "rawEdge": -0.0598,
-          "adjustedEdge": -0.2798,
+          "rawEdge": -0.0061,
+          "adjustedEdge": -0.2261,
           "qualifies": false,
           "veto": "model total 12.0 pts off the posted total",
-          "simulatedMean": 20.97,
+          "simulatedMean": 22.28,
           "modelMean": 22.85,
           "propBand": [
             11,
             21,
             36
           ],
-          "slateRank": 192
+          "slateRank": 154
         },
         {
           "label": "Kevin Durant Under 20.5 points",
@@ -7037,20 +7037,20 @@
           "threshold": null,
           "book": null,
           "price": -108,
-          "modelProb": 0.5476,
+          "modelProb": 0.4939,
           "impliedProb": 0.5192,
-          "rawEdge": 0.0284,
-          "adjustedEdge": -0.1916,
+          "rawEdge": -0.0253,
+          "adjustedEdge": -0.2453,
           "qualifies": false,
           "veto": "model total 12.0 pts off the posted total",
-          "simulatedMean": 20.97,
+          "simulatedMean": 22.28,
           "modelMean": 22.85,
           "propBand": [
             11,
             21,
             36
           ],
-          "slateRank": 121
+          "slateRank": 191
         },
         {
           "label": "Alperen Sengun Over 20.5 points",
@@ -7062,20 +7062,20 @@
           "threshold": null,
           "book": null,
           "price": -105,
-          "modelProb": 0.4314,
+          "modelProb": 0.4839,
           "impliedProb": 0.5122,
-          "rawEdge": -0.0808,
-          "adjustedEdge": -0.3008,
+          "rawEdge": -0.0283,
+          "adjustedEdge": -0.2483,
           "qualifies": false,
           "veto": "model total 12.0 pts off the posted total",
-          "simulatedMean": 20.45,
+          "simulatedMean": 21.61,
           "modelMean": 20.24,
           "propBand": [
             10,
             19,
             32
           ],
-          "slateRank": 215
+          "slateRank": 198
         },
         {
           "label": "Alperen Sengun Under 20.5 points",
@@ -7087,20 +7087,20 @@
           "threshold": null,
           "book": null,
           "price": -111,
-          "modelProb": 0.5686,
+          "modelProb": 0.5161,
           "impliedProb": 0.5261,
-          "rawEdge": 0.0425,
-          "adjustedEdge": -0.1775,
+          "rawEdge": -0.01,
+          "adjustedEdge": -0.23,
           "qualifies": false,
           "veto": "model total 12.0 pts off the posted total",
-          "simulatedMean": 20.45,
+          "simulatedMean": 21.61,
           "modelMean": 20.24,
           "propBand": [
             10,
             19,
             32
           ],
-          "slateRank": 106
+          "slateRank": 163
         },
         {
           "label": "Jamal Murray Over 20.5 points",
@@ -7112,20 +7112,20 @@
           "threshold": null,
           "book": null,
           "price": -112,
-          "modelProb": 0.4601,
+          "modelProb": 0.5123,
           "impliedProb": 0.5283,
-          "rawEdge": -0.0682,
-          "adjustedEdge": -0.2882,
+          "rawEdge": -0.016,
+          "adjustedEdge": -0.236,
           "qualifies": false,
           "veto": "model total 12.0 pts off the posted total",
-          "simulatedMean": 21.14,
+          "simulatedMean": 22.44,
           "modelMean": 23.69,
           "propBand": [
             12,
             22,
             38
           ],
-          "slateRank": 202
+          "slateRank": 173
         },
         {
           "label": "Jamal Murray Under 21.5 points",
@@ -7137,20 +7137,20 @@
           "threshold": null,
           "book": null,
           "price": -105,
-          "modelProb": 0.5465,
+          "modelProb": 0.4953,
           "impliedProb": 0.5122,
-          "rawEdge": 0.0343,
-          "adjustedEdge": -0.1857,
+          "rawEdge": -0.0169,
+          "adjustedEdge": -0.2369,
           "qualifies": false,
           "veto": "model total 12.0 pts off the posted total",
-          "simulatedMean": 21.94,
+          "simulatedMean": 23.24,
           "modelMean": 23.7,
           "propBand": [
             12,
             22,
             38
           ],
-          "slateRank": 116
+          "slateRank": 175
         },
         {
           "label": "Amen Thompson Over 15.5 points",
@@ -7162,20 +7162,20 @@
           "threshold": null,
           "book": null,
           "price": -125,
-          "modelProb": 0.4494,
+          "modelProb": 0.4986,
           "impliedProb": 0.5556,
-          "rawEdge": -0.1062,
-          "adjustedEdge": -0.3262,
+          "rawEdge": -0.0569,
+          "adjustedEdge": -0.2769,
           "qualifies": false,
           "veto": "model total 12.0 pts off the posted total",
-          "simulatedMean": 15.69,
+          "simulatedMean": 16.56,
           "modelMean": 16.47,
           "propBand": [
             8,
             15,
             26
           ],
-          "slateRank": 234
+          "slateRank": 233
         },
         {
           "label": "Amen Thompson Under 16.5 points",
@@ -7187,20 +7187,20 @@
           "threshold": null,
           "book": null,
           "price": -120,
-          "modelProb": 0.5651,
+          "modelProb": 0.5136,
           "impliedProb": 0.5455,
-          "rawEdge": 0.0196,
-          "adjustedEdge": -0.2004,
+          "rawEdge": -0.0318,
+          "adjustedEdge": -0.2518,
           "qualifies": false,
           "veto": "model total 12.0 pts off the posted total",
-          "simulatedMean": 16.5,
+          "simulatedMean": 17.4,
           "modelMean": 16.48,
           "propBand": [
             8,
             15,
             26
           ],
-          "slateRank": 134
+          "slateRank": 206
         },
         {
           "label": "Jabari Smith Jr. Over 15.5 points",
@@ -7212,20 +7212,20 @@
           "threshold": null,
           "book": null,
           "price": 100,
-          "modelProb": 0.4402,
+          "modelProb": 0.4923,
           "impliedProb": 0.5,
-          "rawEdge": -0.0598,
-          "adjustedEdge": -0.2798,
+          "rawEdge": -0.0077,
+          "adjustedEdge": -0.2277,
           "qualifies": false,
           "veto": "model total 12.0 pts off the posted total",
-          "simulatedMean": 15.6,
+          "simulatedMean": 16.51,
           "modelMean": 15.98,
           "propBand": [
             8,
             15,
             25
           ],
-          "slateRank": 193
+          "slateRank": 159
         },
         {
           "label": "Jabari Smith Jr. Under 15.5 points",
@@ -7237,20 +7237,20 @@
           "threshold": null,
           "book": null,
           "price": -113,
-          "modelProb": 0.5598,
+          "modelProb": 0.5077,
           "impliedProb": 0.5305,
-          "rawEdge": 0.0293,
-          "adjustedEdge": -0.1907,
+          "rawEdge": -0.0228,
+          "adjustedEdge": -0.2428,
           "qualifies": false,
           "veto": "model total 12.0 pts off the posted total",
-          "simulatedMean": 15.6,
+          "simulatedMean": 16.51,
           "modelMean": 15.98,
           "propBand": [
             8,
             15,
             25
           ],
-          "slateRank": 119
+          "slateRank": 188
         },
         {
           "label": "Aaron Gordon Over 13.5 points",
@@ -7262,20 +7262,20 @@
           "threshold": null,
           "book": null,
           "price": -105,
-          "modelProb": 0.4352,
+          "modelProb": 0.4912,
           "impliedProb": 0.5122,
-          "rawEdge": -0.077,
-          "adjustedEdge": -0.297,
+          "rawEdge": -0.021,
+          "adjustedEdge": -0.241,
           "qualifies": false,
           "veto": "model total 12.0 pts off the posted total",
-          "simulatedMean": 13.58,
+          "simulatedMean": 14.49,
           "modelMean": 13.92,
           "propBand": [
             7,
             13,
             23
           ],
-          "slateRank": 209
+          "slateRank": 183
         },
         {
           "label": "Aaron Gordon Under 13.5 points",
@@ -7287,20 +7287,20 @@
           "threshold": null,
           "book": null,
           "price": -120,
-          "modelProb": 0.5648,
+          "modelProb": 0.5088,
           "impliedProb": 0.5455,
-          "rawEdge": 0.0194,
-          "adjustedEdge": -0.2006,
+          "rawEdge": -0.0366,
+          "adjustedEdge": -0.2566,
           "qualifies": false,
           "veto": "model total 12.0 pts off the posted total",
-          "simulatedMean": 13.58,
+          "simulatedMean": 14.49,
           "modelMean": 13.92,
           "propBand": [
             7,
             13,
             23
           ],
-          "slateRank": 135
+          "slateRank": 217
         },
         {
           "label": "Cameron Johnson Over 12.5 points",
@@ -7312,20 +7312,20 @@
           "threshold": null,
           "book": null,
           "price": -110,
-          "modelProb": 0.4115,
+          "modelProb": 0.4648,
           "impliedProb": 0.5238,
-          "rawEdge": -0.1124,
-          "adjustedEdge": -0.3324,
+          "rawEdge": -0.059,
+          "adjustedEdge": -0.279,
           "qualifies": false,
           "veto": "model total 12.0 pts off the posted total",
-          "simulatedMean": 12.23,
+          "simulatedMean": 12.91,
           "modelMean": 11.16,
           "propBand": [
             5,
             10,
             18
           ],
-          "slateRank": 237
+          "slateRank": 235
         },
         {
           "label": "Cameron Johnson Under 12.5 points",
@@ -7337,20 +7337,20 @@
           "threshold": null,
           "book": null,
           "price": -115,
-          "modelProb": 0.5885,
+          "modelProb": 0.5352,
           "impliedProb": 0.5349,
-          "rawEdge": 0.0537,
-          "adjustedEdge": -0.1663,
+          "rawEdge": 0.0003,
+          "adjustedEdge": -0.2197,
           "qualifies": false,
           "veto": "model total 12.0 pts off the posted total",
-          "simulatedMean": 12.23,
+          "simulatedMean": 12.91,
           "modelMean": 11.16,
           "propBand": [
             5,
             10,
             18
           ],
-          "slateRank": 93
+          "slateRank": 140
         },
         {
           "label": "Fred VanVleet Over 11.5 points",
@@ -7362,20 +7362,20 @@
           "threshold": null,
           "book": null,
           "price": -115,
-          "modelProb": 0.4507,
+          "modelProb": 0.5058,
           "impliedProb": 0.5349,
-          "rawEdge": -0.0842,
-          "adjustedEdge": -0.3042,
+          "rawEdge": -0.0291,
+          "adjustedEdge": -0.2491,
           "qualifies": false,
           "veto": "model total 12.0 pts off the posted total",
-          "simulatedMean": 11.79,
+          "simulatedMean": 12.6,
           "modelMean": 12.94,
           "propBand": [
             6,
             12,
             21
           ],
-          "slateRank": 218
+          "slateRank": 199
         },
         {
           "label": "Fred VanVleet Under 12.5 points",
@@ -7387,20 +7387,20 @@
           "threshold": null,
           "book": null,
           "price": -125,
-          "modelProb": 0.5601,
+          "modelProb": 0.5067,
           "impliedProb": 0.5556,
-          "rawEdge": 0.0045,
-          "adjustedEdge": -0.2155,
+          "rawEdge": -0.0488,
+          "adjustedEdge": -0.2688,
           "qualifies": false,
           "veto": "model total 12.0 pts off the posted total",
-          "simulatedMean": 12.6,
+          "simulatedMean": 13.4,
           "modelMean": 13.02,
           "propBand": [
             6,
             12,
             21
           ],
-          "slateRank": 146
+          "slateRank": 227
         },
         {
           "label": "Christian Braun Over 11.5 points",
@@ -7412,20 +7412,20 @@
           "threshold": null,
           "book": null,
           "price": -112,
-          "modelProb": 0.4435,
+          "modelProb": 0.4944,
           "impliedProb": 0.5283,
-          "rawEdge": -0.0848,
-          "adjustedEdge": -0.3048,
+          "rawEdge": -0.0339,
+          "adjustedEdge": -0.2539,
           "qualifies": false,
           "veto": "model total 12.0 pts off the posted total",
-          "simulatedMean": 11.6,
+          "simulatedMean": 12.26,
           "modelMean": 11.98,
           "propBand": [
             6,
             11,
             19
           ],
-          "slateRank": 219
+          "slateRank": 209
         },
         {
           "label": "Christian Braun Under 11.5 points",
@@ -7437,20 +7437,20 @@
           "threshold": null,
           "book": null,
           "price": -112,
-          "modelProb": 0.5565,
+          "modelProb": 0.5056,
           "impliedProb": 0.5283,
-          "rawEdge": 0.0282,
-          "adjustedEdge": -0.1918,
+          "rawEdge": -0.0227,
+          "adjustedEdge": -0.2427,
           "qualifies": false,
           "veto": "model total 12.0 pts off the posted total",
-          "simulatedMean": 11.6,
+          "simulatedMean": 12.26,
           "modelMean": 11.98,
           "propBand": [
             6,
             11,
             19
           ],
-          "slateRank": 122
+          "slateRank": 187
         },
         {
           "label": "Tari Eason Over 9.5 points",
@@ -7462,20 +7462,20 @@
           "threshold": null,
           "book": null,
           "price": 105,
-          "modelProb": 0.4312,
+          "modelProb": 0.4888,
           "impliedProb": 0.4878,
-          "rawEdge": -0.0566,
-          "adjustedEdge": -0.2766,
+          "rawEdge": 0.001,
+          "adjustedEdge": -0.219,
           "qualifies": false,
           "veto": "model total 12.0 pts off the posted total",
-          "simulatedMean": 9.54,
+          "simulatedMean": 10.21,
           "modelMean": 9.71,
           "propBand": [
             4,
             9,
             16
           ],
-          "slateRank": 187
+          "slateRank": 138
         },
         {
           "label": "Tari Eason Under 9.5 points",
@@ -7487,20 +7487,20 @@
           "threshold": null,
           "book": null,
           "price": -123,
-          "modelProb": 0.5688,
+          "modelProb": 0.5112,
           "impliedProb": 0.5516,
-          "rawEdge": 0.0172,
-          "adjustedEdge": -0.2028,
+          "rawEdge": -0.0404,
+          "adjustedEdge": -0.2604,
           "qualifies": false,
           "veto": "model total 12.0 pts off the posted total",
-          "simulatedMean": 9.54,
+          "simulatedMean": 10.21,
           "modelMean": 9.71,
           "propBand": [
             4,
             9,
             16
           ],
-          "slateRank": 138
+          "slateRank": 220
         },
         {
           "label": "Reed Sheppard Over 8.5 points",
@@ -7512,20 +7512,20 @@
           "threshold": null,
           "book": null,
           "price": -105,
-          "modelProb": 0.4715,
+          "modelProb": 0.5327,
           "impliedProb": 0.5122,
-          "rawEdge": -0.0407,
-          "adjustedEdge": -0.2607,
+          "rawEdge": 0.0205,
+          "adjustedEdge": -0.1995,
           "qualifies": false,
           "veto": "model total 12.0 pts off the posted total",
-          "simulatedMean": 9.16,
+          "simulatedMean": 10.01,
           "modelMean": 11.82,
           "propBand": [
             5,
             11,
             20
           ],
-          "slateRank": 176
+          "slateRank": 104
         },
         {
           "label": "Reed Sheppard Under 8.5 points",
@@ -7537,20 +7537,20 @@
           "threshold": null,
           "book": null,
           "price": -120,
-          "modelProb": 0.5285,
+          "modelProb": 0.4673,
           "impliedProb": 0.5455,
-          "rawEdge": -0.017,
-          "adjustedEdge": -0.237,
+          "rawEdge": -0.0782,
+          "adjustedEdge": -0.2982,
           "qualifies": false,
           "veto": "model total 12.0 pts off the posted total",
-          "simulatedMean": 9.16,
+          "simulatedMean": 10.01,
           "modelMean": 11.82,
           "propBand": [
             5,
             11,
             20
           ],
-          "slateRank": 158
+          "slateRank": 243
         },
         {
           "label": "Marcus Smart Over 6.5 points",
@@ -7562,20 +7562,20 @@
           "threshold": null,
           "book": null,
           "price": -122,
-          "modelProb": 0.4747,
+          "modelProb": 0.5353,
           "impliedProb": 0.5495,
-          "rawEdge": -0.0749,
-          "adjustedEdge": -0.2949,
+          "rawEdge": -0.0143,
+          "adjustedEdge": -0.2343,
           "qualifies": false,
           "veto": "model total 12.0 pts off the posted total",
-          "simulatedMean": 7.01,
+          "simulatedMean": 7.63,
           "modelMean": 9.07,
           "propBand": [
             4,
             8,
             15
           ],
-          "slateRank": 206
+          "slateRank": 170
         },
         {
           "label": "Marcus Smart Under 6.5 points",
@@ -7587,20 +7587,20 @@
           "threshold": null,
           "book": null,
           "price": 102,
-          "modelProb": 0.5253,
+          "modelProb": 0.4647,
           "impliedProb": 0.495,
-          "rawEdge": 0.0303,
-          "adjustedEdge": -0.1897,
+          "rawEdge": -0.0303,
+          "adjustedEdge": -0.2503,
           "qualifies": false,
           "veto": "model total 12.0 pts off the posted total",
-          "simulatedMean": 7.01,
+          "simulatedMean": 7.63,
           "modelMean": 9.07,
           "propBand": [
             4,
             8,
             15
           ],
-          "slateRank": 118
+          "slateRank": 203
         }
       ]
     },
@@ -8147,7 +8147,7 @@
           "simulatedMean": null,
           "modelMean": null,
           "propBand": null,
-          "slateRank": 38
+          "slateRank": 17
         },
         {
           "label": "San Antonio Spurs ML",
@@ -8168,7 +8168,7 @@
           "simulatedMean": null,
           "modelMean": null,
           "propBand": null,
-          "slateRank": 165
+          "slateRank": 189
         },
         {
           "label": "Phoenix Suns +8.5",
@@ -8189,7 +8189,7 @@
           "simulatedMean": null,
           "modelMean": null,
           "propBand": null,
-          "slateRank": 79
+          "slateRank": 42
         },
         {
           "label": "San Antonio Spurs -8.5",
@@ -8210,7 +8210,7 @@
           "simulatedMean": null,
           "modelMean": null,
           "propBand": null,
-          "slateRank": 144
+          "slateRank": 122
         },
         {
           "label": "Over 227.5",
@@ -8231,7 +8231,7 @@
           "simulatedMean": null,
           "modelMean": null,
           "propBand": null,
-          "slateRank": 100
+          "slateRank": 63
         },
         {
           "label": "Under 227.5",
@@ -8252,7 +8252,7 @@
           "simulatedMean": null,
           "modelMean": null,
           "propBand": null,
-          "slateRank": 127
+          "slateRank": 102
         },
         {
           "label": "Victor Wembanyama Over 27.5 points",
@@ -8264,20 +8264,20 @@
           "threshold": null,
           "book": null,
           "price": -108,
-          "modelProb": 0.4204,
+          "modelProb": 0.4737,
           "impliedProb": 0.5192,
-          "rawEdge": -0.0988,
-          "adjustedEdge": -0.3088,
+          "rawEdge": -0.0456,
+          "adjustedEdge": -0.2556,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 27.13,
+          "simulatedMean": 28.72,
           "modelMean": 25.66,
           "propBand": [
             12,
             24,
             42
           ],
-          "slateRank": 225
+          "slateRank": 213
         },
         {
           "label": "Victor Wembanyama Under 28.5 points",
@@ -8289,20 +8289,20 @@
           "threshold": null,
           "book": null,
           "price": -140,
-          "modelProb": 0.5859,
+          "modelProb": 0.5337,
           "impliedProb": 0.5833,
-          "rawEdge": 0.0026,
-          "adjustedEdge": -0.2074,
+          "rawEdge": -0.0496,
+          "adjustedEdge": -0.2596,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 27.93,
+          "simulatedMean": 29.53,
           "modelMean": 25.63,
           "propBand": [
             12,
             24,
             42
           ],
-          "slateRank": 141
+          "slateRank": 219
         },
         {
           "label": "Devin Booker Over 23.5 points",
@@ -8314,20 +8314,20 @@
           "threshold": null,
           "book": null,
           "price": -120,
-          "modelProb": 0.4423,
+          "modelProb": 0.4949,
           "impliedProb": 0.5455,
-          "rawEdge": -0.1032,
-          "adjustedEdge": -0.3132,
+          "rawEdge": -0.0506,
+          "adjustedEdge": -0.2606,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 23.72,
+          "simulatedMean": 25.12,
           "modelMean": 24.58,
           "propBand": [
             12,
             23,
             39
           ],
-          "slateRank": 228
+          "slateRank": 221
         },
         {
           "label": "Devin Booker Under 25.5 points",
@@ -8339,20 +8339,20 @@
           "threshold": null,
           "book": null,
           "price": -120,
-          "modelProb": 0.5722,
+          "modelProb": 0.5204,
           "impliedProb": 0.5455,
-          "rawEdge": 0.0268,
-          "adjustedEdge": -0.1832,
+          "rawEdge": -0.025,
+          "adjustedEdge": -0.235,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 25.32,
+          "simulatedMean": 26.71,
           "modelMean": 24.62,
           "propBand": [
             12,
             23,
             39
           ],
-          "slateRank": 112
+          "slateRank": 172
         },
         {
           "label": "Dylan Harper Over 16.5 points",
@@ -8364,20 +8364,20 @@
           "threshold": null,
           "book": null,
           "price": -110,
-          "modelProb": 0.3974,
+          "modelProb": 0.4534,
           "impliedProb": 0.5238,
-          "rawEdge": -0.1264,
-          "adjustedEdge": -0.3364,
+          "rawEdge": -0.0704,
+          "adjustedEdge": -0.2804,
           "qualifies": false,
           "veto": "projection 13.9 is 2.6 off the 16.5 line (16%) — the line is the more likely error",
-          "simulatedMean": 15.99,
+          "simulatedMean": 16.91,
           "modelMean": 13.93,
           "propBand": [
             6,
             13,
             23
           ],
-          "slateRank": 244
+          "slateRank": 238
         },
         {
           "label": "Dylan Harper Under 16.5 points",
@@ -8389,20 +8389,20 @@
           "threshold": null,
           "book": null,
           "price": -102,
-          "modelProb": 0.6026,
+          "modelProb": 0.5466,
           "impliedProb": 0.505,
-          "rawEdge": 0.0977,
-          "adjustedEdge": -0.1123,
+          "rawEdge": 0.0417,
+          "adjustedEdge": -0.1683,
           "qualifies": false,
           "veto": "projection 13.9 is 2.6 off the 16.5 line (16%) — the line is the more likely error",
-          "simulatedMean": 15.99,
+          "simulatedMean": 16.91,
           "modelMean": 13.93,
           "propBand": [
             6,
             13,
             23
           ],
-          "slateRank": 34
+          "slateRank": 61
         },
         {
           "label": "Dillon Brooks Over 14.5 points",
@@ -8414,20 +8414,20 @@
           "threshold": null,
           "book": null,
           "price": -115,
-          "modelProb": 0.4675,
+          "modelProb": 0.5228,
           "impliedProb": 0.5349,
-          "rawEdge": -0.0674,
-          "adjustedEdge": -0.2774,
+          "rawEdge": -0.012,
+          "adjustedEdge": -0.222,
           "qualifies": false,
           "veto": "projection 18.1 is 3.6 off the 14.5 line (25%) — the line is the more likely error",
-          "simulatedMean": 15.22,
+          "simulatedMean": 16.32,
           "modelMean": 18.12,
           "propBand": [
             9,
             17,
             29
           ],
-          "slateRank": 188
+          "slateRank": 149
         },
         {
           "label": "Dillon Brooks Under 15.5 points",
@@ -8439,20 +8439,20 @@
           "threshold": null,
           "book": null,
           "price": -114,
-          "modelProb": 0.5437,
+          "modelProb": 0.488,
           "impliedProb": 0.5327,
-          "rawEdge": 0.011,
-          "adjustedEdge": -0.199,
+          "rawEdge": -0.0447,
+          "adjustedEdge": -0.2547,
           "qualifies": false,
           "veto": "projection 18.1 is 2.6 off the 15.5 line (17%) — the line is the more likely error",
-          "simulatedMean": 16.02,
+          "simulatedMean": 17.13,
           "modelMean": 18.08,
           "propBand": [
             9,
             17,
             29
           ],
-          "slateRank": 131
+          "slateRank": 212
         },
         {
           "label": "Stephon Castle Over 15.5 points",
@@ -8464,20 +8464,20 @@
           "threshold": null,
           "book": null,
           "price": -105,
-          "modelProb": 0.4298,
+          "modelProb": 0.4841,
           "impliedProb": 0.5122,
-          "rawEdge": -0.0823,
-          "adjustedEdge": -0.2923,
+          "rawEdge": -0.0281,
+          "adjustedEdge": -0.2381,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 15.48,
+          "simulatedMean": 16.45,
           "modelMean": 15.38,
           "propBand": [
             7,
             14,
             25
           ],
-          "slateRank": 205
+          "slateRank": 178
         },
         {
           "label": "Stephon Castle Under 15.5 points",
@@ -8489,20 +8489,20 @@
           "threshold": null,
           "book": null,
           "price": -110,
-          "modelProb": 0.5702,
+          "modelProb": 0.5159,
           "impliedProb": 0.5238,
-          "rawEdge": 0.0463,
-          "adjustedEdge": -0.1637,
+          "rawEdge": -0.008,
+          "adjustedEdge": -0.218,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 15.48,
+          "simulatedMean": 16.45,
           "modelMean": 15.38,
           "propBand": [
             7,
             14,
             25
           ],
-          "slateRank": 87
+          "slateRank": 134
         },
         {
           "label": "Jalen Green Over 14.5 points",
@@ -8514,20 +8514,20 @@
           "threshold": null,
           "book": null,
           "price": -120,
-          "modelProb": 0.4351,
+          "modelProb": 0.493,
           "impliedProb": 0.5455,
-          "rawEdge": -0.1103,
-          "adjustedEdge": -0.3203,
+          "rawEdge": -0.0524,
+          "adjustedEdge": -0.2624,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 14.64,
+          "simulatedMean": 15.69,
           "modelMean": 15.21,
           "propBand": [
             7,
             14,
             25
           ],
-          "slateRank": 230
+          "slateRank": 224
         },
         {
           "label": "Jalen Green Under 14.5 points",
@@ -8539,20 +8539,20 @@
           "threshold": null,
           "book": null,
           "price": 100,
-          "modelProb": 0.5649,
+          "modelProb": 0.507,
           "impliedProb": 0.5,
-          "rawEdge": 0.0649,
-          "adjustedEdge": -0.1451,
+          "rawEdge": 0.007,
+          "adjustedEdge": -0.203,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 14.64,
+          "simulatedMean": 15.69,
           "modelMean": 15.21,
           "propBand": [
             7,
             14,
             25
           ],
-          "slateRank": 64
+          "slateRank": 111
         },
         {
           "label": "Miles Bridges Over 14.5 points",
@@ -8564,20 +8564,20 @@
           "threshold": null,
           "book": null,
           "price": -110,
-          "modelProb": 0.4495,
+          "modelProb": 0.5057,
           "impliedProb": 0.5238,
-          "rawEdge": -0.0744,
-          "adjustedEdge": -0.2844,
+          "rawEdge": -0.0181,
+          "adjustedEdge": -0.2281,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 14.85,
+          "simulatedMean": 15.87,
           "modelMean": 16.27,
           "propBand": [
             8,
             15,
             26
           ],
-          "slateRank": 198
+          "slateRank": 161
         },
         {
           "label": "Miles Bridges Under 14.5 points",
@@ -8589,20 +8589,20 @@
           "threshold": null,
           "book": null,
           "price": -102,
-          "modelProb": 0.5505,
+          "modelProb": 0.4943,
           "impliedProb": 0.505,
-          "rawEdge": 0.0456,
-          "adjustedEdge": -0.1644,
+          "rawEdge": -0.0106,
+          "adjustedEdge": -0.2206,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 14.85,
+          "simulatedMean": 15.87,
           "modelMean": 16.27,
           "propBand": [
             8,
             15,
             26
           ],
-          "slateRank": 88
+          "slateRank": 142
         },
         {
           "label": "De'Aaron Fox Over 13.5 points",
@@ -8614,20 +8614,20 @@
           "threshold": null,
           "book": null,
           "price": -105,
-          "modelProb": 0.456,
+          "modelProb": 0.5111,
           "impliedProb": 0.5122,
-          "rawEdge": -0.0562,
-          "adjustedEdge": -0.2662,
+          "rawEdge": -0.0011,
+          "adjustedEdge": -0.2111,
           "qualifies": false,
           "veto": "projection 15.7 is 2.2 off the 13.5 line (16%) — the line is the more likely error",
-          "simulatedMean": 13.93,
+          "simulatedMean": 14.91,
           "modelMean": 15.66,
           "propBand": [
             8,
             14,
             25
           ],
-          "slateRank": 180
+          "slateRank": 124
         },
         {
           "label": "De'Aaron Fox Under 13.5 points",
@@ -8639,20 +8639,20 @@
           "threshold": null,
           "book": null,
           "price": -115,
-          "modelProb": 0.544,
+          "modelProb": 0.4889,
           "impliedProb": 0.5349,
-          "rawEdge": 0.0091,
-          "adjustedEdge": -0.2009,
+          "rawEdge": -0.046,
+          "adjustedEdge": -0.256,
           "qualifies": false,
           "veto": "projection 15.7 is 2.2 off the 13.5 line (16%) — the line is the more likely error",
-          "simulatedMean": 13.93,
+          "simulatedMean": 14.91,
           "modelMean": 15.66,
           "propBand": [
             8,
             14,
             25
           ],
-          "slateRank": 136
+          "slateRank": 215
         },
         {
           "label": "Devin Vassell Over 10.5 points",
@@ -8664,20 +8664,20 @@
           "threshold": null,
           "book": null,
           "price": -110,
-          "modelProb": 0.46,
+          "modelProb": 0.515,
           "impliedProb": 0.5238,
-          "rawEdge": -0.0638,
-          "adjustedEdge": -0.2738,
+          "rawEdge": -0.0088,
+          "adjustedEdge": -0.2188,
           "qualifies": false,
           "veto": "projection 12.4 is 1.9 off the 10.5 line (18%) — the line is the more likely error",
-          "simulatedMean": 10.89,
+          "simulatedMean": 11.65,
           "modelMean": 12.43,
           "propBand": [
             6,
             11,
             20
           ],
-          "slateRank": 184
+          "slateRank": 136
         },
         {
           "label": "Devin Vassell Under 10.5 points",
@@ -8689,20 +8689,20 @@
           "threshold": null,
           "book": null,
           "price": -105,
-          "modelProb": 0.54,
+          "modelProb": 0.485,
           "impliedProb": 0.5122,
-          "rawEdge": 0.0278,
-          "adjustedEdge": -0.1822,
+          "rawEdge": -0.0272,
+          "adjustedEdge": -0.2372,
           "qualifies": false,
           "veto": "projection 12.4 is 1.9 off the 10.5 line (18%) — the line is the more likely error",
-          "simulatedMean": 10.89,
+          "simulatedMean": 11.65,
           "modelMean": 12.43,
           "propBand": [
             6,
             11,
             20
           ],
-          "slateRank": 109
+          "slateRank": 177
         },
         {
           "label": "Keldon Johnson Over 9.5 points",
@@ -8714,20 +8714,20 @@
           "threshold": null,
           "book": null,
           "price": -130,
-          "modelProb": 0.4411,
+          "modelProb": 0.4997,
           "impliedProb": 0.5652,
-          "rawEdge": -0.1241,
-          "adjustedEdge": -0.3341,
+          "rawEdge": -0.0655,
+          "adjustedEdge": -0.2755,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 9.69,
+          "simulatedMean": 10.46,
           "modelMean": 10.45,
           "propBand": [
             4,
             9,
             18
           ],
-          "slateRank": 241
+          "slateRank": 230
         },
         {
           "label": "Keldon Johnson Under 10.5 points",
@@ -8739,20 +8739,20 @@
           "threshold": null,
           "book": null,
           "price": -125,
-          "modelProb": 0.5743,
+          "modelProb": 0.5157,
           "impliedProb": 0.5556,
-          "rawEdge": 0.0187,
-          "adjustedEdge": -0.1913,
+          "rawEdge": -0.0398,
+          "adjustedEdge": -0.2498,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 10.49,
+          "simulatedMean": 11.26,
           "modelMean": 10.44,
           "propBand": [
             4,
             9,
             18
           ],
-          "slateRank": 120
+          "slateRank": 201
         },
         {
           "label": "Julian Champagnie Over 9.5 points",
@@ -8764,20 +8764,20 @@
           "threshold": null,
           "book": null,
           "price": -103,
-          "modelProb": 0.4372,
+          "modelProb": 0.4963,
           "impliedProb": 0.5074,
-          "rawEdge": -0.0702,
-          "adjustedEdge": -0.2802,
+          "rawEdge": -0.0111,
+          "adjustedEdge": -0.2211,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 9.63,
+          "simulatedMean": 10.33,
           "modelMean": 10.17,
           "propBand": [
             5,
             9,
             17
           ],
-          "slateRank": 195
+          "slateRank": 145
         },
         {
           "label": "Julian Champagnie Under 9.5 points",
@@ -8789,20 +8789,20 @@
           "threshold": null,
           "book": null,
           "price": -114,
-          "modelProb": 0.5628,
+          "modelProb": 0.5037,
           "impliedProb": 0.5327,
-          "rawEdge": 0.0301,
-          "adjustedEdge": -0.1799,
+          "rawEdge": -0.029,
+          "adjustedEdge": -0.239,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 9.63,
+          "simulatedMean": 10.33,
           "modelMean": 10.17,
           "propBand": [
             5,
             9,
             17
           ],
-          "slateRank": 108
+          "slateRank": 180
         },
         {
           "label": "Collin Gillespie Over 8.5 points",
@@ -8814,20 +8814,20 @@
           "threshold": null,
           "book": null,
           "price": -108,
-          "modelProb": 0.4503,
+          "modelProb": 0.5073,
           "impliedProb": 0.5192,
-          "rawEdge": -0.069,
-          "adjustedEdge": -0.279,
+          "rawEdge": -0.0119,
+          "adjustedEdge": -0.2219,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 8.74,
+          "simulatedMean": 9.38,
           "modelMean": 9.71,
           "propBand": [
             4,
             9,
             16
           ],
-          "slateRank": 191
+          "slateRank": 148
         },
         {
           "label": "Collin Gillespie Under 9.5 points",
@@ -8839,20 +8839,20 @@
           "threshold": null,
           "book": null,
           "price": -125,
-          "modelProb": 0.5688,
+          "modelProb": 0.5111,
           "impliedProb": 0.5556,
-          "rawEdge": 0.0133,
-          "adjustedEdge": -0.1967,
+          "rawEdge": -0.0444,
+          "adjustedEdge": -0.2544,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 9.54,
+          "simulatedMean": 10.2,
           "modelMean": 9.71,
           "propBand": [
             4,
             9,
             16
           ],
-          "slateRank": 126
+          "slateRank": 211
         },
         {
           "label": "Oso Ighodaro Over 5.5 points",
@@ -8864,20 +8864,20 @@
           "threshold": null,
           "book": null,
           "price": -125,
-          "modelProb": 0.4427,
+          "modelProb": 0.502,
           "impliedProb": 0.5556,
-          "rawEdge": -0.1129,
-          "adjustedEdge": -0.3229,
+          "rawEdge": -0.0536,
+          "adjustedEdge": -0.2636,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 5.64,
+          "simulatedMean": 6.13,
           "modelMean": 6.2,
           "propBand": [
             2,
             6,
             11
           ],
-          "slateRank": 231
+          "slateRank": 225
         },
         {
           "label": "Oso Ighodaro Under 6.5 points",
@@ -8889,20 +8889,20 @@
           "threshold": null,
           "book": null,
           "price": -125,
-          "modelProb": 0.5806,
+          "modelProb": 0.5214,
           "impliedProb": 0.5556,
-          "rawEdge": 0.025,
-          "adjustedEdge": -0.185,
+          "rawEdge": -0.0342,
+          "adjustedEdge": -0.2442,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 6.45,
+          "simulatedMean": 6.93,
           "modelMean": 6.23,
           "propBand": [
             2,
             6,
             11
           ],
-          "slateRank": 114
+          "slateRank": 190
         },
         {
           "label": "Khaman Maluach Over 5.5 points",
@@ -8914,20 +8914,20 @@
           "threshold": null,
           "book": null,
           "price": -112,
-          "modelProb": 0.4037,
+          "modelProb": 0.4622,
           "impliedProb": 0.5283,
-          "rawEdge": -0.1246,
-          "adjustedEdge": -0.3346,
+          "rawEdge": -0.0661,
+          "adjustedEdge": -0.2761,
           "qualifies": false,
           "veto": "projection 4.6 is 0.9 off the 5.5 line (17%) — the line is the more likely error",
-          "simulatedMean": 5.31,
+          "simulatedMean": 5.85,
           "modelMean": 4.56,
           "propBand": [
             0,
             4,
             9
           ],
-          "slateRank": 243
+          "slateRank": 232
         },
         {
           "label": "Khaman Maluach Under 6.5 points",
@@ -8939,20 +8939,20 @@
           "threshold": null,
           "book": null,
           "price": -136,
-          "modelProb": 0.6176,
+          "modelProb": 0.5613,
           "impliedProb": 0.5763,
-          "rawEdge": 0.0413,
-          "adjustedEdge": -0.1687,
+          "rawEdge": -0.015,
+          "adjustedEdge": -0.225,
           "qualifies": false,
           "veto": "projection 4.6 is 1.9 off the 6.5 line (30%) — the line is the more likely error",
-          "simulatedMean": 6.12,
+          "simulatedMean": 6.66,
           "modelMean": 4.58,
           "propBand": [
             0,
             4,
             9
           ],
-          "slateRank": 96
+          "slateRank": 152
         },
         {
           "label": "Luke Kornet Over 4.5 points",
@@ -8964,20 +8964,20 @@
           "threshold": null,
           "book": null,
           "price": -112,
-          "modelProb": 0.4312,
+          "modelProb": 0.4891,
           "impliedProb": 0.5283,
-          "rawEdge": -0.0971,
-          "adjustedEdge": -0.3071,
+          "rawEdge": -0.0392,
+          "adjustedEdge": -0.2492,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 4.53,
+          "simulatedMean": 4.91,
           "modelMean": 4.63,
           "propBand": [
             2,
             4,
             8
           ],
-          "slateRank": 224
+          "slateRank": 200
         },
         {
           "label": "Luke Kornet Under 4.5 points",
@@ -8989,20 +8989,20 @@
           "threshold": null,
           "book": null,
           "price": -112,
-          "modelProb": 0.5688,
+          "modelProb": 0.5109,
           "impliedProb": 0.5283,
-          "rawEdge": 0.0405,
-          "adjustedEdge": -0.1695,
+          "rawEdge": -0.0174,
+          "adjustedEdge": -0.2274,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 4.53,
+          "simulatedMean": 4.91,
           "modelMean": 4.63,
           "propBand": [
             2,
             4,
             8
           ],
-          "slateRank": 98
+          "slateRank": 157
         }
       ]
     },
@@ -9576,7 +9576,7 @@
           "simulatedMean": null,
           "modelMean": null,
           "propBand": null,
-          "slateRank": 152
+          "slateRank": 153
         },
         {
           "label": "New Orleans Pelicans ML",
@@ -9597,7 +9597,7 @@
           "simulatedMean": null,
           "modelMean": null,
           "propBand": null,
-          "slateRank": 2
+          "slateRank": 1
         },
         {
           "label": "Golden State Warriors -9.5",
@@ -9618,7 +9618,7 @@
           "simulatedMean": null,
           "modelMean": null,
           "propBand": null,
-          "slateRank": 110
+          "slateRank": 81
         },
         {
           "label": "New Orleans Pelicans +9.5",
@@ -9639,7 +9639,7 @@
           "simulatedMean": null,
           "modelMean": null,
           "propBand": null,
-          "slateRank": 7
+          "slateRank": 4
         },
         {
           "label": "Over 232.5",
@@ -9660,7 +9660,7 @@
           "simulatedMean": null,
           "modelMean": null,
           "propBand": null,
-          "slateRank": 27
+          "slateRank": 13
         },
         {
           "label": "Under 232.5",
@@ -9681,7 +9681,7 @@
           "simulatedMean": null,
           "modelMean": null,
           "propBand": null,
-          "slateRank": 72
+          "slateRank": 35
         },
         {
           "label": "Stephen Curry Over 28.5 points",
@@ -9693,20 +9693,20 @@
           "threshold": null,
           "book": null,
           "price": -115,
-          "modelProb": 0.4249,
+          "modelProb": 0.4799,
           "impliedProb": 0.5349,
-          "rawEdge": -0.11,
-          "adjustedEdge": -0.2645,
+          "rawEdge": -0.055,
+          "adjustedEdge": -0.2095,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 28.31,
+          "simulatedMean": 30.04,
           "modelMean": 27.56,
           "propBand": [
             13,
             25,
             45
           ],
-          "slateRank": 178
+          "slateRank": 121
         },
         {
           "label": "Stephen Curry Under 28.5 points",
@@ -9718,20 +9718,20 @@
           "threshold": null,
           "book": null,
           "price": -110,
-          "modelProb": 0.5751,
+          "modelProb": 0.5201,
           "impliedProb": 0.5238,
-          "rawEdge": 0.0513,
-          "adjustedEdge": -0.1032,
+          "rawEdge": -0.0037,
+          "adjustedEdge": -0.1581,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 28.31,
+          "simulatedMean": 30.04,
           "modelMean": 27.56,
           "propBand": [
             13,
             25,
             45
           ],
-          "slateRank": 23
+          "slateRank": 44
         },
         {
           "label": "Yaxel Lendeborg Over 19.5 points",
@@ -9743,20 +9743,20 @@
           "threshold": null,
           "book": null,
           "price": -112,
-          "modelProb": 0.44,
+          "modelProb": 0.4947,
           "impliedProb": 0.5283,
-          "rawEdge": -0.0883,
-          "adjustedEdge": -0.2428,
+          "rawEdge": -0.0336,
+          "adjustedEdge": -0.1881,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 19.7,
+          "simulatedMean": 20.96,
           "modelMean": 20.48,
           "propBand": [
             10,
             19,
             33
           ],
-          "slateRank": 163
+          "slateRank": 86
         },
         {
           "label": "Yaxel Lendeborg Under 20.5 points",
@@ -9768,20 +9768,20 @@
           "threshold": null,
           "book": null,
           "price": -120,
-          "modelProb": 0.5671,
+          "modelProb": 0.5138,
           "impliedProb": 0.5455,
-          "rawEdge": 0.0216,
-          "adjustedEdge": -0.1329,
+          "rawEdge": -0.0317,
+          "adjustedEdge": -0.1862,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 20.49,
+          "simulatedMean": 21.68,
           "modelMean": 20.45,
           "propBand": [
             10,
             19,
             33
           ],
-          "slateRank": 50
+          "slateRank": 84
         },
         {
           "label": "Zion Williamson Over 19.5 points",
@@ -9793,20 +9793,20 @@
           "threshold": null,
           "book": null,
           "price": -115,
-          "modelProb": 0.4356,
+          "modelProb": 0.4915,
           "impliedProb": 0.5349,
-          "rawEdge": -0.0992,
-          "adjustedEdge": -0.2537,
+          "rawEdge": -0.0433,
+          "adjustedEdge": -0.1978,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 19.63,
+          "simulatedMean": 20.89,
           "modelMean": 20.15,
           "propBand": [
             10,
             19,
             33
           ],
-          "slateRank": 172
+          "slateRank": 103
         },
         {
           "label": "Zion Williamson Under 20.5 points",
@@ -9818,20 +9818,20 @@
           "threshold": null,
           "book": null,
           "price": -120,
-          "modelProb": 0.571,
+          "modelProb": 0.5174,
           "impliedProb": 0.5455,
-          "rawEdge": 0.0256,
-          "adjustedEdge": -0.1289,
+          "rawEdge": -0.028,
+          "adjustedEdge": -0.1825,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 20.42,
+          "simulatedMean": 21.65,
           "modelMean": 20.1,
           "propBand": [
             10,
             19,
             33
           ],
-          "slateRank": 46
+          "slateRank": 79
         },
         {
           "label": "Dejounte Murray Over 15.5 points",
@@ -9843,20 +9843,20 @@
           "threshold": null,
           "book": null,
           "price": -125,
-          "modelProb": 0.4311,
+          "modelProb": 0.4852,
           "impliedProb": 0.5556,
-          "rawEdge": -0.1245,
-          "adjustedEdge": -0.2789,
+          "rawEdge": -0.0704,
+          "adjustedEdge": -0.2248,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 15.49,
+          "simulatedMean": 16.46,
           "modelMean": 15.47,
           "propBand": [
             7,
             14,
             25
           ],
-          "slateRank": 190
+          "slateRank": 151
         },
         {
           "label": "Dejounte Murray Under 16.5 points",
@@ -9868,20 +9868,20 @@
           "threshold": null,
           "book": null,
           "price": -111,
-          "modelProb": 0.5795,
+          "modelProb": 0.5259,
           "impliedProb": 0.5261,
-          "rawEdge": 0.0534,
-          "adjustedEdge": -0.1011,
+          "rawEdge": -0.0002,
+          "adjustedEdge": -0.1546,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 16.3,
+          "simulatedMean": 17.26,
           "modelMean": 15.48,
           "propBand": [
             7,
             14,
             25
           ],
-          "slateRank": 22
+          "slateRank": 40
         },
         {
           "label": "Trey Murphy III Over 15.5 points",
@@ -9893,20 +9893,20 @@
           "threshold": null,
           "book": null,
           "price": -110,
-          "modelProb": 0.4588,
+          "modelProb": 0.5121,
           "impliedProb": 0.5238,
-          "rawEdge": -0.065,
-          "adjustedEdge": -0.2195,
+          "rawEdge": -0.0117,
+          "adjustedEdge": -0.1662,
           "qualifies": false,
           "veto": "projection 18.0 is 2.5 off the 15.5 line (16%) — the line is the more likely error",
-          "simulatedMean": 16,
+          "simulatedMean": 17.05,
           "modelMean": 18,
           "propBand": [
             9,
             17,
             29
           ],
-          "slateRank": 149
+          "slateRank": 59
         },
         {
           "label": "Trey Murphy III Under 16.5 points",
@@ -9918,20 +9918,20 @@
           "threshold": null,
           "book": null,
           "price": -122,
-          "modelProb": 0.5508,
+          "modelProb": 0.4979,
           "impliedProb": 0.5495,
-          "rawEdge": 0.0012,
-          "adjustedEdge": -0.1532,
+          "rawEdge": -0.0517,
+          "adjustedEdge": -0.2062,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 16.8,
+          "simulatedMean": 17.82,
           "modelMean": 17.99,
           "propBand": [
             9,
             17,
             29
           ],
-          "slateRank": 75
+          "slateRank": 116
         },
         {
           "label": "Brandin Podziemski Over 15.5 points",
@@ -9943,20 +9943,20 @@
           "threshold": null,
           "book": null,
           "price": -110,
-          "modelProb": 0.4159,
+          "modelProb": 0.4669,
           "impliedProb": 0.5238,
-          "rawEdge": -0.1079,
-          "adjustedEdge": -0.2623,
+          "rawEdge": -0.0569,
+          "adjustedEdge": -0.2113,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 15.21,
+          "simulatedMean": 16.06,
           "modelMean": 14.07,
           "propBand": [
             7,
             13,
             23
           ],
-          "slateRank": 177
+          "slateRank": 125
         },
         {
           "label": "Brandin Podziemski Under 15.5 points",
@@ -9968,20 +9968,20 @@
           "threshold": null,
           "book": null,
           "price": -110,
-          "modelProb": 0.5841,
+          "modelProb": 0.5331,
           "impliedProb": 0.5238,
-          "rawEdge": 0.0602,
-          "adjustedEdge": -0.0942,
+          "rawEdge": 0.0093,
+          "adjustedEdge": -0.1452,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 15.21,
+          "simulatedMean": 16.06,
           "modelMean": 14.07,
           "propBand": [
             7,
             13,
             23
           ],
-          "slateRank": 16
+          "slateRank": 30
         },
         {
           "label": "Jeremiah Fears Over 14.5 points",
@@ -9993,20 +9993,20 @@
           "threshold": null,
           "book": null,
           "price": -112,
-          "modelProb": 0.4269,
+          "modelProb": 0.4822,
           "impliedProb": 0.5283,
-          "rawEdge": -0.1014,
-          "adjustedEdge": -0.2558,
+          "rawEdge": -0.0461,
+          "adjustedEdge": -0.2006,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 14.45,
+          "simulatedMean": 15.39,
           "modelMean": 14.26,
           "propBand": [
             7,
             13,
             23
           ],
-          "slateRank": 173
+          "slateRank": 107
         },
         {
           "label": "Jeremiah Fears Under 14.5 points",
@@ -10018,20 +10018,20 @@
           "threshold": null,
           "book": null,
           "price": -105,
-          "modelProb": 0.5731,
+          "modelProb": 0.5178,
           "impliedProb": 0.5122,
-          "rawEdge": 0.0609,
-          "adjustedEdge": -0.0936,
+          "rawEdge": 0.0056,
+          "adjustedEdge": -0.1488,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 14.45,
+          "simulatedMean": 15.39,
           "modelMean": 14.26,
           "propBand": [
             7,
             13,
             23
           ],
-          "slateRank": 15
+          "slateRank": 34
         },
         {
           "label": "Saddiq Bey Over 13.5 points",
@@ -10043,20 +10043,20 @@
           "threshold": null,
           "book": null,
           "price": 100,
-          "modelProb": 0.4575,
+          "modelProb": 0.5161,
           "impliedProb": 0.5,
-          "rawEdge": -0.0425,
-          "adjustedEdge": -0.1969,
+          "rawEdge": 0.0161,
+          "adjustedEdge": -0.1384,
           "qualifies": false,
           "veto": "projection 16.2 is 2.7 off the 13.5 line (20%) — the line is the more likely error",
-          "simulatedMean": 14.04,
+          "simulatedMean": 15.07,
           "modelMean": 16.19,
           "propBand": [
             8,
             15,
             26
           ],
-          "slateRank": 128
+          "slateRank": 26
         },
         {
           "label": "Saddiq Bey Under 13.5 points",
@@ -10068,20 +10068,20 @@
           "threshold": null,
           "book": null,
           "price": -111,
-          "modelProb": 0.5425,
+          "modelProb": 0.4839,
           "impliedProb": 0.5261,
-          "rawEdge": 0.0164,
-          "adjustedEdge": -0.1381,
+          "rawEdge": -0.0422,
+          "adjustedEdge": -0.1966,
           "qualifies": false,
           "veto": "projection 16.2 is 2.7 off the 13.5 line (20%) — the line is the more likely error",
-          "simulatedMean": 14.04,
+          "simulatedMean": 15.07,
           "modelMean": 16.19,
           "propBand": [
             8,
             15,
             26
           ],
-          "slateRank": 55
+          "slateRank": 101
         },
         {
           "label": "De'Anthony Melton Over 9.5 points",
@@ -10093,20 +10093,20 @@
           "threshold": null,
           "book": null,
           "price": 100,
-          "modelProb": 0.4398,
+          "modelProb": 0.5005,
           "impliedProb": 0.5,
-          "rawEdge": -0.0602,
-          "adjustedEdge": -0.2147,
+          "rawEdge": 0.0005,
+          "adjustedEdge": -0.154,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 9.72,
+          "simulatedMean": 10.55,
           "modelMean": 10.58,
           "propBand": [
             4,
             10,
             18
           ],
-          "slateRank": 145
+          "slateRank": 38
         },
         {
           "label": "De'Anthony Melton Under 9.5 points",
@@ -10118,20 +10118,20 @@
           "threshold": null,
           "book": null,
           "price": -118,
-          "modelProb": 0.5602,
+          "modelProb": 0.4995,
           "impliedProb": 0.5413,
-          "rawEdge": 0.0189,
-          "adjustedEdge": -0.1355,
+          "rawEdge": -0.0418,
+          "adjustedEdge": -0.1962,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 9.72,
+          "simulatedMean": 10.55,
           "modelMean": 10.58,
           "propBand": [
             4,
             10,
             18
           ],
-          "slateRank": 52
+          "slateRank": 99
         },
         {
           "label": "Derik Queen Over 8.5 points",
@@ -10143,20 +10143,20 @@
           "threshold": null,
           "book": null,
           "price": -115,
-          "modelProb": 0.4682,
+          "modelProb": 0.5289,
           "impliedProb": 0.5349,
-          "rawEdge": -0.0667,
-          "adjustedEdge": -0.2212,
+          "rawEdge": -0.006,
+          "adjustedEdge": -0.1604,
           "qualifies": false,
           "veto": "projection 11.4 is 2.9 off the 8.5 line (34%) — the line is the more likely error",
-          "simulatedMean": 9.08,
+          "simulatedMean": 9.91,
           "modelMean": 11.42,
           "propBand": [
             5,
             10,
             19
           ],
-          "slateRank": 151
+          "slateRank": 50
         },
         {
           "label": "Derik Queen Under 9.5 points",
@@ -10168,20 +10168,20 @@
           "threshold": null,
           "book": null,
           "price": -119,
-          "modelProb": 0.5472,
+          "modelProb": 0.4873,
           "impliedProb": 0.5434,
-          "rawEdge": 0.0038,
-          "adjustedEdge": -0.1507,
+          "rawEdge": -0.0561,
+          "adjustedEdge": -0.2106,
           "qualifies": false,
           "veto": "projection 11.4 is 1.9 off the 9.5 line (20%) — the line is the more likely error",
-          "simulatedMean": 9.88,
+          "simulatedMean": 10.71,
           "modelMean": 11.39,
           "propBand": [
             5,
             10,
             19
           ],
-          "slateRank": 74
+          "slateRank": 123
         },
         {
           "label": "Gui Santos Over 7.5 points",
@@ -10193,20 +10193,20 @@
           "threshold": null,
           "book": null,
           "price": -130,
-          "modelProb": 0.4331,
+          "modelProb": 0.4923,
           "impliedProb": 0.5652,
-          "rawEdge": -0.1321,
-          "adjustedEdge": -0.2866,
+          "rawEdge": -0.0729,
+          "adjustedEdge": -0.2274,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 7.58,
+          "simulatedMean": 8.25,
           "modelMean": 7.92,
           "propBand": [
             3,
             7,
             14
           ],
-          "slateRank": 201
+          "slateRank": 158
         },
         {
           "label": "Gui Santos Under 8.5 points",
@@ -10218,20 +10218,20 @@
           "threshold": null,
           "book": null,
           "price": -120,
-          "modelProb": 0.5854,
+          "modelProb": 0.5277,
           "impliedProb": 0.5455,
-          "rawEdge": 0.04,
-          "adjustedEdge": -0.1145,
+          "rawEdge": -0.0177,
+          "adjustedEdge": -0.1722,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 8.38,
+          "simulatedMean": 9.03,
           "modelMean": 7.89,
           "propBand": [
             3,
             7,
             14
           ],
-          "slateRank": 37
+          "slateRank": 66
         },
         {
           "label": "Georges Niang Over 8.5 points",
@@ -10243,20 +10243,20 @@
           "threshold": null,
           "book": null,
           "price": 105,
-          "modelProb": 0.4136,
+          "modelProb": 0.4725,
           "impliedProb": 0.4878,
-          "rawEdge": -0.0742,
-          "adjustedEdge": -0.2287,
+          "rawEdge": -0.0153,
+          "adjustedEdge": -0.1698,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 8.39,
+          "simulatedMean": 9.04,
           "modelMean": 7.93,
           "propBand": [
             3,
             7,
             14
           ],
-          "slateRank": 153
+          "slateRank": 62
         },
         {
           "label": "Georges Niang Under 8.5 points",
@@ -10268,20 +10268,20 @@
           "threshold": null,
           "book": null,
           "price": -120,
-          "modelProb": 0.5864,
+          "modelProb": 0.5275,
           "impliedProb": 0.5455,
-          "rawEdge": 0.041,
-          "adjustedEdge": -0.1135,
+          "rawEdge": -0.018,
+          "adjustedEdge": -0.1724,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 8.39,
+          "simulatedMean": 9.04,
           "modelMean": 7.93,
           "propBand": [
             3,
             7,
             14
           ],
-          "slateRank": 35
+          "slateRank": 68
         },
         {
           "label": "Karlo Matkovic Over 7.5 points",
@@ -10293,20 +10293,20 @@
           "threshold": null,
           "book": null,
           "price": 104,
-          "modelProb": 0.4157,
+          "modelProb": 0.4737,
           "impliedProb": 0.4902,
-          "rawEdge": -0.0745,
-          "adjustedEdge": -0.229,
+          "rawEdge": -0.0165,
+          "adjustedEdge": -0.171,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 7.39,
+          "simulatedMean": 8.07,
           "modelMean": 6.95,
           "propBand": [
             2,
             6,
             13
           ],
-          "slateRank": 154
+          "slateRank": 64
         },
         {
           "label": "Karlo Matkovic Under 7.5 points",
@@ -10318,20 +10318,20 @@
           "threshold": null,
           "book": null,
           "price": -113,
-          "modelProb": 0.5843,
+          "modelProb": 0.5263,
           "impliedProb": 0.5305,
-          "rawEdge": 0.0538,
-          "adjustedEdge": -0.1007,
+          "rawEdge": -0.0042,
+          "adjustedEdge": -0.1587,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 7.39,
+          "simulatedMean": 8.07,
           "modelMean": 6.95,
           "propBand": [
             2,
             6,
             13
           ],
-          "slateRank": 20
+          "slateRank": 45
         },
         {
           "label": "Draymond Green Over 5.5 points",
@@ -10343,20 +10343,20 @@
           "threshold": null,
           "book": null,
           "price": -115,
-          "modelProb": 0.4461,
+          "modelProb": 0.4995,
           "impliedProb": 0.5349,
-          "rawEdge": -0.0887,
-          "adjustedEdge": -0.2432,
+          "rawEdge": -0.0353,
+          "adjustedEdge": -0.1898,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 5.59,
+          "simulatedMean": 5.98,
           "modelMean": 5.97,
           "propBand": [
             3,
             5,
             10
           ],
-          "slateRank": 164
+          "slateRank": 91
         },
         {
           "label": "Draymond Green Under 5.5 points",
@@ -10368,20 +10368,20 @@
           "threshold": null,
           "book": null,
           "price": -103,
-          "modelProb": 0.5539,
+          "modelProb": 0.5005,
           "impliedProb": 0.5074,
-          "rawEdge": 0.0465,
-          "adjustedEdge": -0.108,
+          "rawEdge": -0.0069,
+          "adjustedEdge": -0.1614,
           "qualifies": false,
           "veto": null,
-          "simulatedMean": 5.59,
+          "simulatedMean": 5.98,
           "modelMean": 5.97,
           "propBand": [
             3,
             5,
             10
           ],
-          "slateRank": 29
+          "slateRank": 52
         }
       ]
     }
