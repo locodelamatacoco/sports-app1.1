@@ -31,7 +31,9 @@
     "fit-player-blend": "node scripts/fit-player-blend.js",
     "fit-player-variance": "node scripts/fit-player-variance.js",
     "fit-total-target": "node scripts/fit-total-target.js",
-    "fit-player-form": "node scripts/fit-player-form.js"
+    "fit-player-form": "node scripts/fit-player-form.js",
+    "prop-segments": "node scripts/prop-segments.js",
+    "fit-prop-anchor": "node scripts/fit-prop-anchor.js"
   },
   "eslintConfig": {
     "extends": [

@@ -550,6 +550,38 @@ half-point line fits between the two. The earlier "props can still qualify" was
 partly the narrow distribution's own overconfidence. A real prop edge now has
 to arrive as a stale price on a sound line.
 
+## Verdict on props after 904 graded leans: the book knows more
+
+Over nine logged nights the prop leans finished 483-421 for +2.09u, a 0.2%
+return: break-even. They peaked at +25.88u after a single big night
+(2026-11-02) and gave it back over the next four. `npm run prop-segments`
+splits the record by edge size, stat, side and price, and asks each slice to
+clear a bar corrected for the number of slices tried. None does.
+
+One pattern is consistent anyway, and matches every other part of this model:
+the bigger the model's disagreement with the book, the worse it did. Raw edges
+of 15% or more went -16.1% over 193 bets (t -2.38); the rows nearest the 5%
+bet bar went -11.6%. Had anything ever qualified, the rule would have drawn it
+from the worst bucket.
+
+`npm run fit-prop-anchor` says why. Over 1,425 graded prop lines the posted
+line ALONE predicted the stat better than the model (points RMSE 6.31 against
+6.68), and the best blend put 80-100% of the weight on the line. The model's
+prop projections carry essentially no information the book does not already
+have, and their big gaps from the line were their errors.
+
+So prop pricing now leans 80% on the line (`PROP_LINE_ANCHOR`): the simulated
+distribution keeps its fitted shape and its centre moves most of the way to
+the posted line. Edges shrink to an honest size and the misleading top of the
+list goes away. The raw model mean is still logged as `modelMean` so the anchor
+can be re-fitted, and the line-divergence veto still reads the raw model.
+
+What the model IS good at is unchanged: its double-double and 20+ point
+probabilities have landed close to what happened every night, because there it
+is not competing with a sharper number. That is its real use. A betting edge,
+if there is one, is more likely to come from shopping the same line across
+books (supported in the lines format) than from the model out-predicting them.
+
 ## Recent form and streakiness, tested and left out
 
 Two pieces of the original spec — blending a player's recent games and a

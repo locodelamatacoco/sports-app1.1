@@ -22,6 +22,8 @@ import {
   percentile,
   probBetween,
   projectPlayerGame,
+  priceShiftedLine,
+  anchoredProp,
   DOUBLE_DOUBLE_STATS,
   POINTS_THRESHOLDS,
   distributionSummary,
@@ -1190,5 +1192,58 @@ describe('the total shrinks toward the league the ratings describe', () => {
     );
     // The margin is untouched by where the total regresses to.
     expect(low.expectedMargin).toBeCloseTo(high.expectedMargin, 8);
+  });
+});
+
+
+describe('props lean on the book\'s line', () => {
+  // A whole-number distribution: 10, 20 or 30 with equal weight.
+  const dist = new Map([[10, 100], [20, 100], [30, 100]]);
+  const result = { dist, samples: 300, simulatedMean: 20, overProb: 1 / 3, underProb: 1 / 3, pushProb: 1 / 3 };
+
+  test('a whole-number shift prices exactly as moving the line', () => {
+    const shifted = priceShiftedLine(dist, 300, 20, 10);
+    // Outcomes moved up 10: 20, 30, 40 against a line of 20.
+    expect(shifted.overProb).toBeCloseTo(2 / 3, 10);
+    expect(shifted.pushProb).toBeCloseTo(1 / 3, 10);
+  });
+
+  test('a fractional shift blends the two whole shifts around it', () => {
+    const half = priceShiftedLine(dist, 300, 19.5, 0.5);
+    const lo = priceShiftedLine(dist, 300, 19.5, 0);
+    const hi = priceShiftedLine(dist, 300, 19.5, 1);
+    expect(half.overProb).toBeCloseTo((lo.overProb + hi.overProb) / 2, 10);
+  });
+
+  test('the centre moves the anchor share of the way to the line', () => {
+    const a = anchoredProp(result, 25, 0.8);
+    expect(a.shift).toBeCloseTo(4, 10);
+    expect(a.mean).toBeCloseTo(24, 10);
+  });
+
+  test('a zero anchor, or no line, leaves the model as it was', () => {
+    expect(anchoredProp(result, 25, 0).overProb).toBe(result.overProb);
+    expect(anchoredProp(result, null).mean).toBe(20);
+  });
+
+  test('anchoring can only shrink an edge built on a gap from the line', () => {
+    // A model reading 20 against a line of 25 loves the under; leaning on the
+    // line has to make it like the under less, never more.
+    const raw = priceShiftedLine(dist, 300, 25, 0);
+    const anchored = anchoredProp(result, 25, 0.8);
+    expect(anchored.underProb).toBeLessThanOrEqual(raw.underProb);
+    expect(anchored.overProb).toBeGreaterThanOrEqual(raw.overProb);
+  });
+
+  test('a priced prop reports both the anchored and the raw model mean', () => {
+    const game = {
+      ...CLEAN_GAME,
+      props: [{ player: 'Gap Scorer', stat: 'points', line: 24.5, over: -110, under: -110,
+        baseline: { perGame: 20, minutes: 34, pace: 100 }, projectedMinutes: 34, minutesVolatility: 0.05, flags: {} }],
+    };
+    const row = analyzeGame(game, { numSims: 8000, seed: 41 }).props.find((p) => p.side === 'under');
+    const C = MODEL_CONSTANTS;
+    expect(row.modelMean).toBeLessThan(21);
+    expect(row.simulatedMean).toBeCloseTo(row.modelMean + C.PROP_LINE_ANCHOR * (24.5 - row.modelMean), 6);
   });
 });

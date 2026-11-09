@@ -214,6 +214,9 @@ async function main() {
         veto: m.veto ?? null,
         // Props carry their own band; game markets read theirs off the game.
         simulatedMean: m.simulatedMean != null ? +m.simulatedMean.toFixed(2) : null,
+        // The model's own mean before it leans on the line. Re-fitting the
+        // anchor needs this, not the anchored mean.
+        modelMean: m.modelMean != null ? +m.modelMean.toFixed(2) : null,
         propBand: m.distribution
           ? [m.distribution.p10, m.distribution.median, m.distribution.p90]
           : null,

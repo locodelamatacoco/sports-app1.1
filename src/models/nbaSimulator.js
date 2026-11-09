@@ -138,6 +138,18 @@ export const MODEL_CONSTANTS = {
   // trusted outright. Set to 0 to see the unanchored model.
   MARKET_ANCHOR_WEIGHT: 0.35,
 
+  // Props lean on the book's line even harder than games do. Over 1,425
+  // graded prop lines (scripts/fit-prop-anchor.js) the posted line alone
+  // predicted the stat better than the model (points RMSE 6.31 against 6.68),
+  // and blending was best at 0.8 to 1.0 on the line. The record says the same
+  // from the other side: leans with a raw edge of 15% or more went -16.1% over
+  // 193 bets, because a big gap between the model and the book is usually the
+  // model's error. 0.8 is the cautious end of that range. The simulated
+  // distribution keeps its fitted shape and its centre moves this share of the
+  // way to the line, so an edge only shows when the book is off by more than
+  // the model's own uncertainty.
+  PROP_LINE_ANCHOR: 0.8,
+
   // Divergence guard. Past these gaps between the model and the market, the
   // likelier explanation is a bad input on our side than a mispriced game, so
   // the edge gets charged for it and a wide enough gap vetoes the game.
@@ -959,6 +971,34 @@ export function priceLine(distribution, numSims, line) {
   return { overProb: over / numSims, pushProb: push / numSims, underProb: under / numSims };
 }
 
+// Price a prop line as if the simulated distribution were moved `shift` points.
+// Moving the outcome up by s is the same as moving the line down by s, and the
+// distribution is held in whole-number buckets, so a fractional shift is the
+// blend of the two whole shifts around it. That keeps push handling exact on
+// whole-number lines.
+export function priceShiftedLine(distribution, numSims, line, shift) {
+  const lo = Math.floor(shift);
+  const frac = shift - lo;
+  const a = priceLine(distribution, numSims, line - lo);
+  if (frac === 0) return a;
+  const b = priceLine(distribution, numSims, line - lo - 1);
+  return {
+    overProb: (1 - frac) * a.overProb + frac * b.overProb,
+    pushProb: (1 - frac) * a.pushProb + frac * b.pushProb,
+    underProb: (1 - frac) * a.underProb + frac * b.underProb,
+  };
+}
+
+// Anchor a prop toward its posted line (see MODEL_CONSTANTS.PROP_LINE_ANCHOR).
+export function anchoredProp(result, line, weight = MODEL_CONSTANTS.PROP_LINE_ANCHOR) {
+  if (line == null || !result?.dist || !(weight > 0)) {
+    return { overProb: result.overProb, underProb: result.underProb, pushProb: result.pushProb, mean: result.simulatedMean, shift: 0 };
+  }
+  const shift = weight * (line - result.simulatedMean);
+  const p = priceShiftedLine(result.dist, result.samples, line, shift);
+  return { ...p, mean: result.simulatedMean + shift, shift };
+}
+
 // Half-point steps either side of a centre, used to build a ladder.
 function ladder(centre, steps) {
   const base = Math.round(centre * 2) / 2;
@@ -1653,6 +1693,10 @@ export function analyzeGame(game, { numSims = 10000, seed = 42, anchorWeight } =
     // the row is judged against its posted price alone.
     const hasOver = prop.over != null;
     const hasUnder = prop.under != null;
+    // The model's own read, pulled most of the way to the book's line. The
+    // line-divergence veto above still reads the RAW model, since a raw gap
+    // that wide says the inputs are wrong whatever the anchor does with them.
+    const anchored = anchoredProp(result, prop.line);
     const [noVigOver, noVigUnder] =
       hasOver && hasUnder
         ? removeVig([americanToProb(prop.over), americanToProb(prop.under)])
@@ -1664,15 +1708,16 @@ export function analyzeGame(game, { numSims = 10000, seed = 42, anchorWeight } =
           market: 'prop',
           side: 'over',
           gameId: game.id,
-          modelProb: result.overProb,
-          pushProb: result.pushProb,
+          modelProb: anchored.overProb,
+          pushProb: anchored.pushProb,
           price: prop.over,
           noVigProb: noVigOver,
           penalties: propLedger,
           veto: propVeto,
         }),
         prop,
-        simulatedMean: result.simulatedMean,
+        simulatedMean: anchored.mean,
+        modelMean: result.simulatedMean,
         distribution: propDistribution(result),
         expected: result.projected.expected,
       }
@@ -1684,15 +1729,16 @@ export function analyzeGame(game, { numSims = 10000, seed = 42, anchorWeight } =
           market: 'prop',
           side: 'under',
           gameId: game.id,
-          modelProb: result.underProb,
-          pushProb: result.pushProb,
+          modelProb: anchored.underProb,
+          pushProb: anchored.pushProb,
           price: prop.under,
           noVigProb: noVigUnder,
           penalties: propLedger,
           veto: propVeto,
         }),
         prop,
-        simulatedMean: result.simulatedMean,
+        simulatedMean: anchored.mean,
+        modelMean: result.simulatedMean,
         distribution: propDistribution(result),
         expected: result.projected.expected,
       }
