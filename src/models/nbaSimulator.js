@@ -631,6 +631,75 @@ export function projectPlayerGame(entry, game, projection) {
   };
 }
 
+// Re-centre a player's simulated night on the book's lines.
+//
+// Over 666 player-games with a posted points line, the line alone predicted
+// who would score 10, 20 and 25 far better than the model did (20+: log loss
+// 0.419 against 0.465, in both halves of the sample), and the model expected
+// 140 twenty-point games where 181 happened and the lines implied 175. So when
+// a line is posted, each stat's draws are scaled until their median sits
+// PROP_LINE_ANCHOR of the way to it, and every probability — scoring marks,
+// each leg of the double-double, the double-double itself — is recounted from
+// the same scaled draws, so they stay jointly consistent. Scaling rather than
+// shifting keeps a zero a zero and the spread proportional.
+export function anchorPlayerToLines(draws, numSims, lines, own) {
+  const factors = {};
+  const used = {};
+  for (const stat of DOUBLE_DOUBLE_STATS) {
+    const line = lines?.[stat];
+    if (line == null || !draws[stat]) continue;
+    const hist = new Map();
+    for (let i = 0; i < numSims; i += 1) {
+      const v = Math.round(draws[stat][i]);
+      hist.set(v, (hist.get(v) ?? 0) + 1);
+    }
+    const median = distributionMedian(hist, numSims);
+    if (!(median >= 1)) continue; // too small to scale meaningfully
+    const target = median + MODEL_CONSTANTS.PROP_LINE_ANCHOR * (line - median);
+    factors[stat] = clamp(target / median, 0.5, 2);
+    used[stat] = line;
+  }
+  if (Object.keys(factors).length === 0) return null;
+
+  let dd = 0;
+  let td = 0;
+  const tenCount = Object.fromEntries(DOUBLE_DOUBLE_STATS.map((s) => [s, 0]));
+  const totals = Object.fromEntries(DOUBLE_DOUBLE_STATS.map((s) => [s, 0]));
+  const marks = new Map();
+  const pointsDist = new Map();
+  for (let i = 0; i < numSims; i += 1) {
+    let tens = 0;
+    for (const stat of DOUBLE_DOUBLE_STATS) {
+      if (!draws[stat]) continue;
+      const scaled = draws[stat][i] * (factors[stat] ?? 1);
+      const whole = Math.round(scaled);
+      totals[stat] += scaled;
+      if (whole >= 10) {
+        tens += 1;
+        tenCount[stat] += 1;
+      }
+      if (stat === 'points') {
+        pointsDist.set(whole, (pointsDist.get(whole) ?? 0) + 1);
+        for (const t of POINTS_THRESHOLDS) if (whole >= t) marks.set(t, (marks.get(t) ?? 0) + 1);
+      }
+    }
+    if (tens >= 2) dd += 1;
+    if (tens >= 3) td += 1;
+  }
+  return {
+    simulatedMeans: {
+      ...own.simulatedMeans,
+      ...Object.fromEntries(DOUBLE_DOUBLE_STATS.filter((s) => draws[s]).map((s) => [s, totals[s] / numSims])),
+    },
+    doubleDouble: dd / numSims,
+    tripleDouble: td / numSims,
+    atLeastTen: Object.fromEntries(DOUBLE_DOUBLE_STATS.map((s) => [s, tenCount[s] / numSims])),
+    pointsAtLeast: Object.fromEntries(POINTS_THRESHOLDS.map((t) => [t, (marks.get(t) ?? 0) / numSims])),
+    pointsDist,
+    lines: used,
+  };
+}
+
 // Draw one realisation of a stat. Counting stats go through a Gamma-mixed
 // Poisson (integer outcomes, so "3+ threes" style thresholds and pushes on
 // whole-number lines price correctly); points-like stats use a Gamma.
@@ -687,6 +756,12 @@ export function simulateGame(game, { numSims = 10000, seed = 42, anchorWeight } 
       statTotals: {},
       statAtLeastTen: {},
       pointsDist: new Map(),
+      // Per-simulation draws, kept only for a player with a posted line, so
+      // the whole joint outcome can be re-centred on the line afterwards.
+      draws:
+        entry.lines && !projected.insufficientData
+          ? Object.fromEntries(DOUBLE_DOUBLE_STATS.map((stat) => [stat, new Float32Array(numSims)]))
+          : null,
     };
   });
 
@@ -825,7 +900,12 @@ export function simulateGame(game, { numSims = 10000, seed = 42, anchorWeight } 
       for (const stat of Object.keys(pr.means)) {
         const value = sampleStat(stat, pr.means[stat] * scale, rand);
         slot.statTotals[stat] = (slot.statTotals[stat] ?? 0) + value;
-        if (value >= 10 && DOUBLE_DOUBLE_STATS.includes(stat)) {
+        if (slot.draws?.[stat]) slot.draws[stat][slot.samples] = value;
+        // Box scores are whole numbers, so a simulated 9.6 is a 10. Points are
+        // drawn on a continuous scale, and comparing the raw draw with the
+        // mark counted 19.5-19.99 as short of 20: about two points of
+        // probability shaved off every scoring mark, every night.
+        if (Math.round(value) >= 10 && DOUBLE_DOUBLE_STATS.includes(stat)) {
           tens += 1;
           slot.statAtLeastTen[stat] = (slot.statAtLeastTen[stat] ?? 0) + 1;
         }
@@ -839,7 +919,7 @@ export function simulateGame(game, { numSims = 10000, seed = 42, anchorWeight } 
       const whole = Math.round(points);
       slot.pointsDist.set(whole, (slot.pointsDist.get(whole) ?? 0) + 1);
       for (const t of POINTS_THRESHOLDS) {
-        if (points >= t) slot.pointsAtLeast.set(t, (slot.pointsAtLeast.get(t) ?? 0) + 1);
+        if (whole >= t) slot.pointsAtLeast.set(t, (slot.pointsAtLeast.get(t) ?? 0) + 1);
       }
     }
     for (const entry of props) {
@@ -916,15 +996,7 @@ export function simulateGame(game, { numSims = 10000, seed = 42, anchorWeight } 
       return { ...pr, insufficientData: true, player: pr.player ?? slot.entry.player };
     }
     const n = slot.samples;
-    return {
-      player: pr.player,
-      team: pr.team,
-      minutes: pr.minutes,
-      games: pr.games,
-      sampleNote: pr.sampleNote,
-      insufficientData: false,
-      samples: n,
-      means: pr.means,
+    const own = {
       simulatedMeans: Object.fromEntries(
         Object.entries(slot.statTotals).map(([stat, total]) => [stat, total / n])
       ),
@@ -937,6 +1009,28 @@ export function simulateGame(game, { numSims = 10000, seed = 42, anchorWeight } 
         POINTS_THRESHOLDS.map((t) => [t, (slot.pointsAtLeast.get(t) ?? 0) / n])
       ),
       pointsDist: slot.pointsDist,
+    };
+    const anchored = slot.draws ? anchorPlayerToLines(slot.draws, n, slot.entry.lines, own) : null;
+    return {
+      player: pr.player,
+      team: pr.team,
+      minutes: pr.minutes,
+      games: pr.games,
+      sampleNote: pr.sampleNote,
+      insufficientData: false,
+      samples: n,
+      means: pr.means,
+      ...(anchored ?? own),
+      // What the model said before it leaned on the book, kept so the lean
+      // itself can be graded.
+      lines: anchored ? anchored.lines : null,
+      modelOnly: anchored
+        ? {
+            simulatedMeans: own.simulatedMeans,
+            doubleDouble: own.doubleDouble,
+            pointsAtLeast: own.pointsAtLeast,
+          }
+        : null,
     };
   });
 

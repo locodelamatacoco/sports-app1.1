@@ -33,7 +33,8 @@
     "fit-total-target": "node scripts/fit-total-target.js",
     "fit-player-form": "node scripts/fit-player-form.js",
     "prop-segments": "node scripts/prop-segments.js",
-    "fit-prop-anchor": "node scripts/fit-prop-anchor.js"
+    "fit-prop-anchor": "node scripts/fit-prop-anchor.js",
+    "market-structure": "node scripts/market-structure.js"
   },
   "eslintConfig": {
     "extends": [

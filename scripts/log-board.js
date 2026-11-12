@@ -116,6 +116,25 @@ async function main() {
   // scratched regular with a usable sample would have been projected.
   const ruledOut = ruledOutFrom(slate.games);
 
+  // The book's line for each player and stat, where one is posted: the mean
+  // of the over and under lines. Player probabilities lean on these.
+  const postedLines = new Map();
+  for (const list of propBuild.byGame.values()) {
+    for (const prop of list) {
+      const key = normalizeName(prop.player);
+      const entry = postedLines.get(key) ?? {};
+      (entry[prop.stat] = entry[prop.stat] ?? []).push(prop.line);
+      postedLines.set(key, entry);
+    }
+  }
+  const linesFor = (player) => {
+    const entry = postedLines.get(normalizeName(player));
+    if (!entry) return null;
+    return Object.fromEntries(
+      Object.entries(entry).map(([stat, v]) => [stat, v.reduce((a, b) => a + b, 0) / v.length])
+    );
+  };
+
   const withPlayers = slate.games.map((game) => {
     const codes = [game.away.code, game.home.code];
     const players = usable
@@ -127,6 +146,7 @@ async function main() {
         rate,
         pace: rate.team === game.home.code ? game.home.ratings.pace : game.away.ratings.pace,
         // Minutes spread comes from the fitted role curve in the simulator.
+        lines: linesFor(rate.player),
       }));
     return { ...game, players, props: propBuild.byGame.get(game.id) ?? game.props ?? [] };
   });
@@ -179,6 +199,16 @@ async function main() {
           rebounds: +(p.simulatedMeans.rebounds ?? 0).toFixed(2),
           assists: +(p.simulatedMeans.assists ?? 0).toFixed(2),
         },
+        // The posted lines these probabilities lean on, and the model's own
+        // read before leaning, so the lean can be graded against the model.
+        lines: p.lines ?? null,
+        modelOnly: p.modelOnly
+          ? {
+              points: +p.modelOnly.simulatedMeans.points.toFixed(2),
+              doubleDouble: +p.modelOnly.doubleDouble.toFixed(4),
+              twentyPlus: +p.modelOnly.pointsAtLeast[20].toFixed(4),
+            }
+          : null,
         doubleDouble: +p.doubleDouble.toFixed(4),
         tripleDouble: +p.tripleDouble.toFixed(4),
         atLeastTen: Object.fromEntries(
@@ -354,6 +384,30 @@ function printReport(results, record, snapshot) {
           `${m.qualifies ? 'BET' : m.veto ? `VETO ${m.veto.slice(0, 40)}` : 'no play'}`
       );
     });
+
+  // Player probabilities with the price each one is worth. These are the
+  // model's most reliable output; the fair price is the worst price at which
+  // a bet on it breaks even, so anything shorter is a pass.
+  const fair = (p) => (p <= 0 || p >= 1 ? '-' : p >= 0.5 ? `-${Math.round((100 * p) / (1 - p))}` : `+${Math.round((100 * (1 - p)) / p)}`);
+  const people = results.flatMap((r) =>
+    (r.sim.playerResults ?? []).filter((p) => !p.insufficientData).map((p) => ({ ...p, game: `${r.game.away.code}@${r.game.home.code}` }))
+  );
+  console.log('\n================ PLAYER PROBABILITIES (fair price = break-even) ================');
+  console.log('  DOUBLE-DOUBLE');
+  people.slice().sort((a, b) => b.doubleDouble - a.doubleDouble).slice(0, 10).forEach((p) =>
+    console.log(
+      `    ${pct(p.doubleDouble).padStart(6)}  fair ${fair(p.doubleDouble).padStart(5)}  ${p.player.padEnd(24)} ${p.game.padEnd(9)} ` +
+        `${p.simulatedMeans.points.toFixed(1)}p/${(p.simulatedMeans.rebounds ?? 0).toFixed(1)}r/${(p.simulatedMeans.assists ?? 0).toFixed(1)}a` +
+        `${p.lines ? '  (line-anchored)' : '  (no line posted)'}`
+    )
+  );
+  console.log('  20+ POINTS');
+  people.slice().sort((a, b) => b.pointsAtLeast[20] - a.pointsAtLeast[20]).slice(0, 12).forEach((p) =>
+    console.log(
+      `    ${pct(p.pointsAtLeast[20]).padStart(6)}  fair ${fair(p.pointsAtLeast[20]).padStart(5)}  ${p.player.padEnd(24)} ${p.game.padEnd(9)} ` +
+        `25+ ${pct(p.pointsAtLeast[25])}  30+ ${pct(p.pointsAtLeast[30])}${p.lines?.points != null ? `  (line ${p.lines.points})` : '  (no line posted)'}`
+    )
+  );
 
   console.log('\n================ TOP 5 BY ADJUSTED EDGE ================');
   const all = results.flatMap((r) =>

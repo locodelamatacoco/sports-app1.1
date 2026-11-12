@@ -586,6 +586,48 @@ is not competing with a sharper number. That is its real use. A betting edge,
 if there is one, is more likely to come from shopping the same line across
 books (supported in the lines format) than from the model out-predicting them.
 
+## What the market itself looks like, and what that leaves
+
+`npm run market-structure` grades every posted prop side in the logs — 2,282 of
+them, model or no model:
+
+- **Overs lose.** Every posted over: -6.2% (t -2.2); points overs -8.1%. Every
+  posted under: +1.2%, break-even. The public side is the losing side, and
+  that is the one structural fact here that reaches significance.
+- **At the best price per side the vig is small**: a median 3.5% on two-sided
+  lines, 51 of 587 at 1% or less.
+- **True arbitrage exists but is rare and thin**: 18 lines of 587, +2.4%, and it
+  takes accounts at two books.
+- **Middles lose**: over at one line, under a point higher, bet both: -2.1%.
+  The books price the gap.
+
+Together with the 900-lean verdict above, that is the whole picture: no rule in
+this data beats the book by prediction. The consistent things are what NOT to
+do (moneylines off the model, overs on a hunch, the top of an edge list) and
+shopping the same line across books.
+
+## Player probabilities now lean on posted lines
+
+The model's most-used output — who scores 20, who gets a double-double — was
+running low: 140 twenty-point games expected where 181 happened, short on
+seven nights of seven. Two causes, both fixed:
+
+- **A counting bug.** Points are simulated on a continuous scale and the marks
+  compared the raw draw, so a simulated 19.6 was "not 20". Box scores are whole
+  numbers; marks are now counted on rounded points. Worth about two points of
+  probability on every mark.
+- **The book knows more.** Over 666 player-games with a posted points line, the
+  line alone predicted 10+, 20+ and 25+ far better than the model (20+ log loss
+  0.419 against 0.465, in both halves; the lines implied 175 of the 181). When
+  a line is posted, `anchorPlayerToLines` scales each stat's simulated draws
+  until the median sits `PROP_LINE_ANCHOR` (0.8) of the way to the line and
+  recounts every mark and the double-double from the same draws.
+
+The model's own read is logged beside the anchored one (`modelOnly`) and the
+grader scores both each night, so the lean has to keep earning its place.
+`log-board --report` prints each probability with its fair price: the worst
+price at which a bet on it breaks even.
+
 ## Recent form and streakiness, tested and left out
 
 Two pieces of the original spec — blending a player's recent games and a

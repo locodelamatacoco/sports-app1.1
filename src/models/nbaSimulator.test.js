@@ -25,6 +25,7 @@ import {
   priceShiftedLine,
   anchoredProp,
   distributionMedian,
+  anchorPlayerToLines,
   DOUBLE_DOUBLE_STATS,
   POINTS_THRESHOLDS,
   distributionSummary,
@@ -1268,5 +1269,67 @@ describe('props lean on the book\'s line', () => {
     // points distribution.
     expect(row.simulatedMean).toBeGreaterThan(row.modelMean);
     expect(row.simulatedMean).toBeLessThan(26);
+  });
+});
+
+
+describe('player probabilities lean on posted lines', () => {
+  const rate = {
+    player: 'Lined Scorer', team: 'HOM', games: 8, totalMinutes: 272, minutesPerGame: 34,
+    perMinute: { points: 18 / 34, rebounds: 8 / 34, assists: 4 / 34 },
+    usableSample: true, sampleNote: '8 games',
+  };
+  const run = (lines) =>
+    simulateGame(
+      { ...CLEAN_GAME, players: [{ player: 'Lined Scorer', rate, pace: 100, ...(lines ? { lines } : {}) }] },
+      { numSims: 12000, seed: 51 }
+    ).playerResults[0];
+
+  test('without a line the model stands alone and says so', () => {
+    const r = run(null);
+    expect(r.lines).toBeNull();
+    expect(r.modelOnly).toBeNull();
+  });
+
+  test('a line above the model lifts every scoring mark, and keeps the raw read', () => {
+    const raw = run(null);
+    const lined = run({ points: 23.5 });
+    expect(lined.lines).toEqual({ points: 23.5 });
+    expect(lined.pointsAtLeast[20]).toBeGreaterThan(raw.pointsAtLeast[20] + 0.1);
+    expect(lined.simulatedMeans.points).toBeGreaterThan(raw.simulatedMeans.points);
+    // The untouched model is kept beside it so the lean can be graded.
+    expect(lined.modelOnly.pointsAtLeast[20]).toBeCloseTo(raw.pointsAtLeast[20], 10);
+    // A stat with no line is left exactly as simulated.
+    expect(lined.atLeastTen.rebounds).toBeCloseTo(raw.atLeastTen.rebounds, 10);
+  });
+
+  test('a rebound line moves the double-double with it', () => {
+    const raw = run(null);
+    const lined = run({ rebounds: 10.5 });
+    expect(lined.atLeastTen.rebounds).toBeGreaterThan(raw.atLeastTen.rebounds);
+    expect(lined.doubleDouble).toBeGreaterThan(raw.doubleDouble);
+    expect(lined.tripleDouble).toBeLessThanOrEqual(lined.doubleDouble);
+  });
+
+  test('the median lands the anchor share of the way to the line', () => {
+    const n = 4000;
+    const draws = { points: Float32Array.from({ length: n }, (_, i) => 10 + (i % 21)) }; // 10..30, median 20
+    const out = anchorPlayerToLines(draws, n, { points: 25 }, { simulatedMeans: {} });
+    const target = 20 + MODEL_CONSTANTS.PROP_LINE_ANCHOR * 5;
+    expect(distributionMedian(out.pointsDist, n)).toBeGreaterThan(target - 0.8);
+    expect(distributionMedian(out.pointsDist, n)).toBeLessThan(target + 0.8);
+  });
+
+  test('no usable line means no anchoring', () => {
+    const draws = { points: new Float32Array(100).fill(12) };
+    expect(anchorPlayerToLines(draws, 100, { rebounds: 5.5 }, { simulatedMeans: {} })).toBeNull();
+    expect(anchorPlayerToLines(draws, 100, null, { simulatedMeans: {} })).toBeNull();
+  });
+
+  test('a simulated 19.6 counts as a 20-point game', () => {
+    // Marks are counted on whole points, as a box score would show them.
+    const r = run(null);
+    const fromDist = [...r.pointsDist.entries()].filter(([v]) => v >= 20).reduce((a, [, c]) => a + c, 0) / r.samples;
+    expect(r.pointsAtLeast[20]).toBeCloseTo(fromDist, 10);
   });
 });

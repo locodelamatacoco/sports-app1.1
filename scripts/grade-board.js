@@ -211,6 +211,9 @@ async function main() {
           ddProb: p.doubleDouble,
           ddHit: tens >= 2,
           p20Prob: p.pointsAtLeast?.['20'] ?? p.pointsAtLeast?.[20] ?? null,
+          // The model's own read before it leaned on a posted line, if it did.
+          p20Model: p.modelOnly?.twentyPlus ?? null,
+          ddModel: p.modelOnly?.doubleDouble ?? null,
           p20Hit: (line.points ?? 0) >= 20,
           actual: line,
           projected: p.projected,
@@ -283,6 +286,18 @@ async function main() {
 
     score('double-double', playerBuckets, (r) => r.ddProb, (r) => r.ddHit);
     score('20+ points', playerBuckets, (r) => r.p20Prob, (r) => r.p20Hit);
+
+    // Where a line was posted the published number leans on it. Score that
+    // against the model's own read for the same players, so the lean keeps
+    // having to earn its place.
+    const lined = playerBuckets.filter((r) => r.p20Model != null);
+    if (lined.length >= 20) {
+      console.log(`  players with a posted line (${lined.length}):`);
+      score('  20+ with the line', lined, (r) => r.p20Prob, (r) => r.p20Hit);
+      score('  20+ model alone', lined, (r) => r.p20Model, (r) => r.p20Hit);
+      score('  DD with the line', lined, (r) => r.ddProb, (r) => r.ddHit);
+      score('  DD model alone', lined, (r) => r.ddModel, (r) => r.ddHit);
+    }
   }
 
   console.log('\nCALLED SHOTS (rows published in chat as bets)');
