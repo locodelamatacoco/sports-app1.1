@@ -1,0 +1,1379 @@
+{
+ "slateDate": "2026-11-12",
+ "source": "scoresandodds.com/nba/props (points) and /nba/props/rebounds",
+ "fetchedAt": "2026-11-12T17:55Z",
+ "note": "Best available price per side, often from different books. A side shown with a price but no line is not recorded. Assists not taken.",
+ "lines": [
+  {
+   "player": "Devin Booker",
+   "stat": "points",
+   "over": {
+    "line": 24.5,
+    "price": -115
+   },
+   "under": {
+    "line": 24.5,
+    "price": -105
+   }
+  },
+  {
+   "player": "Tyrese Maxey",
+   "stat": "points",
+   "over": {
+    "line": 23.5,
+    "price": -122
+   },
+   "under": {
+    "line": 24.5,
+    "price": -110
+   }
+  },
+  {
+   "player": "Cade Cunningham",
+   "stat": "points",
+   "over": {
+    "line": 24.5,
+    "price": -109
+   },
+   "under": {
+    "line": 24.5,
+    "price": 100
+   }
+  },
+  {
+   "player": "Cooper Flagg",
+   "stat": "points",
+   "over": {
+    "line": 23.5,
+    "price": -115
+   },
+   "under": {
+    "line": 24.5,
+    "price": -118
+   }
+  },
+  {
+   "player": "Jaylen Brown",
+   "stat": "points",
+   "over": {
+    "line": 21.5,
+    "price": -122
+   },
+   "under": {
+    "line": 22.5,
+    "price": -110
+   }
+  },
+  {
+   "player": "RJ Barrett",
+   "stat": "points",
+   "over": {
+    "line": 21.5,
+    "price": -120
+   },
+   "under": {
+    "line": 22.5,
+    "price": -120
+   }
+  },
+  {
+   "player": "Kyrie Irving",
+   "stat": "points",
+   "over": {
+    "line": 21.5,
+    "price": -115
+   },
+   "under": {
+    "line": 22.5,
+    "price": -120
+   }
+  },
+  {
+   "player": "Anthony Davis",
+   "stat": "points",
+   "over": {
+    "line": 22.5,
+    "price": -105
+   },
+   "under": {
+    "line": 22.5,
+    "price": -105
+   }
+  },
+  {
+   "player": "Naz Reid",
+   "stat": "points",
+   "over": {
+    "line": 19.5,
+    "price": -160
+   },
+   "under": {
+    "line": 21.5,
+    "price": -110
+   }
+  },
+  {
+   "player": "LaMelo Ball",
+   "stat": "points",
+   "over": {
+    "line": 19.5,
+    "price": -125
+   },
+   "under": {
+    "line": 20.5,
+    "price": -110
+   }
+  },
+  {
+   "player": "Joel Embiid",
+   "stat": "points",
+   "over": {
+    "line": 18.5,
+    "price": -115
+   },
+   "under": {
+    "line": 20.5,
+    "price": -121
+   }
+  },
+  {
+   "player": "Scottie Barnes",
+   "stat": "points",
+   "over": {
+    "line": 19.5,
+    "price": -115
+   },
+   "under": {
+    "line": 19.5,
+    "price": -110
+   }
+  },
+  {
+   "player": "Ayo Dosunmu",
+   "stat": "points",
+   "over": {
+    "line": 17.5,
+    "price": -125
+   },
+   "under": {
+    "line": 18.5,
+    "price": -115
+   }
+  },
+  {
+   "player": "Grayson Allen",
+   "stat": "points",
+   "over": {
+    "line": 17.5,
+    "price": -105
+   },
+   "under": {
+    "line": 17.5,
+    "price": -104
+   }
+  },
+  {
+   "player": "Jaden McDaniels",
+   "stat": "points",
+   "over": {
+    "line": 16.5,
+    "price": -115
+   },
+   "under": {
+    "line": 17.5,
+    "price": -132
+   }
+  },
+  {
+   "player": "LeBron James",
+   "stat": "points",
+   "over": {
+    "line": 16.5,
+    "price": 100
+   },
+   "under": {
+    "line": 16.5,
+    "price": -120
+   }
+  },
+  {
+   "player": "Trae Young",
+   "stat": "points",
+   "over": {
+    "line": 16.5,
+    "price": -104
+   },
+   "under": {
+    "line": 16.5,
+    "price": -118
+   }
+  },
+  {
+   "player": "Miles Bridges",
+   "stat": "points",
+   "over": {
+    "line": 14.5,
+    "price": -155
+   },
+   "under": {
+    "line": 15.5,
+    "price": -102
+   }
+  },
+  {
+   "player": "AJ Dybantsa",
+   "stat": "points",
+   "over": {
+    "line": 15.5,
+    "price": -125
+   },
+   "under": {
+    "line": 16.5,
+    "price": -120
+   }
+  },
+  {
+   "player": "Immanuel Quickley",
+   "stat": "points",
+   "over": {
+    "line": 15.5,
+    "price": -105
+   },
+   "under": {
+    "line": 15.5,
+    "price": -110
+   }
+  },
+  {
+   "player": "Duncan Robinson",
+   "stat": "points",
+   "over": {
+    "line": 15.5,
+    "price": -109
+   },
+   "under": {
+    "line": 15.5,
+    "price": -112
+   }
+  },
+  {
+   "player": "Daniss Jenkins",
+   "stat": "points",
+   "over": {
+    "line": 13.5,
+    "price": -140
+   },
+   "under": {
+    "line": 14.5,
+    "price": -110
+   }
+  },
+  {
+   "player": "Dillon Brooks",
+   "stat": "points",
+   "over": {
+    "line": 14.5,
+    "price": -107
+   },
+   "under": {
+    "line": 14.5,
+    "price": -100
+   }
+  },
+  {
+   "player": "Kyshawn George",
+   "stat": "points",
+   "over": {
+    "line": 13.5,
+    "price": -130
+   },
+   "under": {
+    "line": 14.5,
+    "price": -122
+   }
+  },
+  {
+   "player": "Coby White",
+   "stat": "points",
+   "over": {
+    "line": 13.5,
+    "price": -128
+   },
+   "under": {
+    "line": 14.5,
+    "price": -125
+   }
+  },
+  {
+   "player": "Jonathan Kuminga",
+   "stat": "points",
+   "over": {
+    "line": 13.5,
+    "price": -105
+   },
+   "under": {
+    "line": 13.5,
+    "price": -102
+   }
+  },
+  {
+   "player": "VJ Edgecombe",
+   "stat": "points",
+   "over": {
+    "line": 12.5,
+    "price": -135
+   },
+   "under": {
+    "line": 13.5,
+    "price": -109
+   }
+  },
+  {
+   "player": "Jalen Green",
+   "stat": "points",
+   "over": {
+    "line": 13.5,
+    "price": -102
+   },
+   "under": {
+    "line": 13.5,
+    "price": -108
+   }
+  },
+  {
+   "player": "P.J. Washington",
+   "stat": "points",
+   "over": {
+    "line": 12.5,
+    "price": -120
+   },
+   "under": {
+    "line": 13.5,
+    "price": -132
+   }
+  },
+  {
+   "player": "John Collins",
+   "stat": "points",
+   "over": {
+    "line": 12.5,
+    "price": -104
+   },
+   "under": {
+    "line": 12.5,
+    "price": 100
+   }
+  },
+  {
+   "player": "Collin Murray-Boyles",
+   "stat": "points",
+   "over": {
+    "line": 10.5,
+    "price": -125
+   },
+   "under": {
+    "line": 11.5,
+    "price": -116
+   }
+  },
+  {
+   "player": "Ja'Kobe Walter",
+   "stat": "points",
+   "over": {
+    "line": 10.5,
+    "price": -111
+   },
+   "under": {
+    "line": 10.5,
+    "price": 100
+   }
+  },
+  {
+   "player": "Jakob Poeltl",
+   "stat": "points",
+   "over": {
+    "line": 10.5,
+    "price": 105
+   },
+   "under": {
+    "line": 10.5,
+    "price": -103
+   }
+  },
+  {
+   "player": "Ausar Thompson",
+   "stat": "points",
+   "over": {
+    "line": 10.5,
+    "price": -105
+   },
+   "under": {
+    "line": 10.5,
+    "price": -112
+   }
+  },
+  {
+   "player": "Paul Reed",
+   "stat": "points",
+   "over": {
+    "line": 10.5,
+    "price": 100
+   },
+   "under": {
+    "line": 10.5,
+    "price": -105
+   }
+  },
+  {
+   "player": "Kevin Huerter",
+   "stat": "points",
+   "over": {
+    "line": 9.5,
+    "price": -130
+   },
+   "under": {
+    "line": 10.5,
+    "price": -125
+   }
+  },
+  {
+   "player": "Naji Marshall",
+   "stat": "points",
+   "over": {
+    "line": 9.5,
+    "price": -110
+   },
+   "under": {
+    "line": 9.5,
+    "price": -106
+   }
+  },
+  {
+   "player": "Terrence Shannon",
+   "stat": "points",
+   "over": {
+    "line": 9.5,
+    "price": 100
+   },
+   "under": {
+    "line": 9.5,
+    "price": -108
+   }
+  },
+  {
+   "player": "Alex Sarr",
+   "stat": "points",
+   "over": {
+    "line": 9.5,
+    "price": 100
+   },
+   "under": {
+    "line": 9.5,
+    "price": -110
+   }
+  },
+  {
+   "player": "Tre Johnson",
+   "stat": "points",
+   "over": {
+    "line": 9.5,
+    "price": -110
+   },
+   "under": {
+    "line": 9.5,
+    "price": -112
+   }
+  },
+  {
+   "player": "Rudy Gobert",
+   "stat": "points",
+   "over": {
+    "line": 9.5,
+    "price": 100
+   },
+   "under": {
+    "line": 9.5,
+    "price": -117
+   }
+  },
+  {
+   "player": "Moussa Diabate",
+   "stat": "points",
+   "over": {
+    "line": 7.5,
+    "price": -135
+   },
+   "under": {
+    "line": 8.5,
+    "price": -112
+   }
+  },
+  {
+   "player": "Collin Gillespie",
+   "stat": "points",
+   "over": {
+    "line": 8.5,
+    "price": 102
+   },
+   "under": {
+    "line": 8.5,
+    "price": -115
+   }
+  },
+  {
+   "player": "Daniel Gafford",
+   "stat": "points",
+   "over": {
+    "line": 7.5,
+    "price": -175
+   },
+   "under": {
+    "line": 8.5,
+    "price": -120
+   }
+  },
+  {
+   "player": "Sion James",
+   "stat": "points",
+   "over": {
+    "line": 7.5,
+    "price": -115
+   },
+   "under": {
+    "line": 8.5,
+    "price": -138
+   }
+  },
+  {
+   "player": "Christian Anderson",
+   "stat": "points",
+   "over": {
+    "line": 7.5,
+    "price": -125
+   },
+   "under": {
+    "line": 7.5,
+    "price": 100
+   }
+  },
+  {
+   "player": "Jordan Goodwin",
+   "stat": "points",
+   "over": {
+    "line": 6.5,
+    "price": -134
+   },
+   "under": {
+    "line": 7.5,
+    "price": -120
+   }
+  },
+  {
+   "player": "Santi Aldama",
+   "stat": "points",
+   "over": {
+    "line": 7.5,
+    "price": 102
+   },
+   "under": {
+    "line": 7.5,
+    "price": -110
+   }
+  },
+  {
+   "player": "Bilal Coulibaly",
+   "stat": "points",
+   "over": {
+    "line": 6.5,
+    "price": -125
+   },
+   "under": {
+    "line": 7.5,
+    "price": -125
+   }
+  },
+  {
+   "player": "Morez Johnson",
+   "stat": "points",
+   "over": {
+    "line": 6.5,
+    "price": -120
+   },
+   "under": {
+    "line": 6.5,
+    "price": -105
+   }
+  },
+  {
+   "player": "Royce O'Neale",
+   "stat": "points",
+   "over": {
+    "line": 6.5,
+    "price": -105
+   },
+   "under": {
+    "line": 7.5,
+    "price": -140
+   }
+  },
+  {
+   "player": "Khaman Maluach",
+   "stat": "points",
+   "over": {
+    "line": 6.5,
+    "price": -105
+   },
+   "under": {
+    "line": 6.5,
+    "price": -112
+   }
+  },
+  {
+   "player": "Trey Lyles",
+   "stat": "points",
+   "over": {
+    "line": 6.5,
+    "price": 102
+   },
+   "under": {
+    "line": 6.5,
+    "price": -130
+   }
+  },
+  {
+   "player": "Oso Ighodaro",
+   "stat": "points",
+   "over": {
+    "line": 6.5,
+    "price": 108
+   },
+   "under": {
+    "line": 6.5,
+    "price": -105
+   }
+  },
+  {
+   "player": "Ryan Dunn",
+   "stat": "points",
+   "over": {
+    "line": 5.5,
+    "price": -125
+   },
+   "under": {
+    "line": 5.5,
+    "price": 100
+   }
+  },
+  {
+   "player": "Zaccharie Risacher",
+   "stat": "points",
+   "over": {
+    "line": 5.5,
+    "price": -125
+   },
+   "under": {
+    "line": 5.5,
+    "price": 100
+   }
+  },
+  {
+   "player": "Ryan Kalkbrenner",
+   "stat": "points",
+   "over": null,
+   "under": {
+    "line": 5.5,
+    "price": -114
+   }
+  },
+  {
+   "player": "Jaylen Clark",
+   "stat": "points",
+   "over": {
+    "line": 5.5,
+    "price": 110
+   },
+   "under": {
+    "line": 5.5,
+    "price": -140
+   }
+  },
+  {
+   "player": "Joan Beringer",
+   "stat": "points",
+   "over": {
+    "line": 4.5,
+    "price": -112
+   },
+   "under": {
+    "line": 4.5,
+    "price": -112
+   }
+  },
+  {
+   "player": "Caleb Martin",
+   "stat": "points",
+   "over": null,
+   "under": {
+    "line": 3.5,
+    "price": 100
+   }
+  },
+  {
+   "player": "Rudy Gobert",
+   "stat": "rebounds",
+   "over": {
+    "line": 10.5,
+    "price": -125
+   },
+   "under": {
+    "line": 11.5,
+    "price": -130
+   }
+  },
+  {
+   "player": "Anthony Davis",
+   "stat": "rebounds",
+   "over": {
+    "line": 9.5,
+    "price": -155
+   },
+   "under": {
+    "line": 10.5,
+    "price": -120
+   }
+  },
+  {
+   "player": "Moussa Diabate",
+   "stat": "rebounds",
+   "over": {
+    "line": 8.5,
+    "price": -115
+   },
+   "under": {
+    "line": 9.5,
+    "price": -144
+   }
+  },
+  {
+   "player": "Joel Embiid",
+   "stat": "rebounds",
+   "over": {
+    "line": 8.5,
+    "price": 104
+   },
+   "under": {
+    "line": 8.5,
+    "price": -115
+   }
+  },
+  {
+   "player": "Naz Reid",
+   "stat": "rebounds",
+   "over": {
+    "line": 8.5,
+    "price": 112
+   },
+   "under": {
+    "line": 8.5,
+    "price": -135
+   }
+  },
+  {
+   "player": "Jakob Poeltl",
+   "stat": "rebounds",
+   "over": {
+    "line": 7.5,
+    "price": -115
+   },
+   "under": {
+    "line": 7.5,
+    "price": 105
+   }
+  },
+  {
+   "player": "John Collins",
+   "stat": "rebounds",
+   "over": {
+    "line": 6.5,
+    "price": -125
+   },
+   "under": {
+    "line": 7.5,
+    "price": -148
+   }
+  },
+  {
+   "player": "Paul Reed",
+   "stat": "rebounds",
+   "over": {
+    "line": 6.5,
+    "price": -145
+   },
+   "under": {
+    "line": 7.5,
+    "price": -136
+   }
+  },
+  {
+   "player": "Ausar Thompson",
+   "stat": "rebounds",
+   "over": {
+    "line": 6.5,
+    "price": -142
+   },
+   "under": {
+    "line": 7.5,
+    "price": -141
+   }
+  },
+  {
+   "player": "Alex Sarr",
+   "stat": "rebounds",
+   "over": {
+    "line": 6.5,
+    "price": -130
+   },
+   "under": {
+    "line": 7.5,
+    "price": -128
+   }
+  },
+  {
+   "player": "LeBron James",
+   "stat": "rebounds",
+   "over": {
+    "line": 6.5,
+    "price": -125
+   },
+   "under": {
+    "line": 6.5,
+    "price": 110
+   }
+  },
+  {
+   "player": "Miles Bridges",
+   "stat": "rebounds",
+   "over": {
+    "line": 6.5,
+    "price": -105
+   },
+   "under": {
+    "line": 6.5,
+    "price": -105
+   }
+  },
+  {
+   "player": "Scottie Barnes",
+   "stat": "rebounds",
+   "over": {
+    "line": 6.5,
+    "price": -105
+   },
+   "under": {
+    "line": 6.5,
+    "price": -115
+   }
+  },
+  {
+   "player": "P.J. Washington",
+   "stat": "rebounds",
+   "over": {
+    "line": 6.5,
+    "price": 105
+   },
+   "under": {
+    "line": 6.5,
+    "price": -105
+   }
+  },
+  {
+   "player": "Jaylen Brown",
+   "stat": "rebounds",
+   "over": {
+    "line": 6.5,
+    "price": 115
+   },
+   "under": {
+    "line": 6.5,
+    "price": -128
+   }
+  },
+  {
+   "player": "Cooper Flagg",
+   "stat": "rebounds",
+   "over": {
+    "line": 6.5,
+    "price": 105
+   },
+   "under": {
+    "line": 6.5,
+    "price": -125
+   }
+  },
+  {
+   "player": "VJ Edgecombe",
+   "stat": "rebounds",
+   "over": {
+    "line": 5.5,
+    "price": -130
+   },
+   "under": {
+    "line": 5.5,
+    "price": 114
+   }
+  },
+  {
+   "player": "RJ Barrett",
+   "stat": "rebounds",
+   "over": {
+    "line": 5.5,
+    "price": -115
+   },
+   "under": {
+    "line": 5.5,
+    "price": 110
+   }
+  },
+  {
+   "player": "Cade Cunningham",
+   "stat": "rebounds",
+   "over": {
+    "line": 5.5,
+    "price": 102
+   },
+   "under": {
+    "line": 5.5,
+    "price": -111
+   }
+  },
+  {
+   "player": "Khaman Maluach",
+   "stat": "rebounds",
+   "over": {
+    "line": 5.5,
+    "price": 102
+   },
+   "under": {
+    "line": 5.5,
+    "price": -115
+   }
+  },
+  {
+   "player": "AJ Dybantsa",
+   "stat": "rebounds",
+   "over": {
+    "line": 5.5,
+    "price": -105
+   },
+   "under": {
+    "line": 5.5,
+    "price": -110
+   }
+  },
+  {
+   "player": "Daniel Gafford",
+   "stat": "rebounds",
+   "over": {
+    "line": 5.5,
+    "price": -109
+   },
+   "under": {
+    "line": 5.5,
+    "price": -105
+   }
+  },
+  {
+   "player": "Oso Ighodaro",
+   "stat": "rebounds",
+   "over": {
+    "line": 4.5,
+    "price": -150
+   },
+   "under": {
+    "line": 5.5,
+    "price": -126
+   }
+  },
+  {
+   "player": "Jonathan Kuminga",
+   "stat": "rebounds",
+   "over": {
+    "line": 5.5,
+    "price": 105
+   },
+   "under": {
+    "line": 5.5,
+    "price": -114
+   }
+  },
+  {
+   "player": "Jaden McDaniels",
+   "stat": "rebounds",
+   "over": {
+    "line": 5.5,
+    "price": 115
+   },
+   "under": {
+    "line": 5.5,
+    "price": -131
+   }
+  },
+  {
+   "player": "Collin Murray-Boyles",
+   "stat": "rebounds",
+   "over": {
+    "line": 5.5,
+    "price": 120
+   },
+   "under": {
+    "line": 5.5,
+    "price": -128
+   }
+  },
+  {
+   "player": "Morez Johnson",
+   "stat": "rebounds",
+   "over": {
+    "line": 4.5,
+    "price": -140
+   },
+   "under": {
+    "line": 4.5,
+    "price": 110
+   }
+  },
+  {
+   "player": "Kyshawn George",
+   "stat": "rebounds",
+   "over": {
+    "line": 4.5,
+    "price": -105
+   },
+   "under": {
+    "line": 4.5,
+    "price": -112
+   }
+  },
+  {
+   "player": "Joan Beringer",
+   "stat": "rebounds",
+   "over": {
+    "line": 4.5,
+    "price": -105
+   },
+   "under": {
+    "line": 4.5,
+    "price": -120
+   }
+  },
+  {
+   "player": "Trey Lyles",
+   "stat": "rebounds",
+   "over": {
+    "line": 4.5,
+    "price": -105
+   },
+   "under": {
+    "line": 4.5,
+    "price": -120
+   }
+  },
+  {
+   "player": "Ryan Kalkbrenner",
+   "stat": "rebounds",
+   "over": null,
+   "under": {
+    "line": 4.5,
+    "price": -125
+   }
+  },
+  {
+   "player": "Ryan Dunn",
+   "stat": "rebounds",
+   "over": {
+    "line": 4.5,
+    "price": 102
+   },
+   "under": {
+    "line": 4.5,
+    "price": -130
+   }
+  },
+  {
+   "player": "Ayo Dosunmu",
+   "stat": "rebounds",
+   "over": {
+    "line": 4.5,
+    "price": 110
+   },
+   "under": {
+    "line": 4.5,
+    "price": -122
+   }
+  },
+  {
+   "player": "Sion James",
+   "stat": "rebounds",
+   "over": {
+    "line": 3.5,
+    "price": -125
+   },
+   "under": {
+    "line": 3.5,
+    "price": 114
+   }
+  },
+  {
+   "player": "LaMelo Ball",
+   "stat": "rebounds",
+   "over": {
+    "line": 3.5,
+    "price": -146
+   },
+   "under": {
+    "line": 3.5,
+    "price": 125
+   }
+  },
+  {
+   "player": "Ja'Kobe Walter",
+   "stat": "rebounds",
+   "over": {
+    "line": 3.5,
+    "price": -135
+   },
+   "under": {
+    "line": 3.5,
+    "price": 118
+   }
+  },
+  {
+   "player": "Jalen Green",
+   "stat": "rebounds",
+   "over": {
+    "line": 3.5,
+    "price": -112
+   },
+   "under": {
+    "line": 3.5,
+    "price": 103
+   }
+  },
+  {
+   "player": "Santi Aldama",
+   "stat": "rebounds",
+   "over": {
+    "line": 3.5,
+    "price": -115
+   },
+   "under": {
+    "line": 3.5,
+    "price": 102
+   }
+  },
+  {
+   "player": "Dillon Brooks",
+   "stat": "rebounds",
+   "over": {
+    "line": 3.5,
+    "price": 100
+   },
+   "under": {
+    "line": 3.5,
+    "price": -112
+   }
+  },
+  {
+   "player": "Tyrese Maxey",
+   "stat": "rebounds",
+   "over": {
+    "line": 3.5,
+    "price": -115
+   },
+   "under": {
+    "line": 3.5,
+    "price": 102
+   }
+  },
+  {
+   "player": "Kevin Huerter",
+   "stat": "rebounds",
+   "over": {
+    "line": 3.5,
+    "price": -112
+   },
+   "under": {
+    "line": 3.5,
+    "price": -112
+   }
+  },
+  {
+   "player": "Royce O'Neale",
+   "stat": "rebounds",
+   "over": {
+    "line": 3.5,
+    "price": -105
+   },
+   "under": {
+    "line": 3.5,
+    "price": -112
+   }
+  },
+  {
+   "player": "Daniss Jenkins",
+   "stat": "rebounds",
+   "over": {
+    "line": 3.5,
+    "price": 105
+   },
+   "under": {
+    "line": 3.5,
+    "price": -121
+   }
+  },
+  {
+   "player": "Immanuel Quickley",
+   "stat": "rebounds",
+   "over": {
+    "line": 3.5,
+    "price": 105
+   },
+   "under": {
+    "line": 3.5,
+    "price": -114
+   }
+  },
+  {
+   "player": "Kyrie Irving",
+   "stat": "rebounds",
+   "over": {
+    "line": 3.5,
+    "price": 105
+   },
+   "under": {
+    "line": 3.5,
+    "price": -120
+   }
+  },
+  {
+   "player": "Bilal Coulibaly",
+   "stat": "rebounds",
+   "over": {
+    "line": 3.5,
+    "price": 110
+   },
+   "under": {
+    "line": 3.5,
+    "price": -135
+   }
+  },
+  {
+   "player": "Grayson Allen",
+   "stat": "rebounds",
+   "over": {
+    "line": 3.5,
+    "price": 125
+   },
+   "under": {
+    "line": 3.5,
+    "price": -148
+   }
+  },
+  {
+   "player": "Jordan Goodwin",
+   "stat": "rebounds",
+   "over": {
+    "line": 2.5,
+    "price": -160
+   },
+   "under": {
+    "line": 3.5,
+    "price": -155
+   }
+  },
+  {
+   "player": "Devin Booker",
+   "stat": "rebounds",
+   "over": {
+    "line": 2.5,
+    "price": -175
+   },
+   "under": {
+    "line": 3.5,
+    "price": -161
+   }
+  },
+  {
+   "player": "Naji Marshall",
+   "stat": "rebounds",
+   "over": {
+    "line": 2.5,
+    "price": -155
+   },
+   "under": {
+    "line": 3.5,
+    "price": -145
+   }
+  },
+  {
+   "player": "Zaccharie Risacher",
+   "stat": "rebounds",
+   "over": {
+    "line": 2.5,
+    "price": -105
+   },
+   "under": {
+    "line": 2.5,
+    "price": -120
+   }
+  },
+  {
+   "player": "Christian Anderson",
+   "stat": "rebounds",
+   "over": {
+    "line": 2.5,
+    "price": 100
+   },
+   "under": {
+    "line": 2.5,
+    "price": -125
+   }
+  },
+  {
+   "player": "Tre Johnson",
+   "stat": "rebounds",
+   "over": {
+    "line": 2.5,
+    "price": 125
+   },
+   "under": {
+    "line": 2.5,
+    "price": -160
+   }
+  },
+  {
+   "player": "Jaylen Clark",
+   "stat": "rebounds",
+   "over": {
+    "line": 2.5,
+    "price": 135
+   },
+   "under": {
+    "line": 2.5,
+    "price": -170
+   }
+  },
+  {
+   "player": "Terrence Shannon",
+   "stat": "rebounds",
+   "over": {
+    "line": 2.5,
+    "price": 135
+   },
+   "under": {
+    "line": 2.5,
+    "price": -170
+   }
+  }
+ ]
+}
