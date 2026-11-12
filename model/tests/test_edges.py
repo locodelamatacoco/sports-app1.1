@@ -184,3 +184,52 @@ def test_half_point_line_cannot_push():
     from nfl_model import odds as odds_math
     naive = odds_math.ev_per_dollar(home["model_prob"], home["book_odds"])
     assert abs(home["ev"] - naive) < 1e-9
+
+
+# --- honest gate ---------------------------------------------------------------
+def _honest_game():
+    return {"home_team": "PHI", "away_team": "NYG", "spread_line": -3.0,
+            "home_spread_odds": -110, "away_spread_odds": -110}
+
+
+def test_honest_gate_turns_an_overclaimed_pick_into_a_lean():
+    from nfl_model import edges
+    raw = edges.analyze_game(_honest_game(), 1.0, 12.9)
+    assert raw["bestBet"]["label"] == "PHI +3"          # the raw model bets it
+    g = edges.analyze_game(_honest_game(), 1.0, 12.9, market_trust=0.2)
+    assert g["honestMargin"] == pytest.approx(-3.0 + 0.2 * 4.0)
+    # A 4-point disagreement worth 0.8 honest points does not clear the gate...
+    assert g["bestBet"] is None and g["valueBets"] == []
+    # ...but the game still reports the lean, with both numbers.
+    lean = g["lean"]
+    assert lean["label"] == "PHI +3"
+    assert 0.5 < lean["model_prob"] < lean["claimed_prob"]
+    assert lean["claimed_prob"] == pytest.approx(raw["bestBet"]["model_prob"])
+    # The sims and projection stay the raw model's view.
+    assert g["projectedMargin"] == raw["projectedMargin"]
+    assert g["sim"]["homeWin"] == raw["sim"]["homeWin"]
+
+
+def test_a_big_enough_disagreement_still_bets_on_the_honest_number():
+    from nfl_model import edges
+    g = edges.analyze_game(_honest_game(), 12.0, 12.9, market_trust=0.2)   # 15 pts apart
+    best = g["bestBet"]
+    assert best is not None and best["label"] == "PHI +3" and best["qualifies"]
+    assert best["edge"] >= edges.required_edge(best["book_odds"])
+    assert best["claimed_prob"] > best["model_prob"]
+
+
+def test_full_trust_is_the_raw_model():
+    from nfl_model import edges
+    a = edges.analyze_game(_honest_game(), 1.0, 12.9)["bestBet"]
+    b = edges.analyze_game(_honest_game(), 1.0, 12.9, market_trust=1.0)["bestBet"]
+    assert b["model_prob"] == pytest.approx(a["model_prob"]) == pytest.approx(b["claimed_prob"])
+    assert a["claimed_prob"] is None
+
+
+def test_lean_follows_the_raw_projection():
+    from nfl_model import edges
+    assert edges.analyze_game(_honest_game(), -6.0, 12.9, market_trust=0.2)["lean"]["label"] == "NYG -3"
+    for pred in (-9.0, -3.0, -2.0, 0.0, 4.0):
+        lean = edges.analyze_game(_honest_game(), pred, 12.9, market_trust=0.2)["lean"]
+        assert lean is None or lean["claimed_prob"] > 0.5      # the lean is always the likelier side

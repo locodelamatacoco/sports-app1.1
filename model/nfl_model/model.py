@@ -38,6 +38,9 @@ class MarginModel:
     cv_rmse: float
     coefficients: dict = field(default_factory=dict)
     calibration: float = 1.0
+    # Share of the model's disagreement with the closing line that actually
+    # shows up in results, measured out-of-fold (see ``_fit_market_trust``).
+    market_trust: float = 1.0
 
     def predict_margin(self, frame: pd.DataFrame) -> np.ndarray:
         """Projected home margin, rescaled so the projection is unbiased."""
@@ -116,6 +119,39 @@ def _fit_calibration(X: np.ndarray, y: np.ndarray, alpha: float,
     return float(np.clip(1.0 / slope, 0.9, 1.4))
 
 
+def _fit_market_trust(X: np.ndarray, y: np.ndarray, alpha: float,
+                      line: Optional[np.ndarray], calibration: float) -> float:
+    """How much of the model's disagreement with the market is real.
+
+    The model's stated cover probabilities take its whole disagreement with
+    the line at face value. Measured walk-forward over 2015-2026, the picks it
+    flagged claimed to win 60.8% and won 51.4%: only about a fifth of the gap
+    between projection and line shows up in the final margin.
+
+    This is that fraction, ``b`` in ``actual - line = b * (projection - line)``,
+    fit through the origin on OUT-OF-FOLD projections (time-ordered folds, so
+    every projection is from a model that had not seen the game). An honest
+    projection is then ``line + b * (projection - line)``. Clipped to [0, 1];
+    1.0 (take the model at its word) when there are no lines to measure against.
+    """
+    if line is None:
+        return 1.0
+    n_splits = min(5, max(2, len(y) // 60))
+    num = den = 0.0
+    for train_idx, test_idx in TimeSeriesSplit(n_splits=n_splits).split(X):
+        pipe = Pipeline([("scale", StandardScaler()), ("ridge", Ridge(alpha=alpha))])
+        pipe.fit(X[train_idx], y[train_idx])
+        pred = pipe.predict(X[test_idx]) * calibration
+        ln = line[test_idx]
+        keep = np.isfinite(ln)
+        dis, resid = pred[keep] - ln[keep], y[test_idx][keep] - ln[keep]
+        num += float(dis @ resid)
+        den += float(dis @ dis)
+    if den <= 0:
+        return 1.0
+    return float(np.clip(num / den, 0.0, 1.0))
+
+
 def train_margin_model(
     train: pd.DataFrame,
     alpha: Optional[float] = None,
@@ -152,6 +188,7 @@ def train_margin_model(
     line = (frame["spread_line"].to_numpy(dtype=float)
             if "spread_line" in frame.columns else None)
     calibration = _fit_calibration(X, y, alpha, line)
+    market_trust = _fit_market_trust(X, y, alpha, line, calibration)
 
     ridge: Ridge = pipeline.named_steps["ridge"]
     coefficients = dict(zip(feature_columns, (float(c) for c in ridge.coef_)))
@@ -166,4 +203,5 @@ def train_margin_model(
         cv_rmse=float(cv_rmse),
         coefficients=coefficients,
         calibration=calibration,
+        market_trust=market_trust,
     )

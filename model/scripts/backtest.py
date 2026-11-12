@@ -50,6 +50,9 @@ def parse_args() -> argparse.Namespace:
     p.add_argument("--week", type=int, default=None, help="Restrict grading to one week.")
     p.add_argument("--min-train", type=int, default=500,
                    help="Skip a season unless this many prior games exist (default 500).")
+    p.add_argument("--raw", action="store_true",
+                   help="Gate on the raw projection (the pre-fix behaviour) instead of "
+                        "the honest, market-shrunk one the live run uses.")
     return p.parse_args()
 
 
@@ -96,7 +99,9 @@ def run_backtest(args: argparse.Namespace) -> pd.DataFrame:
         model = train_margin_model(train)
         preds = model.predict_margin(test)
         for pred, (_, row) in zip(preds, test.iterrows()):
-            analysis = edge_mod.analyze_game(row.to_dict(), float(pred), model.sigma)
+            analysis = edge_mod.analyze_game(
+                row.to_dict(), float(pred), model.sigma,
+                market_trust=None if args.raw else model.market_trust)
             for wager in analysis["valueBets"]:
                 profit = grade(wager, row)
                 if profit is None:

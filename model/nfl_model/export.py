@@ -44,7 +44,8 @@ def build_payload(model: MarginModel, slate: pd.DataFrame, source: str) -> dict:
     preds = model.predict_margin(slate)
     games = []
     for pred, (_, row) in zip(preds, slate.iterrows()):
-        games.append(edge_mod.analyze_game(row.to_dict(), float(pred), model.sigma))
+        games.append(edge_mod.analyze_game(row.to_dict(), float(pred), model.sigma,
+                                           market_trust=getattr(model, "market_trust", None)))
 
     total_value_bets = sum(len(g["valueBets"]) for g in games)
 
@@ -60,6 +61,7 @@ def build_payload(model: MarginModel, slate: pd.DataFrame, source: str) -> dict:
             "type": "ridge",
             "alpha": model.alpha,
             "sigma": model.sigma,
+            "marketTrust": getattr(model, "market_trust", None),
             "trainRmse": model.train_rmse,
             "cvRmse": model.cv_rmse,
             "features": model.feature_columns,

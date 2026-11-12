@@ -45,12 +45,21 @@ def check(game: dict, sigma: float, team: str, team_line: float, price: float) -
     # nflverse convention: positive = home favoured. SEA (home) -3 -> +3;
     # CHI (away) +3 -> +3.
     line = -team_line if side == "home" else team_line
-    pred = float(game["projectedMargin"])
+    # The gate prices on the honest projection (the model's number pulled
+    # toward the market line); older exports only carry the raw one.
+    pred = _pricing_margin(game)
     prob = edges._cover_prob(pred, line, sigma, side)
     push = sim.push_prob(pred, line, sigma)
     label = edges._spread_label(team, team_line)
     wager = edges._wager("spread", side, label, prob, price, line=line, push_prob=push)
-    return {"wager": wager, "push": push, "required": edges.required_edge(price)}
+    claimed = edges._cover_prob(float(game["projectedMargin"]), line, sigma, side)
+    return {"wager": wager, "push": push, "required": edges.required_edge(price),
+            "claimed": claimed}
+
+
+def _pricing_margin(game: dict) -> float:
+    honest = game.get("honestMargin")
+    return float(game["projectedMargin"] if honest is None else honest)
 
 
 def parse_checks(tokens):
@@ -86,17 +95,18 @@ def main(argv=None) -> None:
     for team in args.ladder:
         game = find_game(payload["games"], team)
         rungs = ladder.game_ladder(game["home"], game["away"],
-                                   float(game["projectedMargin"]), sigma,
+                                   _pricing_margin(game), sigma,
                                    float(game["market"]["spreadLine"]))
-        print(f"-- {game['away']} @ {game['home']}: projected {game['home']} "
-              f"{float(game['projectedMargin']):+.2f}, market {game['home']} "
+        print(f"-- {game['away']} @ {game['home']}: model {game['home']} "
+              f"{float(game['projectedMargin']):+.2f}, honest {game['home']} "
+              f"{_pricing_margin(game):+.2f}, market {game['home']} "
               f"{-float(game['market']['spreadLine']):+g}. Bets at the price shown or better:")
         for side in ("home", "away"):
             print(f"   {game[side]:<4} {ladder.format_rungs(rungs[side])}")
         print()
     if not args.checks:
         return
-    print(f"{'price':<18}{'cover':>7}{'push':>7}{'edge':>8}{'needs':>7}{'EV':>8}   verdict")
+    print(f"{'price':<18}{'claims':>7}{'honest':>8}{'push':>7}{'edge':>8}{'needs':>7}{'EV':>8}   verdict")
 
     shown = set()
     for team, line, price in parse_checks(args.checks):
@@ -107,12 +117,12 @@ def main(argv=None) -> None:
         if gid not in shown:
             shown.add(gid)
             best = game.get("bestBet")
-            pick = (f"model's pick {best['label']} {best['book_odds']:+.0f}"
-                    if best and best.get("qualifies") else "no qualifying pick")
+            pick = (f"bet {best['label']} {best['book_odds']:+.0f}"
+                    if best and best.get("qualifies") else "no bet on the honest number")
             print(f"-- {game['away']} @ {game['home']}: projected "
                   f"{game['home']} {float(game['projectedMargin']):+.2f}; {pick}")
         verdict = "BET -- clears the gate" if w.qualifies else "pass"
-        print(f"{w.label + ' ' + format(price, '+.0f'):<18}{w.model_prob:>7.1%}{r['push']:>7.1%}"
+        print(f"{w.label + ' ' + format(price, '+.0f'):<18}{r['claimed']:>7.1%}{w.model_prob:>8.1%}{r['push']:>7.1%}"
               f"{w.edge:>+8.1%}{r['required']:>7.1%}{w.ev:>+8.1%}   {verdict}")
 
 

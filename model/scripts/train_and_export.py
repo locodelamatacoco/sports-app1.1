@@ -226,20 +226,30 @@ def _print_slate(payload: dict) -> None:
     if qbs:
         print("Starting QBs (live depth chart; check any that look wrong):")
         print("  " + ", ".join(f"{t}:{q}" for t, q in sorted(qbs.items())) + "\n")
-    print(f"{'MATCHUP':<15}{'PROJ':>7}  {'SPREAD':>8}  {'HOME ML':>8}  BEST VALUE BET")
-    print("-" * 72)
+    trust = (payload.get("model") or {}).get("marketTrust")
+    print(f"{'MATCHUP':<13}{'PROJ':>6} {'LINE':>6}  {'MODEL LEANS':<16}{'CLAIMS':>7}{'HONEST':>8}   VERDICT")
+    print("-" * 86)
     for g in payload["games"]:
         proj = f"{g['projectedMargin']:+.1f}"
         spread = g["market"]["spreadLine"]
         spread_s = f"{spread:+g}" if spread is not None else "-"
-        hml = g["market"]["homeMoneyline"]
-        hml_s = format_american(hml) if hml is not None else "-"
-        if g["bestBet"]:
-            b = g["bestBet"]
-            bet = f"{b['label']} {format_american(b['book_odds'])} (edge {b['edge']*100:+.1f}%, EV {b['ev']*100:+.1f}%)"
+        lean, b = g.get("lean"), g["bestBet"]
+        if lean:
+            lean_s = f"{lean['label']} {format_american(lean['book_odds'])}"
+            claim = lean.get("claimed_prob")
+            claim_s = f"{(claim if claim is not None else lean['model_prob'])*100:.0f}%"
+            honest_s = f"{lean['model_prob']*100:.0f}%" if claim is not None else "-"
         else:
-            bet = "— pass (no qualifying edge)"
-        print(f"{g['away']+' @ '+g['home']:<15}{proj:>7}  {spread_s:>8}  {hml_s:>8}  {bet}")
+            lean_s, claim_s, honest_s = "no lean", "-", "-"
+        verdict = (f"BET {b['label']} {format_american(b['book_odds'])} "
+                   f"(edge {b['edge']*100:+.1f}%, EV {b['ev']*100:+.1f}%)" if b else "no bet")
+        print(f"{g['away']+' @ '+g['home']:<13}{proj:>6} {spread_s:>6}  {lean_s:<16}"
+              f"{claim_s:>7}{honest_s:>8}   {verdict}")
+    if trust is not None:
+        print(f"\nCLAIMS is the model taking its own projection at face value. HONEST pulls it toward "
+              f"the line first:\nonly {trust*100:.0f}% of the model's disagreement with the line has shown "
+              "up in results. A game is a BET\nonly if it clears the gate on the honest number. "
+              "Break-even at -110 is 52.4%.")
     _print_ladder(payload)
     _print_sims(payload)
 
@@ -254,16 +264,23 @@ def _print_ladder(payload: dict) -> None:
     sigma = float(payload["model"]["sigma"])
     print("\nPRICE LADDER — take a line at the price shown or better (within 2 pts of market)")
     print("-" * 85)
+    shown = False
     for g in payload["games"]:
         line = g["market"]["spreadLine"]
         if line is None:
             continue
-        rungs = ladder.game_ladder(g["home"], g["away"], float(g["projectedMargin"]),
+        # Rungs are where a line BETS, so they use the honest projection.
+        honest = g.get("honestMargin")
+        rungs = ladder.game_ladder(g["home"], g["away"],
+                                   float(g["projectedMargin"] if honest is None else honest),
                                    sigma, float(line))
         for side in ("home", "away"):
             text = ladder.format_rungs(rungs[side])
             if not text.startswith("no bet"):
+                shown = True
                 print(f"{g['away']+' @ '+g['home']:<13}{g[side]:<5}{text}")
+    if not shown:
+        print("no game bets at a realistic price within 2 points of its market line.")
 
 
 def _print_sims(payload: dict) -> None:

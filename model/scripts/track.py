@@ -57,6 +57,11 @@ COLUMNS = [
     "home_partid", "away_partid", "market", "side", "label", "spread_line",
     "book_odds", "model_prob", "edge", "ev",
     "home_score", "away_score", "result", "profit",
+    # What the raw model claimed for this pick. From week 10 of 2026 picks
+    # are gated on the honest (market-shrunk) projection, so ``model_prob``,
+    # ``edge`` and ``ev`` are honest numbers and this is the claim beside
+    # them. Blank on earlier picks, whose ``model_prob`` IS the raw claim.
+    "claimed_prob",
 ]
 
 
@@ -81,6 +86,9 @@ def _load_ledger(path: str) -> pd.DataFrame:
     ledger = pd.read_csv(path) if os.path.exists(path) else pd.DataFrame(columns=COLUMNS)
     # An all-empty ledger reads these back as float64, and pandas refuses to
     # write a label like "push" into a float column. Pin them to object up front.
+    for col in COLUMNS:           # older ledgers predate the newest columns
+        if col not in ledger.columns:
+            ledger[col] = None
     for col in ("result", "label", "market", "side"):
         if col in ledger.columns:
             ledger[col] = ledger[col].astype(object)
@@ -118,13 +126,17 @@ def record(args: argparse.Namespace) -> int:
                                 else game["market"].get("spreadLine")),
                 "book_odds": w["book_odds"], "model_prob": w["model_prob"],
                 "edge": w["edge"], "ev": w["ev"],
+                "claimed_prob": w.get("claimed_prob"),
                 "home_score": None, "away_score": None, "result": None, "profit": None,
             })
 
     _record_projections(payload)
 
     if not rows:
-        print("Nothing new to record — every pick in this slate is already in the ledger.")
+        flagged = sum(len(g.get("valueBets") or []) for g in payload.get("games", []))
+        print("No bets on this slate — nothing cleared the gate on the honest number."
+              if not flagged else
+              "Nothing new to record — every pick in this slate is already in the ledger.")
         return 0
 
     out = pd.concat([ledger, pd.DataFrame(rows)], ignore_index=True)[COLUMNS]
@@ -132,8 +144,10 @@ def record(args: argparse.Namespace) -> int:
     out.to_csv(LEDGER, index=False)
     print(f"Recorded {len(rows)} new picks ({len(out)} total) -> {LEDGER}")
     for r in rows:
+        claim = (f"  honest {r['model_prob']*100:.0f}% (model claims {r['claimed_prob']*100:.0f}%)"
+                 if r.get("claimed_prob") is not None else "")
         print(f"  {r['away']} @ {r['home']:<4} {r['label']:<12} "
-              f"{r['book_odds']:+.0f}  edge {r['edge']*100:+.1f}%")
+              f"{r['book_odds']:+.0f}  edge {r['edge']*100:+.1f}%{claim}")
     return 0
 
 
@@ -465,6 +479,17 @@ def _report(ledger: pd.DataFrame) -> None:
     if "week" in ledger.columns:
         for week in sorted(ledger["week"].dropna().unique()):
             _summary(ledger[ledger["week"] == week], f"  week {int(week)}")
+    # Picks made under the honest gate (they carry the raw claim beside the
+    # honest number): how do they do, and which number was nearer the truth?
+    gated = (ledger[ledger["claimed_prob"].notna()]
+             if "claimed_prob" in ledger.columns else ledger.iloc[0:0])
+    if not gated.empty:
+        _summary(gated, "  honest-gate picks")
+        done = gated[gated["result"].isin(["win", "loss"])]
+        if len(done):
+            print(f"    honest {done['model_prob'].astype(float).mean()*100:.1f}% | "
+                  f"claimed {done['claimed_prob'].astype(float).mean()*100:.1f}% | "
+                  f"actual {(done['result'] == 'win').mean()*100:.1f}%  ({len(done)} decided)")
 
     if not settled.empty:
         print("\nSettled picks:")

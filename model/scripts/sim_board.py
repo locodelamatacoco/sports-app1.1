@@ -90,9 +90,25 @@ def _pick_rows(led: pd.DataFrame, eid) -> Optional[dict]:
     if rows.empty:
         return None
     r = rows.iloc[0]
+    claim = r.get("claimed_prob")
+    gated = claim is not None and not pd.isna(claim)
+    # Before the honest gate, model_prob was the raw claim and no honest
+    # number was recorded.
     return {"label": r["label"], "odds": int(r["book_odds"]),
+            "claimed": float(claim) if gated else float(r["model_prob"]),
+            "honest": float(r["model_prob"]) if gated else None,
             "result": None if pd.isna(r["result"]) else str(r["result"]),
             "profit": None if pd.isna(r["profit"]) else float(r["profit"])}
+
+
+def _lean(w: Optional[dict]) -> Optional[dict]:
+    """The side the raw model favours, with its claimed and honest cover chance."""
+    if not w:
+        return None
+    claim = w.get("claimed_prob")
+    return {"label": w["label"], "odds": int(w["book_odds"]),
+            "claimed": claim if claim is not None else w.get("model_prob"),
+            "honest": w.get("model_prob") if claim is not None else None}
 
 
 def live_games(path: str) -> tuple:
@@ -111,7 +127,9 @@ def live_games(path: str) -> tuple:
             "proj": g["projectedMargin"], "sim": s,
             "marketHomeWin": (g.get("market") or {}).get("noVigHomeWin"),
             "pick": ({"label": b["label"], "odds": int(b["book_odds"]),
+                      "claimed": b.get("claimed_prob"), "honest": b.get("model_prob"),
                       "result": None, "profit": None} if b else None),
+            "lean": _lean(g.get("lean")),
             "final": None,
         })
     weeks = sorted({g.get("week") for g in payload.get("games", []) if g.get("week")})
@@ -387,6 +405,13 @@ TEMPLATE = r"""<title>Game Sim Board</title>
       result; only 1 game in 10 goes past each end. It is a reality check, not a pick: even a
       4-point favourite loses or wins big all the time. If the sims are honest, about eight in
       ten finals land inside it -- the review page counts that every week.</p></div>
+    <div><h3>Claims vs honest</h3><p>Every game shows the side the model leans and two cover
+      chances. "Claims" is the model taking its own projection at face value. "Honest" pulls the
+      projection toward the betting line first, because historically only a small part of the
+      model's disagreement with the line has shown up in the score: picks it claimed at 61% won
+      51%. A game is a <strong>Bet</strong> only if it clears the bar on the honest number, and
+      break-even at −110 is 52.4%, so most weeks have few bets or none. The chart and the
+      projection are still the model's own view of the game.</p></div>
     <div><h3>QB rating</h3><p>The number beside each quarterback: expected points he adds per
       play, from every pass, sack and run of his career, recent seasons weighted most. Thin
       records are pulled toward what first-time starters actually produce (about −0.10), so a
@@ -533,7 +558,21 @@ function stats(g) {
     const c = document.createElement("span"); c.className = "chip" + (g.pick.result ? " " + g.pick.result : "");
     c.textContent = g.pick.label + " " + odds(g.pick.odds) +
       (g.pick.result ? " · " + g.pick.result.toUpperCase()[0] : "");
-    f.append(c); row("Pick", f);
+    f.append(c); row("Bet", f);
+  }
+  const ln = g.lean || (g.pick && g.pick.claimed !== null && g.pick.claimed !== undefined ? g.pick : null);
+  if (ln) {
+    // Every game: the side the model leans, what it claims, and the honest number.
+    const h = document.createDocumentFragment();
+    h.append(ln.label + " ");
+    const sub = document.createElement("span"); sub.className = "sub";
+    sub.textContent = "claims " + pct(ln.claimed);
+    h.append(sub);
+    if (ln.honest !== null && ln.honest !== undefined) {
+      const b = document.createElement("strong"); b.textContent = " · honest " + pct(ln.honest);
+      h.append(b);
+    }
+    row("Leans", h);
   }
   if (g.final) {
     const f = document.createDocumentFragment();

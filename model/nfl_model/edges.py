@@ -92,6 +92,12 @@ class Wager:
     edge: float  # model_prob - implied_prob
     ev: float  # expected profit per 1u staked
     qualifies: bool
+    # What the model claims at face value, before its projection is pulled
+    # toward the market line. ``model_prob``, ``edge``, ``ev`` and
+    # ``qualifies`` above are all on the HONEST projection once a
+    # ``market_trust`` is supplied; this is kept beside them as the warning
+    # label -- how much more the raw model believed. None without a trust.
+    claimed_prob: Optional[float] = None
 
 
 def required_edge(book_odds: float) -> float:
@@ -185,12 +191,30 @@ def _cover_prob(pred_margin: float, line: float, sigma: float, side: str) -> flo
     return home if side == "home" else 1.0 - home
 
 
-def analyze_game(game: dict, pred_margin: float, sigma: float) -> dict:
+def honest_margin(pred_margin: float, spread_line: Optional[float],
+                  market_trust: Optional[float]) -> Optional[float]:
+    """The projection pulled toward the market line by ``market_trust``."""
+    if market_trust is None or spread_line is None:
+        return None
+    return float(spread_line) + float(market_trust) * (pred_margin - float(spread_line))
+
+
+def analyze_game(game: dict, pred_margin: float, sigma: float,
+                 market_trust: Optional[float] = None) -> dict:
     """Price both markets for one game and pick the best qualifying wager.
 
     ``game`` supplies teams and market lines (nflverse convention:
     ``spread_line`` positive = home favored). ``pred_margin`` is the model's
     projected home margin; ``sigma`` its residual spread.
+
+    ``market_trust`` is the full fix for the model's overconfidence. With it,
+    every spread is priced and gated on the HONEST projection -- the model's
+    number pulled toward the line by how little of its disagreement has been
+    real -- so a bet has to survive the honest number to be a pick at all.
+    The raw model still drives the projection and the sims shown for every
+    game, and every game still reports which side the model leans (``lean``)
+    with both its claimed and its honest cover chance. Without a trust factor
+    the raw projection prices everything, as before.
     """
     home, away = game["home_team"], game["away_team"]
     spread_line = game.get("spread_line")  # + => home favored, home laying points
@@ -216,6 +240,9 @@ def analyze_game(game: dict, pred_margin: float, sigma: float) -> dict:
     # more than the spread model's entire measured edge, and it costs nothing.
     home_odds = away_odds = None
     home_best = away_best = None
+    honest_pred = honest_margin(pred_margin, spread_line, market_trust)
+    price_margin = pred_margin if honest_pred is None else honest_pred
+    lean = None
     if spread_line is not None:
         # Spreads are near-universally -110; fall back to it when a book's juice
         # is missing or unusable.
@@ -225,26 +252,40 @@ def analyze_game(game: dict, pred_margin: float, sigma: float) -> dict:
         away_odds = away_odds if odds_math.is_valid_american(away_odds) else -110
 
         home_line, home_price, home_cover = _best_spread_quote(
-            game.get("home_spread_quotes"), pred_margin, sigma, "home", spread_line, home_odds
+            game.get("home_spread_quotes"), price_margin, sigma, "home", spread_line, home_odds
         )
         away_line, away_price, away_cover = _best_spread_quote(
-            game.get("away_spread_quotes"), pred_margin, sigma, "away", spread_line, away_odds
+            game.get("away_spread_quotes"), price_margin, sigma, "away", spread_line, away_odds
         )
         home_best = {"line": home_line, "odds": home_price}
         away_best = {"line": away_line, "odds": away_price}
         # nflverse spread_line is the home number; the away team gets +spread_line.
         # Each side is struck at its own number, so each carries its own push
         # probability -- a half-point line cannot push at all.
-        home_push = sim.push_prob(pred_margin, home_line, sigma)
-        away_push = sim.push_prob(pred_margin, away_line, sigma)
-        wagers.append(
-            _wager("spread", "home", _spread_label(home, -home_line), home_cover, home_price,
-                   line=home_line, push_prob=home_push)
-        )
-        wagers.append(
-            _wager("spread", "away", _spread_label(away, away_line), away_cover, away_price,
-                   line=away_line, push_prob=away_push)
-        )
+        home_push = sim.push_prob(price_margin, home_line, sigma)
+        away_push = sim.push_prob(price_margin, away_line, sigma)
+        home_w = _wager("spread", "home", _spread_label(home, -home_line), home_cover,
+                        home_price, line=home_line, push_prob=home_push)
+        away_w = _wager("spread", "away", _spread_label(away, away_line), away_cover,
+                        away_price, line=away_line, push_prob=away_push)
+        if honest_pred is not None:
+            home_w.claimed_prob = _cover_prob(pred_margin, home_line, sigma, "home")
+            away_w.claimed_prob = _cover_prob(pred_margin, away_line, sigma, "away")
+        wagers += [home_w, away_w]
+        # The side the raw model favours at the consensus line and price --
+        # reported for every game, bet or not. Decided by cover chance rather
+        # than by projection-minus-line: margins are lumpy, so a projection a
+        # shade past the number can still cover less than half the time.
+        raw_home = _cover_prob(pred_margin, spread_line, sigma, "home")
+        if raw_home != 0.5:
+            side = "home" if raw_home > 0.5 else "away"
+            team, team_line, price = ((home, -spread_line, home_odds) if side == "home"
+                                      else (away, spread_line, away_odds))
+            lean = _wager("spread", side, _spread_label(team, team_line),
+                          _cover_prob(price_margin, spread_line, sigma, side), price,
+                          line=spread_line,
+                          push_prob=sim.push_prob(price_margin, spread_line, sigma))
+            lean.claimed_prob = raw_home if side == "home" else 1.0 - raw_home
 
     qualifying = sorted(
         (w for w in wagers if w.qualifies), key=lambda w: (w.ev, w.edge), reverse=True
@@ -273,6 +314,7 @@ def analyze_game(game: dict, pred_margin: float, sigma: float) -> dict:
         "awayPartid": game.get("away_partid"),
         "kickoff": game.get("gameday"),
         "projectedMargin": round(pred_margin, 2),
+        "honestMargin": None if honest_pred is None else round(honest_pred, 2),
         "projectedWinner": home if pred_margin >= 0 else away,
         "fairSpread": dist.fair_spread_line(pred_margin),  # nflverse convention
         "coinFlip": is_coin_flip,
@@ -293,6 +335,7 @@ def analyze_game(game: dict, pred_margin: float, sigma: float) -> dict:
         "wagers": [asdict(w) for w in wagers],
         "valueBets": [asdict(w) for w in qualifying],
         "bestBet": asdict(qualifying[0]) if qualifying else None,
+        "lean": asdict(lean) if lean is not None else None,
         # The whole outcome distribution for this game, computed for every game
         # whether or not anything qualifies. The bet gate answers "is there a
         # wager here"; this answers "what does this game actually look like".
