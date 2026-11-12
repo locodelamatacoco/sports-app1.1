@@ -401,11 +401,14 @@ function printReport(results, record, snapshot) {
         `${p.lines ? '  (line-anchored)' : '  (no line posted)'}`
     )
   );
-  console.log('  20+ POINTS');
-  people.slice().sort((a, b) => b.pointsAtLeast[20] - a.pointsAtLeast[20]).slice(0, 12).forEach((p) =>
+  // Both common scoring marks side by side: over 19.5 is 20+, over 24.5 is 25+.
+  console.log('  POINTS: OVER 19.5 (20+) AND OVER 24.5 (25+)');
+  people.slice().sort((a, b) => b.pointsAtLeast[20] - a.pointsAtLeast[20]).slice(0, 20).forEach((p) =>
     console.log(
-      `    ${pct(p.pointsAtLeast[20]).padStart(6)}  fair ${fair(p.pointsAtLeast[20]).padStart(5)}  ${p.player.padEnd(24)} ${p.game.padEnd(9)} ` +
-        `25+ ${pct(p.pointsAtLeast[25])}  30+ ${pct(p.pointsAtLeast[30])}${p.lines?.points != null ? `  (line ${p.lines.points})` : '  (no line posted)'}`
+      `    ${p.player.padEnd(24)} ${p.game.padEnd(9)} ` +
+        `o19.5 ${pct(p.pointsAtLeast[20]).padStart(6)} fair ${fair(p.pointsAtLeast[20]).padStart(5)}   ` +
+        `o24.5 ${pct(p.pointsAtLeast[25]).padStart(6)} fair ${fair(p.pointsAtLeast[25]).padStart(5)}   ` +
+        `30+ ${pct(p.pointsAtLeast[30])}${p.lines?.points != null ? `  (line ${p.lines.points})` : '  (no line posted)'}`
     )
   );
 
