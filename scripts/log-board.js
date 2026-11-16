@@ -367,7 +367,7 @@ function printReport(results, record, snapshot) {
     for (const pen of r.penalties) console.log(`    -${(100 * pen.amount).toFixed(1)}%  ${pen.reason}`);
     const best = [...r.markets, ...r.derived].filter((m) => !m.veto && m.priced !== false)
       .sort((a, b) => b.adjustedEdge - a.adjustedEdge)[0];
-    console.log(`  BEST BET: ${r.bestBet ? r.bestBet.label : `none qualifies (closest: ${best?.label} ${sgn(best?.adjustedEdge ?? 0)})`}`);
+    console.log(`  BEST BET: ${r.bestBet ? r.bestBet.label : (best ? `none qualifies (closest: ${best.label} ${sgn(best.adjustedEdge ?? 0)})` : 'none qualifies (game vetoed, no row priced)')}`);
   }
 
   console.log('\n================ PLAYER PROPS ================');
