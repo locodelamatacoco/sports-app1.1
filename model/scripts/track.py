@@ -50,7 +50,33 @@ PROJ_COLUMNS = [
     "recorded_at", "eid", "season", "week", "kickoff", "away", "home",
     "home_partid", "away_partid", "model_margin", "market_line",
     "home_score", "away_score", "actual_margin", "model_error", "market_error",
+    # The side the raw model leaned at the consensus line, with what it
+    # claimed and the honest (market-shrunk) cover chance. Logged for EVERY
+    # game from week 10 of 2026, so the claims-vs-honest question is settled
+    # on ~15 games a week instead of the couple that become bets.
+    "lean_label", "lean_side", "lean_line", "lean_claimed", "lean_honest", "lean_result",
 ]
+LEAN_COLUMNS = PROJ_COLUMNS[-6:]
+
+
+def _lean_fields(game: dict) -> dict:
+    lean = game.get("lean") or {}
+    claim = lean.get("claimed_prob")
+    return {
+        "lean_label": lean.get("label"), "lean_side": lean.get("side"),
+        "lean_line": lean.get("line"),
+        "lean_claimed": claim if claim is not None else lean.get("model_prob"),
+        "lean_honest": lean.get("model_prob") if claim is not None else None,
+        "lean_result": None,
+    }
+
+
+def lean_result(side, line, actual_margin):
+    """win / loss / push for a lean. ``line`` is nflverse convention."""
+    if side not in ("home", "away") or pd.isna(line) or pd.isna(actual_margin):
+        return None
+    cushion = (float(actual_margin) - float(line)) * (1 if side == "home" else -1)
+    return "win" if cushion > 0 else "loss" if cushion < 0 else "push"
 
 COLUMNS = [
     "recorded_at", "eid", "season", "week", "kickoff", "away", "home",
@@ -182,6 +208,7 @@ def _record_projections(payload: dict) -> None:
             "market_line": game["market"].get("spreadLine"),
             "home_score": None, "away_score": None, "actual_margin": None,
             "model_error": None, "market_error": None,
+            **_lean_fields(game),
         })
     if rows or revised:
         # Revisions are applied in place on existing_proj, so concatenating it
@@ -220,6 +247,17 @@ def _revise_projection(proj: pd.DataFrame, eid: int, game: dict, now: str) -> in
     except (ValueError, TypeError):
         return 0  # unparseable kickoff: never touch it
 
+    # The lean follows the latest pre-kickoff run even when the projection
+    # itself has not moved enough to count as a revision (the line may have).
+    for col, val in _lean_fields(game).items():
+        if col == "lean_result":
+            continue
+        if col not in proj.columns:
+            proj[col] = None
+        if col in ("lean_label", "lean_side"):
+            proj[col] = proj[col].astype(object)
+        proj.at[row, col] = val
+
     new_margin = game.get("projectedMargin")
     new_line = game["market"].get("spreadLine")
     old_margin = proj.at[row, "model_margin"]
@@ -236,9 +274,15 @@ def _revise_projection(proj: pd.DataFrame, eid: int, game: dict, now: str) -> in
 
 
 def _load_projections() -> pd.DataFrame:
-    if os.path.exists(PROJECTIONS):
-        return pd.read_csv(PROJECTIONS)
-    return pd.DataFrame(columns=PROJ_COLUMNS)
+    if not os.path.exists(PROJECTIONS):
+        return pd.DataFrame(columns=PROJ_COLUMNS)
+    proj = pd.read_csv(PROJECTIONS)
+    for col in LEAN_COLUMNS:          # logs written before leans existed
+        if col not in proj.columns:
+            proj[col] = None
+    for col in ("lean_label", "lean_side", "lean_result"):
+        proj[col] = proj[col].astype(object)
+    return proj
 
 
 def _grade_projections() -> None:
@@ -271,6 +315,7 @@ def _grade_projections() -> None:
         proj.loc[idx, "model_error"] = abs(float(row["model_margin"]) - actual)
         if pd.notna(row["market_line"]):
             proj.loc[idx, "market_error"] = abs(float(row["market_line"]) - actual)
+        proj.loc[idx, "lean_result"] = lean_result(row.get("lean_side"), row.get("lean_line"), actual)
         graded += 1
     if graded:
         proj.to_csv(PROJECTIONS, index=False)
@@ -302,6 +347,28 @@ def _report_projections(proj: pd.DataFrame, newly: int) -> None:
         print(f"  model - market: {mean:>+5.2f} pts  95% CI [{lo:+.2f}, {hi:+.2f}]  -> {verdict}")
         print("  (negative means the model beat the closing line; beating it is the "
               "whole\n   ballgame, and almost nothing does)")
+    _report_leans(proj)
+
+
+def _report_leans(proj: pd.DataFrame) -> None:
+    """Every game's lean: did the claim or the honest number describe reality?"""
+    if "lean_result" not in proj.columns:
+        return
+    done = proj[proj["lean_result"].isin(["win", "loss"])]
+    if done.empty:
+        return
+    wins = int((done["lean_result"] == "win").sum())
+    n = len(done)
+    rate = wins / n
+    half = 1.96 * np.sqrt(rate * (1 - rate) / n)
+    print(f"\nModel leans — every game, bet or not: {wins}-{n - wins} "
+          f"({rate*100:.1f}%, 95% CI [{(rate-half)*100:.0f}%, {(rate+half)*100:.0f}%])")
+    claimed = done["lean_claimed"].astype(float).mean()
+    honest = done["lean_honest"].astype(float).mean()
+    print(f"  model claimed {claimed*100:.1f}% | honest number {honest*100:.1f}% | "
+          f"actual {rate*100:.1f}%   (break-even at -110 is 52.4%)")
+    if n < 100:
+        print(f"  {n} games is far too few to judge either number; this needs a season.")
 
 
 def _clv_report(ledger: pd.DataFrame) -> None:

@@ -155,3 +155,22 @@ def test_unchanged_projection_is_not_rewritten():
 def test_unparseable_kickoff_is_left_alone():
     proj = pd.DataFrame([_proj_row(99, "not a date", -0.03)])
     assert track._revise_projection(proj, 99, _game(-9.9), "now") == 0
+
+
+def test_lean_result_uses_the_leaned_side_and_line():
+    from scripts import track
+    # Home favoured by 4.5 (nflverse +4.5); the lean is the away dog.
+    assert track.lean_result("away", 4.5, 3.0) == "win"      # home won by 3: dog covers
+    assert track.lean_result("away", 4.5, 7.0) == "loss"
+    assert track.lean_result("home", 3.0, 3.0) == "push"
+    assert track.lean_result("home", -4.5, 3.0) == "win"     # home dog +4.5 wins outright
+    assert track.lean_result(None, 3.0, 3.0) is None
+
+
+def test_lean_fields_carry_claim_and_honest():
+    from scripts import track
+    game = {"lean": {"label": "CLE +4.5", "side": "home", "line": -4.5,
+                     "model_prob": 0.53, "claimed_prob": 0.58}}
+    f = track._lean_fields(game)
+    assert (f["lean_claimed"], f["lean_honest"]) == (0.58, 0.53)
+    assert track._lean_fields({})["lean_label"] is None
