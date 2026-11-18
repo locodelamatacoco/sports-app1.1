@@ -817,3 +817,26 @@ has gone mute.
   disagreement is usually undetectable and stays a curated note.
 - ESPN prices only one side of the total and spread on this endpoint; the
   missing side falls back to -110 and is flagged as inferred.
+
+## Season hit rate against the posted line (checked 2026-11-18)
+
+Asked for a parlay "from this season's stats", so the obvious screen was tested
+first: for every posted points or rebounds line on the six graded nights from
+Nov 12 to Nov 17, how often the player had cleared that same line in his games
+before that night, against how the side then did. 1,656 sides with eight or
+more prior games.
+
+| screen | record | ROI |
+|---|---|---|
+| every side | 855-801 | -2.6% |
+| season rate beats the book by 10%+ | 177-188 | -8.6% |
+| season rate beats the book by 15%+ | 108-115 | -8.3% |
+| season rate 75% or better | 65-68 | -10.1% |
+| beats the book by 15%+ **and** the model is at or above the book | 45-38 | +8.1% |
+
+A player's season record against tonight's line is, on its own, a losing
+screen: the book has already moved the line toward that record, and the screen
+mostly picks overs on players whose role has just changed (overs in the 15%+
+group went 42-50). The one positive cell is the overlap with the model, and at
+83 bets it is too small to call an edge; it is the screen used for parlay legs
+on request, with that caveat stated.
