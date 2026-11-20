@@ -182,6 +182,33 @@ def build_slate_frame(
     return _add_derived_features(df, _league_means(team_game_roll))
 
 
+# Game context the model trains on that a sportsbook board does not carry.
+SCHEDULE_CONTEXT = ["location", "div_game", "home_rest", "away_rest"]
+
+
+def attach_schedule_context(slate: pd.DataFrame, games: pd.DataFrame) -> pd.DataFrame:
+    """Copy neutral site, divisional flag and rest days from the schedule.
+
+    The model trains on all three (``neutral``, ``div_game``, ``rest_diff``),
+    but a scraped board has none of them, and without this every live slate
+    priced them as zero: every game a home game, nothing divisional, both
+    teams equally rested. That handed San Francisco a home-field edge for a
+    Week 11 game in Mexico City. Must run BEFORE ``build_slate_frame``, which
+    derives ``rest_diff``. Unmatched games keep zeros, as before.
+    """
+    if slate.empty or games is None or games.empty:
+        return slate
+    key = ["season", "home_team", "away_team"]
+    cols = [c for c in SCHEDULE_CONTEXT if c in games.columns]
+    if not cols or not set(key).issubset(games.columns) or "season" not in slate.columns:
+        return slate
+    lookup = games[key + cols].dropna(subset=key).drop_duplicates(subset=key).copy()
+    lookup["season"] = pd.to_numeric(lookup["season"], errors="coerce")
+    df = slate.drop(columns=[c for c in cols if c in slate.columns]).copy()
+    df["season"] = pd.to_numeric(df["season"], errors="coerce")
+    return df.merge(lookup, on=key, how="left")
+
+
 def attach_schedule_week(slate: pd.DataFrame, games: pd.DataFrame) -> pd.DataFrame:
     """Stamp the official NFL week onto a scraped slate.
 

@@ -170,6 +170,7 @@ def _oddstrader_slate(args, rolled, matchups, ds_games):
     slate_season = pd.to_numeric(priced.get("season"), errors="coerce").max()
     new_season = bool(pd.notna(slate_season) and slate_season > trained_through)
 
+    priced = feat.attach_schedule_context(priced, ds_games)
     slate = build_slate_frame(priced, rolled, new_season=new_season)
     try:
         depth_qbs = oddstrader.fetch_depth_chart_starters()

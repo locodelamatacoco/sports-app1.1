@@ -84,3 +84,20 @@ def test_schedule_week_is_season_aware():
     slate = pd.DataFrame([{"season": 2025, "home_team": "CHI", "away_team": "MIN"}])
     out = feat.attach_schedule_week(slate, _WEEK2)
     assert pd.isna(out.loc[0, "week"])  # same matchup, different season
+
+
+def test_slate_gets_neutral_site_division_and_rest_from_schedule():
+    import pandas as pd
+    from nfl_model import features as feat
+    games = pd.DataFrame({
+        "season": [2026, 2026], "week": [11, 11],
+        "home_team": ["SF", "DEN"], "away_team": ["MIN", "LV"],
+        "location": ["Neutral", "Home"], "div_game": [0, 1],
+        "home_rest": [7, 14], "away_rest": [7, 7],
+    })
+    slate = pd.DataFrame({"season": [2026.0, 2026.0, 2026.0],
+                          "home_team": ["SF", "DEN", "KC"], "away_team": ["MIN", "LV", "ARI"]})
+    out = feat.add_context_features(feat.attach_schedule_context(slate, games))
+    assert list(out["neutral"]) == [1.0, 0.0, 0.0]
+    assert list(out["div_game"]) == [0.0, 1.0, 0.0]
+    assert list(out["home_rest"].fillna(-1)) == [7, 14, -1]   # unmatched game keeps the old default
