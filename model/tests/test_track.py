@@ -174,3 +174,14 @@ def test_lean_fields_carry_claim_and_honest():
     f = track._lean_fields(game)
     assert (f["lean_claimed"], f["lean_honest"]) == (0.58, 0.53)
     assert track._lean_fields({})["lean_label"] is None
+
+
+def test_revision_refreshes_market_line_even_when_projection_holds(monkeypatch):
+    import pandas as pd
+    from scripts import track
+    proj = pd.DataFrame([{c: None for c in track.PROJ_COLUMNS}])
+    proj.loc[0, ["eid", "kickoff", "model_margin", "market_line"]] = [1, "2099-01-01T18:00:00Z", 2.9, 5.0]
+    game = {"away": "TB", "home": "DET", "projectedMargin": 2.92,
+            "market": {"spreadLine": 3.5}, "lean": None}
+    assert track._revise_projection(proj, 1, game, "now") == 0     # projection did not move...
+    assert proj.at[0, "market_line"] == 3.5                        # ...but the line still follows

@@ -261,6 +261,12 @@ def _revise_projection(proj: pd.DataFrame, eid: int, game: dict, now: str) -> in
     new_margin = game.get("projectedMargin")
     new_line = game["market"].get("spreadLine")
     old_margin = proj.at[row, "model_margin"]
+    # The market's number is graded as the closing line, so it follows every
+    # pre-kickoff run even when the model's own projection has not moved.
+    # (Before this, a game whose projection held still kept its opening line:
+    # TB@DET in week 11 was scored against DET -5 when it closed -3.5.)
+    if new_line is not None:
+        proj.at[row, "market_line"] = new_line
     if new_margin is None or (pd.notna(old_margin) and abs(float(old_margin) - float(new_margin)) < 0.05):
         return 0
 
